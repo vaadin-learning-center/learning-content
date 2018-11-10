@@ -132,7 +132,7 @@ Actions are objects with a mandatory `type` property and any number of additiona
 ----
 {
   type: ADD_TODO,
-  task: 'Learn Redux
+  task: 'Learn Redux'
 }
 ----
 
