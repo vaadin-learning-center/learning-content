@@ -9,30 +9,29 @@
 :imagesdir: ./images
 
 
-In this series of tutorials, you'll learn how to build an application using Web Components and LitElement. The topics we will cover are:
+In this series of tutorials, you learn how to build an application using Web Components and LitElement. The topics we cover are:
 
-. Creating a LitElement project
+. Starting a LitElement project
 . lit-html templating and events
 . State management with Redux
 . Navigation and code splitting
-. Production and PWA
+. PWA and offline
 
 image::todo-app.gif[Todo tutorial app using LitElement, lit-html, and redux.]
 
-This first tutorial will cover crea
 
 == Download the LitElement starter
-We are using https://webpack.js.org/[Webpack^] to serve the application during development and for building the application for production. This tutorial will not cover Webpack configuration, instead we will start with a project skeleton that is already configured. 
+We are using https://webpack.js.org/[Webpack^] to serve the application during development and for building the application for production. This tutorial does not cover Webpack configuration. Instead, we start with a pre-configured project skeleton. 
 
 
 https://github.com/marcushellberg/lit-app/archive/start.zip[Download LitElement starter, role="cta"]
 
-Once you have downloaded the starter, unzip it and run
+Once you have downloaded the starter, unzip it and run:
 
 [source,terminal]
 $ npm install
 
-Then start the development server and navigate to http://localhost:8080
+Then start the development server and navigate to http://localhost:8080.
 
 [source,terminal]
 $ npm run dev
@@ -48,31 +47,31 @@ Start by installing LitElement.
 [source,terminal]
 $ npm install --save @polymer/lit-element
 
-Create a new folder `*views*` in the `*src*` folder, and create a file `*todo-view.js*` in it. This will be our first component. We will always name our files the same as their HTML tag names to make it easier to navigate the source. 
+Create a new folder `*views*` in the `*src*` folder, and create a file `*todo-view.js*` in it. We always name our files the same as their HTML tag names to make it easier to navigate the source. 
 
 .`*views/todo-view.js*`
 [source,javascript]
 ----
-import { LitElement, html } from '@polymer/lit-element'; <1>
+import { LitElement, html } from '@polymer/lit-element'; //<1>
 
-class TodoView extends LitElement { <2>
+class TodoView extends LitElement { //<2>
   render() {
-    return html` <3>
+    return html` //<3>
       <p>todo-view</p>
     `;
   }
 }
 
-customElements.define('todo-view', TodoView); <4>
+customElements.define('todo-view', TodoView); //<4>
 ----
 <1> Import the `LitElement` base class and `html` template function
 <2> Create a class for the component, extending `LitElement`
 <3> Define a template in the `render()` function using the `html` template function.
 <4> Associate the component implementation with a HTML tag using the CustomElements registry. 
 
-NOTE: Tag names needs to have a dash (-) to avoid naming collisions with native HTML elements. 
+NOTE: Tag names need to have a dash (-) to avoid naming collisions with native HTML elements. 
 
-Once we have a component definition, we need to import it so the browser is aware of it. The webpack configuration will take care of including the JavaScript in our app.
+Once we have a component definition, we need to import it to the browser is aware of it. The Webpack configuration takes care of including the JavaScript in our app.
 
 .`*index.js*`
 [source,javascript]
@@ -97,9 +96,9 @@ NOTE: Custom elements need to have a closing tag.
 
 If you still have the development server (`npm run dev`) running, you should see the new component running: 
 
-image::first-component.png[LitElement running in application]
+image::first-component.png[LitElement running in the application]
 
 
 == Next
 
-In the next tutorial, you will implement the todo view. 
+In the next tutorial, you implement the todo view. 

@@ -10,15 +10,15 @@
 
 
 
-This is the second tutorial in a series about building apps with LitElement. In this tutorial we will cover templating, events, and properties in a LitElement component. If you haven't already, be sure to check out the first part. 
+In this second tutorial in a series about building LitElement apps, we cover templating, events, and properties in a LitElement component. Be sure to check out the first part if you haven't already.
 
 == Defining properties
-Before we start building the UI, we will define the data model for the view. We'll do this via LitElement properties. LitElement will observe these properties and trigger an update of the component if any of them change.
+Before we start building the UI, we define the data model for the view. We'll do this via LitElement properties. LitElement observes these properties and triggers an update of the component if any of them change.
 
 .`*views/todo-view.js*`
 [source,javascript]
 ----
-const VisibilityFilters = { <1>
+const VisibilityFilters = { //<1>
   SHOW_ALL: 'All',
   SHOW_ACTIVE: 'Active',
   SHOW_COMPLETED: 'Completed'
@@ -26,7 +26,7 @@ const VisibilityFilters = { <1>
 
 class TodoView extends LitElement {
   
-  static get properties() { <2>
+  static get properties() { //<2>
     return {
       todos: { type: Array },
       filter: { type: String },
@@ -34,7 +34,7 @@ class TodoView extends LitElement {
     };
   }
 
-  constructor() { <3>
+  constructor() { //<3>
     this.todos = [];
     this.filter = VisibilityFilters.SHOW_ALL;
     this.task = '';
@@ -66,11 +66,11 @@ import '@vaadin/vaadin-radio-button/vaadin-radio-button';
 import '@vaadin/vaadin-radio-button/vaadin-radio-group';
 ----
 
-Including the components will register them in the browser's CustomElements registry the same way as we did with `TodoView`.
+Including the component registers them in the browser's CustomElements registry the same way as we did with `TodoView`.
 
 == Writing a template with lit-html 
 
-https://polymer.github.io/lit-html[lit-html^] uses JavaScript template strings as it's format. That means you can use plain JavaScript in your templates. In addition, it adds helpers for setting properties, boolean attributes and for listening to events.
+https://polymer.github.io/lit-html[lit-html^] uses JavaScript template strings as it's format. That means you can use plain JavaScript in your templates. Also, it adds helpers for setting properties, boolean attributes and for listening to events.
 
 |============================================
 |`value="${}"`  | Set an attribute (string)
@@ -79,7 +79,7 @@ https://polymer.github.io/lit-html[lit-html^] uses JavaScript template strings a
 |`@event="${}"`  | Bind an event
 |============================================
 
-We'll write the template inside the `html``` template in the `render()` function. I will omit the surrounding JavaScript method in the templating section for clarity. 
+We'll write the template inside the `html``` template in the `render()` function. The tutorial omits the surrounding JavaScript method in the templating section for clarity. 
 
 .`*views/todo-view.js*`
 [source,javascript]
@@ -119,7 +119,7 @@ The first part of the template is the input field for adding new todos.
 <3> Listen for the `change` event on the text field and call `this.updateTask` 
 <4> Bind the button click event to `this.addTodo`
 
-Then, implement the methods on `TodoView`
+Then, implement the methods on `TodoView`:
 
 .`*views/todo-view.js*`
 [source,javascript]
@@ -130,13 +130,13 @@ class TodoView extends LitElement {
   render() {...}
 
   shortcutListener(e) {
-    if (e.key === 'Enter') { <1>
+    if (e.key === 'Enter') { //<1>
       this.addTodo();
     }
   }
 
   updateTask(e) {
-    this.task = e.target.value; <2>
+    this.task = e.target.value; //<2>
   }
 
   addTodo() {
@@ -145,7 +145,7 @@ class TodoView extends LitElement {
           task: this.task, 
           complete: false
       }];
-      this.task = ''; <4>
+      this.task = ''; //<4>
     }
   }
 }
@@ -160,7 +160,7 @@ If you run the app, you should see the input layout and be able to input new tas
 image::task-input.png[UI for entering new todos]
 
 === Listing todos
-Now that we can add todos, the next task is to display them. This requires us to loop through the `todos` array and produce a template for each todo. 
+Now that we can add todos, the next task is to display them. Loop through the `todos` array and produce a template for each todo. 
 
 Under the input layout, add the following:
 
@@ -168,11 +168,11 @@ Under the input layout, add the following:
 ----
 <div class="todos-list">
   ${this.todos.map(
-      todo => html` <1>
+      todo => html` //<1>
         <div class="todo-item">
           <vaadin-checkbox
-            ?checked="${todo.complete}" <2>
-            @change="${ e => this.updateTodoStatus(todo, e.target.checked)}"> <3> 
+            ?checked="${todo.complete}" //<2>
+            @change="${ e => this.updateTodoStatus(todo, e.target.checked)}"> //<3> 
             ${todo.task}
           </vaadin-checkbox>
         </div>
@@ -206,14 +206,14 @@ class TodoView extends LitElement {
 }
 ----
 
-NOTE: LitElement only observes changes to objects and arrays, not changes to their contents. That's why we always create a new array of todos with the changes. This will also make it easier for us to start using Redux for state management in the next part.
+NOTE: LitElement only observes changes to objects and arrays, not changes to their contents. That's why we always create a new array of todos with the changes. Using immutable data structures also makes it easier for us to start using Redux for state management in the next part.
 
 image::add-tasks.gif[Adding and listing todos]
 
 === Filtering todos
-The last piece of functionality we will add in this part of the tutorial is filtering and clearing todos. 
+The last piece of functionality we add in this part of the tutorial is filtering and clearing todos. 
 
-Add the following to the template
+Add the following to the template:
 
 [source,html]
 ----
@@ -252,15 +252,15 @@ class TodoView extends LitElement {
   addTodo() {...}
   updateTodoStatus(updatedTodo, complete) {...}
 
-  filterChanged(e) { <1>
+  filterChanged(e) { //<1>
     this.filter = e.target.value;
   }
 
-  clearCompleted() { <2>
+  clearCompleted() { //<2>
     this.todos = this.todos.filter(todo => !todo.complete);
   }
 
-  applyFilter(todos) { <3>
+  applyFilter(todos) { //<3>
     switch (this.filter) {
       case VisibilityFilters.SHOW_ACTIVE:
         return todos.filter(todo => !todo.complete);
@@ -318,9 +318,9 @@ Finally, let's add a few finishing touches with CSS. At the top of your template
 <1> The `:host` selector refers to the `<todo-view>` component itself
 <2> Using a CSS custom property defined in `styles.css`. 
 
-NOTE: The content of our component is shielded from outside CSS by a https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM[Shadow DOM^]. We can still access https://developer.mozilla.org/en-US/docs/Web/CSS/--*[CSS Custom Properties^] defined in our top-level CSS.
+NOTE: The content of our component is shielded from external CSS by a https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM[Shadow DOM^]. We can still access https://developer.mozilla.org/en-US/docs/Web/CSS/--*[CSS Custom Properties^] defined in our top-level CSS.
 
 image::styled.png[The complete, styled todo view]
 
 == Next
-In the next part of the tutorial, we will extract the state from the view component into a central Redux store. 
+In the next part of the tutorial, we extract the state from the view component into a central Redux store. 
