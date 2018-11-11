@@ -226,4 +226,4 @@ image::lazy-load-bundle.gif[Lazy loading on navigation]
 == Next
 In the first four steps, we built an app with LitElement, hooked it up to a Redux store, and implemented navigation with code splitting. 
 
-In the final part of the series, we'll turn the application into an offline-capable Progressive Web App (PWA) by registering a ServiceWorker and storing the state in localstorage. 
+In the final part of the series, we'll turn the application into an offline-capable Progressive Web App (PWA) by registering a ServiceWorker and storing the state in localstorage. w

@@ -59,6 +59,18 @@ The manifest file collects all the relevant info about your app into a single fi
 +    <link rel="manifest" href="./manifest.webmanifest" />
 ----
 
+Add the manifest file to the list of files Webpack copies over during the build:
+
+.`*webpack.config.js*`
+[source,diff]
+----
+new CopyWebpackPlugin(
+-  [{ from: 'src/img', to: 'img/' }],
++  [{ from: 'src/img', to: 'img/' }, 'src/manifest.webmanifest'],
+  { ignore: ['.DS_Store'] }
+)
+----
+
 == Adding a ServiceWorker
 The second step in turning an app into a PWA is adding a ServiceWorker. The ServiceWorker is a script that sits between your app and the network that can be used to cache and serve resources, so the app loads fast and works reliably regardless of the network conditions. 
 
@@ -171,8 +183,9 @@ This five-part tutorial has walked you through building a PWA with LitElement an
 == Further reading
 Here are some helpful resources for continued learning. 
 
-* https://polymer.github.io/lit-html/[lit-html docs]
-* https://polymer.github.io/pwa-starter-kit/[PWA Starter Kit docs^]
+* https://lit-element.polymer-project.org/[LitElement^]
+* https://lit-html.polymer-project.org/[lit-html^]
+* https://pwa-starter-kit.polymer-project.org/[PWA Starter Kit^]
 * https://redux.js.org/[Redux docs^]
 * https://developers.google.com/web/tools/workbox/guides/get-started[Workbox guide^]
 * https://webpack.js.org/concepts/[Webpack docs^]
