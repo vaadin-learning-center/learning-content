@@ -10,10 +10,14 @@
 
 
 
-In this second tutorial in a series about building LitElement apps, we cover templating, events, and properties in a LitElement component. Be sure to check out the first part if you haven't already.
+In this second tutorial in a series about building LitElement apps, we cover templating, events, and properties in a LitElement component. 
+
+If you didn't complete the first part, you can check out the source as a starting point: 
+
+https://github.com/learn-vaadin/lit-element-tutorial-01-starting-a-lit-element-project[Step 1 source, role="cta"]
 
 == Defining properties
-Before we start building the UI, we define the data model for the view. We'll do this via LitElement properties. LitElement observes these properties and triggers an update of the component if any of them change.
+Before we begin building the UI, we define the data model for the view. We'll do this via LitElement properties. LitElement observes these properties and triggers an update of the component if any of them change.
 
 .`*views/todo-view.js*`
 [source,javascript]
@@ -91,7 +95,9 @@ render() {
 }
 ----
 
-TIP: There is a https://code.visualstudio.com/[VS Code^] plugin for lit-html which gives you HTML syntax highlighting and code completion in lit-html templates. You can download it https://marketplace.visualstudio.com/items?itemName=bierner.lit-html[here^].
+TIP: There is a https://code.visualstudio.com/[VS Code^] plugin for lit-html which gives you HTML syntax highlighting and code completion in lit-html templates. You can download it https://marketplace.visualstudio.com/items?itemName=bierner.lit-html[here^]. +
+ +
+The https://prettier.io/[Prettier] code formatter also supports lit-html syntax.
 
 === Adding todos
 The first part of the template is the input field for adding new todos. 
@@ -111,7 +117,7 @@ The first part of the template is the input field for adding new todos.
     theme="primary"
     @click="${this.addTodo}"> <4>
       Add Todo
-    </vaadin-button>
+  </vaadin-button>
 </div>
 ----
 <1> Listen for `keyup` events on the surrounding `<div>` so we can add todos with Enter.
@@ -129,31 +135,31 @@ class TodoView extends LitElement {
   constructor() {...}
   render() {...}
 
+  addTodo() {
+    if (this.task) {
+      this.todos = [...this.todos, { <1>
+          task: this.task, 
+          complete: false
+      }];
+      this.task = ''; //<2>
+    }
+  }
+
   shortcutListener(e) {
-    if (e.key === 'Enter') { //<1>
+    if (e.key === 'Enter') { //<3>
       this.addTodo();
     }
   }
 
   updateTask(e) {
-    this.task = e.target.value; //<2>
-  }
-
-  addTodo() {
-    if (this.task) {
-      this.todos = [...this.todos, { <3>
-          task: this.task, 
-          complete: false
-      }];
-      this.task = ''; //<4>
-    }
+    this.task = e.target.value; //<4>
   }
 }
 ----
-<1> If the `keyup` event originates from the `Enter` key, call `this.addTodo()`
-<2> Update the `task` property to the value of the text field on change events
-<3> Create a new array with the new todo object
-<4> Clear the task property
+<1> Create a new array with the new todo object
+<2> Clear the task property
+<3> If the `keyup` event originates from the `Enter` key, call `this.addTodo()`
+<4> Update the `task` property to the value of the text field on change events
 
 If you run the app, you should see the input layout and be able to input new tasks (although you won't see them quite yet).
 
@@ -321,6 +327,8 @@ Finally, let's add a few finishing touches with CSS. At the top of your template
 NOTE: The content of our component is shielded from external CSS by a https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM[Shadow DOM^]. We can still access https://developer.mozilla.org/en-US/docs/Web/CSS/--*[CSS Custom Properties^] defined in our top-level CSS.
 
 image::styled.png[The complete, styled todo view]
+
+https://github.com/learn-vaadin/lit-element-tutorial-02-templating-properties-and-events[Browse the finished code on GitHub, role="cta"]
 
 == Next
 In the next part of the tutorial, we extract the state from the view component into a central Redux store. 

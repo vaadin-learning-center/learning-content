@@ -4,7 +4,7 @@
 :authors: marcus
 :type: text, video
 :description: Learn how to set up a new project with LitElement
-:repo: https://github.com/vaadin-learning-center/frontend/lit-element-tutorial
+:repo: https://github.com/learn-vaadin/lit-element-tutorial-01-starting-a-lit-element-project
 :linkattrs:
 :imagesdir: ./images
 
@@ -17,6 +17,7 @@ In this series of tutorials, you learn how to build an application using Web Com
 . Navigation and code splitting
 . PWA and offline
 
+.The app we are building
 image::todo-app.gif[Todo tutorial app using LitElement, lit-html, and redux.]
 
 
@@ -24,7 +25,7 @@ image::todo-app.gif[Todo tutorial app using LitElement, lit-html, and redux.]
 We are using https://webpack.js.org/[Webpack^] to serve the application during development and for building the application for production. This tutorial does not cover Webpack configuration. Instead, we start with a pre-configured project skeleton. 
 
 
-https://github.com/marcushellberg/lit-app/archive/start.zip[Download LitElement starter, role="cta"]
+https://github.com/learn-vaadin/lit-element-tutorial-00-starter/archive/master.zip[Download LitElement starter, role="cta"]
 
 Once you have downloaded the starter, unzip it and run:
 
@@ -98,7 +99,8 @@ If you still have the development server (`npm run dev`) running, you should see
 
 image::first-component.png[LitElement running in the application]
 
+https://github.com/learn-vaadin/lit-element-tutorial-01-starting-a-lit-element-project[Browse the finished code on GitHub, role="cta"]
 
 == Next
 
-In the next tutorial, you implement the todo view. 
+In the next tutorial, we will implement the todo view. 

@@ -9,6 +9,10 @@
 
 In this third tutorial, you'll learn how to use Redux for state management in a LitElement application. Check out the first two tutorials to learn how to set up a LitElement application and how to use lit-html for templating. If you aren't interested in Redux, feel free to skip over this tutorial and jump straight to the next one that covers navigation and code splitting.
 
+If you did not complete the two first tutorials in this series, you can check out the code from the previous step as a starter:
+
+https://github.com/learn-vaadin/lit-element-tutorial-02-templating-properties-and-events[Step 2 source code, role="cta"]
+
 == A brief introduction to Redux
 Redux is a widely used library for state management. It builds on a concept of a central _state_ that is kept in a _store_ and gets updated by _actions_. _Reducers_ define how the state is changed based on the action. You can read more about Redux on https://redux.js.org/introduction/coreconcepts[the Redux documentation page^].
 
@@ -254,6 +258,13 @@ You dispatch actions by calling `store.dispatch` with the result from an action 
 .`*src/views/todo-view.js*`
 [source,javascript]
 ----
+import {
+  addTodo, 
+  updateTodoStatus, 
+  updateFilter, 
+  clearCompleted
+} from '../redux/actions.js';
+
 class TodoView extends connect(store)(LitElement) {
   static get properties() {...}
   stateChanged(state) {...}
@@ -358,6 +369,9 @@ The advantages of Redux are more apparent when your application grows, and sever
 Our example application is too small to show off the benefits of Redux properly. However, it is small enough to make it easy to understand the basics of using Redux. 
 
 TIP: Read more about splitting up reducers and handling larger applications in the https://polymer.github.io/pwa-starter-kit/redux-and-state-management/[PWA Starter Kit^] documentation.
+
+
+https://github.com/learn-vaadin/lit-element-tutorial-03-state-management-with-redux[Source code for this tutorial, role="cta"]
 
 == Next
 In the next part of the tutorial series, we add a second view to learn how to deal with navigation. We also look at using code splitting to maintain good performance as our application grows.
