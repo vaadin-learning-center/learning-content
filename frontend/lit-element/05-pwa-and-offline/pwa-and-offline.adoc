@@ -3,6 +3,8 @@
 :title: PWA and offline
 :authors: marcus
 :type: text, video
+:topic: frontend
+:tags: LitElement, PWA, offline, webpack
 :description: Building and serving a LitElement project in production as a PWA.
 :repo: https://github.com/vaadin-learning-center/lit-element-tutorial-05-pwa-and-offline
 :linkattrs:

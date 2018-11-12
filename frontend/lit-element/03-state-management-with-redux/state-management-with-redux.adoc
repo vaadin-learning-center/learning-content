@@ -2,6 +2,8 @@
 :title: Using Redux in a LitElement app
 :authors: marcus
 :type: text, video
+:topic: frontend
+:tags: LitElement, redux, state management
 :description: Using Redux for state management in a LitElement application
 :repo: https://github.com/vaadin-learning-center/lit-element-tutorial-03-state-management-with-redux
 :linkattrs:

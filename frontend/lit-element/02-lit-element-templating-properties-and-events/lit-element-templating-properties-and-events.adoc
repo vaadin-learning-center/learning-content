@@ -3,6 +3,8 @@
 :title: LitElement templating, properties, and events
 :authors: marcus
 :type: text, video
+:topic: frontend
+:tags: LitElement, templating
 :description: How to define properties and listen for events in lit-html templates
 :repo: https://github.com/vaadin-learning-center/lit-element-tutorial-02-templating-properties-and-events
 :linkattrs:
