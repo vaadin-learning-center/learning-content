@@ -4,7 +4,7 @@
 :authors: marcus
 :type: text, video
 :description: Building and serving a LitElement project in production as a PWA.
-:repo: https://github.com/vaadin-learning-center/frontend/lit-element-tutorial
+:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-05-pwa-and-offline
 :linkattrs:
 :imagesdir: ./images
 

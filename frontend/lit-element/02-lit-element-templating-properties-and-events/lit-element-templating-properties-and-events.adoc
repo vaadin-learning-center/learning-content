@@ -4,7 +4,7 @@
 :authors: marcus
 :type: text, video
 :description: How to define properties and listen for events in lit-html templates
-:repo: https://github.com/vaadin-learning-center/frontend/lit-element-tutorial
+:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-02-templating-properties-and-events
 :linkattrs:
 :imagesdir: ./images
 

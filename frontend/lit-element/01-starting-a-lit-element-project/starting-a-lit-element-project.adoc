@@ -4,7 +4,7 @@
 :authors: marcus
 :type: text, video
 :description: Learn how to set up a new project with LitElement
-:repo: https://github.com/learn-vaadin/lit-element-tutorial-01-starting-a-lit-element-project
+:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-01-starting-a-lit-element-project
 :linkattrs:
 :imagesdir: ./images
 
@@ -25,7 +25,7 @@ image::todo-app.gif[Todo tutorial app using LitElement, lit-html, and redux.]
 We are using https://webpack.js.org/[Webpack^] to serve the application during development and for building the application for production. This tutorial does not cover Webpack configuration. Instead, we start with a pre-configured project skeleton. 
 
 
-https://github.com/learn-vaadin/lit-element-tutorial-00-starter/archive/master.zip[Download LitElement starter, role="cta"]
+https://github.com/vaadin-learning-center/lit-element-tutorial-00-starter/archive/master.zip[Download LitElement starter, role="cta"]
 
 Once you have downloaded the starter, unzip it and run:
 

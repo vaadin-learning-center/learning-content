@@ -4,7 +4,7 @@
 :authors: marcus
 :type: text, video
 :description: This tutorial teaches you how to do navigation and code splitting in a LitElement based project.
-:repo: https://github.com/vaadin-learning-center/frontend/lit-element-tutorial
+:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-04-navigation-and-code-splitting
 :linkattrs:
 :imagesdir: ./images
 
