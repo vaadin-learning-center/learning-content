@@ -12,6 +12,10 @@ In the first four tutorials in this series, we've built an app with LitElement, 
 
 In this final tutorial, we turn the application into an offline-capable Progressive Web App. 
 
+If you didn't do the previous steps of the tutorial, you can check out the code from the previous step as a starter:
+
+https://github.com/learn-vaadin/lit-element-tutorial-04-navigation-and-code-splitting[Source code for step 4, role="cta"]
+
 TIP: You can find out more about Progressive Web Apps on Vaadin's https://vaadin.com/pwa[PWA page^]. 
 
 
@@ -138,15 +142,13 @@ Start by adding functions for saving and loading the state in `store.js`.
 ----
 const STORAGE_KEY = '__todo_app__';
 
-export const saveState = state => {
+const saveState = state => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 };
 
-export const loadState = () => {
-  let json = localStorage.getItem(STORAGE_KEY) || '{}';
-  let state = JSON.parse(json);
-
-  return state || undefined;
+const loadState = () => {
+  const json = localStorage.getItem(STORAGE_KEY);
+  return json ? JSON.parse(json) : undefined;
 };
 ----
 
@@ -179,6 +181,10 @@ image::persisted-state.gif[State persisted between refreshes]
 
 == Conclusion 
 This five-part tutorial has walked you through building a PWA with LitElement and Redux. 
+
+You can find the finished code in GitHub:
+
+https://github.com/learn-vaadin/lit-element-tutorial-05-pwa-and-offline[Source code for this tutorial, role="cta"]
 
 == Further reading
 Here are some helpful resources for continued learning. 
