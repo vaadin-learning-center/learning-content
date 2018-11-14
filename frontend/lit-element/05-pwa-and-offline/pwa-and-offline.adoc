@@ -70,11 +70,13 @@ Add the manifest file to the list of files Webpack copies over during the build:
 .`*webpack.config.js*`
 [source,diff]
 ----
-new CopyWebpackPlugin(
--  [{ from: 'src/img', to: 'img/' }],
-+  [{ from: 'src/img', to: 'img/' }, 'src/manifest.webmanifest'],
-  { ignore: ['.DS_Store'] }
-)
+const assets = [
+  {
+    from: 'src/img',
+    to: 'img/'
+  },
++  'src/manifest.webmanifest'
+];
 ----
 
 == Adding a ServiceWorker
