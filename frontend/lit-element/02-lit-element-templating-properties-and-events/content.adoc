@@ -330,6 +330,8 @@ At the top of your template, add the following `<style>` tag:
 
 By default, the content of a LitElement component is shielded from external CSS by a https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM[Shadow DOM^]. This is a feature that is valuable when building reusable leaf-node components. When building an application, it is often best to not create a shadow root to allow application-level styling. 
 
+TIP: Mattia Astorino wrote a https://equinsuocha.io/blog/web-components-the-right-way[good blog post^] explaining when to use Shadow DOM and when to avoid it.
+
 At the end of `TodoView`, add the following method to tell LitElement to render directly into the light DOM. 
 
 .`*views/todo-view.js*`
