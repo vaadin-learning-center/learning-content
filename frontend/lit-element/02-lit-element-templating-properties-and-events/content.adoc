@@ -297,36 +297,50 @@ Finally, update the template to use the `applyFilter` method to only show the fi
 image::filters.gif[Filtering todos]
 
 == Adding CSS styles
-Finally, let's add a few finishing touches with CSS. At the top of your template, add the following `<style>` tag.
+Finally, let's add a few finishing touches with CSS. 
+
+At the top of your template, add the following `<style>` tag:
 
 [source,html]
 ----
 <style>
-  :host { <1>
+  todo-view { <1>
     display: block;
     max-width: 800px;
     margin: 0 auto;
   }
-  .input-layout {
+  todo-view .input-layout {
     width: 100%;
     display: flex;
   }
-  .input-layout vaadin-text-field {
+  todo-view .input-layout vaadin-text-field {
     flex: 1;
     margin-right: var(--spacing); <2>
   }
-  .todos-list {
+  todo-view .todos-list {
     margin-top: var(--spacing);
   }
-  .visibility-filters {
+  todo-view .visibility-filters {
     margin-top: calc(4 * var(--spacing));
   }
 </style>
 ----
-<1> The `:host` selector refers to the `<todo-view>` component itself
+<1> Scope styles to this view.
 <2> Using a CSS custom property defined in `styles.css`. 
 
-NOTE: The content of our component is shielded from external CSS by a https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM[Shadow DOM^]. We can still access https://developer.mozilla.org/en-US/docs/Web/CSS/--*[CSS Custom Properties^] defined in our top-level CSS.
+By default, the content of a LitElement component is shielded from external CSS by a https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM[Shadow DOM^]. This is a feature that is valuable when building reusable leaf-node components. When building an application, it is often best to not create a shadow root to allow application-level styling. 
+
+At the end of `TodoView`, add the following method to tell LitElement to render directly into the light DOM. 
+
+.`*views/todo-view.js*`
+[source,javascript]
+----
+createRenderRoot() {
+    return this;
+}
+----
+
+Run the app, and you should see the CSS styles applied. 
 
 image::styled.png[The complete, styled todo view]
 
