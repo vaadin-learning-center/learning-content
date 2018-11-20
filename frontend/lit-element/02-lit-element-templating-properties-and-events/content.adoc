@@ -41,6 +41,7 @@ class TodoView extends LitElement {
   }
 
   constructor() { //<3>
+    super();
     this.todos = [];
     this.filter = VisibilityFilters.SHOW_ALL;
     this.task = '';
