@@ -16,6 +16,9 @@ If you didn't do the previous steps of the tutorial, you can download the source
 
 https://github.com/learn-vaadin/lit-element-tutorial-03-state-management-with-redux[Source code for step 3, role="cta"]
 
+== Video tutorial for this part
+video::JajSgc7xelI[youtube]
+
 == Install dependencies
 
 We use  https://vaadin.com/router[Vaadin Router^] for navigation and https://vaadin.com/charts[Vaadin Charts^] to display stats. 

@@ -20,6 +20,9 @@ https://github.com/learn-vaadin/lit-element-tutorial-04-navigation-and-code-spli
 
 TIP: You can find out more about Progressive Web Apps on Vaadin's https://vaadin.com/pwa[PWA page^]. 
 
+== Video tutorial for this part
+video::ToxKlmqgZHw[youtube]
+
 
 == Adding a Web App Manifest
 The first step in turning an app into a PWA is adding a manifest file to identify the app to the browser. 

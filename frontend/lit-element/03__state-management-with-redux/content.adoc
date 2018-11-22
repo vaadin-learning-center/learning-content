@@ -15,6 +15,9 @@ If you did not complete the two first tutorials in this series, you can check ou
 
 https://github.com/learn-vaadin/lit-element-tutorial-02-templating-properties-and-events[Step 2 source code, role="cta"]
 
+== Video tutorial for this part
+video::_Gt12UhGLY0[youtube]
+
 == A brief introduction to Redux
 Redux is a widely used library for state management. It builds on a concept of a central _state_ that is kept in a _store_ and gets updated by _actions_. _Reducers_ define how the state is changed based on the action. You can read more about Redux on https://redux.js.org/introduction/coreconcepts[the Redux documentation page^].
 

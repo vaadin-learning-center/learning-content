@@ -22,6 +22,8 @@ In this series of tutorials, you learn how to build an application using Web Com
 .The app we are building
 image::todo-app.gif[Todo tutorial app using LitElement, lit-html, and redux.]
 
+== Video tutorial for this part
+video::UcCsGZDCw-Q[youtube]
 
 == Download the LitElement starter
 We are using https://webpack.js.org/[Webpack^] to serve the application during development and for building the application for production. This tutorial does not cover Webpack configuration. Instead, we start with a pre-configured project skeleton. 

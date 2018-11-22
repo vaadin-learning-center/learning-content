@@ -18,6 +18,9 @@ If you didn't complete the first part, you can check out the source as a startin
 
 https://github.com/learn-vaadin/lit-element-tutorial-01-starting-a-lit-element-project[Step 1 source, role="cta"]
 
+== Video tutorial for this part
+video::s6P3R-J0IiI[youtube]
+
 == Defining properties
 Before we begin building the UI, we define the data model for the view. We'll do this via LitElement properties. LitElement observes these properties and triggers an update of the component if any of them change.
 
