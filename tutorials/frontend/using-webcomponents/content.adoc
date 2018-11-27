@@ -9,13 +9,17 @@
 :imagesdir: ./images
 
 
-This tutorial explains how to add Web Components to a project and how to interact with them. 
+This tutorial teaches you how to use and interact with web components. We'll build a small UI that adds people to a data grid. 
+
+image::completed-app.png[The completed app: A form with two text fields for name and an add button for adding people to a data grid.]
 
 Most Web Components, like the link:/components/browse[Vaadin component set], are distributed as ES modules. To use them efficiently, you need to have a build tool like https://webpack.js.org/[Webpack^], https://parceljs.org/[Parcel^], or https://rollupjs.org/[Rollup]. 
 
 If you already have an existing project that handles ES modules, feel free to skip directly to Step 1. 
 
 == Step 0: Build tooling
+
+video::KXjA52xat7Y[youtube]
 
 === Create and init project
 
@@ -100,12 +104,10 @@ TIP: This is a very barebones setup that works well for development. You will mo
 
 
 == Step 1: Using Web Components
-To show you how to use and interact with web components, we'll build a small UI that adds people to a data grid. 
 
+video::0uJDkarItPc[youtube]
 
-image::completed-app.png[The completed app: A form with two text fields for name and an add button for adding people to a data grid.]
-
-== Install components
+== Install the components
 
 The first step in using web components is installing them. In this case, we install `vaadin-text-field`, `vaadin-button`, and `vaadin-grid` from the link:/components/browse[Vaadin component set]. In addition to the components, we install `webcomponentsjs`, which is a polyfill for adding support to older browsers.
 
