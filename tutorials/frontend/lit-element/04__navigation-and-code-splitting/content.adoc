@@ -57,12 +57,12 @@ import './styles.css';
 import './views/todo-view';
 import { Router } from '@vaadin/router';
 
-window.addEventListener('load', () => { //<1>
+window.addEventListener('load', () => { <1>
   initRouter();
 });
 
 function initRouter() {
-  const router = new Router(document.querySelector('main')); //<2>
+  const router = new Router(document.querySelector('main')); <2>
   router.setRoutes([
     {
       path: '/',
@@ -75,7 +75,7 @@ function initRouter() {
         import(/* webpackChunkName: "stats" */ './views/stats-view') // <3>
     },
     {
-      path: '(.*)', //<4>
+      path: '(.*)', <4>
       component: 'not-found-view',
       action: () =>
         import(/* webpackChunkName: "not-found-view" */ './views/not-found-view')
@@ -179,21 +179,21 @@ import { statsSelector } from '../redux/reducer.js';
 import '@vaadin/vaadin-charts';
 import { BaseView } from './base-view.js';
 
-class StatsView extends connect(store)(BaseView) { //<1>
+class StatsView extends connect(store)(BaseView) { <1>
   static get properties() {
     return {
-      chartConfig: { type: Object } //<2>
+      chartConfig: { type: Object } <2>
     };
   }
 
   stateChanged(state) {
     const stats = statsSelector(state);
-    this.chartConfig = [ //<3>
+    this.chartConfig = [ <3>
       { name: 'Completed', y: stats.completed },
       { name: 'Active', y: stats.active }
     ];
 
-    this.hasTodos = state.todos.length > 0; //<4>
+    this.hasTodos = state.todos.length > 0; <4>
   }
 }
 
@@ -218,12 +218,12 @@ render() {
         }
       </style>
 
-      ${this.getChart()} //<1>
+      ${this.getChart()} <1>
     `;
   }
 
   getChart() {
-    if (this.hasTodos) { //<2>
+    if (this.hasTodos) { <2>
       return html`
         <vaadin-chart type="pie">
           <vaadin-chart-series

@@ -27,7 +27,7 @@ Before we begin building the UI, we define the data model for the view. We'll do
 .`*views/todo-view.js*`
 [source,javascript]
 ----
-const VisibilityFilters = { //<1>
+const VisibilityFilters = { <1>
   SHOW_ALL: 'All',
   SHOW_ACTIVE: 'Active',
   SHOW_COMPLETED: 'Completed'
@@ -35,7 +35,7 @@ const VisibilityFilters = { //<1>
 
 class TodoView extends LitElement {
   
-  static get properties() { //<2>
+  static get properties() { <2>
     return {
       todos: { type: Array },
       filter: { type: String },
@@ -43,7 +43,7 @@ class TodoView extends LitElement {
     };
   }
 
-  constructor() { //<3>
+  constructor() { <3>
     super();
     this.todos = [];
     this.filter = VisibilityFilters.SHOW_ALL;
@@ -147,18 +147,18 @@ class TodoView extends LitElement {
           task: this.task, 
           complete: false
       }];
-      this.task = ''; //<2>
+      this.task = ''; <2>
     }
   }
 
   shortcutListener(e) {
-    if (e.key === 'Enter') { //<3>
+    if (e.key === 'Enter') { <3>
       this.addTodo();
     }
   }
 
   updateTask(e) {
-    this.task = e.target.value; //<4>
+    this.task = e.target.value; <4>
   }
 }
 ----
@@ -180,11 +180,11 @@ Under the input layout, add the following:
 ----
 <div class="todos-list">
   ${this.todos.map(
-      todo => html` //<1>
+      todo => html` <1>
         <div class="todo-item">
           <vaadin-checkbox
-            ?checked="${todo.complete}" //<2>
-            @change="${ e => this.updateTodoStatus(todo, e.target.checked)}"> //<3> 
+            ?checked="${todo.complete}" <2>
+            @change="${ e => this.updateTodoStatus(todo, e.target.checked)}"> <3> 
             ${todo.task}
           </vaadin-checkbox>
         </div>
@@ -264,15 +264,15 @@ class TodoView extends LitElement {
   addTodo() {...}
   updateTodoStatus(updatedTodo, complete) {...}
 
-  filterChanged(e) { //<1>
+  filterChanged(e) { <1>
     this.filter = e.target.value;
   }
 
-  clearCompleted() { //<2>
+  clearCompleted() { <2>
     this.todos = this.todos.filter(todo => !todo.complete);
   }
 
-  applyFilter(todos) { //<3>
+  applyFilter(todos) { <3>
     switch (this.filter) {
       case VisibilityFilters.SHOW_ACTIVE:
         return todos.filter(todo => !todo.complete);

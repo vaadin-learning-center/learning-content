@@ -43,7 +43,7 @@ Create a folder `*src/redux*` and inside it `*reducer.js*`.
 .`*src/redux/reducer.js*`
 [source,javascript]
 ----
-export const VisibilityFilters = { //<1>
+export const VisibilityFilters = { <1>
   SHOW_ALL: 'All',
   SHOW_ACTIVE: 'Active',
   SHOW_COMPLETED: 'Completed'
@@ -80,7 +80,7 @@ import { reducer } from './reducer.js';
 
 export const store = createStore(
   reducer, 
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() //<1>
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() <1>
 );
 ----
 <1> Add support for the Redux DevTools extension if it's installed.
@@ -104,7 +104,7 @@ The next step is to make `todo-view` aware of the store and listen to updates to
 
 ---
 
--  constructor() { //<2>
+-  constructor() { <2>
 -    this.todos = [];
 -    this.filter = VisibilityFilters.SHOW_ALL;
 -    this.task = '';
@@ -119,7 +119,7 @@ The next step is to make `todo-view` aware of the store and listen to updates to
         <vaadin-text-field
           placeholder="Task"
 -          value="${this.task}"
-+          value="${this.task || ''}" //<4>
++          value="${this.task || ''}" <4>
           @change="${this.updateTask}">
           </vaadin-text-field>
 }
@@ -159,16 +159,16 @@ Begin by defining the actions of our application.
 ----
 import nanoid from 'nanoid';
 
-//<1>
+<1>
 export const ADD_TODO = 'ADD_TODO';
 export const UPDATE_TODO_STATUS = 'UPDATE_TODO_STATUS';
 export const UPDATE_FILTER = 'UPDATE_FILTER';
 export const CLEAR_COMPLETED = 'CLEAR_COMPLETED';
 
-export const addTodo = task => {//<2>
+export const addTodo = task => {<2>
   return {
     type: ADD_TODO,
-    todo: { //<3>
+    todo: { <3>
       id: nanoid(),
       task,
       complete: false
@@ -233,7 +233,7 @@ export const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         todos: state.todos.map(todo =>
-          todo.id === action.todo.id //<1>
+          todo.id === action.todo.id <1>
             ? { ...action.todo, complete: action.complete }
             : todo
         )
