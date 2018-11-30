@@ -1,0 +1,7 @@
+= Tactical Domain-Driven Design
+
+TODO
+
+== Next: Domain-Driven Design and the Hexagonal Architecture
+
+In the next section, we are going to learn what the hexagonal architecture is and how it plays nicely together with domain-driven design.

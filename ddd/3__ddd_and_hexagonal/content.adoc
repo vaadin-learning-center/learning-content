@@ -1,0 +1,7 @@
+= Domain-Driven Design and the Hexagonal Architecture
+
+TODO
+
+== Next: Domain-Driven Design and Spring Boot
+
+In the next section, we are going to learn how to use Spring Boot to build applications using domain-driven design and the hexagonal architecture.
