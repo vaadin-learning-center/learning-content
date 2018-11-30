@@ -4,7 +4,7 @@
 :topic: frontend
 :tags: webcomponents
 :description: Learn how to include and use Web Components in your project
-:repo: https://github.com/vaadin-learning-center/how-to-use-web-components
+:repo: https://github.com/vaadin-learning-center/using-web-components
 :linkattrs:
 :imagesdir: ./images
 
