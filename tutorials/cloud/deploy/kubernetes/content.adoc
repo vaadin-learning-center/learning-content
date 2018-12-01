@@ -1,0 +1,15 @@
+= Deploy to Kubernetes
+
+:title: Deploy to Kubernetes
+:authors: amahdy
+:type: text, image
+:topic: cloud
+:tags: backend, cloud, deploy, kubernetes
+:description: Learn how to deploy Vaadin app to Kubernetes
+:repo:
+:linkattrs:
+:imagesdir: ./images
+
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Kubernetes. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your Vaadin applications.
+
+WIP.

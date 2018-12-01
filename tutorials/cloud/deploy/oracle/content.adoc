@@ -1,0 +1,51 @@
+= Deploy to Oracle Cloud
+
+:title: Deploy to Oracle Cloud
+:authors: amahdy
+:type: text, image
+:topic: cloud
+:tags: backend, cloud, deploy
+:description: Learn how to deploy Vaadin app to Oracle cloud
+:repo:
+:linkattrs:
+:imagesdir: ./images
+
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Oracle Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Oracle cloud as a potential host platform for your Vaadin applications.
+
+To get started, sign up for an https://cloud.oracle.com/home[Oracle cloud] account. You will also need to create at least a simple database instance to save scheme related data, before this tutorial I've https://www.oracle.com/webfolder/technetwork/tutorials/obe/cloud/dbaas/obe_dbaas_QS/oracle_database_cloud_service_dbaas_quick_start.html[created a basic] Oracle Database Cloud instance. Then steps go as following:
+
+== Create a new Oracle Java Cloud Service
+
+In most cases, the Java Cloud Service won't appear on the Dashboard by default. To show it, click on *Customize Dashboard*
+
+image::customize-dashboard.png[Customize Dashboard]
+
+Scroll down till *Application Development* and click *Show* on the *Java* service.
+
+image::show-java.png[Show Java]
+
+Close the popup and you should be able to see the Java Service in the dashboard now. Click on the little side menu and select *Open Service Console*.
+
+image::open-console.png[Open Console]
+
+Once there, click on *Create an instance* and select *Java*.
+
+image::create-instance.png[Create Instance]
+
+image::create-java.png[Create Java]
+
+Fill the instance information and then click *Next*. Instance creation can take sometime to finish.
+
+image::new-instance.png[New Instance]
+
+Once instance is created, few access rules https://docs.oracle.com/en/cloud/paas/java-cloud/jscug/enable-console-access-service-instance.html[need to be enabled] to be able to manage the instance online from the browser.
+
+This step will allows you to manage Weblogic remotely without any local installations nor SSH. You can open Weblogic console from the menu:
+
+image::open-weblogic.png[Open Weblogic]
+
+Your browser may complain about the SSL certificate, practically it shouldn't be a problem to accept it since it is created by your own cloud instance but not signed. Finally you will be able to access the weblogic console and deploy your artifacts from there:
+
+image::weblogic-console.png[Weblogic Console]
+
+Alternatively, you can add a build job configuration to fetch your application from a git repository, nicely https://medium.com/oracledevs/developing-and-deploying-vaadin-applications-on-oracle-cloud-2733ea68ee80[written by Abhinav].
