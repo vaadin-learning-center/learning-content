@@ -348,7 +348,7 @@ createRenderRoot() {
 
 Run the app, and you should see the CSS styles applied. 
 
-image::styled.png[The complete, styled todo view]
+image::styled.png["The complete, styled todo view"]
 
 https://github.com/learn-vaadin/lit-element-tutorial-02-templating-properties-and-events[Browse the finished code on GitHub, role="cta"]
 
