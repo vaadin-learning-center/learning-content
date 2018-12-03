@@ -20,7 +20,7 @@ In this series of tutorials, you learn how to build an application using Web Com
 . PWA and offline
 
 .The app we are building
-image::todo-app.gif[Todo tutorial app using LitElement, lit-html, and redux.]
+image::todo-app.gif["Todo tutorial app using LitElement, lit-html, and redux."]
 
 == Video tutorial for this part
 video::UcCsGZDCw-Q[youtube]
