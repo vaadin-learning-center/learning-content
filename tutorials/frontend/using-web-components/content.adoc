@@ -132,7 +132,7 @@ The https://github.com/webcomponents/webcomponentsjs[webcomponents.js^] polyfill
 [source,terminal]
 $ npm install --save-dev copy-webpack-plugin @webcomponents/webcomponentsjs
 
-=== Copy over polyfills
+=== Copy polyfills
 The first thing we need to do is copy over the polyfills. If you are using a different build tool than Webpack, refer to the documentation for that tool on how to copy over static assets. 
 
 .`*webpack.config.js*`
@@ -161,9 +161,10 @@ module.exports = ({ mode }) => {
 };
 ----
 
+=== Load polyfills
 Then, include the loader and an optional import for the ES5 compatibility script in the `<head>` section of `index.html`.
 
-.`*webpack.config.js*`
+.`*src/index.html*`
 [source,html]
 ----
  <script src="webcomponents/webcomponents-loader.js"></script>
