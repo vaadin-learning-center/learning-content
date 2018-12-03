@@ -2,6 +2,7 @@ from glob import glob
 import ntpath
 import os.path
 import re
+import sys
 
 TUTORIALS_ROOT="tutorials"
 MANDATORY_TOPIC_PROPERTIES = []
@@ -47,6 +48,13 @@ def main():
 			for section in glob(article + "/*__*/"):
 				check_article_or_section(section, MANDATORY_SECTION_PROPERTIES)
 
+	if not len(errors) == 0:
+		print("Validation failed:")
+		print("\n".join(errors))
+		sys.exit(-1)
+	else:
+		print("Success")
+
 # Checks article or section properties
 def check_article_or_section(folder, mandatoryProps):
 	print("Checking " + folder + "...")
@@ -86,7 +94,7 @@ def get_properties(folder):
 # Returns attributes found in given AsciiDoc file
 def load_asciidoc_attributes(adocFile):
 	result = {}
-	possibleAttributes = [ line for line in open(adocFile, mode="r", encoding="utf-8") if line.startswith(":")]
+	possibleAttributes = [ line for line in open(adocFile, "r", encoding="utf-8") if line.startswith(":")]
 	for attr in possibleAttributes:
 		m = re.search("^:(.*):(.*)$", attr)
 		if m:
