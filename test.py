@@ -86,7 +86,7 @@ def get_properties(folder):
 # Returns attributes found in given AsciiDoc file
 def load_asciidoc_attributes(adocFile):
 	result = {}
-	possibleAttributes = [ line for line in open(adocFile) if line.startswith(":")]
+	possibleAttributes = [ line for line in open(adocFile, mode="r", encoding="utf-8") if line.startswith(":")]
 	for attr in possibleAttributes:
 		m = re.search("^:(.*):(.*)$", attr)
 		if m:
