@@ -1,8 +1,7 @@
 = How to use Web Components
 
 :type: text, video
-:topic: frontend
-:tags: webcomponents
+:tags: webcomponents, javascript, webpack
 :description: Learn how to include and use Web Components in your project
 :repo: https://github.com/vaadin-learning-center/using-web-components
 :linkattrs:
@@ -112,7 +111,7 @@ video::0uJDkarItPc[youtube]
 The first step in using web components is installing them. In this case, we install `vaadin-text-field`, `vaadin-button`, and `vaadin-grid` from the link:/components/browse[Vaadin component set]. In addition to the components, we install `webcomponentsjs`, which is a polyfill for adding support to older browsers.
 
 [source,terminal]
-$ npm install --save @vaadin/vaadin-text-field @vaadin/vaadin-button @vaadin/vaadin-grid @webcomponents/webcomponentsjs
+$ npm install --save @vaadin/vaadin-text-field @vaadin/vaadin-button @vaadin/vaadin-grid
 
 Once the install finishes, import the components in `index.js` to make them available to your browser.
 
@@ -123,6 +122,59 @@ import '@vaadin/vaadin-button';
 import '@vaadin/vaadin-grid';
 import '@vaadin/vaadin-text-field';
 ----
+
+
+== Add polyfills for older browsers
+Although most modern browsers ship with built-in support for Web Components, there are still users out there with older browsers. If you want to make your app available to them as well, you want to include _polyfills_ that emulate the functionality in browsers without native support.
+
+The https://github.com/webcomponents/webcomponentsjs[webcomponents.js^] polyfill comes with a loader script that can be used to load only the polyfills a particular browser needs. It loads the polyfills dynamically, so it cannot be imported directly as a JS dependency that gets built by Webpack, rather you need to copy over the dependencies and include the loader in your index file. The library also includes a ES5 compatibility script in case you transpile your app into ES5.
+
+[source,terminal]
+$ npm install --save-dev copy-webpack-plugin @webcomponents/webcomponentsjs
+
+=== Copy over polyfills
+The first thing we need to do is copy over the polyfills. If you are using a different build tool than Webpack, refer to the documentation for that tool on how to copy over static assets. 
+
+.`*webpack.config.js*`
+[source,diff]
+----
+const HtmlWebpackPlugin = require('html-webpack-plugin');
++const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+module.exports = ({ mode }) => {
+  return {
+    mode,
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: './src/index.html'
+      }),
++      new CopyWebpackPlugin([
++        {
++          context: 'node_modules/@webcomponents/webcomponentsjs',
++          from: '**/*.js',
++          to: 'webcomponents'
++        }
++      ])
++    ],
+    devtool: mode === 'development' ? 'source-map' : 'none'
+  };
+};
+----
+
+Then, include the loader and an optional import for the ES5 compatibility script in the `<head>` section of `index.html`.
+
+.`*webpack.config.js*`
+[source,html]
+----
+ <script src="webcomponents/webcomponents-loader.js"></script>
+    <script>
+      if (!window.customElements) {document.write('<!--');}
+    </script>
+    <script src="webcomponents/custom-elements-es5-adapter.js"></script>
+    <!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
+----
+
+You are now ready to use web components in IE11+ and any of the evergreen browsers. 
 
 == Use Web Components to build the UI
 
@@ -200,31 +252,6 @@ function initUI() {
 
 *Run the application, and you should now be able to add new entries to the grid.*
 
-== Optional: add polyfills for older browsers
-Although most modern browsers ship with built-in support for Web Components, there are still users out there with older browsers. If you want to make your app available to them as well, you want to include _polyfills_ that emulate the functionality in browsers without native support.
-
-When loading polyfills, you want to ensure that you only load them if needed. You do this by checking which features a browser supports and then loading polyfills based on that.  Add a new file, `polyfills-loader.js` in the source folder. 
-
-.`*src/polyfills-loader.js*`
-[source,javascript]
-----
-if (!('customElements' in window)) {
-  import('@webcomponents/webcomponentsjs/bundles/webcomponents-ce'); <1>
-}
-if (!('attachShadow' in document.head)) {
-  import('@webcomponents/webcomponentsjs/bundles/webcomponents-sd'); <2>
-}
-----
-<1> Dynamically import the CustomElements polyfill for browsers that don't support it. 
-<2> Dynamically import a Shadow DOM polyfill for browsers that don't support it. 
-
-Then, import the loader at the top of `index.js`: 
-
-.`*src/index.js*`
-[source,javascript]
-----
-import './polyfills-loader';
-----
 
 == Summary and next steps
 Web Components behave like any other HTML element once you have imported them. You can set and read attributes and properties for data, and listen to events to add interactivity. 
