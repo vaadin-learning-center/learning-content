@@ -1,5 +1,4 @@
 from glob import glob
-import javaproperties
 import ntpath
 import os.path
 import re
@@ -53,10 +52,7 @@ def check_article_or_section(folder, mandatoryProps):
 	print("Checking " + folder + "...")
 	props = get_properties(folder)
 	for prop in mandatoryProps:
-		try:
-			if not props[prop]:
-				log_error("Error: Missing mandatory property '" + prop + "' in " + folder)
-		except:
+		if not prop in props:
 			log_error("Error: Missing mandatory property '" + prop + "' in " + folder)
 
 	try:
@@ -66,7 +62,7 @@ def check_article_or_section(folder, mandatoryProps):
 				log_error("Error: Invalid tag '" + tag + "' in '" + folder + "' found - Check tutorials/allowed_tags.lst and extend it if needed.")
 	except:
 		# ignore as tags are not mandatory
-		print
+		pass
 
 # Prints and records given error
 def log_error(msg):
@@ -77,12 +73,11 @@ def log_error(msg):
 def get_properties(folder):
 	# check for full article
 	if os.path.isfile(folder + "/article.properties"):
-		with open(folder + "/article.properties", "r", encoding="utf-8") as fp:
-			return javaproperties.load(fp)
+		return load_properties(folder + "/article.properties")
 	# check for full section
 	elif os.path.isfile(folder + "/section.properties"):
 		with open(folder + "/section.properties", "r", encoding="utf-8") as fp:
-			return javaproperties.load(fp)
+			return load_properties(folder + "/section.properties")
 	elif os.path.isfile(folder + "/content.adoc"):
 		return load_asciidoc_attributes(folder + "/content.adoc")
 	else:
@@ -98,6 +93,17 @@ def load_asciidoc_attributes(adocFile):
 			result[m.group(1).strip()] = m.group(2).strip();
 	if result["authors"]:
 		result["author"] = result["authors"]
+
+	return result
+
+# Returns properties found in Java properties file
+def load_properties(propsFile):
+	result = {}
+	possibleAttributes = [ line for line in open(propsFile) if ":" in line or "=" in line]
+	for attr in possibleAttributes:
+		m = re.search("^(.*)[:|=](.*)$", attr)
+		if m:
+			result[m.group(1).strip()] = m.group(2).strip();
 
 	return result
 
