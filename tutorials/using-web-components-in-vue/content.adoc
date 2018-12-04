@@ -14,7 +14,7 @@ image::completed-app.png[The completed app: A form with two text fields for name
 
 == The base application
 
-//video::Wd2Ja2q7AAA[youtube]
+video::gp-1LzhSH30[youtube]
 
 We are using the https://cli.vuejs.org/[Vue CLI^] to generate a new project. 
 
