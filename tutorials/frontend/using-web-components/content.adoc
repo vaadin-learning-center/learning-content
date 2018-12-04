@@ -104,7 +104,7 @@ TIP: This is a very barebones setup that works well for development. You will mo
 
 == Step 1: Using Web Components
 
-video::0uJDkarItPc[youtube]
+video::88Sa-SlHRxk[youtube]
 
 == Install the components
 
