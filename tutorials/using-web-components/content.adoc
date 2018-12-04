@@ -1,5 +1,6 @@
 = How to use Web Components
 
+:title: How to use Web Components
 :type: text, video
 :tags: webcomponents, javascript, webpack
 :description: Learn how to include and use Web Components in your project
