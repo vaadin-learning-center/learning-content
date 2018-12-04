@@ -135,7 +135,7 @@ export default {
 == Defining the view HTML
 With the logic in place, you can now define the view using the web components in the `<template>` section of `HelloWorld.vue`.
 
-.`*src/app/app.component.html*`
+.`*src/components/HelloWorld.vue*`
 [source,html]
 ----
 <div class="component">
@@ -164,7 +164,7 @@ Vue handles https://vuejs.org/v2/guide/forms.html[`v-model`^] binding differentl
 
 Finally, update the CSS to make the form look nicer:
 
-.`*src/app/app.component.html*`
+.`*src/components/HelloWorld.vue*`
 [source,css]
 ----
 .form {
@@ -173,6 +173,30 @@ Finally, update the CSS to make the form look nicer:
 .form * {
   margin-right: 4px;
 }
+----
+
+If you want to match the look of the screenshot in the beginning, update `App.vue` as well:
+
+.`*src/App.vue*`
+[source,diff]
+----
+<template>
+  <div id="app">
+-    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  </div>
+</template>
+---
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+-  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
 ----
  
 If you run the application now with `npm run serve`, you should have a working application using web components. 
