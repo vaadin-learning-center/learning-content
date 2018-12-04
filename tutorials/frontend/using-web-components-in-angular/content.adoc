@@ -20,7 +20,6 @@ We are using the https://cli.angular.io/[Angular CLI^] to generate a new project
 ----
 $ ng new webcomponents
 $ cd webcomponents
-$ ng serve --open
 ----
 
 == Install components
@@ -75,7 +74,7 @@ The https://github.com/webcomponents/webcomponentsjs[webcomponents.js^] polyfill
 $ npm install --save-dev @webcomponents/webcomponentsjs
 
 === Copy polyfills
-The first thing we need to do is copy over the polyfills. You can do this by adding them to the assets array in `angular.json`.
+You need to copy over the polyfills to load them. You can do this by adding them to the assets array in `angular.json`.
 
 .`*angular.json*`
 [source,diff]
@@ -104,10 +103,13 @@ Then, include the loader and an optional import for the ES5 compatibility script
 <!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
 ----
 
-You are now ready to use web components in IE11+ and any of the evergreen browsers. 
+Verify that you can run the application with 
 
-== Building the view component
-Begin by importing the components in `app.component.ts`. At the same time, import `FormGroup` and `FormControl` for building the form.
+[source,terminal]
+$ ng serve
+
+== Building the application
+You are now ready to use web components. Begin by importing the components in `app.component.ts`. At the same time, import `FormGroup` and `FormControl` for building the form.
 
 .`*src/app/app.component.ts*`
 [source,typescript]
@@ -134,11 +136,6 @@ Finally, replace the component implementation with the following:
 .`*src/app/app.component.ts*`
 [source,typescript]
 ----
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
 export class AppComponent {
   people: Person[] = []; <1>
 
@@ -156,7 +153,7 @@ export class AppComponent {
   }
 }
 ----
-<1> Array of people that should be listed in the grid
+<1> Our component state is an array of people that should be listed in the grid
 <2> A reactive FormGroup with controls for `firstName` and `lastName`
 <3> When submitting the form, create a new array containing a Person object with the information in the form, then reset the form. 
 
@@ -189,7 +186,6 @@ Replace the contents of the component HTML file with the following:
 <1> Bind the `formGroup` to the one we defined in the component, submit to the `addPerson` method.
 <2> In addition to `formControlName`, add `ngDefaultControl`.
 <3> Bind the people array to the `items` property on the grid.
-
 
 The only difference to a standard Angular form is the use of `ngDefaultControl` on the fields to tell Angular to treat the custom fields as standard text inputs. 
 
