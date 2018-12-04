@@ -1,24 +1,24 @@
 = How to use Web Components in React
 
 :type: text, video
-:topic: frontend
-:tags: webcomponents, react
+:tags: webcomponents, react, javascript
 :description: Learn how to include and use Web Components in your React project
-:repo: https://github.com/vaadin-learning-center/how-to-use-web-components-in-react
+:repo: https://github.com/vaadin-learning-center/using-web-components-in-react
 :linkattrs:
 :imagesdir: ./images
+
 
 This tutorial teaches you how to use and interact with web components in React. We'll build a small UI that adds people to a data grid. 
 
 image::completed-app.png[The completed app: A form with two text fields for name and an add button for adding people to a data grid.]
 
-Most Web Components, like the link:/components[Vaadin component set], are distributed as ES modules. To use them efficiently, you need to have a project that handles them, like what is created with link:https://reactjs.org/docs/create-a-new-react-app.html#create-react-app[Create React App]
+Most Web Components, like the link:/components[Vaadin component set], are distributed as ES modules. To use them efficiently, you need to have a project that handles them, like the one that is created with link:https://reactjs.org/docs/create-a-new-react-app.html#create-react-app[Create React App]
 
 If you already have an existing project that handles ES modules, feel free to skip directly to Step 1. 
 
 == Step 0: Creating a project with Create React App
 
-// TODO: Should we have video like video::KXjA52xat7Y[youtube]
+// TODO: Should we have a video like video::KXjA52xat7Y[youtube]
 You'll need to have Node 8.10.0 or later installed on your machine. Create a new project by running:
 
 [source,terminal]
@@ -28,7 +28,7 @@ $ cd webcomponents/
 $ yarn start
 ----
 
-This creates the application and launches it. The start script opens up automatically up a browers pointing at http://localhost:3000/ where your app is now running.
+This creates the application and launches it. The start script opens up a browser automatically, pointing at http://localhost:3000/ where your app is now running.
 
 == Step 1: Install the polyfill
 
@@ -54,7 +54,7 @@ Open `package.json` to enable `vendor-copy`. To the `scripts` block, add a `post
 ----
 <1> Add this row. Remember the comma on the previous row.
 
-Next, in the end of the same file, give instructions to `vendor-copy` on what it should copy over when install is run. We need `webcomponents-bundle.js` and `custom-elements-es5-adapter.js`.
+Next, at the end of the same file, give instructions to `vendor-copy` on what it should copy over when the install is run. We need `webcomponents-bundle.js` and `custom-elements-es5-adapter.js`.
 
 .`*package.json*`
 [source,javascript]
@@ -74,7 +74,7 @@ Next, in the end of the same file, give instructions to `vendor-copy` on what it
 
 Now when you run `npm install` within the root of the project, it will also trigger the postinstall and copy the polyfill. 
 
-Lastly, we have to use the polyfills in runtime by adding them to our our `index.html`.  Add the following lines to the end of `<body>`.
+Lastly, we have to use the polyfills in runtime by adding them to our `index.html`.  Add the following lines to the end of `<body>`.
 
 [source,html]
 ----
@@ -138,7 +138,7 @@ Notice that we added `ref` attributes for all components. This enables us to ref
 
 Now that we have all the UI building blocks in place, the next step is to add some functionality. 
 
-Start by adding a `componentDidMount()` function to  `App.js`. It will be run after the templated has been loaded. There is a fair amount going on in this function, so let's look at what's going on step by step: 
+Start by adding a `componentDidMount()` function to  `App.js`. It will be run after the templated has been loaded. A fair amount is going on in this function, so let's look at what's going on step by step: 
 
 .`*src/App.js*`
 [source,javascript]
