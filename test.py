@@ -1,14 +1,13 @@
 from glob import glob
+import json
 import ntpath
 import os.path
 import re
 import sys
 
 TUTORIALS_ROOT="tutorials"
-MANDATORY_TOPIC_PROPERTIES = []
-MANDATORY_ARTICLE_PROPERTIES = ["title", "author"]
-MANDATORY_SECTION_PROPERTIES = MANDATORY_ARTICLE_PROPERTIES
-
+MANDATORY_ARTICLE_PROPERTIES = ["title", "author", "topics"]
+MANDATORY_SECTION_PROPERTIES = ["title", "author"]
 
 with open('tutorials/allowed_topics.lst') as allowedTopicsFile:
   ALLOWED_TOPICS = [line.rstrip('\n') for line in allowedTopicsFile]
@@ -30,23 +29,12 @@ def main():
 	Testing tutorials...
 	""")
 
-	for topic in glob(TUTORIALS_ROOT + "/*/"):
-		print("Checking topic " + topic + "...")
-		# check topic name
-		topicName = path_leaf(topic)
-		if not topicName in ALLOWED_TOPICS:
-			log_error("Error: Topic name is not allowed: '" + topicName + "' - Check tutorials/allowed_topics.lst and extend it if needed.")
-
-		# check topic properties
-		if not os.path.isfile(topic + "/topic.properties"):
-			log_error("Error: Missing topic.properties file in " + topic)
-
-		# check articles
-		for article in glob(topic + "/*/"):
-			check_article_or_section(article, MANDATORY_ARTICLE_PROPERTIES)
-			# check sections
-			for section in glob(article + "/*__*/"):
-				check_article_or_section(section, MANDATORY_SECTION_PROPERTIES)
+	# check articles
+	for article in glob(TUTORIALS_ROOT + "/*/"):
+		check_article_or_section(article, MANDATORY_ARTICLE_PROPERTIES)
+		# check sections
+		for section in glob(article + "/*__*/"):
+			check_article_or_section(section, MANDATORY_SECTION_PROPERTIES)
 
 	if not len(errors) == 0:
 		print("Validation failed:")
@@ -63,6 +51,18 @@ def check_article_or_section(folder, mandatoryProps):
 		if not prop in props:
 			log_error("Error: Missing mandatory property '" + prop + "' in " + folder)
 
+	with open(TUTORIALS_ROOT + "/topics.json", "r") as read_file:
+		allowedTopics = [t["id"] for t in json.load(read_file)]
+		try:
+			topics = [x.strip() for x in props["topics"].split(',')]
+			for topic in topics:
+				if topic not in allowedTopics:
+					log_error("Error: Invalid topic'" + topic + "' in '" + folder + "' found - Check tutorials/topics.json and extend it if needed.")
+		except:
+			# ignore
+			pass
+
+	# validate allowed tags
 	try:
 		tags = [x.strip() for x in props["tags"].split(',')]
 		for tag in tags:
