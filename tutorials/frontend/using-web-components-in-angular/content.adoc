@@ -2,18 +2,20 @@
 
 :type: text, video
 :topic: frontend
-:tags: webcomponents, angular
+:tags: webcomponents, angular, javascript, video
 :description: Learn how to include and use Web Components in Angular
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-angular
 :linkattrs:
 :imagesdir: ./images
-
 
 This tutorial teaches you how to use and interact with web components in an Angular application. We'll build a small UI that adds people to a data grid. 
 
 image::completed-app.png[The completed app: A form with two text fields for name and an add button for adding people to a data grid.]
 
 == The base application
+
+video::Wd2Ja2q7AAA[youtube]
+
 We are using the https://cli.angular.io/[Angular CLI^] to generate a new project. 
 
 [source, terminal]
