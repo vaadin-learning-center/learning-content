@@ -2,9 +2,8 @@
 
 :title: Deploy to Google Cloud
 :authors: amahdy
-:type: text, image
-:topic: cloud
-:tags: backend, cloud, deploy
+:type: text
+:tags: backend, cloud, deploy, flow
 :description: Learn how to deploy Vaadin app to Google cloud
 :repo:
 :linkattrs:
@@ -22,7 +21,7 @@ From the top menu, click on *Select a project* then *New Project*.
 
 image::new-project.png[New Project]
 
-In the following screen, give it a project name then click “Create”.
+In the following screen, give it a project name then click "Create".
 
 Once everything is ready, you will be greeted with a screen similar to this:
 
@@ -41,11 +40,11 @@ image::online-shell.png[Online Shell]
 You can treat the cloud shell as a remote shell, and we can start by cloning the source code repository and run it locally:
 
 [source,terminal]
-```
+----
 $ git clone https://github.com/vaadin/beverage-starter-flow
 $ cd beverage-starter-flow/
 $ mvn package
-```
+----
 
 == Run the application
 

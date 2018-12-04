@@ -2,8 +2,8 @@
 
 :title: Deploy to Azure Cloud
 :authors: amahdy
-:type: text, image
-:topic: cloud
+:type: text
+:publish_date: 2020-01-01
 :tags: backend, cloud, deploy
 :description: Learn how to deploy Vaadin app to Azure cloud
 :repo:

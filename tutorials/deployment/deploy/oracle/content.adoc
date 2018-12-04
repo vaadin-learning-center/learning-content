@@ -3,8 +3,7 @@
 :title: Deploy to Oracle Cloud
 :authors: amahdy
 :type: text, image
-:topic: cloud
-:tags: backend, cloud, deploy
+:tags: backend, cloud, deploy, flow
 :description: Learn how to deploy Vaadin app to Oracle cloud
 :repo:
 :linkattrs:
