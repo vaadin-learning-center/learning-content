@@ -1,0 +1,181 @@
+= How to use Web Components in Vue
+
+:type: text, video
+:topic: frontend
+:tags: webcomponents, vue, javascript, video
+:description: Learn how to include and use Web Components in Vue
+:repo: https://github.com/vaadin-learning-center/using-web-components-in-vue
+:linkattrs:
+:imagesdir: ./images
+
+This tutorial teaches you how to use and interact with web components in a Vue application. We'll build a small UI that adds people to a data grid. 
+
+image::completed-app.png[The completed app: A form with two text fields for name and an add button for adding people to a data grid.]
+
+== The base application
+
+//video::Wd2Ja2q7AAA[youtube]
+
+We are using the https://cli.vuejs.org/[Vue CLI^] to generate a new project. 
+
+[source, terminal]
+----
+$ vue create webcomponents
+$ cd webcomponents
+----
+
+== Install components
+
+The first step in using web components is installing them. In this case, we install `vaadin-text-field`, `vaadin-button`, and `vaadin-grid` from the link:/components/browse[Vaadin component set]. 
+
+[source,terminal]
+$ npm install --save @vaadin/vaadin-text-field @vaadin/vaadin-button @vaadin/vaadin-grid
+
+== Add polyfills for older browsers
+Although most modern browsers ship with built-in support for Web Components, there are still users out there with older browsers. If you want to make your app available to them as well, you want to include _polyfills_ that emulate the functionality in browsers without native support.
+
+The https://github.com/webcomponents/webcomponentsjs[webcomponents.js^] polyfill comes with a loader script that can be used to load only the polyfills a particular browser needs. It loads the polyfills dynamically so it cannot be imported directly as a JS dependency that gets built by Webpack. Instead, you need to copy over the dependencies and include the loader in your index file. The library also contains an ES5 compatibility script for apps that have been transpiled into ES5.
+
+[source,terminal]
+$ npm install --save-dev copy-webpack-plugin @webcomponents/webcomponentsjs
+
+=== Copy polyfills
+The first thing we need to do is copy over the polyfills. You can do this by providing Vue with an additional Webpack configuration. Create a new file, `vue.config.js` in the root of your project.
+
+.`*vue.config.js*`
+[source,javascript]
+----
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+module.exports = {
+  configureWebpack: {
+    plugins: [
+      new CopyWebpackPlugin([
+        {
+          context: 'node_modules/@webcomponents/webcomponentsjs',
+          from: '**/*.js',
+          to: 'webcomponents'
+        }
+      ])
+    ]
+  }
+};
+----
+
+The CopyWebpackPlugin will now copy over all the needed JavaScript files into a `webcomponents` directory in the `dist` directory when building.
+
+=== Load polyfills
+Then, include the loader and an optional import for the ES5 compatibility script in the `<head>` section of `index.html`.
+
+.`*public/index.html*`
+[source,html]
+----
+<script src="webcomponents/webcomponents-loader.js"></script>
+<script>
+  if (!window.customElements{document.write('<!--');}
+</script>
+<scripsrc="webcomponents/custom-elements-es5-apter.js"></script>
+<!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
+----
+
+Verify that you can run the application with 
+
+[source,terminal]
+$ npm run serve
+
+== Building the application
+You are now ready to use web components. Begin by importing the components in the `<script>` section your `HelloWorld.vue` component.
+
+.`*src/components/HelloWorld.vue*`
+[source,javascript]
+----
+import '@vaadin/vaadin-button';
+import '@vaadin/vaadin-grid';
+import '@vaadin/vaadin-text-field';
+----
+
+The form and grid bind to a Person object with `firstName` and `lastName` properties. Create a class definition for it. You can add it directly underneath the imports.
+
+.`*src/components/HelloWorld.vue*`
+[source,javascript]
+----
+class Person {
+  constructor() {
+    this.firstName = "";
+    this.lastName = "";
+  }
+}
+----
+
+
+Finally, replace the component implementation with the following:
+
+.`*src/components/HelloWorld.vue*`
+[source,javascript]
+----
+export default {
+  name: "HelloWorld",
+  data: function() {
+    return { <1>
+      people: [],
+      currentPerson: new Person()
+    };
+  },
+  methods: {
+    addPerson: function() { <2>
+      this.people = [...this.people, this.currentPerson];
+      this.currentPerson = new Person();
+    }
+  }
+};
+----
+<1> The data model consists of an array of people along with the person currently being edited.
+<2> The `addPerson` method creates a new array including the edited person and assigns it to `people` and finally resets the current person.
+
+== Defining the view HTML
+With the logic in place, you can now define the view using the web components in the `<template>` section of `HelloWorld.vue`.
+
+.`*src/app/app.component.html*`
+[source,html]
+----
+<div class="component">
+    <div class="form" @keyup.enter="addPerson">
+      <vaadin-text-field
+        label="First Name"
+        :value="currentPerson.firstName" 
+        @input="currentPerson.firstName = $event.target.value"
+      ></vaadin-text-field>
+      <vaadin-text-field
+        label="Last Name"
+        :value="currentPerson.lastName"
+        @input="currentPerson.lastName = $event.target.value"
+      ></vaadin-text-field>
+      <vaadin-button @click="addPerson">Add</vaadin-button>
+    </div>
+    <vaadin-grid :items.prop="people"> <1>
+      <vaadin-grid-column path="firstName" header="First name"></vaadin-grid-column>
+      <vaadin-grid-column path="lastName" header="Last name"></vaadin-grid-column>
+    </vaadin-grid>
+  </div>
+----
+<1> Notice that you need to bind the people array with `:items.prop` in order to assign the JS array as a property. Otherwise Vue attempts to serialize the array and set it as an attribute.
+
+Vue handles https://vuejs.org/v2/guide/forms.html[`v-model`^] binding differently for components than native `<input>` elements. To get the binding to work, we need to bind and update the value ourselves with `:value="currentPerson.firstName" @input="currentPerson.firstName = $event.target.value"`. This is exactly how `v-model` https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components[works under the hood^].
+
+Finally, update the CSS to make the form look nicer:
+
+.`*src/app/app.component.html*`
+[source,css]
+----
+.form {
+  margin-bottom: 16px;
+}
+.form * {
+  margin-right: 4px;
+}
+----
+ 
+If you run the application now with `npm run serve`, you should have a working application using web components. 
+
+== Conclusion
+Once you have installed polyfills for older browsers, you can use Web Components interchangeably with Vue components. For the most part, you would use Web Components as leaf node components, and Vue for views and other composite components. 
