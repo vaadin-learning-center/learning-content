@@ -36,9 +36,7 @@ Web Components are most often distributed as JavaScript. Add the following optio
 [source,json]
 ----
 {
-  ...
   compilerOptions: {
-    ...
     "allowJs": true
   }
 }
