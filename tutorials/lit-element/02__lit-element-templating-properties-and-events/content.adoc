@@ -6,7 +6,7 @@
 :topic: frontend
 :tags: LitElement, templating
 :description: How to define properties and listen for events in lit-html templates
-:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-02-templating-properties-and-events
+:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-templating-properties-and-events
 :linkattrs:
 :imagesdir: ./images
 
@@ -16,7 +16,7 @@ In this second tutorial in a series about building LitElement apps, we cover tem
 
 If you didn't complete the first part, you can check out the source as a starting point: 
 
-https://github.com/learn-vaadin/lit-element-tutorial-01-starting-a-lit-element-project[Step 1 source, role="cta"]
+https://github.com/learn-vaadin/lit-element-tutorial-starting-a-lit-element-project[Step 1 source, role="cta"]
 
 == Video tutorial for this part
 video::s6P3R-J0IiI[youtube]
@@ -27,7 +27,7 @@ Before we begin building the UI, we define the data model for the view. We'll do
 .`*views/todo-view.js*`
 [source,javascript]
 ----
-const VisibilityFilters = { //<1>
+const VisibilityFilters = { <1>
   SHOW_ALL: 'All',
   SHOW_ACTIVE: 'Active',
   SHOW_COMPLETED: 'Completed'
@@ -35,7 +35,7 @@ const VisibilityFilters = { //<1>
 
 class TodoView extends LitElement {
   
-  static get properties() { //<2>
+  static get properties() { <2>
     return {
       todos: { type: Array },
       filter: { type: String },
@@ -43,7 +43,7 @@ class TodoView extends LitElement {
     };
   }
 
-  constructor() { //<3>
+  constructor() { <3>
     super();
     this.todos = [];
     this.filter = VisibilityFilters.SHOW_ALL;
@@ -147,18 +147,18 @@ class TodoView extends LitElement {
           task: this.task, 
           complete: false
       }];
-      this.task = ''; //<2>
+      this.task = ''; <2>
     }
   }
 
   shortcutListener(e) {
-    if (e.key === 'Enter') { //<3>
+    if (e.key === 'Enter') { <3>
       this.addTodo();
     }
   }
 
   updateTask(e) {
-    this.task = e.target.value; //<4>
+    this.task = e.target.value; <4>
   }
 }
 ----
@@ -180,11 +180,11 @@ Under the input layout, add the following:
 ----
 <div class="todos-list">
   ${this.todos.map(
-      todo => html` //<1>
+      todo => html` <1>
         <div class="todo-item">
           <vaadin-checkbox
-            ?checked="${todo.complete}" //<2>
-            @change="${ e => this.updateTodoStatus(todo, e.target.checked)}"> //<3> 
+            ?checked="${todo.complete}" <2>
+            @change="${ e => this.updateTodoStatus(todo, e.target.checked)}"> <3> 
             ${todo.task}
           </vaadin-checkbox>
         </div>
@@ -264,15 +264,15 @@ class TodoView extends LitElement {
   addTodo() {...}
   updateTodoStatus(updatedTodo, complete) {...}
 
-  filterChanged(e) { //<1>
+  filterChanged(e) { <1>
     this.filter = e.target.value;
   }
 
-  clearCompleted() { //<2>
+  clearCompleted() { <2>
     this.todos = this.todos.filter(todo => !todo.complete);
   }
 
-  applyFilter(todos) { //<3>
+  applyFilter(todos) { <3>
     switch (this.filter) {
       case VisibilityFilters.SHOW_ACTIVE:
         return todos.filter(todo => !todo.complete);
@@ -348,9 +348,9 @@ createRenderRoot() {
 
 Run the app, and you should see the CSS styles applied. 
 
-image::styled.png[The complete, styled todo view]
+image::styled.png["The complete, styled todo view"]
 
-https://github.com/learn-vaadin/lit-element-tutorial-02-templating-properties-and-events[Browse the finished code on GitHub, role="cta"]
+https://github.com/learn-vaadin/lit-element-tutorial-templating-properties-and-events[Browse the finished code on GitHub, role="cta"]
 
 == Next
 In the next part of the tutorial, we extract the state from the view component into a central Redux store. 

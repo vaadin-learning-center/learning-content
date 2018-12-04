@@ -1,0 +1,12 @@
+= Tutorial title
+
+:tags: vaadin, java, flow 
+:author: Marcus Hellberg
+:publish_date: 2020-01-01 //optional, won't be shown before this
+:description: Learn how to include and use Web Components in your project
+:repo: https://github.com/vaadin-learning-center/how-to-use-web-components
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+Use this template as a starting point and check out the readme for folder structure. 
+

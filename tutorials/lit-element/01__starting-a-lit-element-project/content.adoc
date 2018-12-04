@@ -6,7 +6,7 @@
 :topic: frontend
 :tags: LitElement, templating
 :description: Learn how to set up a new project with LitElement
-:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-01-starting-a-lit-element-project
+:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-starting-a-lit-element-project
 :linkattrs:
 :imagesdir: ./images
 
@@ -20,7 +20,7 @@ In this series of tutorials, you learn how to build an application using Web Com
 . PWA and offline
 
 .The app we are building
-image::todo-app.gif[Todo tutorial app using LitElement, lit-html, and redux.]
+image::todo-app.gif["Todo tutorial app using LitElement, lit-html, and redux."]
 
 == Video tutorial for this part
 video::UcCsGZDCw-Q[youtube]
@@ -29,21 +29,23 @@ video::UcCsGZDCw-Q[youtube]
 We are using https://webpack.js.org/[Webpack^] to serve the application during development and for building the application for production. This tutorial does not cover Webpack configuration. Instead, we start with a pre-configured project skeleton. 
 
 
-https://github.com/vaadin-learning-center/lit-element-tutorial-00-starter/archive/master.zip[Download LitElement starter, role="cta"]
+https://github.com/vaadin-learning-center/lit-element-tutorial-starter/archive/master.zip[Download project starter, role="cta"]
 
 Once you have downloaded the starter, unzip it and run:
 
 [source,terminal]
 $ npm install
 
-Then start the development server and navigate to http://localhost:8080.
-
 [source,terminal]
 $ npm run dev
 
-image::starter-app.png[Empty starter app running on localhost]
+Then start the development server and navigate to http://localhost:8080.
+
 
 If everything went well, you should see the empty application. You are now ready to get started!
+
+image::starter-app.png[Empty starter app running on localhost]
+
 
 == Creating the first component
 
@@ -57,11 +59,11 @@ Create a new folder `*views*` in the `*src*` folder, and create a file `*todo-vi
 .`*views/todo-view.js*`
 [source,javascript]
 ----
-import { LitElement, html } from '@polymer/lit-element'; //<1>
+import { LitElement, html } from '@polymer/lit-element'; <1>
 
-class TodoView extends LitElement { //<2>
+class TodoView extends LitElement { <2>
   render() {
-    return html` //<3>
+    return html` <3>
       <p>todo-view</p>
     `;
   }
@@ -103,7 +105,7 @@ If you still have the development server (`npm run dev`) running, you should see
 
 image::first-component.png[LitElement running in the application]
 
-https://github.com/learn-vaadin/lit-element-tutorial-01-starting-a-lit-element-project[Browse the finished code on GitHub, role="cta"]
+https://github.com/learn-vaadin/lit-element-tutorial-starting-a-lit-element-project[Browse the finished code on GitHub, role="cta"]
 
 == Next
 
