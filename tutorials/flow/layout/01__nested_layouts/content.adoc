@@ -3,7 +3,7 @@
 :title: Nested Layouts in Flow
 :authors: sven ruppert
 :type: text, video
-:tags: layout, flow, nested-layout
+:tags: layout, vaadin-flow, nested-layout
 :description: How to use Layouts in Flow
 :repo: https://github.com/vaadin-learning-center/flow-layout-nested-layouts
 :linkattrs:
