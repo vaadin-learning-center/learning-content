@@ -203,3 +203,5 @@ If you run the application now with `npm run serve`, you should have a working a
 
 == Conclusion
 Once you have installed polyfills for older browsers, you can use Web Components interchangeably with Vue components. For the most part, you would use Web Components as leaf node components, and Vue for views and other composite components. 
+
+You can read more about web component framework compatibility on https://custom-elements-everywhere.com/[custom-elements-everywhere.com^].
