@@ -6,19 +6,6 @@ Also see `TEMPLATE.adoc` for a content template
 
 ## Definitions
 
-### Topics
-
-A topic sums up several articles. You might think of it as the book that has chapters and sections. Or as a category of tutorial series.
-
-Meta data source: topic.properties
-
-| Property | Definition                      | Source                                                                                  |
-| -------- | ------------------------------- | --------------------------------------------------------------------------------------- |
-| id       |                                 | folder name                                                                             |
-| path     | URL to the topic                | parent path + id                                                                        |
-| meta     | additional but custom meta data | everything that is part of the front matter or defined in property files or in asciidoc |
-| articles |                                 | all resolveable                                                                         |
-
 ### Article
 
 An article encapsulates a set of sections and provides general meta data like the author and an introduction or teaser. If an article only has one section it is called a flat or simple article.
@@ -60,9 +47,23 @@ Meta data source: content.adoc
 | tags         |                                 |                                                                                         | meta data                                                                                                                    |
 | meta         | additional but custom meta data | everything that is part of the front matter or defined in property files or in asciidoc |
 
+### Topics
+
+A topic is a special form of a tag with additional meta data. Articles must have one or more of the defined topics.
+
+Meta data source: topics.json
+
+| Property | Definition                      | Source                                                                                  |
+| -------- | ------------------------------- | --------------------------------------------------------------------------------------- |
+| id       |                                 | meta data                                                                             |
+| title     | URL to the topic                | meta data      
+| icon     | vc-product icon                | meta data      |
+| meta     | additional but custom meta data | everything that is part of the front matter or defined in property files or in asciidoc |
+| description |                                 | meta data                                                                         |
+
 ## URL mapping
 
-The default is to map the filesystem path directly to the URLs. That means articles available via `content-base/<topic-id>/<article-id>` in the file system are available via vaadin.com/content-base/<topic-id>/<article-id>.
+The default is to map the filesystem path directly to the URLs. That means articles available via `content-base/<article-id>` in the file system are available via vaadin.com/content-base/<article-id>.
 
 ## Content format
 
@@ -81,8 +82,6 @@ _All content should be authored in AsciiDoc_. AsciiDoc provides its own way to d
 This overview tries to sum up possible folder structures with flat/full articles.
 
 ```
-└── <topic>
-    ├── topic.properties (mandatory)
     ├── <article>
     │   ├── article.properties (mandatory)
     │   ├── teaser.adoc (optional)
@@ -101,11 +100,11 @@ This overview tries to sum up possible folder structures with flat/full articles
     │   └── content.adoc (mandatory)
 ```
 
-Might be outdated, check https://gitlab.vaadin.com/vaadincom/webpage/blob/development/webpage-persistence/src/main/java/com/vaadin/backend/service/article/TopicService.java#L23
+Might be outdated, check https://gitlab.vaadin.com/vaadincom/webpage/blob/development/webpage-persistence/src/main/java/com/vaadin/backend/service/article/CategoryService.java#L23
 
 ## Sub Pages
 
-/tutorials maps topics, tutorial series and tutorials to topics, articles, and article sections.
+/tutorials maps tutorial series and tutorials to articles, and article sections.
 
 ## FAQ
 
