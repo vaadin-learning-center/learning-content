@@ -4,12 +4,16 @@
 :type: text, video
 :tags: webcomponents, javascript, webpack
 :description: Learn how to include and use Web Components in your project
+:og_image: webcomponents.png
 :repo: https://github.com/vaadin-learning-center/using-web-components
 :linkattrs:
 :imagesdir: ./images
 
 
+[.introText]
 This tutorial teaches you how to use and interact with web components. We'll build a small UI that adds people to a data grid. 
+
+image::webcomponents.png[alt=,width=1200,height=571,role=imgExpand]
 
 image::completed-app.png[The completed app: A form with two text fields for name and an add button for adding people to a data grid.]
 
