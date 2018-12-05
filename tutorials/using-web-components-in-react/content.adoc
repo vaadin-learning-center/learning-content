@@ -25,7 +25,7 @@ You'll need to have Node 8.10.0 or later installed on your machine. Create a new
 ----
 $ npx create-react-app webcomponents
 $ cd webcomponents/
-$ yarn start
+$ npm start
 ----
 
 This creates the application and launches it. The start script opens up a browser automatically, pointing at http://localhost:3000/ where your app is now running.
@@ -34,7 +34,7 @@ This creates the application and launches it. The start script opens up a browse
 
 // TODO: Should we have video like video::0uJDkarItPc[youtube]
 
- To start using Web Components in React, we need to have a polyfill installed for Web Component support in all browsers. We use the `webcomponentsjs` polyfill. We also make use of `vendor-copy` to make the polyfill available on runtime. Let's start by installing them.
+To start using Web Components in React, we need to have a polyfill installed for Web Component support in all browsers. We use the `webcomponentsjs` polyfill. We also make use of `vendor-copy` to make the polyfill available on runtime. Let's start by installing them.
 
 [source,terminal]
 $ npm install --save @webcomponents/webcomponentsjs vendor-copy
@@ -70,7 +70,6 @@ Next, at the end of the same file, give instructions to `vendor-copy` on what it
   }
 ]
 ----
-<1> Add this row. Remember the comma on the previous row.
 
 Now when you run `npm install` within the root of the project, it will also trigger the postinstall and copy the polyfill. 
 
@@ -115,18 +114,16 @@ You can now use the Web Components like any other HTML tag. Replace the contents
 render() {
   return (
     <div className="App">
-      <div className="form">
-        <vaadin-text-field label="First Name" ref="firstName"> </vaadin-text-field>
-        <vaadin-text-field label="Last Name" ref="lastName"> </vaadin-text-field>
-        <vaadin-button ref="addButton"> Add </vaadin-button>
+        <div className="form">
+          <vaadin-text-field label="First Name" ref="firstName" />
+          <vaadin-text-field label="Last Name" ref="lastName" />
+          <vaadin-button ref="addButton"> Add </vaadin-button>
+        </div>
+        <vaadin-grid ref="grid">
+          <vaadin-grid-column path="firstName" header="First name" /> <1>
+          <vaadin-grid-column path="lastName" header="Last name" />
+        </vaadin-grid>
       </div>
-      <vaadin-grid ref="grid">
-        <vaadin-grid-column path="firstName" header="First name">
-        </vaadin-grid-column>
-        <vaadin-grid-column path="lastName" header="Last name">
-        </vaadin-grid-column>
-      </vaadin-grid>
-    </div>
   );
 }
 ----
@@ -164,6 +161,19 @@ componentDidMount() {
 <3> Create a new array with all previous people and a newly created person. The name values can be retrieved from the `value` property on the components.
 <4> Set the new `people` array as the items property on the grid to display the updated data. 
 <5> Clear the input fields. 
+
+Finally, update the styles in `App.css` to the following:
+
+.`*src/App.css*`
+[source,css]
+----
+.App {
+  padding: 4px;
+}
+.App .form * {
+  margin-right: 4px;
+}
+----
 
 *Run the application, and you should now be able to add new entries to the grid.*
 
