@@ -18,7 +18,8 @@ If you already have an existing project that handles ES modules, feel free to sk
 
 == Step 0: Creating a project with Create React App
 
-// TODO: Should we have a video like video::KXjA52xat7Y[youtube]
+video::2B4rTQYJHL8[youtube]
+
 You'll need to have Node 8.10.0 or later installed on your machine. Create a new project by running:
 
 [source,terminal]
