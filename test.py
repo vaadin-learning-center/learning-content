@@ -1,3 +1,7 @@
+# Linter for folder structure and properties
+# Usage: python3 test.py
+#
+
 from glob import glob
 import json
 import ntpath
@@ -9,10 +13,8 @@ TUTORIALS_ROOT="tutorials"
 MANDATORY_ARTICLE_PROPERTIES = ["title", "author", "topics"]
 MANDATORY_SECTION_PROPERTIES = ["title", "author"]
 
-with open('tutorials/allowed_topics.lst') as allowedTopicsFile:
-  ALLOWED_TOPICS = [line.rstrip('\n') for line in allowedTopicsFile]
-with open('tutorials/allowed_tags.lst') as allowedTopicsFile:
-  ALLOWED_TAGS = [line.rstrip('\n') for line in allowedTopicsFile]
+with open('tutorials/allowed_tags.lst') as allowedTagsFile:
+  ALLOWED_TAGS = [line.rstrip('\n') for line in allowedTagsFile]
 
 # global error log to be returned as CI results
 errors = []
