@@ -15,7 +15,7 @@ This tutorial teaches you how to use and interact with web components. We'll bui
 
 image::webcomponents.png[alt=,width=1200,height=571,role=imgExpand]
 
-image::completed-app.png[The completed app: A form with two text fields for name and an add button for adding people to a data grid.]
+image::completed-app-yellow.png[alt=The completed app: A form with two text fields for name and an add button for adding people to a data grid.,width=1200,height=571,role=imgExpand]
 
 Most Web Components, like the link:/components/browse[Vaadin component set], are distributed as ES modules. To use them efficiently, you need to have a build tool like https://webpack.js.org/[Webpack^], https://parceljs.org/[Parcel^], or https://rollupjs.org/[Rollup]. 
 
