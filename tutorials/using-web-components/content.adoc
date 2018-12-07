@@ -27,7 +27,7 @@ video::KXjA52xat7Y[youtube]
 
 Start by creating a new folder and initializing NPM in it. 
 
-[source,terminal]
+[source]
 ----
 $ mkdir webcomponents
 $ cd webcomponents
@@ -37,7 +37,7 @@ $ npm init -y <1>
 
 Then, install Webpack and plugins: 
 
-[source,terminal]
+[source]
 $ npm install --save-dev webpack webpack-dev-server webpack-cli html-webpack-plugin
 
 === Project structure
@@ -65,7 +65,7 @@ Leave `index.js` empty for now. Add the following to `index.html`:
 In the root of the project, create a webpack configuration file `webpack.config.js`:
 
 .`*webpack.config.js*`
-[source,html]
+[source,javascript]
 ----
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -113,7 +113,7 @@ video::88Sa-SlHRxk[youtube]
 
 The first step in using web components is installing them. In this case, we install `vaadin-text-field`, `vaadin-button`, and `vaadin-grid` from the link:/components/browse[Vaadin component set]. In addition to the components, we install `webcomponentsjs`, which is a polyfill for adding support to older browsers.
 
-[source,terminal]
+[source]
 $ npm install --save @vaadin/vaadin-text-field @vaadin/vaadin-button @vaadin/vaadin-grid
 
 Once the install finishes, import the components in `index.js` to make them available to your browser.
@@ -132,7 +132,7 @@ Although most modern browsers ship with built-in support for Web Components, the
 
 The https://github.com/webcomponents/webcomponentsjs[webcomponents.js^] polyfill comes with a loader script that can be used to load only the polyfills a particular browser needs. It loads the polyfills dynamically, so it cannot be imported directly as a JS dependency that gets built by Webpack, rather you need to copy over the dependencies and include the loader in your index file. The library also includes a ES5 compatibility script in case you transpile your app into ES5.
 
-[source,terminal]
+[source]
 $ npm install --save-dev copy-webpack-plugin @webcomponents/webcomponentsjs
 
 === Copy polyfills
