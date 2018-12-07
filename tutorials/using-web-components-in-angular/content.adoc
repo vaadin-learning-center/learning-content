@@ -2,7 +2,7 @@
 
 :type: text, video
 :topic: frontend
-:tags: webcomponents, angular, javascript, video
+:tags: Web Components, Angular, JavaScript
 :description: Learn how to include and use Web Components in Angular
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-angular
 :linkattrs:

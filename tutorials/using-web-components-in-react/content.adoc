@@ -1,7 +1,7 @@
 = How to use Web Components in React
 
 :type: text, video
-:tags: webcomponents, react, javascript
+:tags: Web Components, React, JavaScript
 :description: Learn how to include and use Web Components in your React project
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-react
 :linkattrs:

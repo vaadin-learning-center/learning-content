@@ -2,7 +2,7 @@
 
 :type: text, video
 :topic: frontend
-:tags: webcomponents, vue, javascript, video
+:tags: Web Components, Vue, Javascript
 :description: Learn how to include and use Web Components in Vue
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-vue
 :linkattrs:

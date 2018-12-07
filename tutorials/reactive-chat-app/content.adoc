@@ -1,6 +1,6 @@
 = Reactive Chat App with Spring Boot, Project Reactor, and Vaadin
 
-:tags: vaadin, java, flow, spring, spring boot, reactive
+:tags: Vaadin, Java, Flow, Spring, Spring Boot, Reactive
 :author: Marcus Hellberg
 :topic: ui-development
 :description: Learn how to build a reactive chat application with Spring Boot, Project Reactor, and Vaadin

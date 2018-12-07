@@ -2,7 +2,7 @@
 
 :title: How to use Web Components
 :type: text, video
-:tags: webcomponents, javascript, webpack
+:tags: Web Components, JavaScript, Webpack
 :description: Learn how to include and use Web Components in your project
 :og_image: webcomponents.png
 :repo: https://github.com/vaadin-learning-center/using-web-components
