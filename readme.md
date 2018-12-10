@@ -45,8 +45,8 @@ Meta data source: content.adoc
 | publish_date |                                 | when to publish the article                                                             | if specified the article will not be visible before the given date                                                           |
 | content      | x                               |                                                                                         | content.adoc                                                                                                                 |
 | tags         |                                 |                                                                                         | meta data                                                                                                                    |
-| related_tutorials | | Comma-separated list of series-id/tutorial-id or series-id | meta data |
-| recommended_tutorials | | Comma-separated list of series-id/tutorial-id or series-id |  meta data |
+| related_tutorials | | Comma-separated list of series ids (in practice any of the directory names directly under "tutorials"). Atm only first one will be displayed as a link under the tutorial content. A future design might show more than one. | meta data |
+| recommended_tutorials | | Comma-separated list of series ids (in practice any of the directory names directly under "tutorials"). Atm only first one will be displayed as a link under the tutorial content. A future design might show more than one. | meta data |
 | meta         | additional but custom meta data | everything that is part of the front matter or defined in property files or in asciidoc |
 
 
