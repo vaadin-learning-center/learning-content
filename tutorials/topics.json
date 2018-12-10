@@ -42,6 +42,12 @@
 		"icon":"vc-product-icons:flow"
 	},
 	{
+		"id":"migration",
+		"title":"Migration",
+		"description":"Any migration only related tutorials",
+		"icon":"vc-product-icons:flow"
+	},
+	{
 		"id":"howtos",
 		"title":"Howtos",
 		"description":"Any backend only related tutorials",
