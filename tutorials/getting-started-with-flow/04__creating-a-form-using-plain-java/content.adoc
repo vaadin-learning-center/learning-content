@@ -1,5 +1,5 @@
 [[flow.tutorial.form]]
-== Creating a form using plain Java
+= Creating a form using plain Java
 
 :title: Part 4 - Creating a form using plain 
 :sectnums:
@@ -9,7 +9,7 @@ In this section, we first of all explain how to create a form and show the grids
 how to Add, Update, and Delete the customer data of the form.
 
 [[flow.tutorial.form.showselectedrow]]
-=== Create a form and show the grids selected row in it
+== Create a form and show the grids selected row in it
 // The following video shows how to create a form using plain Java:
 
 // video::Alejandro[youtube, width="640", height="400"]
@@ -156,7 +156,7 @@ public class CustomerForm extends FormLayout {
 Run your project again, and you should see your form next to the grid that lists your existing entities. The form is now connected to the Grid and when you select a row, the data is copied into the fields.
 
 [[flow.tutorial.form.deleteupdate]]
-=== How to Delete and Update the data
+== How to Delete and Update the data
 
 In this part we want to edit, add and remove Customer objects. 
 Let’s start by adding the following action buttons as Java fields to [classname]#CustomerForm#:
@@ -306,7 +306,7 @@ public class CustomerForm extends FormLayout {
 ----
 
 [[flow.tutorial.form.add]]
-=== How to Add the data
+== How to Add the data
 
 To allow users to also create new customer records, we’ll create a simple "Add customer button" to the top of the UI, right next to the `filtering` composition we have already built in a previous step. Introduce a new [classname]#Button# with a click listener, by adding the following lines to the constructor, right after where you introduced the `filtering` composition:
 
