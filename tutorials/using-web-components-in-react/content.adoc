@@ -22,7 +22,7 @@ video::2B4rTQYJHL8[youtube]
 
 You'll need to have Node 8.10.0 or later installed on your machine. Create a new project by running:
 
-[source,terminal]
+[source]
 ----
 $ npx create-react-app webcomponents
 $ cd webcomponents/
@@ -37,7 +37,7 @@ This creates the application and launches it. The start script opens up a browse
 
 To start using Web Components in React, we need to have a polyfill installed for Web Component support in all browsers. We use the `webcomponentsjs` polyfill. We also make use of `vendor-copy` to make the polyfill available on runtime. Let's start by installing them.
 
-[source,terminal]
+[source]
 $ npm install --save @webcomponents/webcomponentsjs vendor-copy
 
 Open `package.json` to enable `vendor-copy`. To the `scripts` block, add a `postinstall` which runs `vendor-copy` after every time `npm install` is invoked.
@@ -92,7 +92,7 @@ Now we have the support for the web components in place. Let's continue by insta
 
 We will start off by installing the components. In this case, we install `vaadin-text-field`, `vaadin-button`, and `vaadin-grid` from the link:/components[Vaadin component set]. 
 
-[source,terminal]
+[source]
 $ npm install --save @vaadin/vaadin-text-field @vaadin/vaadin-button @vaadin/vaadin-grid
 
 Once the install finishes, import the components in `App.js` to make them available to your browser.

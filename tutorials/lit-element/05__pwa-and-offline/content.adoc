@@ -130,7 +130,7 @@ async function registerSW() {
 
 Start the app with the ServiceWorker enabled, and you should see the loaded ServiceWorker in the "Application" tab of DevTools. You should also be able to go offline and refresh the page and verify that the app still loads.
 
-[source, terminal]
+[source]
 $ npm run dev:sw
 
 .Going offline

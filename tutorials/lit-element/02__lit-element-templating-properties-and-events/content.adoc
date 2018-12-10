@@ -62,7 +62,7 @@ class TodoView extends LitElement {
 == Installing UI components
 We are going to use a text field, button and a few other UI components from the https://vaadin.com/components/browse[open source Vaadin component set] to build the view. Begin by installing them through `npm` and importing them in the todo view JavaScript file.
 
-[source,terminal]
+[source]
 $ npm install --save @vaadin/vaadin-text-field @vaadin/vaadin-button @vaadin/vaadin-checkbox @vaadin/vaadin-radio-button
 
 

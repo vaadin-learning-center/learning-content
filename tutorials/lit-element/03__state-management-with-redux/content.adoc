@@ -26,7 +26,7 @@ Redux uses an immutable data structure. Views should never update the state dire
 == Installing dependencies
 Install the following dependencies with npm:
 
-[source,terminal]
+[source]
 ----
 $ npm install --save redux reselect pwa-helpers nanoid
 ----

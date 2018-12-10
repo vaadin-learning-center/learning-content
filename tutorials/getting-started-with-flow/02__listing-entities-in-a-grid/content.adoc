@@ -33,7 +33,7 @@ Often when you start building a UI for a data-centric application, the first thi
 
 We start by introducing a [classname]#Grid# field in [classname]#MainView#. We could of course just introduce the grid as a local variable in the constructor, but we most likely want to refer to it later. Also, let us get a reference to our [classname]#CustomerService#.
 
-[source, java]
+[source,java]
 ----
 @Route("")
 public class MainView extends VerticalLayout {

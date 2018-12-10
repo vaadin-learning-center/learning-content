@@ -23,7 +23,7 @@ video::JajSgc7xelI[youtube]
 
 We use  https://vaadin.com/router[Vaadin Router^] for navigation and https://vaadin.com/charts[Vaadin Charts^] to display stats. 
 
-[source,terminal]
+[source]
 $ npm install --save @vaadin/router @vaadin/vaadin-charts
 
 NOTE: Vaadin Charts is a commercial charting library. You can try it free for 30 days by having a vaadin.com account. +
@@ -247,7 +247,7 @@ image::stats-view.gif[Navigating to the stats view]
 == Building for production
 Finally, we'll do a production build of the app and see that our code splitting works as intended.
 
-[source,terminal]
+[source]
 $ npm run prod
 
 .Webpack output

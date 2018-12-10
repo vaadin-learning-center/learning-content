@@ -33,10 +33,10 @@ https://github.com/vaadin-learning-center/lit-element-tutorial-starter/archive/m
 
 Once you have downloaded the starter, unzip it and run:
 
-[source,terminal]
+[source]
 $ npm install
 
-[source,terminal]
+[source]
 $ npm run dev
 
 Then start the development server and navigate to http://localhost:8080.
@@ -51,7 +51,7 @@ image::starter-app.png[Empty starter app running on localhost]
 
 Start by installing LitElement.
 
-[source,terminal]
+[source]
 $ npm install --save @polymer/lit-element
 
 Create a new folder `*views*` in the `*src*` folder, and create a file `*todo-view.js*` in it. We always name our files the same as their HTML tag names to make it easier to navigate the source. 

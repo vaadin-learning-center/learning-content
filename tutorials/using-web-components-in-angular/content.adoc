@@ -18,7 +18,7 @@ video::Wd2Ja2q7AAA[youtube]
 
 We are using the https://cli.angular.io/[Angular CLI^] to generate a new project. 
 
-[source, terminal]
+[source]
 ----
 $ ng new webcomponents
 $ cd webcomponents
@@ -28,7 +28,7 @@ $ cd webcomponents
 
 The first step in using web components is installing them. In this case, we install `vaadin-text-field`, `vaadin-button`, and `vaadin-grid` from the link:/components/browse[Vaadin component set]. 
 
-[source,terminal]
+[source]
 $ npm install --save @vaadin/vaadin-text-field @vaadin/vaadin-button @vaadin/vaadin-grid
 
 Web Components are most often distributed as JavaScript. Add the following option to the root `tsconfig.json`:
@@ -72,7 +72,7 @@ Although most modern browsers ship with built-in support for Web Components, the
 
 The https://github.com/webcomponents/webcomponentsjs[webcomponents.js^] polyfill comes with a loader script that can be used to load only the polyfills a particular browser needs. It loads the polyfills dynamically, so it cannot be imported directly as a JS dependency that gets built by Webpack. Instead, you need to copy over the dependencies and include the loader in your index file. The library also includes an ES5 compatibility script in case you transpile your app into ES5.
 
-[source,terminal]
+[source]
 $ npm install --save-dev @webcomponents/webcomponentsjs
 
 === Copy polyfills
@@ -107,7 +107,7 @@ Then, include the loader and an optional import for the ES5 compatibility script
 
 Verify that you can run the application with 
 
-[source,terminal]
+[source]
 $ ng serve
 
 == Building the application

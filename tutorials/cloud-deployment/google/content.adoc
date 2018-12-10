@@ -39,7 +39,7 @@ image::online-shell.png[Online Shell]
 
 You can treat the cloud shell as a remote shell, and we can start by cloning the source code repository and run it locally:
 
-[source,terminal]
+[source]
 ----
 $ git clone https://github.com/vaadin/beverage-starter-flow
 $ cd beverage-starter-flow/
