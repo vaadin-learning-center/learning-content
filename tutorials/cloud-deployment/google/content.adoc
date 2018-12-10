@@ -21,7 +21,7 @@ From the top menu, click on *Select a project* then *New Project*.
 
 image::new-project.png[New Project]
 
-In the following screen, give it a project name then click "Create".
+In the following screen, give it a project name then click *Create*.
 
 Once everything is ready, you will be greeted with a screen similar to this:
 
