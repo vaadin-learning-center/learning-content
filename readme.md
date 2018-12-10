@@ -25,6 +25,8 @@ Meta data source: article.properties or in the content.adoc for flat articles.
 | content      | x                               | the content of the first section of this article                                        | content.adoc or sections                                                                                                     |
 | sections     | x                               | the sections the article consists of                                                    | subfolders or content.adoc                                                                                                   |
 | tags         |                                 |                                                                                         | meta data                                                                                                                    |
+|og_image||relative path (relative to `article.properties`) to image that is set as `og:image` for the Article view (e.g for tutorial series view). Example values `images/social-media.png`, `01__first_part/images/main-image.png`.|meta data
+|card_image||relative path (relative to `article.properties`) to the preview image used in cards on e.g. Tutorials page. Not strictly mandatory, but should be always set, otherwise card doesn't look good without image. Example values `images/thumbnail.png`, `01__first_part/images/thumbnail.png`.|meta data
 | meta         | additional but custom meta data | everything that is part of the front matter or defined in property files or in asciidoc |
 
 ### Section
@@ -45,6 +47,7 @@ Meta data source: content.adoc
 | publish_date |                                 | when to publish the article                                                             | if specified the article will not be visible before the given date                                                           |
 | content      | x                               |                                                                                         | content.adoc                                                                                                                 |
 | tags         |                                 |                                                                                         | meta data                                                                                                                    |
+|og_image||relative path (relative to `imagesdir`) to image that is set as `og:image` for the Section view (e.g for tutorial details view). Example value `social-media.png`.|meta data
 | related_tutorials | | Comma-separated list of series ids (in practice any of the directory names directly under "tutorials"). Atm only first one will be displayed as a link under the tutorial content. A future design might show more than one. | meta data |
 | recommended_tutorials | | Comma-separated list of series ids (in practice any of the directory names directly under "tutorials"). Atm only first one will be displayed as a link under the tutorial content. A future design might show more than one. | meta data |
 | meta         | additional but custom meta data | everything that is part of the front matter or defined in property files or in asciidoc |
