@@ -4,6 +4,7 @@
 :tags: JavaScript
 :description: This guide describes how to create a simple app using Vaadin Router
 :linkattrs:
+:sectnums:
 :imagesdir: ./images
 
 
@@ -12,7 +13,7 @@ This guide describes how to create a simple app using Vaadin Router.
 
 We are not assuming any tools, so the app includes the compiled UMD bundle to run in any browser.
 
-== 1. Setup the Project
+== Setup the Project
 
 First let's create an `index.html` file, add some markup and include scripts.
 
@@ -52,7 +53,7 @@ const router = new Router(outlet);
 
 Now we loaded the Router and created the `router` instance. Next we will use it to configure the routes for the app.
 
-== 2. Basic Route Config
+== Basic Route Config
 
 Time to create a config for the first route. The route config maps path to a https://www.webcomponents.org/introduction[Web Component]. `Vaadin.Router` goes through the routes until it finds the first match, creates an instance of the route component, and inserts it into the router outlet (replacing any pre-existing outlet content).
 
@@ -86,7 +87,7 @@ That's it! Now, we can start a development server and open the page in the brows
 
 For other browsers, you will need to install the https://github.com/WebComponents/webcomponentsjs[polyfill] and add the script to the page. The polyfill uses feature detection and only loads the needed scripts to make the missing features work.
 
-== 3. Fallback Route
+== Fallback Route
 
 So far we only have one route defined. But what if we click `<a>` link heading to a different URL? In that case, the outlet content for previous view will be removed, but no new view rendered. Instead you will see an error in the console saying that page not found.
 
@@ -128,7 +129,7 @@ router.setRoutes([
 ]);
 ----
 
-== 4. Route Parameters
+== Route Parameters
 
 Let's add one more route to the app. This time we will update the router config to render the `<user-profile-view>` component for any URL that starts with `/user/`, and has a user id as a parameter (e.g. `/users/1`). To define route parameters, we use the https://github.com/pillarjs/path-to-regexp#parameters[express-like syntax]:
 
@@ -141,7 +142,7 @@ router.setRoutes([
 
 There is a named `id` parameter in the URL. When the router renders the component, it adds the values for all of the route params to the `params` property of the `location` object, so we can access them the same way, as we did for the `pathname` in the above example. This property is configured before component gets added to the DOM, so you can always be sure it is available by the time `connectedCallback` gets invoked.
 
-== 5. Unconditional Redirects
+== Unconditional Redirects
 
 Sometimes we need to unconditionally redirect the user, so that when a page changes its URL, the old URL would still work. Vaadin Router supports this via `redirect` property on the route object. The valid values are path string in the same format, as used for the path property:
 
@@ -154,7 +155,7 @@ router.setRoutes([
 
 The redirected URL is not stored as the `window.history` entry and cannot be reached by pressing "Back" browser button. Unconditional redirects work for routes both with and without parameters.
 
-== 6. Ambiguous Matches
+== Ambiguous Matches
 
 URL matching rules can be ambiguous, so that several routes would match the same URL. In that case, the order in which the rules are defined, from top to bottom, determines the matching route. The first matching route will be loaded.
 
