@@ -1,1 +1,1 @@
-Minimal steps needed to run a Vaadin applications on popular cloud vendors.
+Minimal steps needed to run Vaadin applications on popular cloud vendors.
