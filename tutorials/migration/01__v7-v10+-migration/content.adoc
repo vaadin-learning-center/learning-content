@@ -4,7 +4,7 @@
 :authors: sebastian
 :type: text
 :topic: frontend
-:tags: migration, flow
+:tags: migration, vaadin-flow
 :description: Step-by-step guide to migration your application from Vaadin 7 to Vaadin Plattform
 :repo: https://github.com/SebastianKuehnau/VaadinComparison
 :linkattrs:
