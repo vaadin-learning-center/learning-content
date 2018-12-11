@@ -1,7 +1,7 @@
 [[flow.tutorial.filtering]]
 = Creating live filtering for entities
 
-:title: Part 3 - Creating live filtering for 
+:title: Part 3 - Creating live filtering for entities
 :sectnums:
 :imagesdir: ./images
 

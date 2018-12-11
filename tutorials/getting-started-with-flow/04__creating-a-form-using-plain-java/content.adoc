@@ -1,7 +1,7 @@
 [[flow.tutorial.form]]
 = Creating a form using plain Java
 
-:title: Part 4 - Creating a form using plain 
+:title: Part 4 - Creating a form using plain Java
 :sectnums:
 :imagesdir: ./images
 
