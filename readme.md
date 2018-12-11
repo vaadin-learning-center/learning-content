@@ -19,12 +19,14 @@ Meta data source: article.properties or in the content.adoc for flat articles.
 | title        | x                               |                                                                                         | meta data                                                                                                                    |
 | url          | x                               | URL to the article                                                                      | resolved from the path if not specified as meta data (for external URLs)                                                     |
 | author       | x                               | Author name, fallback                                                                   | meta data                                                                                                                    |
-| author_id    |                                 | UUID, screen name or email address of the author                                        | If specified the user will be looked up in the DB and 'author' property will be overridden and author image URL will be set. |
+| author_id    |                                 | UUID, screen name or email address of the author                                        | If specified the user will be looked up in the DB and 'author' property will be overridden and author image URL will be set.
+
+You can find this UUID in the given source code in the browser of the vaadin.com team page. |
 | publish_date |                                 | when to publish the article                                                             | if specified the article will not be visible before the given date                                                           |
 | teaser       | x                               | a short paragraph that attracts the user to read the article                            | teaser.adoc                                                                                                                  |
 | content      | x                               | the content of the first section of this article                                        | content.adoc or sections                                                                                                     |
 | sections     | x                               | the sections the article consists of                                                    | subfolders or content.adoc                                                                                                   |
-| tags         |                                 |                                                                                         | meta data                                                                                                                    |
+| tags         |                                 |                                                                                         | meta data, valid tags can be found in the file allowed_tags.lst                                                                                                                    |
 |og_image||relative path (relative to `article.properties`) to image that is set as `og:image` for the Article view (e.g for tutorial series view). Example values `images/social-media.png`, `01__first_part/images/main-image.png`.|meta data
 |card_image||relative path (relative to `article.properties`) to the preview image used in cards on e.g. Tutorials page. Not strictly mandatory, but should be always set, otherwise card doesn't look good without image. Example values `images/thumbnail.png`, `01__first_part/images/thumbnail.png`.|meta data
 | meta         | additional but custom meta data | everything that is part of the front matter or defined in property files or in asciidoc |
@@ -43,7 +45,9 @@ Meta data source: content.adoc
 | title        | x                               |                                                                                         | meta data                                                                                                                    |
 | url          | x                               | URL to the article                                                                      | resolved from the path if not specified as meta data (for external URLs)                                                     |
 | author       | x                               | Author name, fallback                                                                   | meta data                                                                                                                    |
-| author_id    |                                 | UUID, screen name or email address of the author                                        | If specified the user will be looked up in the DB and 'author' property will be overridden and author image URL will be set. |
+| author_id    |                                 | UUID, screen name or email address of the author                                        | If specified the user will be looked up in the DB and 'author' property will be overridden and author image URL will be set.
+
+You can find this UUID in the given source code in the browser of the vaadin.com team page. |
 | publish_date |                                 | when to publish the article                                                             | if specified the article will not be visible before the given date                                                           |
 | content      | x                               |                                                                                         | content.adoc                                                                                                                 |
 | tags         |                                 |                                                                                         | meta data                                                                                                                    |
@@ -116,7 +120,7 @@ Might be outdated, check https://gitlab.vaadin.com/vaadincom/webpage/blob/develo
 
 **1. What is the author id? Where should we add it, the article itself or the article.properties file?**
 
-The author ID (UUID, LR screen name or email address of the author) is used to resolve the author in the DB to get the real name and portrait. Everything defined in the article.properties file is the default for the whole article but can always be overwritten by section properties.
+The author ID (UUID, LR screen name or email address of the author) is used to resolve the author in the DB to get the real name and portrait. Everything defined in the article.properties file is the default for the whole article but can always be overwritten by section properties. As an UUID please take the existing ID from the source of the vaadin.com team page.
 
 **2. Where is the teaser shown? How long should it be?**
 
@@ -128,8 +132,18 @@ The URLs will not break as the order is not part of it. Putting it into the cont
 
 **4. What are the required attributes? Which ones are supported?**
 
+Necessary attributes are in content.adoc (title, authors, type, topic, tags, description) and in article.properties (title, author,
+author_id, topics). Valid values for the "topic[s]" attribute can be found in topics.json and for the "tags" attribute in allowed_tags.lst. How to get the UUI is described in FAQ #1.  
+
 Check definitions of articles and sections above.
 
 **5. What should the folder structure be for single articles?**
 
 Check the folder example above.
+
+**6. Checklist for publishing an article?
+
+1. create files and folders like in the above described structure
+2. set the right meta data configuration in the header of the content.adoc as well as in the article.properties. Valid values can be found in allowed_tags.lst and topics.json. Please check FAQ #4.
+3. check consistency with test.py file. Therefor install python3 on your machine and let it run to make sure your article is consistent with the system
+4. create a Pull Request to this repository.  
