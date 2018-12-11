@@ -1,6 +1,8 @@
 [[flow.tutorial.grid]]
 = Listing entities in a Grid
+
 :title: Part 2 - Listing entities in a Grid
+:author: Vaadin
 :sectnums:
 :imagesdir: ./images
 

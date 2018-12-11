@@ -2,6 +2,7 @@
 = Creating a form using plain Java
 
 :title: Part 4 - Creating a form using plain Java
+:author: Vaadin
 :sectnums:
 :imagesdir: ./images
 

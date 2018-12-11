@@ -2,6 +2,7 @@
 = Creating live filtering for entities
 
 :title: Part 3 - Creating live filtering for entities
+:author: Vaadin
 :sectnums:
 :imagesdir: ./images
 
