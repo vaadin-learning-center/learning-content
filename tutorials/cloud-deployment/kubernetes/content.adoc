@@ -1,9 +1,9 @@
 = Deploy to Kubernetes
 
+:hidden:
 :title: Deploy to Kubernetes
 :authors: amahdy
 :type: text
-:publish_date: 2020-01-01
 :tags: backend, cloud, deploy, kubernetes
 :description: Learn how to deploy Vaadin app to Kubernetes
 :repo:
