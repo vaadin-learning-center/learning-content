@@ -101,8 +101,11 @@ def load_asciidoc_attributes(adocFile):
 		m = re.search("^:(.*):(.*)$", attr)
 		if m:
 			result[m.group(1).strip()] = m.group(2).strip();
-	if result["authors"]:
-		result["author"] = result["authors"]
+	try:
+		if result["authors"]:
+			result["author"] = result["authors"]
+	except KeyError:
+		pass
 
 	return result
 
