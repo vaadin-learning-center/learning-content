@@ -4,12 +4,12 @@
 :authors: amahdy
 :type: text
 :tags: backend, cloud, deploy, flow
-:description: Learn how to deploy Vaadin app to Google cloud
+:description: Learn how to deploy Java app to Google cloud
 :repo:
 :linkattrs:
 :imagesdir: ./images
 
-The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Google Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Google cloud as a potential host platform for your Vaadin applications.
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Google Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Google cloud as a potential host platform for your applications.
 
 To get started, open https://console.cloud.google.com/[Google Cloud console], and log in using a Google account, then set up account information, you will be greeted by a screen similar to this:
 
