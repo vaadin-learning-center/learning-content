@@ -1,0 +1,1 @@
+Learn how to develop a full-blown business application using Spring Boot and Vaadin. After completing this tutorial, you'll have a multi-module enterprise application that connects to an SQL database and includes authorization and authentication mechanisms. You'll also learn how to deploy this application to production environments.
