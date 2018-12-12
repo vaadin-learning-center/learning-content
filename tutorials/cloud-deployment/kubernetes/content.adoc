@@ -43,7 +43,7 @@ image::creating-cluster.png[Creating Cluster]
 
 When the application is fully deployed, we can do further actions such as rolling updates, scale it, or enable autoscale. We can also expose it externally to be able to preview it remotely. To do that, go to the *Actions* menu and select *Expose*.
 
-image::load-balancing.png[Load Balancing]
+image::load-balancer.png[Load Balancer]
 
 You can keep the default port mapping with port 80, click *Done*, and under *Service type* select *Load balancer* to create a new load balancer and expose the application externally.
 
