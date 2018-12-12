@@ -16,7 +16,7 @@ Kotlin managed to show a https://trends.google.com/trends/explore?date=today%205
 
 This tutorial is not going to be yet another Kotlin 101, it's not exclusive for Android developers, and it's not an opinionated post comparing, e.g. Kotlin and Java. It is merely describing my experience converting an app to Kotlin, and here are the main highlighted topics:
 
-1. link://#by-book[Migration by the book]
+1. link:///#by-book[Migration by the book]
 2. link://#by-practice[Migration in practice]
 3. link://#kotlin-vaadin[Kotlin for Vaadin developers]
 4. link://#kotlin-testing[Testing the front-end]
