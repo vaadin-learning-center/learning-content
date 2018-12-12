@@ -4,12 +4,12 @@
 :authors: amahdy
 :type: text
 :tags: backend, cloud, deploy
-:description: Learn how to deploy Vaadin app to Azure cloud
+:description: Learn how to deploy Java app to Azure cloud
 :repo:
 :linkattrs:
 :imagesdir: ./images
 
-The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Azure Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Azure cloud as a potential host platform for your Vaadin applications.
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Azure Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Azure cloud as a potential host platform for your applications.
 
 To get started, https://signup.azure.com[sign up] for a free Microsoft Azure account then open https://portal.azure.com[the portal].
 
@@ -23,11 +23,11 @@ Fill the new application details and make sure to select *Tomcat 9.0 (JRE 8)* as
 
 image::app-details.png[App Details]
 
-When the new application is ready, open the new resource to start deploying our Vaadin application in it.
+When the new application is ready, open the new resource to start deploying the application in it.
 
 There is a direct way, using FTP access, but in this tutorial we will be using a little bit more elegant way, which is connecting with a Git repository.
 
-First of all, we need to create a new "build" repository for our Vaadin project, that has a simple structre as following: `<respositroy-name>/webapps/project-file.war`. Here is https://github.com/amahdy/vaadin-demo-deployed[an example git repo] with the needed structure.
+First of all, we need to create a new "build" repository for our project, that has a simple structre as following: `<respositroy-name>/webapps/project-file.war`. Here is https://github.com/amahdy/vaadin-demo-deployed[an example git repo] with the needed structure.
 
 We can use a local git repository that Azure will configure automatically for us, to do that, select *Deployment Center* from the left menu, then select *Local Git*.
 

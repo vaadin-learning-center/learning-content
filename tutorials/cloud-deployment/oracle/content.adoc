@@ -4,12 +4,12 @@
 :authors: amahdy
 :type: text, image
 :tags: backend, cloud, deploy, flow
-:description: Learn how to deploy Vaadin app to Oracle cloud
+:description: Learn how to deploy Java app to Oracle cloud
 :repo:
 :linkattrs:
 :imagesdir: ./images
 
-The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Oracle Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Oracle cloud as a potential host platform for your Vaadin applications.
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Oracle Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Oracle cloud as a potential host platform for your applications.
 
 To get started, sign up for an https://cloud.oracle.com/home[Oracle cloud] account. You will also need to create at least a simple database instance to save scheme related data, before this tutorial I've https://www.oracle.com/webfolder/technetwork/tutorials/obe/cloud/dbaas/obe_dbaas_QS/oracle_database_cloud_service_dbaas_quick_start.html[created a basic] Oracle Database Cloud instance. Then steps go as following:
 
