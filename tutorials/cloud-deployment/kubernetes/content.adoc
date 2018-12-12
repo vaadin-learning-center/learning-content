@@ -4,12 +4,12 @@
 :authors: amahdy
 :type: text
 :tags: backend, cloud, deploy, kubernetes
-:description: Learn how to deploy Vaadin app to Kubernetes
+:description: Learn how to deploy Java app to Kubernetes
 :repo:
 :linkattrs:
 :imagesdir: ./images
 
-This tutorial teaches you how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Kubernetes. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your Vaadin applications.
+This tutorial teaches you how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Kubernetes. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your applications.
 
 Following the link:/tutorials/cloud-deployment/google/[previous tutorial] about deploying to Google cloud, in this tutorial we will see how to deploy it on Google Kubernetes Engine.
 
