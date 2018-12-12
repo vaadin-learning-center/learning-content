@@ -4,7 +4,7 @@
 :type: text, image
 :tags: kotlin, jvm, migrate, flow
 :description: Learn how to migrate Java enterprise applications to Kotlin
-:repo: https://github.com/vaadin/beverage-starter-flow
+:repo: https://github.com/mvysny/beverage-buddy-vok
 :linkattrs:
 :imagesdir: ./images
 
