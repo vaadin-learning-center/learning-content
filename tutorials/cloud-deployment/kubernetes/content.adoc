@@ -9,13 +9,13 @@
 :linkattrs:
 :imagesdir: ./images
 
-The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Kubernetes. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your Vaadin applications.
+This tutorial teaches you how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Kubernetes. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your Vaadin applications.
 
 Following the link:/tutorials/cloud-deployment/google/[previous tutorial] about deploying to Google cloud, in this tutorial we will see how to deploy it on Google Kubernetes Engine.
 
 First, enable the https://console.cloud.google.com/apis/api/containerregistry.googleapis.com[Container Registery] API on your project.
 
-From the Cloud Shell, use this command to packaging the application as a Docker container. We will use Jib to create the container image and push it to the Container Registery.
+From the Cloud Shell, use this command to packaging the application as a Docker container. We will use Jib to create the container image and push it to the Container Registry.
 
 [source]
 ----
@@ -33,7 +33,7 @@ Selecting *Deploy container* will create a simple cluster and deploy the applica
 
 image::deploy-container.png[Deploy Container]
 
-From *Container* section, click on *Select Google Container Registery image* and it should show the image that was pushed to the Container Registery.
+From *Container* section, click on *Select Google Container Registry image* and it should show the picture that was pushed to the Container Registry.
 
 image::select-image.png[Select Image]
 
@@ -49,6 +49,6 @@ You can keep the default port mapping with port 80, click *Done*, and under *Ser
 
 image::load-balancer.png[Load Balancer]
 
-Google Cloud Platform will give you a static IP that points to your application, you can use it to preview the application from anywhere outside the platform. It will take sometime though for the IP to propagate and becomes visible.
+Google Cloud Platform will give you a static IP that points to your application, you can use it to preview the app from anywhere outside the platform. It will take some time though for the IP to propagate and becomes visible.
 
 image::external-ip.png[External IP]
