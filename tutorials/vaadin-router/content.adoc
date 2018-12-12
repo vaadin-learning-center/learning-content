@@ -1,0 +1,170 @@
+= Creating a simple app using Vaadin Router
+
+:title: Creating a simple app using Vaadin Router
+:tags: JavaScript
+:description: This guide describes how to create a simple app using Vaadin Router
+:linkattrs:
+:sectnums:
+:imagesdir: ./images
+
+
+[.introText]
+This guide describes how to create a simple app using Vaadin Router.
+
+We are not assuming any tools, so the app includes the compiled UMD bundle to run in any browser.
+
+== Setup the Project
+
+First let's create an `index.html` file, add some markup and include scripts.
+
+.`*index.html*`
+[source,html]
+----
+<base href="/">
+
+<!-- Include the Vaadin.Router library.
+     Browsers automatically pick the best of the two options below. -->
+<script nomodule src="https://unpkg.com/@vaadin/router/dist/vaadin-router.umd.js"></script>
+<script type="module" src="https://unpkg.com/@vaadin/router"></script>
+
+<nav>
+  <!-- By default Vaadin.Router intercepts all anchor clicks and
+       uses them for in-app navigation -->
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+</nav>
+
+<main id="outlet">
+  <!-- Here Vaadin.Router inserts the current page content -->
+</main>
+
+<script src="app.js"></script>
+----
+
+.`*app.js*`
+[source,javascript]
+----
+const {Router} = window.Vaadin;
+
+// setup a Router instance
+const outlet = document.getElementById('outlet');
+const router = new Router(outlet);
+----
+
+Now we loaded the Router and created the `router` instance. Next we will use it to configure the routes for the app.
+
+== Basic Route Config
+
+Time to create a config for the first route. The route config maps path to a https://www.webcomponents.org/introduction[Web Component]. `Vaadin.Router` goes through the routes until it finds the first match, creates an instance of the route component, and inserts it into the router outlet (replacing any pre-existing outlet content).
+
+The router does not enforce you to use a specific format to define the components, you can write vanilla Custom Elements, or use any library helping to build them, e. g. Polymer, Angular, Vue, SkateJS, Aurelia etc.
+
+Let's create a vanilla Web Component for the home view. Note the dash in tag name, it is *required* by spec:
+
+[source,javascript]
+----
+// Extend an HTMLElement or another custom element
+class HomeView extends HTMLElement {
+	// This is called when our element is attached to the DOM
+	connectedCallback() {
+		this.innerHTML = `<h1>Welcome home!</h1>`;
+	}
+}
+// Tell the browser to associate the '<home-view>' tag with HomeView class
+customElements.define('home-view', HomeView);
+----
+
+And then, tell the router to render `<home-view>` component for the root URL using `setRoutes` method:
+
+[source,javascript]
+----
+router.setRoutes([
+  {path: '/', component: 'home-view'},
+]);
+----
+
+That's it! Now, we can start a development server and open the page in the browser. Note that Web Components work natively in latest Chrome and Safari.
+
+For other browsers, you will need to install the https://github.com/WebComponents/webcomponentsjs[polyfill] and add the script to the page. The polyfill uses feature detection and only loads the needed scripts to make the missing features work.
+
+== Fallback Route
+
+So far we only have one route defined. But what if we click `<a>` link heading to a different URL? In that case, the outlet content for previous view will be removed, but no new view rendered. Instead you will see an error in the console saying that page not found.
+
+Let's add the fallback route to make this scenario more user friendly. In order to do this, we need to add a route with `(.\*)` path at the *end* of the routes list, and to define another component to show.
+
+The component can look like this. Note we *must* start tag name with the letter, so `<404-view>` would not work:
+
+[source,javascript]
+----
+class NotFoundView extends HTMLElement {
+	// We are using `route` property, which is defined by the router
+	connectedCallback() {
+		this.innerHTML = `
+			<h1>Page not found</h1>
+			The pathname was: ${this.location.pathname}
+		`;
+	}
+}
+customElements.define('not-found-view', NotFoundView);
+----
+
+The updated config should now include two route objects:
+
+[source,javascript]
+----
+router.setRoutes([
+  {path: '/', component: 'home-view'},
+  {path: '(.*)', component: 'not-found-view'}
+]);
+----
+
+Note that you can also use `getRoutes` method and append the route like this:
+
+[source,javascript]
+----
+router.setRoutes([
+  ...router.getRoutes(),
+  {path: '(.*)', component: 'not-found-view'}
+]);
+----
+
+== Route Parameters
+
+Let's add one more route to the app. This time we will update the router config to render the `<user-profile-view>` component for any URL that starts with `/user/`, and has a user id as a parameter (e.g. `/users/1`). To define route parameters, we use the https://github.com/pillarjs/path-to-regexp#parameters[express-like syntax]:
+
+[source,javascript]
+----
+router.setRoutes([
+  {path: '/user/:id', component: 'user-profile-view'}
+]);
+----
+
+There is a named `id` parameter in the URL. When the router renders the component, it adds the values for all of the route params to the `params` property of the `location` object, so we can access them the same way, as we did for the `pathname` in the above example. This property is configured before component gets added to the DOM, so you can always be sure it is available by the time `connectedCallback` gets invoked.
+
+== Unconditional Redirects
+
+Sometimes we need to unconditionally redirect the user, so that when a page changes its URL, the old URL would still work. Vaadin Router supports this via `redirect` property on the route object. The valid values are path string in the same format, as used for the path property:
+
+[source,javascript]
+----
+router.setRoutes([
+  {path: '/team', redirect: '/company/team'}
+]);
+----
+
+The redirected URL is not stored as the `window.history` entry and cannot be reached by pressing "Back" browser button. Unconditional redirects work for routes both with and without parameters.
+
+== Ambiguous Matches
+
+URL matching rules can be ambiguous, so that several routes would match the same URL. In that case, the order in which the rules are defined, from top to bottom, determines the matching route. The first matching route will be loaded.
+
+Always place any exactly matching route objects at the *top* of the list, and the wildcard route, if any, should come after them. Otherwise, in the example below the `<x-user-profile>` component will be rendered for the `/users` URL:
+
+[source,javascript]
+----
+router.setRoutes([
+  {path: '/users', component: 'x-user-list'},
+  {path: '/:user', component: 'x-user-profile'}
+]);
+----
