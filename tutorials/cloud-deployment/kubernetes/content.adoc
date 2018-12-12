@@ -41,13 +41,13 @@ You can give the application a new name, and select the cluster zone then click 
 
 image::creating-cluster.png[Creating Cluster]
 
-When the application is fully deployed, we can do further actions such as rolling updates, scale it, or enable autoscale. We can also expose it externally to be able to preview it remotely. To do that, go to the *Actions* menu and select *Expose*.
+When the application is fully deployed, we can do further actions such as roll updates, scale it, or enable autoscale. We can also expose it externally to be able to preview it remotely. To do that, go to the *Actions* menu and select *Expose*.
 
-image::load-balancer.png[Load Balancer]
+image::expose-app.png[Expose App]
 
 You can keep the default port mapping with port 80, click *Done*, and under *Service type* select *Load balancer* to create a new load balancer and expose the application externally.
 
-image::expose-app.png[Expose App]
+image::load-balancer.png[Load Balancer]
 
 Google Cloud Platform will give you a static IP that points to your application, you can use it to preview the application from anywhere outside the platform. It will take sometime though for the IP to propagate and becomes visible.
 
