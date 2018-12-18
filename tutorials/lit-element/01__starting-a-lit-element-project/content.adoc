@@ -105,7 +105,7 @@ If you still have the development server (`npm run dev`) running, you should see
 
 image::first-component.png[LitElement running in the application]
 
-https://github.com/learn-vaadin/lit-element-tutorial-starting-a-lit-element-project[Browse the finished code on GitHub, role="cta"]
+https://github.com/vaadin-learning-center/lit-element-tutorial-starting-a-lit-element-project[Browse the finished code on GitHub, role="cta"]
 
 == Next
 
