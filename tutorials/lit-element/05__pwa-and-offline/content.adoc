@@ -16,7 +16,7 @@ In this final tutorial, we turn the application into an offline-capable Progress
 
 If you didn't do the previous steps of the tutorial, you can check out the code from the previous step as a starter:
 
-https://github.com/learn-vaadin/lit-element-tutorial-navigation-and-code-splitting[Source code for step 4, role="cta"]
+https://github.com/vaadin-learning-center/lit-element-tutorial-navigation-and-code-splitting[Source code for step 4, role="cta"]
 
 TIP: You can find out more about Progressive Web Apps on Vaadin's https://vaadin.com/pwa[PWA page^]. 
 
@@ -191,7 +191,7 @@ This five-part tutorial has walked you through building a PWA with LitElement an
 
 You can find the finished code in GitHub:
 
-https://github.com/learn-vaadin/lit-element-tutorial-pwa-and-offline[Source code for this tutorial, role="cta"]
+https://github.com/vaadin-learning-center/lit-element-tutorial-pwa-and-offline[Source code for this tutorial, role="cta"]
 
 == Further reading
 Here are some helpful resources for continued learning. 

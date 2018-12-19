@@ -336,10 +336,10 @@ messages.subscribe(message -> {
 });
 ----
 
-== Use web sockets for two way communication
-The final thing we need to take care of is sending messages out to all clients. By default, Vaadin uses XHR requests for communication. This means that by default all interactions are initiated by the browser. In our case, we want the server to be able to push out new messages to all connected clients. We can do this by using a web socket. 
+== Use websockets for two way communication
+The final thing we need to take care of is sending messages out to all clients. By default, Vaadin uses XHR requests for communication. This means that by default all interactions are initiated by the browser. In our case, we want the server to be able to push out new messages to all connected clients. We can do this by using a websocket to send and receive messages. 
 
-Add a `@Push` annotation on the `MainView` class to instruct Vaadin to use a web socket. 
+Add a `@Push` annotation on the `MainView` class to instruct Vaadin to use a websocket. 
 
 .`*MainView.java*`
 [source,java]

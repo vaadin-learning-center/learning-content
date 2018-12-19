@@ -4,7 +4,7 @@
 :type: text, image
 :tags: kotlin, jvm, migrate, flow
 :description: Learn how to migrate Java enterprise applications to Kotlin
-:repo: https://github.com/vaadin/beverage-starter-flow
+:repo: https://github.com/mvysny/beverage-buddy-vok
 :linkattrs:
 :imagesdir: ./images
 
@@ -16,12 +16,13 @@ Kotlin managed to show a https://trends.google.com/trends/explore?date=today%205
 
 This tutorial is not going to be yet another Kotlin 101, it's not exclusive for Android developers, and it's not an opinionated post comparing, e.g. Kotlin and Java. It is merely describing my experience converting an app to Kotlin, and here are the main highlighted topics:
 
-1. Migration by the book
-2. Migration in practice
-3. Kotlin for Vaadin developers
-4. Testing the front-end
-5. Final thoughts about Kotlin
+1. link:#by-book[Migration by the book]
+2. link:#by-practice[Migration in practice]
+3. link:#kotlin-vaadin[Kotlin for Vaadin developers]
+4. link:#kotlin-testing[Testing the front-end]
+5. link:#final-thoughts[Final thoughts about Kotlin]
 
+[[by-book]]
 == 1. Migration by the book
 
 image::migration-chart.png[Migration Chart]
@@ -30,6 +31,7 @@ This picture summarizes the common migration path that anyone should at least tr
 
 Finally, you get the promise that with a keyboard shortcut in IntelliJ, you can go through the Java files one by one and convert them. Unfortunately, the conversion tool is not 100% reliable. Sometimes it produces classes that won't compile. Luckily, the compiler errors are often easy to fix.
 
+[[by-practice]]
 == 2. Migration in practice
 
 Let's apply this in practice on https://vaadin.com/start/v10-simple-ui[an example project], after setting up the project to work as a Java web project:
@@ -107,16 +109,19 @@ While it's not mandatory, it definitely will help when you refactor your project
 
 With the rise and popularity of Kotlin, there is an increased chance to find more libraries migrated fully to Kotlin. It will be a lot better to use them whenever available. And when it comes to Vaadin, luckily we have a 100% community project that provides Vaadin on Kotlin. More about that in the next section.
 
+[[kotlin-vaadin]]
 == 3. Kotlin for Vaadin developers
 
 Kotlin from day one was built to have first-class interoperability with Java and other JVM languages. If your front-end is written entirely separately from the backend, there is a big chance that you can smoothly migrate the front end without worrying too much about the backend.
 Luckily, this has been made even easier with https://twitter.com/MartinVysny[Martin]'s contribution to the http://www.vaadinonkotlin.eu/[Vaadin on Kotlin] project.
 He wrote https://vaadin.com/blog/vaadin-kotlin[an article] about it some time ago, as well as a refreshed blog http://mavi.logdown.com/posts/3217554[for Vaadin 10]. Nevertheless, the internet has much more materials such as https://blog.philipphauer.de/kotlin-practice-spring-boot-vaadin/[Philipp's tutorial] on integrating the giants: Spring boot, Vaadin, and Kotlin.
 
+[[kotlin-testing]]
 == 4. Testing the front-end
 
 Martin's contribution was not on the VoK project only, he also created the https://github.com/mvysny/karibu-testing[Karibu browserless testing library] that works smoothly with Vaadin. The exciting part about it is that you can use the simplified Kotlin syntax for testing Java-based Vaadin projects.
 
+[[final-thoughts]]
 == 5. Final Thoughts about Kotlin
 
 Kotlin is an exciting new programming language, built from day one to solve many programming challenges. But before getting too involved with Kotlin, it's worth validating whether Kotlin will work best for your project, or not. Christophe wrote an https://sites.google.com/a/athaydes.com/renato-athaydes/posts/kotlinshiddencosts-benchmarks[article] that benchmarks and shows that in certain situations, Kotlin might not be the language to pick.

@@ -4,12 +4,12 @@
 :authors: amahdy
 :type: text
 :tags: backend, cloud, deploy, flow
-:description: Learn how to deploy Vaadin app to Google cloud
+:description: Learn how to deploy Java app to Google cloud
 :repo:
 :linkattrs:
 :imagesdir: ./images
 
-The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Vaadin application] to Google Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Google cloud as a potential host platform for your Vaadin applications.
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Google Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Google cloud as a potential host platform for your applications.
 
 To get started, open https://console.cloud.google.com/[Google Cloud console], and log in using a Google account, then set up account information, you will be greeted by a screen similar to this:
 
@@ -37,7 +37,7 @@ After few moments, the console will pop up at the bottom of your project dashboa
 
 image::online-shell.png[Online Shell]
 
-You can treat the cloud shell as a remote shell, and we can start by cloning the source code repository and run it locally:
+You can treat the cloud shell as a remote shell, and we can start by cloning the source code repository and package it locally:
 
 [source]
 ----
@@ -48,7 +48,14 @@ $ mvn package
 
 == Run the application
 
-And preview using the *Web preview* icon on the console’s top-right corner, then *Preview on port 8080*:
+We can run the application using the built-in Jetty server
+
+[source]
+----
+$ mvn jetty:run
+----
+
+And preview using the *Web preview* icon on the console’s top-right corner, then click *Preview on port 8080*:
 
 image::online-preview.png[Online Preview]
 

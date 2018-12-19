@@ -8,6 +8,7 @@
 :repo: https://github.com/vaadin-learning-center/using-web-components
 :linkattrs:
 :imagesdir: ./images
+:related_tutorials: using-web-components-in-angular,using-web-components-in-react,using-web-components-in-vue
 
 
 [.introText]

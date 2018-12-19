@@ -7,6 +7,7 @@
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-vue
 :linkattrs:
 :imagesdir: ./images
+:related_tutorials: using-web-components-in-angular,using-web-components-in-react,using-web-components
 
 This tutorial teaches you how to use and interact with web components in a Vue application. We'll build a small UI that adds people to a data grid. 
 
