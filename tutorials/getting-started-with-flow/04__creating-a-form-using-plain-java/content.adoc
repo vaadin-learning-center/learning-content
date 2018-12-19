@@ -464,7 +464,7 @@ https://github.com/vaadin/flow-and-components-documentation/tree/master/tutorial
 
 Congratulations! Users can now create, read, update and delete customer records stored in the demo backend, using the app you created with Vaadin Flow.
 
-If you are an experienced Java developer, you are probably already full of ideas of how you can use your existing skills and create new UIs apps for your existing Java apps. If you want more ideas of how to create full stack applications, you might, for example, go through the http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] guide and create a bit similar UI with a real database backend, implemented with Spring Data JPA. We have also collected a couple of other resources for an easy start in your Vaadin developer career.
+If you are an experienced Java developer, you are probably already full of ideas of how you can use your existing skills and create new UIs for your existing Java apps. If you want more ideas of how to create full stack applications, you might, for example, go through the http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] guide and create a bit similar UI with a real database backend, implemented with Spring Data JPA. We have also collected a couple of other resources for an easy start in your Vaadin developer career.
 
  * https://vaadin.com/start#vaadin10[Vaadin 10 app starters]
  * http://vaadin.com/directory[Directory] - a vast source of awesome Vaadin add-ons
