@@ -100,8 +100,8 @@ Most projects will run without any issues when using Java and Kotlin at the same
 
 ==== b. Refactor the project architecture
 
+.[.small]#_Image credit and more about clean architecture: https://www.codingblocks.net/podcast/clean-architecture-make-your-architecture-scream_#
 image::project-architecture.png[Project Architecture]
-[.small]#__Image credit and more about clean architecture: https://www.codingblocks.net/podcast/clean-architecture-make-your-architecture-scream__#
 
 While it's not mandatory, it definitely will help when you refactor your project and *put it in a good structure for migration*. It will remove the hassle of tracking dependencies and being required to perform many changes at the same time to fix the code.
 
