@@ -29,7 +29,7 @@ While having a production ready PWA is our end goal, we want to also use the int
 https://nodejs.org/[Node & NPM^] installed
 
 == Download starting point
-This tutorial continues from where we left off in the previous one. If you did not complete the previous tutorial, you can download the starting point https://github.com/marcushellberg/vaadin-learning-center/pwa-tutorial-basic/step-1.zip[here].
+This tutorial continues from where we left off in the previous one. If you did not complete the previous tutorial, you can download the starting point https://github.com/vaadin-learning-center/pwa-tutorial-basic/archive/master.zip[here].
 
 == Install dependencies and restructure the code
 Start by initializing NPM:
