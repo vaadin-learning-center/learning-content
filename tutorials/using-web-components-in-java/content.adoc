@@ -1,0 +1,176 @@
+= How to use Web Components in Java
+
+:type: text
+:topic: frontend
+:tags: Web Components, Java, Javascript, Vaadin, Vaadin-Flow
+:description: Learn how to include and use Web Components in Java
+:repo: https://github.com/vaadin-learning-center/using-web-components-in-java
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials: using-web-components
+
+This tutorial teaches you how to integrate https://www.webcomponents.org/introduction[web components] in a Vaadin application.
+
+One of the big strength of web components is that, they are universal and anyone can create them. Many of them are listed in https://www.webcomponents.org/[webcomponents.org], and we at Vaadin are listing in the https://vaadin.com/directory/search?framework=Polymer%202[Vaadin directory] those we know they are valid and functional.
+
+If it's listed in the directoy then good news, you probably can start using it in your Vaadin application quite quickly. But what if it's not listed yet? This tutorial will cover those two cases.
+
+== Install from Vaadin directory
+
+Let's take the https://vaadin.com/directory/component/binhbbbbharrypotter-progress[harrypotter-progress] as an example, integration is as simple as adding the maven dependecy into your project's `pom.xml` file.
+
+image::simple-wc.png[Simple WC]
+
+And update maven:
+
+[source]
+----
+$ mvn package
+----
+
+Then create a new Java class `HarrypotterProgress.java` with the following code:
+
+[source,java]
+----
+@Tag("harrypotter-progress")
+@HtmlImport("bower_components/harrypotter-progress/harrypotter-progress.html")
+public class HarrypotterProgress extends Component {
+
+}
+----
+
+Now you can add an instance of `HarrypotterProgress` into your layout:
+
+[source,java]
+----
+add(new HarrypotterProgress());
+----
+
+At this point you should be able to see the `harrypotter-progress` in your project's layout as well as part of the DOM tree.
+
+image::simple-preview.png[Simple Preview]
+
+== Install any web component
+
+Many quality web components are not listed in the Vaadin directory. They could be new components, not public, or we just haven't discovered them yet.
+Also, in https://vaadin.com/directory/component/kcmrcode-sample[some cases], the web component is listed in the directory but not deployed to the maven repository yet.
+
+image::no-maven.png[No Maven]
+
+You can deploy it from https://www.webjars.org/[WebJars] website:
+
+image::deploy-maven.png[Deploy Maven]
+
+When everything goes right, you will get the maven dependecy details:
+
+image::deployed-maven.png[Deployed Maven]
+
+Which, in our case, translates to:
+
+[source,xml]
+----
+<dependency>
+   <groupId>org.webjars.bowergithub.kcmr</groupId>
+   <artifactId>code-sample</artifactId>
+   <version>0.4.5</version>
+</dependency>
+----
+
+Repository propagation can take few hours, but to be able to test the newly published WebJar right away, add this repository to your `pom.xml` file inside the `<repositories>` section:
+
+[source,xml]
+----
+<repository>
+  <id>webjars</id>
+  <url>https://dl.bintray.com/webjars/maven</url>
+</repository>
+----
+
+The remaining steps are explained in the first part of this tutorial, but when you test the web component this time, you will find that it is availabe in the DOM tree, but shows nothing in the browser.
+
+This happens because it's not a simple web component and it requires some parameters to work.
+
+== Implement Java APIs
+
+We can create a template in the constructor of `CodeSample.java` as following:
+
+[source,java]
+----
+@Tag("code-sample")
+@HtmlImport("bower_components/code-sample/code-sample.html")
+public class CodeSample extends Component {
+
+  CodeSample(String code) {
+
+    Element template = new Element("template");
+    template.setProperty("innerHTML", code);
+
+    getElement().appendChild(template);
+  }
+  
+}
+----
+
+And to add the component to the layout, we give the source code in the constructor:
+
+[source,java]
+----
+add(new CodeSample("print(\"Hello World!\");"));
+----
+
+From the documentation of the component, we see that there are much more things we can do, such as using a theme like `solarized-dark`. To do that, import the theme url on top of the component's class:
+
+[source,java]
+----
+@Tag("code-sample")
+@HtmlImport("bower_components/code-sample/code-sample.html")
+@HtmlImport("bower_components/code-sample/themes/solarized-dark.html")
+public class CodeSample extends Component {
+  [..]  
+}
+----
+
+Another thing we can do is to change the color style of the source code, to set it as Java code for example:
+
+[source,java]
+----
+getElement().setAttribute("type", "java");
+----
+
+image::code-preview.png[Code Preview]
+
+Depends on how deep you want to customize the component, when it comes to low level APIs, Vaadin Flow can pretty much do everything happening on the client side using Java.
+
+The component documentation does not mention how to reload the component with a new source code, but reading https://github.com/kcmr/code-sample/blob/v0.4.5/code-sample.html[the component's source code], we see that there is https://github.com/kcmr/code-sample/blob/v0.4.5/code-sample.html#L131[a function] `_updateContent` responsible about doing that. It's not adviced to rely on a private function, especially when it is not officially supported as part of the component API, but here we will experiment how it works.
+
+First let's change the constructor to be a public method `setCode`, and add a new line that calls the `_updateContent` function:
+
+[source,java]
+----
+Element template = new Element("template");
+
+public void setCode(String code) {
+
+  template.setProperty("innerHTML", code);
+
+  getElement().setAttribute("type", "java");
+  getElement().appendChild(template);
+
+  getElement().callFunction("_updateContent");
+}
+----
+
+Now from the main layout, add a textarea to read from, and a button to call `setCode`:
+
+[source,java]
+----
+CodeSample cs = new CodeSample();
+TextArea ta = new TextArea();
+Button b = new Button("Display!", e -> cs.setCode(ta.getValue()));
+
+add(new HorizontalLayout(ta, b), cs);
+----
+
+image::final-app.png[Final App]
+
+Those are the basics to get you in full speed when it comes to integratring a web component into your Java application. Keep https://vaadin.com/docs/v12/flow/web-components/integrating-a-web-component.html[the official documentations] handy for additional resources, and https://vaadin.com/docs/v12/flow/element-api/tutorial-properties-attributes.html[Manipulating DOM with Element API] to learn more about other available Java APIs.
