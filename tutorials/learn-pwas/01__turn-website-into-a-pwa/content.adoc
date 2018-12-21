@@ -1,6 +1,6 @@
 = Converting a website into a PWA
 
-:tags: pwa, frontend, javascript
+:tags: PWA, frontend, javascript
 :author: Marcus Hellberg
 :description: Learn how you can turn an existing website into a PWA by adding a ServiceWorker and manifest.
 :repo: https://github.com/vaadin-learning-center/pwa-tutorial-basic

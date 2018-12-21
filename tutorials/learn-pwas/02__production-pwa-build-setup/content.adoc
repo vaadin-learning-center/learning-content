@@ -1,6 +1,6 @@
 = Production PWA build
 
-:tags: pwa, frontend, webpack, javascript
+:tags: PWA, frontend, webpack, javascript
 :author: Marcus Hellberg
 :description: Learn how to set up a productive webpack build for working with and deploying PWAs.
 :repo: https://github.com/vaadin-learning-center/pwa-tutorial-webpack
