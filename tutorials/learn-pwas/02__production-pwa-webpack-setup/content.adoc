@@ -1,7 +1,8 @@
-= Production PWA build
+= Production PWA webpack setup
 
 :tags: PWA, frontend, webpack, javascript
 :author: Marcus Hellberg
+:title: Production PWA webpack setup
 :description: Learn how to set up a productive webpack build for working with and deploying PWAs.
 :repo: https://github.com/vaadin-learning-center/pwa-tutorial-webpack
 :linkattrs: // enable link attributes, like opening in a new window
