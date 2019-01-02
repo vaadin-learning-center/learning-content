@@ -1,0 +1,197 @@
+= Integrate a Web Component into Vaadin Flow
+
+:type: text
+:topic: frontend
+:tags: Web Components, Java, Javascript, Vaadin, Vaadin-Flow
+:description: All steps needed to integrate a web component into Vaadin Flow and publish to the directory
+// :repo: https://github.com/vaadin-learning-center/using-web-components-in-java
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials: using-web-components-in-java,using-web-components
+
+In this tutorial, we will take https://github.com/jorgecasar/payment-request[a web component] `payment-request` and implment all Java APIs needed to make it usable from Vaadin Flow, then publish it to the https://vaadin.com/directory[Vaadin directory].
+
+=== Prepare a base add-on
+
+First we must deploy the web component as a WebJar, as explained in the second section of https://vaadin.com/tutorials/using-web-components-in-java[using web components in java] tutorial.
+
+[source,xml]
+----
+<dependency>
+  <groupId>org.webjars.bowergithub.jorgecasar</groupId>
+  <artifactId>payment-request</artifactId>
+  <version>1.0.1</version>
+</dependency>
+----
+
+Now let's create a new https://vaadin.com/start/lts/component[Add-on Component for Flow] and give it the Github url of the designated web component:
+
+image::new-addon.png[New Addon]
+
+=== Create base Java components
+
+In the new project, we will find the `PaymentRequest` class created automatically and corresponds to the `payment-request` tag. Let's create four similar classes for the other custom tags used by the component (`payment-address`, `payment-item`, `payment-method`, `payment-shipping-option`), e.g.
+
+[source,java]
+----
+@Tag("payment-item")
+@HtmlImport("bower_components/payment-item/payment-item.html")
+public class PaymentItem extends Component {
+
+  public PaymentItem() {
+  }
+}
+----
+
+No need to implement `payment-request-all` since it's just a link to import all other components.
+
+=== Expose properties
+
+A simple component like `payment-address` contains only few properties, we can implement getters and setters for them as following:
+
+[source,java]
+----
+private final String PROP_COUNTRY = "country";
+public void setCountry(String country) {
+  getElement().setProperty(PROP_COUNTRY, country);
+}
+public String getCountry() {
+  return getElement().getProperty(PROP_COUNTRY);
+}
+
+private final String PROP_ADDRESS_LINE = "addressLine";
+public void addAddressLine(String addressLine) {
+  JsonArray addressLines;
+  if(getElement().hasProperty(PROP_ADDRESS_LINE)) {
+    addressLines =  (JsonArray) getElement().getPropertyRaw(PROP_ADDRESS_LINE);
+  }else {
+    addressLines = Json.createArray();
+  }
+  addressLines.set(addressLines.length(), addressLine);
+  getElement().setPropertyJson(PROP_ADDRESS_LINE, addressLines);
+}
+public String[] getAddressLines() {
+  JsonArray addressLines = (JsonArray) getElement().getPropertyRaw(PROP_ADDRESS_LINE);
+  String[] lines = new String[addressLines.length()];
+  for (int i=0; i<addressLines.length(); i++) {
+    lines[i] = addressLines.getString(i);
+  }
+  return lines;
+}
+
+[..]
+----
+
+Moving to the next component `payment-item`, it has some properties that can be implmeneted in similar way as above, but we notice that there are some with default values like `currencySystem`. This default value can be set in the getter. In non-String properties it is mandatory to provide a default value.
+
+[source,java]
+----
+public String getCurrencySystem() {
+  return getElement().getProperty(PROP_CURRENCY_SYSTEM, "urn:iso:std:iso:4217");
+}
+
+public Boolean isPending() {
+  return getElement().getProperty(PROP_PENDING, Boolean.FALSE);
+}
+----
+
+Some property values are provided as `computed`. A computed property is readonly and should not have a setter.
+
+[source,java]
+----
+// TODO: getAmount() does not work.
+----
+
+Similarly in `payment-methods`, `data` property is defined with a default value as a function.
+
+[source,java]
+----
+// TODO: how to execute?
+----
+
+No big difference in the `payment-shipping-option` component from previously discussed code. And now moving to the main component `payment-request`.
+
+First let's implement the properties as usual, and one thing here to note is that, some of them have `readOnly: true` attribute which also means that setters should not be implemented for them.
+
+=== Dispatch events
+
+The source code of the component is well documented to specify the various available events, a very simple implementation to expose those events to whoever uses the component is to define a helper event class:
+
+[source,java]
+----
+private static class CustomEvent extends ComponentEvent<PaymentRequest> {
+  private JsonArray detail;
+
+  public CustomEvent(
+      PaymentRequest source, boolean fromClient, JsonArray detail) {
+    super(source, fromClient);
+    setDetail(detail);
+  }
+
+  public JsonArray getDetail() {
+    return detail;
+  }
+  public void setDetail(JsonArray detail) {
+    this.detail = detail;
+  }
+}
+----
+
+For each of the available events, we create a class that extends the `CustomEvent` class and uses `@DomEvent` annotation to specify the `eventType` and `@EventData` to specify the parts of the event to expose:
+
+[source,java]
+----
+@DomEvent("response")
+public static class ResponseEvent extends CustomEvent {
+  public ResponseEvent(
+    PaymentRequest source, boolean fromClient,
+    @EventData("event.detail")JsonArray detail) {
+    super(source, fromClient, detail);
+  }
+}
+@DomEvent("request")
+public static class RequestEvent extends CustomEvent {
+  public RequestEvent(
+    PaymentRequest source, boolean fromClient,
+    @EventData("event.detail")JsonArray detail) {
+    super(source, fromClient, detail);
+  }
+}
+
+[..]
+----
+
+And create some APIs to register the event from outside the component:
+
+[source,java]
+----
+public Registration addResponseListener(
+  ComponentEventListener<ResponseEvent> listener) {
+  return addListener(ResponseEvent.class, listener);
+}
+public Registration addRequestListener(
+  ComponentEventListener<RequestEvent> listener) {
+  return addListener(RequestEvent.class, listener);
+}
+
+[..]
+----
+
+=== Implement APIs for functions
+
+The last part is to expose the public functions and provide them as usable APIs from the Java code. By naming convention, we assume that public functions are those functions that do not start with the underscore `_` character, so we want to expose functions like `updateLastRequest`, `addRequestListeners`, `buyButtonTap` ..etc.
+
+[source,java]
+----
+public void updateLastRequest(
+  String[] methods, String details, JsonObject options) {
+  getElement().callFunction(
+    "updateLastRequest", methods, details, options);
+}
+
+public void buyButtonTap() {
+  getElement().callFunction("buyButtonTap");
+}
+
+[..]
+----
