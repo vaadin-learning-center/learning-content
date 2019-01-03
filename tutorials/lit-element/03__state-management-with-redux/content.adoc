@@ -206,7 +206,7 @@ Before we can use the actions, we need to define how they should update the stat
 
 First, import the action types: 
 
-.`*src/redux/actions.js*`
+.`*src/redux/reducer.js*`
 [source,javascript]
 ----
 import {
