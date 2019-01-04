@@ -173,4 +173,4 @@ add(new HorizontalLayout(ta, b), cs);
 
 image::final-app.png[Final App]
 
-Those are the basics to get you in full speed when it comes to integrating a web component into your Java application. Keep https://vaadin.com/docs/v12/flow/web-components/integrating-a-web-component.html[the official documentation] handy for additional resources, and https://vaadin.com/docs/v12/flow/element-api/tutorial-properties-attributes.html[Manipulating DOM with Element API] to learn more about other available Java APIs.
+Those are the basics to get you in full speed when it comes to integrating a web component into your Java application. Keep https://vaadin.com/docs/flow/web-components/integrating-a-web-component.html[the official documentation] handy for additional resources, and https://vaadin.com/docs/flow/element-api/tutorial-properties-attributes.html[Manipulating DOM with Element API] to learn more about other available Java APIs.
