@@ -46,7 +46,7 @@ Now you can add an instance of `HarrypotterProgress` into your layout:
 add(new HarrypotterProgress());
 ----
 
-At this point, you should be able to see the `harry potter-progress` in your project's layout as well as part of the DOM tree.
+At this point, you should be able to see the `harrypotter-progress` in your project's layout as well as part of the DOM tree.
 
 image::simple-preview.png[Simple Preview]
 
