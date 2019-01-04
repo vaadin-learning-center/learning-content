@@ -4,7 +4,7 @@
 :topic: frontend
 :tags: Web Components, Java, Javascript, Vaadin, Vaadin-Flow
 :description: All steps needed to integrate a web component into Vaadin Flow and publish to the directory
-// :repo: https://github.com/vaadin-learning-center/using-web-components-in-java
+:repo: https://github.com/amahdy/payment-request-flow
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials: using-web-components-in-java,using-web-components
@@ -95,19 +95,11 @@ public Boolean isPending() {
 }
 ----
 
-Some property values are provided as `computed`. A computed property is readonly and should not have a setter.
+Some property values are provided as `computed`. A computed property is read-only and should not have a setter.
 
-[source,java]
-----
-// TODO: getAmount() does not work.
-----
+There is a https://github.com/vaadin/flow/issues/4909[bug] related to getting values from computed properties.
 
-Similarly in `payment-methods`, `data` property is defined with a default value as a function.
-
-[source,java]
-----
-// TODO: how to execute?
-----
+Similarly in `payment-methods`, `data` property is defined with a default value as a function and can be treated as a read-only value. Exectuion of a function is done using `callFunction()` and will be explained in a separete section below.
 
 No big difference in the `payment-shipping-option` component from previously discussed code. And now moving to the main component `payment-request`.
 
@@ -120,18 +112,18 @@ The source code of the component is well documented to specify the various avail
 [source,java]
 ----
 private static class CustomEvent extends ComponentEvent<PaymentRequest> {
-  private JsonArray detail;
+  private JsonObject detail;
 
   public CustomEvent(
-      PaymentRequest source, boolean fromClient, JsonArray detail) {
+      PaymentRequest source, boolean fromClient, JsonObject detail) {
     super(source, fromClient);
     setDetail(detail);
   }
 
-  public JsonArray getDetail() {
+  public JsonObject getDetail() {
     return detail;
   }
-  public void setDetail(JsonArray detail) {
+  public void setDetail(JsonObject detail) {
     this.detail = detail;
   }
 }
@@ -145,7 +137,7 @@ For each of the available events, we create a class that extends the `CustomEven
 public static class ResponseEvent extends CustomEvent {
   public ResponseEvent(
     PaymentRequest source, boolean fromClient,
-    @EventData("event.detail")JsonArray detail) {
+    @EventData("event.detail")JsonObject detail) {
     super(source, fromClient, detail);
   }
 }
@@ -153,7 +145,7 @@ public static class ResponseEvent extends CustomEvent {
 public static class RequestEvent extends CustomEvent {
   public RequestEvent(
     PaymentRequest source, boolean fromClient,
-    @EventData("event.detail")JsonArray detail) {
+    @EventData("event.detail")JsonObject detail) {
     super(source, fromClient, detail);
   }
 }
@@ -179,7 +171,7 @@ public Registration addRequestListener(
 
 === Implement APIs for functions
 
-The last part is to expose the public functions and provide them as usable APIs from the Java code. By naming convention, we assume that public functions are those functions that do not start with the underscore `_` character, so we want to expose functions like `updateLastRequest`, `addRequestListeners`, `buyButtonTap` ..etc.
+The last part is to expose the public functions and provide them as usable APIs from the Java code. By naming convention, we assume that public functions are those functions that do not start with the underscore `_` character, so we want to expose functions like `updateLastRequest`, `addRequestListeners`, `buyButtonTap` ..etc. For that, we simply use `callFunction`.
 
 [source,java]
 ----
@@ -195,3 +187,130 @@ public void buyButtonTap() {
 
 [..]
 ----
+
+There is a https://github.com/vaadin/flow/issues/1724[bug] about implementing a return value for those APIs.
+
+=== Testing the new component
+
+The add-on comes with a test class `DemoView` pre-configured and ready to be used to test our new component. Let's take the simple test scenario written in the `README` of the web component page:
+
+[source,js]
+----
+<payment-request label="Total" currency="EUR">
+	<payment-method slot="method" supported='["basic-card"]' data='{
+			"supportedNetwork": ["amex", "mastercard", "visa" ],
+			"supportedTypes": ["debit", "credit"]
+	}'></payment-method>
+	<payment-item label="Item 1" currency="EUR" value="1337"></payment-item>
+	<button id="buyButton">Buy</button>
+</payment-request>
+----
+
+Translating this in Java, we start by defining the `data` JSON of the `payment-method`
+
+[source,java]
+----
+JsonArray supportedNetwork = Json.createArray();
+supportedNetwork.set(0, "amex");
+supportedNetwork.set(1, "mastercard");
+supportedNetwork.set(2, "visa");
+
+JsonArray supportedTypes = Json.createArray();
+supportedTypes.set(0, "debit");
+supportedTypes.set(1, "credit");
+
+JsonObject paymentMethodData = Json.createObject();
+paymentMethodData.put("supportedNetwork", supportedNetwork);
+paymentMethodData.put("supportedTypes", supportedTypes);
+----
+
+Then define the `PaymentMethod` object itself and assign the provided properties and attributes:
+
+[source,java]
+----
+PaymentMethod paymentMethod = new PaymentMethod();
+paymentMethod.addSupported("basic-card");
+paymentMethod.setData(paymentMethodData);
+paymentMethod.getElement().setAttribute("slot", "method");
+----
+
+Also defining `PaymentItem`, `buyButton`, and `PaymentRequest`:
+
+[source,java]
+----
+PaymentItem paymentItem = new PaymentItem();
+paymentItem.setLabel("Item 1");
+paymentItem.setCurrency("EUR");
+paymentItem.setValue(1337D);
+
+Button buyButton = new Button("Buy");
+buyButton.getElement().setAttribute("id", "buyButton");
+
+PaymentRequest paymentRequest = new PaymentRequest();
+paymentRequest.setLabel("Total");
+paymentRequest.setCurrency("EUR");
+----
+
+While testing the code, I got an error message in the browser:
+
+[source]
+----
+  GET http://localhost:8080/payment-item.html 404 (Not Found)
+----
+
+And it's because an explicit inclusion from the source code of a `payment-item` component in the `total` slot. While it may be arguably a bug, but facing similar problems can happen all time when integrating components and we need to seek alternative workarounds till they get fixed. In our example here, I've declared an empty `PaymentItem` with the required slot:
+
+[source,java]
+----
+PaymentItem paymentTotal = new PaymentItem();
+paymentTotal.getElement().setAttribute("slot", "total");
+----
+
+The next step is to add all those declared elementes as children to the `paymentRequest` element:
+
+[source,java]
+----
+paymentRequest.getElement()
+  .appendChild(paymentMethod.getElement())
+  .appendChild(paymentItem.getElement())
+  .appendChild(paymentTotal.getElement())
+  .appendChild(buyButton.getElement());
+----
+
+We also need to only add the `paymentReuest` component to the UI, nothing else.
+
+[source,java]
+----
+add(paymentRequest);
+----
+
+And finally, listen to the response event to decide how the server should process the received data and how to respond back to the client:
+
+[source,java]
+----
+paymentRequest.addResponseListener(e -> {
+  paymentRequest.getElement().executeJavaScript("this.lastResponse.complete()", "");
+
+  JsonObject creditCardDetails = e.getDetail().get("details");
+  (new Notification(new Html("<p>Server received the following information:<br>"
+    + "<b>Card Number:</b> " + creditCardDetails.getString("cardNumber") + "<br>"
+    + "<b>CVC:</b> " + creditCardDetails.getString("cardSecurityCode") + "<br>"
+    + "<b>Full Name:</b> " + creditCardDetails.getString("cardholderName") + "<br>"
+    + "<b>Expiry Month:</b> " + creditCardDetails.getString("expiryMonth") + "<br>"
+    + "<b>Expiry Year:</b> " + creditCardDetails.getString("expiryYear") + "</p>"))).open();
+});
+----
+
+The previous code does not handle side cases, like when the request is canceled by the user or failed for various reasons. But it should be easy at the moment to know how to listen to those various events and build the application logic. In the previous code, we are explicitly executing `this.lastResponse.complete()` to hide the payment window.
+
+image::payment-show.png[Show Payment]
+
+image::payment-done.png[Payment Success]
+
+=== Publish to Vaadin Directory
+
+A good idea to publish your work to the https://vaadin.com/director[Vaadin Directory] to get a feedback from the community and potential contributions from other users. Accessing the https://vaadin.com/directory/my-components?uploadNewComponent=[publish new compoenent] page gives pretty much all the information needed to proceed. We have done the first three steps already, and we are few maven commands away from having the add-on ready and published.
+
+image::upload-addon.png[Upload Addon]
+
+Check out the https://vaadin.com/directory/component/payment-request[add-on] created through out this tutorial and the https://github.com/amahdy/payment-request-flow[final source code].
