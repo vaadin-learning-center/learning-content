@@ -7,7 +7,7 @@
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-java
 :linkattrs:
 :imagesdir: ./images
-:related_tutorials: using-web-components, web-components-in-flow
+:related_tutorials: using-web-components,web-component-for-vaadin-flow
 
 This tutorial teaches you how to integrate https://www.webcomponents.org/introduction[web components] in a Vaadin application.
 
