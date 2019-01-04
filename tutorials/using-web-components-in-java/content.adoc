@@ -7,7 +7,7 @@
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-java
 :linkattrs:
 :imagesdir: ./images
-:related_tutorials: using-web-components
+:related_tutorials: using-web-components, web-components-in-flow
 
 This tutorial teaches you how to integrate https://www.webcomponents.org/introduction[web components] in a Vaadin application.
 
@@ -38,6 +38,8 @@ public class HarrypotterProgress extends Component {
 
 }
 ----
+
+The path used in `HtmlImport` is the relative path of the actual web component in the `bower_components` folder. Usually it has the format `bower_components/<web-component-name>/<web-component-name>.html` unless otherwsie specified by the component's documentation, such as using a sub-folder, or a different component provided by the same component (e.g. `vaadin-text-area` component provided by `vaadin-text-field`: `bower_components/vaadin-text-field/vaadin-text-area.html`).
 
 Now you can add an instance of `HarrypotterProgress` into your layout:
 
