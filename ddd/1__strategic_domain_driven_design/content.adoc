@@ -43,7 +43,17 @@ Finally it is worth pointing out that all subdomains are important to the overal
 
 ==== Example
 
-TODO Give an example of different subdomains
+Let's say we are building an EMR (Electronic Medical Records) system for smaller clinics. We have identified the following subdomains:
+
+1. *Patient Records* for managing patient medical records (person information, medical history, etc).
+2. *Lab* for ordering lab tests and managing test results.
+3. *Scheduling* for scheduling appointments.
+4. *File Archive* for storing and managing files that are attached to the patient records (such as different documents, X-ray pictures, scanned paper documents).
+5. *Identity Management* for making sure the right people have access to the right information.
+
+Now, how would we classify these subdomains? The most obvious ones are *file archive* and *identity management* which are clearly generic subdomains. But what about the others? That depends on what is making this particular EMR system stand out among the others in the market. 
+
+Since we are building an EMR system, it is pretty safe to assume that *patient records* is a core domain. If we are going to take the market by making a system that will make all the clinics work more efficiently through clever and innovative scheduling, then *scheduling* is probably also a core domain. Otherwise, it is a supporting subdomain, maybe built on top of some existing scheduling engine. The same reasoning can be applied to the *lab* subdomain: if a significant part of our business case is a seamless integration between patient records and the lab, then lab is most likely a core domain. Otherwise, it is a supporting subdomain.
 
 == From Problems to Solutions
 
@@ -67,7 +77,7 @@ In a perfect world, there would be only one ubiqitous language and one model tha
 
 Instead of trying to find the Big Unified Model, we choose to accept the facts and instead introduce something called *bounded contexts*. A bounded context is a distinct part of the domain in which *a particular subset or dialect of the ubiquitous language is consistent at all times*. In other words, we are applying divide and conquer and splitting the domain model up into smaller, more or less independent models with clearly defined boundaries. Every bounded context has its own name and this name is a part of the ubiquitous language.
 
-There is not necessarily a one-to-one mapping between bounded contexts and subdomains. Since a bounded context belongs to the solution space and a subdomain to the problem space, you should think about the bounded context as one alternative solution among many possible solutions. Thus a single subdomain can contain multiple bounded contexts. You may also find yourself in a situation where a single bounded context spans multiple subdomains. There is no rule against this, but it is an indication that you may need to rethinkg your subdomains or context boundaries.
+There is not necessarily a one-to-one mapping between bounded contexts and subdomains. Since a bounded context belongs to the solution space and a subdomain to the problem space, you should think about the bounded context as one alternative solution among many possible solutions. Thus a single subdomain can contain multiple bounded contexts. You may also find yourself in a situation where a single bounded context spans multiple subdomains. There is no rule against this, but it is an indication that you may need to rethink your subdomains or context boundaries.
 
 Personally I like to think about bounded contexts as separate systems (e.g. separate executable JARs or deployable WARs in the Java world). A perfect real-world exampe of this is _micro-services_, where each micro-service can be considered its own bounded context. However, this does not mean you have to implement all your bounded contexts as micro-services. A bounded context could also be a separate subsystem inside a single monolithic system.
 
@@ -77,43 +87,69 @@ TODO Example of bounded contexts
 
 == Relationships between Contexts
 
-TODO
+In a non-trivial system, very few (if any) bounded contexts are completely independent. Most contexts will have some kind of relationship with other contexts. Identifying these relationships is of importance not only techncially (how will the systems technically communitate with each other) but also to how they are developed (how will the teams that develop the systems communicate with each other).
+
+The simples way to identify relationships between bounded contexts is to classify the contexts as *upstream contexts* and *downstream contexts*. Think of the contexts as cities next to a river. The cities upstream dump stuff into the river, which reaches the cities downstream. Some of the stuff is essential to the downstream cities and so they retrieve it from the river. Other stuff is harmful and can do direct damage to the downstream cities ("sh*t rolls downhill").
+
+Being upstream or downstream has its pros and cons. An upstream context does not depend on any other contexts, which in a way makes it free to evolve in any direction. However, the consequences of any changes may be severe in downstream contexts and this may in turn impose restrictions on the upstream context. A downstream context is restricted by its dependency on an upstream context, but does not need to worry about breaking other contexts further downstream, which in a way gives the developers of the downstream context freer hands than the developers of the upstream context.
+
+You can describe the relatioships graphically by using a dependency diagram where arrows point from the downstream contexts to the upstream contexts, or by using the U and D roles.
+
+image::context_relationships.png[Different ways of documenting context relationships graphically]
+
+Finally keep in mind that a context can be both an upstream context and a downstream context at the same time, depending on where you stand.
 
 == Context Maps and Integration Patterns
 
-TODO
+Once we know what our contexts are and how they are related, we have to decide how to integrate them. This involves several important questions:
+
+1. Where are the context boundaries?
+2. How are the contexts going to communicate tehnically?
+3. How are we going to map between the contexts' domain models (i.e. how are we translating from one ubiquitous language to another)?
+4. How are we going to guard against unwanted or problematic changes occuring upstream?
+5. How are we going to avoid causing trouble for downstream contexts?
+
+The answers to these questions will be compiled into a *context map*. The context map can be documented graphically like this:
+
+image::context_map.png[An example context map]
+
+To make it easier to create the context map, there are a set of ready-made integration patterns that work for most use cases. Depending on which integration pattern you pick, you may have to add additional information to the context map to make it really useful.
 
 === Partnership
 
-TODO
+The teams of both contexts cooperate. The interfaces - whatever they are - evolve so that they accommodate the development needs of both contexts. Interdependent features are properly planned and scheduled so that they cause as little harm as possibe to both teams.
 
 === Shared Kernel
 
-TODO
+Both contexts share a common code base which is the kernel. The kernel can be modified by any of the teams, but not without consulting the other team first. To make sure no unintended side effects are introduced, continous integration (with automatic testing) is required. To keep things as simple as possible, the shared kernel should be kept as small as possible. If a lot of model code ends up in the shared kernel, it may be a sign that the contexts should in fact be merged into one big context.
 
 === Customer-Supplier
 
-TODO
+The contexts are in an upstream-downstream relationship and this relationship is formalized such that the upstream team is the *supplier* and the downstream team is the *customer*. Thus, even though both teams can work more or less independently on their systems, the upstream team (supplier) is required to take the downstream team's (customer) needs into account.
 
 === Conformist
 
-TODO
+The contexts are in an upstream-downstream relationship. However, the upstream team has no motivation to accommodate the downstream team's needs (it may be ordered as a service from a larger supplier, for example). The downstream team decides to conform to the model of the upstream team, whatever it happens to be.
 
 === Anticorruption Layer
 
-TODO
+The contexts are in an upstream-downstream relationship and the upstream team does not care about the downstream team's needs. However, instead of conforming to the upstream model, the downstream team decides to create an abstraction layer that protects the downstream context from changes in the upstream context. This anticorruption layer lets the downstream team work with a domain model that suits their needs the most, while still integrating with the upstream context. When the upstream context changes, the anticorruption layer must also change, but the rest of the downstream context can remain unchanged. It may be a good idea to combine this strategy with continuous integration where automatic tests are used to detect changes in the upstream interface.
 
 === Open Host Service
 
-TODO
+Access to a system is provided by clearly defined services, using a clearly defined protocol. The protocol is open so that anybody who needs to can integrate with the system. Web services and micro-services are a good example of this integration pattern. This pattern is different from the others in that it does not care about the relationship between the contexts and the teams that develop them. You may end up combining the open host service pattern with any of the other patterns.
+
+The key when using this pattern is to keep the protocol simple and stable. You most of the systems clients should be able to get what they need from this protocol. Create special integration points for the remaining special cases.
 
 === Published Language
 
-TODO
+This is the integration pattern I personally find it the most difficult to properly explain. The way I look at it, the published language is the closest relative to the open host service and is often used together with that integration pattern. A documented language (for example based on XML) is used for the input and output of the system. There is no need to use a particular library or a particular implementation of a spec as long as you conform to the published language. Real world examples of published languages are MathML for representing mathematical formulas and GML for representing geographical features in geographical information systems.
+
+Please note that you do not necessarily need to use web services together with a published language. You could also have a setup where a file is dropped into a directory and processed by a batch job that stores the output in another file.
 
 === Separate Ways
 
-TODO
+This integration pattern is special in that it does not perform any integration at all. Still, it is an important pattern to keep in the toolbox and may end up saving a lot of money and time. When the benefit of the integration between two contexts is no longer worth the effort, it is better to cut the contexts loose from each other and let them evolve independently. The reason for this could be that the systems have simply evolved to a point where they are no longer related. The (few) services provided by the upstream context that the downstream context actually used are re-implemented inside the downstream context. 
 
 == Why is Strategic Domain-Driven Design Important?
 
