@@ -1,6 +1,119 @@
 = Tactical Domain-Driven Design
 
-TODO
+In this section we are going to learn about tactical domain-driven design. Tactical DDD is a set of design patterns and building blocks that you can use to design domain-driven systems. Even for projects that are not domain-driven, you can benefit from using some of the tactical DDD patterns.
+
+Compared to strategic domain-driven design, tactical design is much more hands-on and closer to the actual code. Strategic design deals with abstract wholes whereas tactical design deals with classes and modules. The purpose of tactical design is to refine the domain model to a stage where it can be converted into working code.
+
+Design is an iterative process and so it makes sense to combine strategic and tactical design. You start with strategic design, followed by tactical design. The biggest domain model design relevations and breakthroughs will likely happen during tactical design and this in turn can affect the strategic design and so you repeat the process.
+
+With this short introduction, it is time to bring out the tactical DDD toolbox and have a look at what is in side.
+
+== Value Objects ==
+
+One of the most important concepts in tactical DDD is the *value object*. This is also the DDD building block that I use the most in non-DDD projects and I hope that after reading this, you will too.
+
+A value object is an object whose value is of importance. This means that two value objects with the exact same value can be considered the same value object and are thus interchangable. For this reason, value objects should always be made _immutable_. Instead of changing the state of the value object, you replace it with a new instance. For complex value objects, consider using the _builder_ or _essence_ pattern.
+
+Value objects are not only containers of data - they can also contain business logic. The fact that the value objects are also immutable makes the business operations both thread-safe and side-effect free. This is one of the reasons I like value objects so much and why you should try to model as many of your domain concepts as possible as value objects.
+
+A good starting point for making value objects is to take all single-value properties that actually have a business meaning and wrapping them as value objects. For example:
+
+* Instead of using a `BigDecimal` for monetary values, use a `Money` value object that wraps a `BigDecimal`. If you are dealing with more than one currency, you may want to create a `Currency` value object as well and make your `Money` object wrap a `BigDecimal`-`Currency` pair.
+* Instead of using strings for phone numbers and e-mail addresses, use `PhoneNumber` and `EmailAddress` value objects that wrap strings.
+
+Using value objects like this have several advantages. First of all, they bring context to the value. You do not need to know whether a specific string contains a phone number, an e-mail address, a first name or a postal code, nor do you need to know whether a `BigDecimal` is a monetary value, a percentage or something completely different. The type itself will immediately tell you what you are dealing with.
+
+Secondly, you can add all the business operations that can be performed on values of a particular type to the value object itself. For example, a `Money` object can contain operations for adding and subtracting sums of money or calculating percentages, while ensuring that the precision of the underlying `BigDecimal` is always correct and that all `Money` objects involved in the operation have the same currency.
+
+Thirdly, you can be sure that the value object always contains a valid value. For example, you can validate the e-mail address input string in the constructor of your `EmailAddress` value object.
+
+=== Code Examples ===
+
+A `Money` value object in Java could look something like this (the code is untested and some method implementations have been omitted for clarity):
+
+.Money.java
+[source,java]
+----
+public class Money implements Serializable, Comparable<Money> {
+    private final BigDecimal amount;
+    private final Currency currency; // Currency is an enum or another value object
+
+    public Money(BigDecimal amount, Currency currency) {
+        this.currency = Objects.requireNonNull(currency);
+        this.amount = Objects.requireNonNull(amount).setScale(currency.getScale(), currency.getRoundingMode());
+    }
+
+    public Money add(Money other) {
+        assertSameCurrency(other);
+        return new Money(amount.add(other.amount), currency);
+    } 
+
+    public Money subtract(Money other) {
+        assertSameCurrency(other);
+        return new Money(amount.subtract(other.amount), currency);
+    }
+
+    private void assertSameCurrency(Money other) {
+        if (!other.currency.equals(this.currency)) {
+            throw new IllegalArgumentException("Money objects must have the same currency");
+        }
+    }
+
+    public boolean equals(Object o) {
+        // Check that the currency and amount are the same
+    }
+
+    public int hashCode() {
+        // Calculate hash code based on currency and amount
+    }
+
+    public int compareTo(Money other) {
+        // Compare based on currency and amount
+    }
+}
+----
+
+A `StreetAddress` value object and corresponding builder in Java could look something like this (the code is untested and some method implementations have been omitted for clarity):
+
+.StreetAddress.java
+[source,java]
+----
+public class StreetAddress implements Serializable, Comparable<StreetAddress> {
+    private final String streetAddress;
+    private final PostalCode postalCode; // PostalCode is another value object
+    private final String city; 
+    private final Country country; // Country is an enum
+
+    public StreetAddress(String streetAddress, PostalCode postalCode, String city, Country country) {
+        // Assign the parameter values to their corresponding fields
+    }
+
+    public boolean equals(Object o) {
+        // Check that the fields are equal
+    }    
+
+    public int hashCode() {
+        // Calculate hash code based on all fields
+    }
+}
+----
+
+
+== Entities ==
+
+== Aggregates ==
+
+== Domain Events ==
+
+== Repositories ==
+
+== Domain Services ==
+
+== Factories ==
+
+== Modules ==
+
+== Domain-Driven Design and CRUD ==
 
 == Next: Domain-Driven Design and the Hexagonal Architecture
 
