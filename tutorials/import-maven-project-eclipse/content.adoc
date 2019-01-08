@@ -11,7 +11,7 @@ This tutorial explains how to import an existing Maven project into Eclipse and 
 
 == Download an existing Maven project
 
-You can create your own Maven project from a Maven archetype or download an existing one from the web. This tutorial uses one of the several project starters at https://vaadin.com/start which include a web application and a `pom.xml` file with a preconfigured Jetty Maven plugin in it.
+You can create your Maven project from a Maven archetype or download an existing one from the web. This tutorial uses one of the several project starters at https://vaadin.com/start which include a web application and a `pom.xml` file with a preconfigured Jetty Maven plugin in it.
 
 Go to https://vaadin.com/start and select *Project Base*. Click the *Download* button and extract the ZIP file somewhere in your hard drive. The extracted content should include a directory with a Maven project in it:
 
@@ -41,7 +41,7 @@ image::maven-install.png[Maven install]
 
 You'll see how Eclipse executes the `install` build phase (and all the previous phases in the Maven's default lifecycle) which downloads dependencies and copies the generated artifacts into your local Maven repository among other things.
 
-NOTE: Other useful options are available in the the *Maven* folder of the context menu.
+NOTE: Other useful options are available in the *Maven* folder of the context menu.
 
 == Creating a running configuration
 
