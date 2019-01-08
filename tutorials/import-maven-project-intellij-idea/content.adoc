@@ -1,0 +1,70 @@
+= Importing a Maven Project in IntelliJ IDEA
+
+:tags: vaadin, java, maven, intellij, idea
+:author: Alejandro Duarte
+:publish_date:
+:description: Learn how to import an existing Maven project into IntelliJ IDEA
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+This tutorial explains how to import an existing Maven project into IntelliJ IDEA and how to create a running configuration for a Maven goal. This is useful for example when using the Jetty Maven plugin that allows you to quickly deploy and run a Java web application using this popular server.
+
+== Download an existing Maven project
+
+You can create your own Maven project from a Maven archetype or download an existing one from the web. This tutorial uses one of the several project starters at https://vaadin.com/start which include a web application and a `pom.xml` file with a preconfigured Jetty Maven plugin in it.
+
+Go to https://vaadin.com/start and select *Project Base*. Click the *Download* button and extract the ZIP file somewhere in your hard drive. The extracted content should include a directory with a Maven project in it:
+
+image::maven-project-directory.png[Maven project directory]
+
+== Import the project
+
+There are several ways you can import a Maven project in IntelliJ IDEA. The most standard approach is to open the `pom.xml` file directly. You can do it in the _welcome screen_ by clicking *Open*:
+
+image::welcome-screen.png[Welcome screen]
+
+NOTE: The *Import Project* gives you more options to tweak the import process. However, this is out of the scope of this tutorial.
+
+Select the `pom.xml` file of the Maven project you want to import and click on *Open as Project*.
+
+NOTE: The welcome window is only shown when you close all the projects in IntelliJ IDEA. If you don't want to close your currently opened projects, you can alternatively, select *File|Open* in the menu instead.
+
+== Running Maven goals
+
+IntelliJ IDEA has excellent integration with Maven. You can run common commands such as `mvn install` or `mvn jetty:run` without having to leave the IDE.
+
+Open the *Maven Projects* view by clicking the corresponding option on the left side of the IntelliJ IDEA window:
+
+image::maven-projects-view.png[Maven projects view]
+
+This view shows all the available Maven projects and its build phases and build goals. Let's say you want to run `mvn install`. To do that, expand the project tree in the maven view to show the corresponding lifecycle phase and double-click it:
+
+image::lifecycle.png[Lifecycle phases]
+
+You'll see how IntelliJ idea executes the `install` build phase (and all the previous phases in the Maven's default lifecycle) which downloads dependencies and copies the generated artifacts into your local Maven repository among other things.
+
+You can use a similar approach to run any Maven goal. For example, you can double-click the `jetty:run` goal in the *Plugins* sub-tree to deploy and run the web application implemented in the project you imported.
+
+Since using the `jetty:run` goal could be a frequent task during the development of a Java web application, you might prefer to create a _running configuration_ for it.
+
+== Creating a running configuration
+
+A _running configuration_ is a _shortcut_ to run a specific task from within the IDE. Let's create a running configuration for the `jetty:run` Maven goal to make it simpler to run the web application from the IDE.
+
+Right-click the `jetty:run` option in the *Maven Projects* view and select *Create 'my-starter-project...*:
+
+image::create-running-config.png[Create running configuration option]
+
+For simplicity, change the name of the configuration to *Run on Jetty* and click *OK*:
+
+image::run-on-jetty.png[Run on Jetty]
+
+You should see the new option on the top right corner of IntelliJ IDEA:
+
+image::config-created.png[Running configuration created]
+
+Now you can deploy and run the web application by clicking the run (or the debug) icon in the toolbar:
+
+image::run-icon.png[Run icon]
+
+NOTE: You can invoke the web application at http://localhost:8080.

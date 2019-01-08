@@ -13,7 +13,7 @@ In this third tutorial, you'll learn how to use Redux for state management in a 
 
 If you did not complete the two first tutorials in this series, you can check out the code from the previous step as a starter:
 
-https://github.com/learn-vaadin/lit-element-tutorial-templating-properties-and-events[Step 2 source code, role="cta"]
+https://github.com/vaadin-learning-center/lit-element-tutorial-templating-properties-and-events[Step 2 source code, role="cta"]
 
 == Video tutorial for this part
 video::_Gt12UhGLY0[youtube]
@@ -206,7 +206,7 @@ Before we can use the actions, we need to define how they should update the stat
 
 First, import the action types: 
 
-.`*src/redux/actions.js*`
+.`*src/redux/reducer.js*`
 [source,javascript]
 ----
 import {
@@ -376,7 +376,7 @@ Our example application is too small to show off the benefits of Redux properly.
 TIP: Read more about splitting up reducers and handling larger applications in the https://polymer.github.io/pwa-starter-kit/redux-and-state-management/[PWA Starter Kit^] documentation.
 
 
-https://github.com/learn-vaadin/lit-element-tutorial-state-management-with-redux[Source code for this tutorial, role="cta"]
+https://github.com/vaadin-learning-center/lit-element-tutorial-state-management-with-redux[Source code for this tutorial, role="cta"]
 
 == Next
 In the next part of the tutorial series, we add a second view to learn how to deal with navigation. We also look at using code splitting to maintain good performance as our application grows.

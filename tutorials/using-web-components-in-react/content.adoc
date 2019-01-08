@@ -6,6 +6,7 @@
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-react
 :linkattrs:
 :imagesdir: ./images
+:related_tutorials: using-web-components-in-angular,using-web-components,using-web-components-in-vue
 
 
 This tutorial teaches you how to use and interact with web components in React. We'll build a small UI that adds people to a data grid. 
