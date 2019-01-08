@@ -14,7 +14,7 @@ One of the most important concepts in tactical DDD is the *value object*. This i
 
 A value object is an object whose value is of importance. This means that two value objects with the exact same value can be considered the same value object and are thus interchangable. For this reason, value objects should always be made _immutable_. Instead of changing the state of the value object, you replace it with a new instance. For complex value objects, consider using the _builder_ or _essence_ pattern.
 
-Value objects are not only containers of data - they can also contain business logic. The fact that the value objects are also immutable makes the business operations both thread-safe and side-effect free. This is one of the reasons I like value objects so much and why you should try to model as many of your domain concepts as possible as value objects.
+Value objects are not only containers of data - they can also contain business logic. The fact that the value objects are also immutable makes the business operations both thread-safe and side-effect free. This is one of the reasons I like value objects so much and why you should try to model as many of your domain concepts as possible as value objects. Also try to make the value objects as small and as coherent as possible - this makes them easier to maintain and reuse.
 
 A good starting point for making value objects is to take all single-value properties that actually have a business meaning and wrapping them as value objects. For example:
 
@@ -85,8 +85,11 @@ public class StreetAddress implements Serializable, Comparable<StreetAddress> {
     private final Country country; // Country is an enum
 
     public StreetAddress(String streetAddress, PostalCode postalCode, String city, Country country) {
+        // Verify that required parameters are not null
         // Assign the parameter values to their corresponding fields
     }
+
+    // Getters and possible business logic methods omitted
 
     public boolean equals(Object o) {
         // Check that the fields are equal
@@ -95,15 +98,179 @@ public class StreetAddress implements Serializable, Comparable<StreetAddress> {
     public int hashCode() {
         // Calculate hash code based on all fields
     }
+
+    public int compareTo(StreetAddress other) {
+        // Compare however you want
+    }
+
+    public static class Builder {
+
+        private String streetAddress;
+        private PostalCode postalCode;
+        private String city;
+        private Country country;
+
+        public Builder() { // For creating new StreetAddresses
+        }
+
+        public Builder(StreetAddress original) { // For "modifying" existing StreetAddresses
+            streetAddress = original.streetAddress;
+            postalCode = original.postalCode;
+            city = original.city;
+            country = original.country;
+        }
+
+        public Builder withStreetAddress(String streetAddress) {
+            this.streetAddress = streetAddress;
+            return this;
+        }
+
+        // The rest of the 'with...' methods omitted
+
+        public StreetAddress build() {
+            return new StreetAddress(streetAddress, postalCode, city, country);
+        }
+    }
 }
 ----
 
-
 == Entities ==
+
+The second important concept in tactical DDD and the sibling to value objects is the *entity*. An entity is an object whose _identity_ is of importance. To be able to determine the identity of an entity, every entity has a unique _ID_ that is assigned when the entity is created and remains unchainged througout the lifespan of the entity.
+
+Two entities of the same type and with the same ID are considered the same entity even if all other properties differ. Likewise, two entities of the same type and with the same properties but different IDs are considered different entities, just like two individuals with the same name are not considered the same.
+
+As opposed to value objects, entities are mutable. However, that does not mean you should create setter methods for every property. Try to model all state altering operations as verbs that correspond to business operations. A setter will only tell you what property you are changing but not why. For example: let's say you have an `EmploymentContract` entity and it has an `endDate` property. Employment contracts may end because they were only temporary to begin with, because of an internal transfer from one company branch to another, because the employee resigned or because the employer fired the employee. In all of these cases, the `endDate` is altered but for very different reasons. In addition, there may be other actions that needs to be taken depending on why the contract was ended. A `terminateContract(reason, finalDay)` method already tells alot more than just a `setEndDate(finalDay)` method.
+
+That said, setters still have their place in DDD. In the above example, there could be a private `setEndDate(..)` method that makes sure the end date is after the start date before setting it. This setter would be used by the other entity methods but not exposed to the outside world. For master- and reference data and for properties that describe an entity without altering its business state, it makes more sense to use setters than to try to tweak the operations into verbs. A method called `setDescription(..)` is arguably more readable than `describe(..)`.
+
+I'm going to try to illustrate this with yet another example. Let's say you have a `Person` entity that represents, well, a person. The person has a `firstName` and a `lastName` property. Now, if this was just a simple address book, you would let the user change this information as needed and you could use the setters `setFirstName(..)` and `setLastName(..)`. However, if you are building an official government register of citizens, changing a name is more involved. You would could end up with something like `changeName(firstName, lastName, reason, effectiveAsOfDate)`. Again, context is everything.
+
+.A Note on Getters
+****
+Getter methods where introduced into Java as a part of the JavaBean specification. This specification was not present in the first version of Java, which is why you can find some methods that does not conform to it in the standard Java API (for example: `String.length()` as opposed to `String.getLength()`).
+
+For me personally, I would like to see support for real properties in Java. Even though they could be using getters and setters behind the scenes, I would like to access a property value in the same way as if it was just an ordinary field: `mycontact.phoneNumber`. We cannot do that in Java yet, but we can get pretty close by leaving out the `get` suffix from our getters. In my opinion, this makes the code more fluent, especially if you need to go deeper into an object hierarchy to fetch something: `mycontact.address().streetNumber()`.
+
+However, there is also a downside of getting rid of the getters and that is tooling support. All Java IDEs and many libraries rely on the JavaBean standard which means you may end up manually writing code that could have been auto-generated for you and adding annotations that could have been avoided by sticking to the conventions.
+****
+
+=== Entity or Value Object?
+
+Knowing whether to model something as a value object or as an entity is not always easy. The exact same real-world concept can be modeled as an entity in one context and as a value object in another. Let's take the street address as an example.
+
+If you are building an invoice system, the street address is just something you print on the invoice. It does not matter what object instance is used as long as the text on the invoice is correct. In this case, the street address is a value object.
+
+If you are building a system for a public utility, you need to know exactly what gas line or what electricity line goes into a given apartment. In this case, the street address is an entity and it may even be split up into smaller entities like building or appartment. 
+
+Value objects are easier to work with because they are immutable and small. Therefore, you should aim for a design with few entities and many value objects.
+
+=== Code Examples ===
+
+A `Person` entity in Java could look something like this (the code is untested and some method implementations have been omitted for clarity):
+
+.Person.java
+[source,java]
+----
+public class Person {
+
+    private final PersonId personId;
+    private final EventLog changeLog;
+
+    private PersonName name;
+    private LocalDate birthDate;
+    private StreetAddress address;
+    private EmailAddress email;
+    private PhoneNumber phoneNumber;
+
+    public Person(PersonId personId, PersonName name) {
+        this.personId = Objects.requireNonNull(personId);
+        this.changeLog = new EventLog();
+        changeName(name, "initial name");
+    }
+
+    public void changeName(PersonName name, String reason) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        this.changeLog.register(new NameChangeEvent(name), reason);
+    }
+
+    public Stream<PersonName> getNameHistory() {
+        return this.changeLog.eventsOfType(NameChangeEvent.class).map(NameChangeEvent::getNewName);
+    }
+
+    // Other getters omitted
+
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != getClass()) {
+            return false;
+        }
+        return personId.equals(((Person) o).personId);
+    }
+
+    public int hashCode() {
+        return personId.hashCode();
+    }
+}
+----
+
+Some things to note in this example:
+
+* A value object - `PersonId` - is used for the entity ID. We could have used a UUID, a string or a long as well but a value object immediately tells us that this is an ID that identifies a particular `Person`.
+* In addition to the entity ID, this entity uses a lot of other value objects as well: `PersonName`, `LocalDate` (yes, this is also a value object even though it is part of the standard Java API), `StreetAddress`, `EmailAddress` and `PhoneNumber`.
+* Instead of using a setter for changing the name, we use a business method that also stores the change in an event log, together with the reason for why the name was changed.
+* There is a getter for retrieving the history of name changes.
+* `equals` and `hashCode` only check the entity ID.
+
+.Domain-Driven Design and CRUD
+****
+We have now come to a point where it is appropriate to address the question about DDD and CRUD. CRUD stands for *Create*, *Retrieve*, *Update* and *Delete* and is also a common UI pattern in enterprise applications:
+
+image::crud.png[Example of a CRUD user interface]
+
+* The main view consists of a grid, maybe with filtering and sorting, where you can look for entities (*retrieve*).
+* In the main view, there is a button for creating new entities. Clicking the button will bring up an empty form and when the form has been submitted, the new entity shows up in the grid (*create*).
+* In the main view, there is a button for editing the selected entity. Clicking the button will bring up a form containing the entity data and when the form has been submitted, the entity has been updated with the new information (*update*).
+* In the main view, there is a button for deleting the selected entity. Clicking the button will delete the entity from the grid (*delete*).
+
+This pattern certainly has its place, but should _be the exception rather than the norm_ in a domain-driven application. The reason is the following: A CRUD application is only about structuring, displaying and editing data. It normally does not support the underlying business process. When a user enters something into the system, changes something or removes something, there is a business reason behind that decision. Maybe the change is happening as a part of a larger business process? In a CRUD system, the reason for a change is lost and the business process is in the head of the user.
+
+A true domain-driven user interface will be based on actions that are themselves part of the domain model and the business processes are built into the system as opposed to in the heads of the users. This in turn leads to a more robust, but arguably less flexible system than a pure CRUD application. I'm going to illustrate this difference with a caricatural example:
+
+Company A has a domain-driven system for managing employees whereas Company B has a CRUD-driven approach. An employee quits in both companies. The following happens:
+
+* Company A:
+  - The manager looks up the employee's record in the system.
+  - The manager selects the 'Terminate Employment Contract' action.
+  - The system asks for termination date and reason.
+  - The manager enters the needed information and clicks 'Terminate Contract'.
+  - The system automatically updates the employee records, revoces the employee's user credentials and electronic office key and sends a notification to the payroll system.
+ * Company B:
+  - The manager looks up the employee's record in the system.
+  - The manager puts a check in the 'Contract terminated' checkbox and enters the termination date, then clicks 'Save'.
+  - The manager logs into the user management system, looks up the user's account, puts a check in the 'Disabled' check box and clicks 'Save'.
+  - The manager logs into the office key management system, looks up the user's key, puts a check in the 'Disabled' check box and clicks 'Save'.
+  - The manager sends an e-mail to the payroll department notifying them that the employee has quit.
+
+The key takeaways are the following: Not all applications are suitable for domain-driven design and a domain-driven application not only has a domain-driven backend but also a domain-driven user interface.
+
+****
 
 == Aggregates ==
 
+=== Aggregates, UI Binding and Validation ===
+
+To Do
+
 == Domain Events ==
+
+.A Note on Eventual Consistency
+****
+To do
+****
 
 == Repositories ==
 
@@ -112,8 +279,6 @@ public class StreetAddress implements Serializable, Comparable<StreetAddress> {
 == Factories ==
 
 == Modules ==
-
-== Domain-Driven Design and CRUD ==
 
 == Next: Domain-Driven Design and the Hexagonal Architecture
 
