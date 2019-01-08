@@ -53,6 +53,8 @@ Let's say we are building an EMR (Electronic Medical Records) system for smaller
 
 Now, how would we classify these subdomains? The most obvious ones are *file archive* and *identity management* which are clearly generic subdomains. But what about the others? That depends on what is making this particular EMR system stand out among the others in the market. 
 
+image::subdomains.png[Example subdomains]
+
 Since we are building an EMR system, it is pretty safe to assume that *patient records* is a core domain. If we are going to take the market by making a system that will make all the clinics work more efficiently through clever and innovative scheduling, then *scheduling* is probably also a core domain. Otherwise, it is a supporting subdomain, maybe built on top of some existing scheduling engine. The same reasoning can be applied to the *lab* subdomain: if a significant part of our business case is a seamless integration between patient records and the lab, then lab is most likely a core domain. Otherwise, it is a supporting subdomain.
 
 == From Problems to Solutions
@@ -83,7 +85,18 @@ Personally I like to think about bounded contexts as separate systems (e.g. sepa
 
 === Example
 
-TODO Example of bounded contexts
+Let's revisit the EMR system in the previous example and more specifically the *patient records* core domain. What kind of bounded contexts could we find there? Now I am no expert on health care software so I will just make up some, but hopefully you will get the idea.
+
+The system supports services for both doctor appointments and physiotherapy. In addition, there is a separate onboarding process for new patients where they are interviewed, photographed and given an initial assessment. This leads to the following bounded contexts within the core domain:
+
+image::contexts.png[Example bounded contexts]
+
+1. *Personal information* for managing the patient's personal information (name, address, financial information, medical background, etc).
+2. *Onboarding* for introducing new patients into the system.
+3. *Medical Exams* used by doctors when examining and treating the patient.
+4. *Physiotherapy* used by physiotherapists when examining and treating the patient.
+
+In a very simple system you probably would squeeze everything into a single context, but this EMR is more advanced and provides streamlined and optimized features for each type of service that is provided. However, we are still within the same core subdomain.
 
 == Relationships between Contexts
 
@@ -153,7 +166,17 @@ This integration pattern is special in that it does not perform any integration 
 
 == Why is Strategic Domain-Driven Design Important?
 
-TODO
+I believe strategic domain-driven design was originally meant for larger projects but I think you can benefit from it also in smaller projects - even if you end up not using any other parts of DDD in the project.
+
+For me personally, the major take-aways from strategic domain-driven design are the following:
+
+1. It introduces boundaries. Scope creep is a constant factor in all of my hobby projects. Eventually they become more exhaustive than fun to work on or completely unrealistic to finish alone. When working on customer projects, I have to work hard not to cause technical scope creep by overthinking or overengineering things. Boundaries - wherever they are - help me to divide the project into smaller parts and focus on the right ones at the right time.
+
+2. It does not require me to find a super-model that works in all cases. It recognizes that in the real world, there are often many smaller models in more or less clearly defined contexts. Instead of breaking these models, it embraces them.
+
+3. It helps you to think about the value your system is going to bring and where you should put the most of your efforts to get the biggest value. I have personal experience from projects where properly identifying and then concentrating on the core domain would have made a huge difference. Unfortunately I had not yet heard about strategic DDD and both time and money was wasted.
+
+I also know myself good enough to identify a risk with this approach: finding subdomains and bounded contexts for the sake of finding subdomains and bounded contexts. When I learn something new that I like, I very much want to try it out in the real world. That may sometimes mean I go looking for things that are not there. My suggestion here is to always start with *one core domain* and *one bounded context*. I you do the domain modeling carefully, additional subdomains and bounded contexts will eventually reveal themselves if they exist.
 
 == Next: Tactical Domain-Driven Design
 
