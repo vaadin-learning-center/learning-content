@@ -238,7 +238,7 @@ image::crud.png[Example of a CRUD user interface]
 
 This pattern certainly has its place, but should _be the exception rather than the norm_ in a domain-driven application. The reason is the following: A CRUD application is only about structuring, displaying and editing data. It normally does not support the underlying business process. When a user enters something into the system, changes something or removes something, there is a business reason behind that decision. Maybe the change is happening as a part of a larger business process? In a CRUD system, the reason for a change is lost and the business process is in the head of the user.
 
-A true domain-driven user interface will be based on actions that are themselves part of the domain model and the business processes are built into the system as opposed to in the heads of the users. This in turn leads to a more robust, but arguably less flexible system than a pure CRUD application. I'm going to illustrate this difference with a caricatural example:
+A true domain-driven user interface will be based on actions that are themselves part of the ubiquitous language (and thereby the domain model) and the business processes are built into the system as opposed to in the heads of the users. This in turn leads to a more robust, but arguably less flexible system than a pure CRUD application. I'm going to illustrate this difference with a caricatural example:
 
 Company A has a domain-driven system for managing employees whereas Company B has a CRUD-driven approach. An employee quits in both companies. The following happens:
 
@@ -261,9 +261,141 @@ The key takeaways are the following: Not all applications are suitable for domai
 
 == Aggregates ==
 
-=== Aggregates, UI Binding and Validation ===
+Now when we know what entities and value objects are, we are going to look at the next important concept: *aggregates*. An aggregate is a group of entities and value objects that have certain characteristics:
 
-To Do
+* The aggregate is created, retrieved and stored _as a whole_.
+* The aggregate is always in a _consistent_ state.
+* The aggregate is owned by an entity called the *aggregate root*, whose ID is used to identify the aggregate itself.
+
+image:aggregate.png[Example of an aggregate with an aggregate root]
+
+In addition, there are two important restrictions concerning aggregates:
+
+* An aggregate can be referenced from the outside through its root only. Objects outside of the aggregate may *not* reference any other entities inside the aggregate.
+* The aggregate root is responsible for enforcing _business invariants_ inside the aggregate, ensuring that the aggregate is in a consistent state at all times.
+
+image:aggregate_references.png[Example of allowed and prohibited references between aggregates]
+
+This means that whenever you design an entity, you have to decide what kind of entity you are going to make: will the entity act as an aggregate root, or will it be what I call a _local entity_ that lives inside an aggregate and under the supervision of an aggregate root? Since local entities cannot be referenced from outside the aggregate, it is enough that their IDs are unique within the aggregate (they have _local IDs_), whereas aggregate roots must have globally unique IDs (they have _global IDs_). However, the importance of this semantic difference varies depending on how you choose to store the aggregate. In a relational database, it makes the most sense to use the same primary key generation mechanism for all entities. On the other hand, if the entire aggregate is saved as a single document in a document database, it makes more sense to use true local IDs for the local entities.
+
+So how do you know if an entity is an aggregate root or not? First of all, the fact that there is a parent-child (or master-detail) relationship between two entities does not automatically turn the parent into an aggregate root and the child into a local entity. More information is needed before that decision can be made. Here is how I do it:
+
+* How is the entity going to be accessed in the application? 
+  - If the entity will be looked up by ID or through some kind of search it is probably an aggregate root.
+* Will other aggregates need to reference it?
+  - If the entity will be referenced from within other aggregates it is definitely an aggregate root.
+* How is the entity going to be modified in the application? 
+  - If it can be modified independently it is probably an aggregate root.
+  - If it cannot be modified without making changes to another entity it is probably a local entity.
+
+Once you know you are creating an aggregate root, how do you make it enforce the business invariants and what does that even mean? A business invariant is a rule that must always hold regardless of what happens to the aggregate. A simple business invariant could be that in an invoice, the total amount must always be the sum of the amounts of the line items, regardless of whether items are added, edited or removed. The invariants should be a part of the ubiquitous language and the domain model.
+
+Technically an aggregate root can enforce business invariants in different ways:
+
+* All state-altering operations are performed through the aggregate root.
+* State-altering operations on local entities is allowed, but they notify the aggregate root whenever they change.
+
+In some cases, for example in the example with the invoice total, the invariant could be enforced by having the aggregate root dynamically compute the total every time it is requested.
+
+I personally design my aggregates so that invariants are enforced immediately and all the time. Arguably you could achieve the same end result by introducing strict data validation that is performed before the aggregate is saved (the Java EE way). At the end of the day this is a matter of personal taste.
+
+=== Aggregate Design Guidelines
+
+When designing aggregates, there are certain guidelines to follow. I choose to call them guidelines rather than rules because there are cases when it makes sense to break them.
+
+==== Guideline 1: Keep your aggregates small ====
+
+Aggregates are always retireved and stored as a whole. The less data you have to read and write, the better your system will perform. For the same reason you should avoid unbounded one-to-many associations (collections) since these can grow large over time.
+
+Having a small aggregate also makes it easier for the aggregate root to enforce the business invariants, even more so if you prefer to use value objects (immutable) instead of local entities (mutable) in your aggregates.
+
+==== Guideline 2: Refer to other aggregates by ID ====
+
+Instead of referencing another aggregate directly, create a value object that wraps the ID of the aggregate root and use that as the reference. This makes it easier to maintain aggregate consistency boundaries since you cannot even accidentally change the state of one aggregate from within another. It also prevents deep object trees from being retrieved from the data store when an aggregate is retrieved.
+
+image:reference_by_id.png[Refer to other aggregate roots by ID]
+
+You may need to break this guideline if you really need to access the data of the other aggregate and there is no better way of solving the problem. You could rely on the persistence framework's lazy loading capabilities but in my experience they tend to cause more problems than they solve. An approach that requires more coding but is more explicit is to pass in the repository (more about those later) as a method parameter:
+
+[source,java]
+----
+public class Invoice extends AggregateRoot<InvoiceId> {
+
+    private CustomerId customerId;
+
+    // All the other methods and fields omitted
+
+    public void copyCustomerInformationToInvoice(CustomerRepository repository) {
+        Customer customer = repository.findById(customerId);
+        setCustomerName(customer.getName());
+        setCustomerAddress(customer.getAddress());
+        // etc.
+    }
+}
+----
+
+In any case, you should avoid bidirectional relationships between aggregates.
+
+==== Guideline 3: Change one aggregate per transaction ====
+
+Try to design your operations so that you only make changes to one aggregate inside a single transaction. For operations that span multiple aggregates, use domain events and eventual consistency (more about this later). This prevents unintentional side effects and makes it easier to distribute the system in the future if need be. As a bonus, it also makes it easier to use document databases without transaction support.
+
+image:aggregate_transaction.png[Modifying two aggregates in separate transactions]
+
+However, this comes with a cost of added complexity. You need to set up an infrasturcture for reliably handling domain events. Especially in a monolithic application where you can dispatch domain events synchronously within the same thread and transaction, the added complexity is in my opinion rarely motivated. A good compromise in my opinion is to still rely on domain events for making changes to other aggregates, but to do it inside the same transaction:
+
+image:aggregate_shared_transaction.png[Modifying two aggregates in a single transaction]
+
+In any case, you should try to avoid changing the state of an aggregate directly from within another aggregate.
+
+We will discuss more about this later when we cover domain events.
+
+==== Guideline 4: Use optimistic locking ====
+
+A key feature of aggregates is to enforce business invariants and ensure data consistency at all times. This is all in vain if the aggregate ends up being corrupted because of conflicting data storage updates. Therefore, you should use optimistic locking to prevent data loss when saving aggregates.
+
+The reason optimistic locking is prefered to pessimistic locking is that it is easy to implement yourself if the persistence framework does not support it out of the box and it is easy to distribute and scale.
+
+Sticking to the first guideline will also help in this matter since small aggregates (and thus small transactions) reduce the risk of conflicts as well.
+
+=== Aggregates, Invariants, UI Binding and Validation ===
+
+Some of you are probably now woundering how aggregates and enforcing business invariants work together with user interfaces and more specifically form binding. If invariants are to be enforced at all times and an aggregate must be in a consistent state at all times, what do you do while the user is filling out the forms? Furthermore, if there are no setters, how do you bind the form fields to your aggregates?
+
+There are multiple way of dealing with this one. The simplest solution is to defer invariant enforcement until the aggregate is saved, add setters for all properties and bind the entities to the form directly. I personally do not like this approach since I believe it is more data-driven than domain-driven. The risk is high that the entities degrade into anemic holders of data with the business logic ending up in a service layer (or worse, in the UI).
+
+Instead, I prefer two other approaches. The first one is to model the forms and their contents into their own domain model concepts. In the real world, if you apply for something, you often have to fill in an application form and submit it. The application is then processed and once all the necessary information has been supplied and you meet the rules, the application is granted and you get whatever it was you applied for. You can mimic this process in the domain model. For example, if you have a `Membership` aggregate root, you could also have a `MembershipApplication` aggregate root that is used to collect all the information needed to create a `Membership`. The application object could then be used as input when creating the membership object.
+
+The second approach is a variant of the first one and that is the _essence_ pattern. For each entity or value object you need to edit, create a mutable essence object that contains the same information. This essence object is then bound to the form. Once the essence object contains all the necessary information, it can be used to create real entities or value objects. The difference to the first approach is that the essence objects are not part of the domain model, they are just technical constructs that exist to make it easier to interact with the real domain objects. In practice, the essence pattern could look something like this:
+
+[source,java]
+----
+// Lombok annotations to automatically generate getters and setters:
+@Getter
+@Setter
+public class PersonEssence {
+    private String firstName;
+    private String lastName;
+    private LocalDate dateOfBirth;
+    private String streetAddress;
+    private String postalCode;
+    private String city;
+    private Country country;
+
+    public Person createPerson() {
+        validate();
+        return new Person(this);
+    }
+
+    private void validate() {
+        // Make sure all necessary information has been entered, throw an exception if not
+    }
+}
+----
+
+=== Code Examples ===
+
+
 
 == Domain Events ==
 
