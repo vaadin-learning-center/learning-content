@@ -524,10 +524,51 @@ public class OrderItem extends LocalEntity<Long> { // ID type passed in as gener
 
 == Domain Events ==
 
+To do
+
 .A Note on Eventual Consistency
 ****
 To do
 ****
+
+== Movable and Static Objects ==
+
+Before we carry on, I want to introduce you to _movable_ and _static_ objects. These are not real DDD terms but something I use myself when I think about the different parts of the domain model. In my world, a movable object is any object of which there can be more than one instance and that can be passed around between different parts of the application. Value objects, entities and domain events are all movable objects.
+
+A static object, on the other hand, is a singleton (or a pooled resource) that always sits in one place and is invoked by other parts of the application but is rarely passed around (except when being injected into other static objects). Repositories, domain services and factories are all static objects. 
+
+This difference is important because it dictates what kind of relationships you can have between the objects. Static objects can hold references to other static objects and to movable objects.
+
+Movable objects can hold references to other movable objects. However, a movable object can _never_ hold a reference to a static object. If a movable object needs to interact with a static object, the static object has to be passed in as a method parameter to the method that will interact with it. This makes the movable objects more portable and self-contained since you do not need to look up and inject any references to static objects into the movable objects every time you deserialize them.
+
+== Other Domain Objects ==
+
+When you work with domain-driven code, there will be times where you run into cases where a class does not really fit into the value object, entity or domain event mold. In my experience, this typically happens in the following cases:
+
+* Any information from an external system (= another bounded context). The information is immutable from your point of view, but it has a global ID that is used to uniquely identify it.
+* Type data that is used to describe other entities (Vaughn Vernon calls these objects *standard types*). These objects have global IDs and may even be mutable to some extent, but for all practical purposes of the application itself they are immutable.
+* Framework/infrastructure-level entities that are used to e.g. store audit entries or domain events in the database. They may or may not have global IDs and may or may not be mutable, depending on the use case.
+
+The way I deal with these cases is to use a hierarchy of base classes and interfaces that starts with something called a `DomainObject`. A domain object is any movable object that somehow relates to the domain model. If an object is purely a value object or not purely an entity, I can declare it a domain object, explain in the JavaDocs what it does and why, and carry on.
+
+image:domain_objects.png[Hierarchy of base classes and interfaces for different domain objects]
+
+I like to use interfaces at the top of the hierarchy since you can combine them in anyway you like and even have `enums` implement them. Some of the interfaces are marker interfaces without any methods that are only used to indicate what role the implementing class plays in the domain model. In the diagram above, the classes and interfaces are the following:
+
+* `DomainObject` - top-level marker interface for all domain objects.
+* `DomainEvent` - interface for all domain events. This typically contains some metadata about the event, such as the date and time of the event, but it may be a marker interface as well.
+* `ValueObject` - marker interface for all value objects. Implementations of this interface are required to be immutable and implement `equals()` and `hashCode()`. Unfortunately there is no way of enforcing this from the interface level, even though that would be nice.
+* `IdentifiableDomainObject` - interface for all domain objects that can be uniquily identified in some context. I often design this as a generic interface with the ID type as a generic parameter.
+* `StandardType` - marker interface for standard types.
+* `Entity` - abstract base class for entities. I often include a field for the ID and implement `equals()` and `hashCode()` accordingly. I might also add optimistic locking information to this class, depending on the persistence framework.
+* `LocalEntity` - abstract base class for local entities. If I use local identity for the local entities, this class will contain code for managing that. Otherwise, it may just be an empty marker class.
+* `AggregateRoot` - abstract base class for aggregate roots. If I use local identity for the local entities, this class will contain code for generating new local IDs. The class will also contain code for dispatching domain events. If optimistic locking information was not included in the `Entity` class, it is definitely included here. Audit information (created, last updated, etc.) may also be added to this class depending on the requirements of the application.
+
+=== Code Examples ===
+
+In this code example, we have two bounded contexts, *identity management* and *employee management*:
+
+image:domain_objects_contexts.png[The identity management and employee management contexts]
 
 == Repositories ==
 
