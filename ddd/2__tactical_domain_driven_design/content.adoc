@@ -568,15 +568,76 @@ I like to use interfaces at the top of the hierarchy since you can combine them 
 
 In this code example, we have two bounded contexts, *identity management* and *employee management*:
 
-image:domain_objects_contexts.png[The identity management and employee management contexts]
+image:domain_objects_contexts.png[The *identity management* and *employee management* contexts]
+
+The employee management context needs some, but not all, information about users from the identity management context. There is a REST endpoint for this and the data is serialized into JSON.
+
+Inside the identity management context, a `User` is represented like this:
+
+.User.java (identity management)
+[source,java]
+----
+public class User extends AggregateRoot<UserId> {
+    private String userName;
+    private String firstName;
+    private String lastName;
+    private Instant validFrom;
+    private Instant validTo;
+    private boolean disabled;
+    private Instant nextPasswordChange;
+    private List<Password> passwordHistory;
+
+    // Getters, setters and business logic omitted
+}
+----
+
+Inside the employee management context, we only need the user ID and name. The user will be uniquly identified by the ID but the name is shown in the UI. We obiously cannot change any user information so the user information is immutable. The code looks like this:
+
+.User.java (employee management)
+[source,java]
+----
+public class User implements IdentifiableDomainObject<UserId> {
+    private final UserId userId;
+    private final String firstName;
+    private final String lastName;
+
+    @JsonCreator // We can deserialize the incoming JSON directly into an instance of this class.
+    public User(String userId, String firstName, String lastName) {
+        // Populate fields, convert incoming userId string parameter into a UserId value object instance.
+    }
+
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
+
+    // Other getters omitted.
+
+    public boolean equals(Object o) {
+        // Check userId only
+    }
+
+    public int hashCode() {
+        // Calculate based on userId only
+    }
+}
+----
+
 
 == Repositories ==
 
+To do
+
 == Domain Services ==
+
+To do
 
 == Factories ==
 
+To do
+
 == Modules ==
+
+To do
 
 == Next: Domain-Driven Design and the Hexagonal Architecture
 
