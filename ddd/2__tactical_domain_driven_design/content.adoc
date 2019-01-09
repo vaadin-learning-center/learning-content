@@ -276,7 +276,7 @@ In addition, there are two important restrictions concerning aggregates:
 
 image:aggregate_references.png[Example of allowed and prohibited references between aggregates]
 
-This means that whenever you design an entity, you have to decide what kind of entity you are going to make: will the entity act as an aggregate root, or will it be what I call a _local entity_ that lives inside an aggregate and under the supervision of an aggregate root? Since local entities cannot be referenced from outside the aggregate, it is enough that their IDs are unique within the aggregate (they have _local IDs_), whereas aggregate roots must have globally unique IDs (they have _global IDs_). However, the importance of this semantic difference varies depending on how you choose to store the aggregate. In a relational database, it makes the most sense to use the same primary key generation mechanism for all entities. On the other hand, if the entire aggregate is saved as a single document in a document database, it makes more sense to use true local IDs for the local entities.
+This means that whenever you design an entity, you have to decide what kind of entity you are going to make: will the entity act as an aggregate root, or will it be what I call a _local entity_ that lives inside an aggregate and under the supervision of an aggregate root? Since local entities cannot be referenced from outside the aggregate, it is enough that their IDs are unique within the aggregate (they have _local identity_), whereas aggregate roots must have globally unique IDs (they have _global identity_). However, the importance of this semantic difference varies depending on how you choose to store the aggregate. In a relational database, it makes the most sense to use the same primary key generation mechanism for all entities. On the other hand, if the entire aggregate is saved as a single document in a document database, it makes more sense to use true local IDs for the local entities.
 
 So how do you know if an entity is an aggregate root or not? First of all, the fact that there is a parent-child (or master-detail) relationship between two entities does not automatically turn the parent into an aggregate root and the child into a local entity. More information is needed before that decision can be made. Here is how I do it:
 
@@ -370,32 +370,157 @@ The second approach is a variant of the first one and that is the _essence_ patt
 
 [source,java]
 ----
-// Lombok annotations to automatically generate getters and setters:
-@Getter
-@Setter
-public class PersonEssence {
-    private String firstName;
-    private String lastName;
-    private LocalDate dateOfBirth;
-    private String streetAddress;
-    private String postalCode;
-    private String city;
-    private Country country;
+public class Person extends AggregateRoot<PersonId> {
 
-    public Person createPerson() {
-        validate();
-        return new Person(this);
+    private final DateOfBirth dateOfBirth;
+    // Rest of the fields omitted
+
+    public Person(String firstName, String lastName, LocalDate dateOfBirth) {
+        setDateOfBirth(dateOfBirth);
+        // Populate the rest of the fields
     }
 
-    private void validate() {
-        // Make sure all necessary information has been entered, throw an exception if not
+    public Person(Person.Essence essence) {
+        setDateOfBirth(essence.getDateOfBirth());
+        // Populate the rest of the fields
+    }
+
+    private void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = Objects.requireNonNull(dateOfBirth, "dateOfBirth must not be null");        
+    }
+
+    @Data // Lombok annotation to automatically generate getters and setters
+    public static class Essence {
+        private String firstName;
+        private String lastName;
+        private LocalDate dateOfBirth;
+        private String streetAddress;
+        private String postalCode;
+        private String city;
+        private Country country;
+
+        public Person createPerson() {
+            validate();
+            return new Person(this);
+        }
+
+        private void validate() {
+            // Make sure all necessary information has been entered, throw an exception if not
+        }
     }
 }
 ----
 
+If you wanted to, you could replace the essence with a builder if you are more familiar with that pattern. The end result would be the same.
+
 === Code Examples ===
 
+Here is an example of an aggregate root (`Order`) and a local entity (`OrderItem`) with local identity (the code is untested and some method implementations have been omitted for clarity):
 
+.Order.java
+[source,java]
+----
+public class Order extends AggregateRoot<OrderId> { // ID type passed in as generic parameter
+
+    private CustomerId customer;
+    private String shippingName;
+    private PostalAddress shippingAddress;
+    private String billingName;
+    private PostalAddress billingAddress;
+    private Money total;
+    private Long nextFreeItemId;
+    private List<OrderItem> items = new ArrayList<>();
+
+    public Order(Customer customer) {
+        super(OrderId.createRandomUnique());
+        Objects.requireNonNull(customer);
+
+        // These setters are private and make sure the passed in parameters are valid:
+        setCustomer(customer.getId());
+        setShippingName(customer.getName());
+        setShippingAddress(customer.getAddress());
+        setBillingName(customer.getName());
+        setBillingAddress(customer.getAddress());
+        
+        nextFreeItemId = 1L;
+        recalculateTotals();
+    }
+
+    public void changeShippingAddress(String name, PostalAddress address) {
+        setShippingName(name);
+        setShippingAddress(address);
+    }
+
+    public void changeBillingAddress(String name, PostalAddress address) {
+        setBillingName(name);
+        setBillingAddress(address);
+    }
+
+    private Long getNextFreeItemId() {
+        return nextFreeItemId++;
+    }
+
+    void recalculateTotals() { // Package visibility to make the method accessible from OrderItem
+        this.total = items.stream().map(OrderItem::getSubTotal).reduce(Money.ZERO, Money::add);
+    }
+
+    public OrderItem addItem(Product product) {
+        OrderItem item = new OrderItem(getNextFreeItemId(), this);
+        item.setProductId(product.getId());
+        item.setDescription(product.getName());
+        this.items.add(item);
+        return item;
+    }
+
+    // Getters, private setters and other methods omitted
+}
+----
+
+.OrderItem.java
+[source,java]
+----
+public class OrderItem extends LocalEntity<Long> { // ID type passed in as generic parameter
+
+    private Order order;
+    private ProductId product;
+    private String description;
+    private int quantity;
+    private Money price;
+    private Money subTotal;
+
+    OrderItem(Long id, Order order) {
+        super(id);
+        this.order = Objects.requireNonNull(order);
+        this.quantity = 0;
+        this.price = Money.ZERO;
+        recalculateSubTotal();
+    }
+
+    private void recalculateSubTotal() {
+        Money oldSubTotal = this.subTotal;
+        this.subTotal = price.multiply(quantity);
+        if (oldSubTotal != null && !oldSubTotal.equals(this.subTotal)) {
+            this.order.recalculateTotals(); // Invoke aggregate root to enforce invariants
+        }
+    }
+
+    public void setQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        this.quantity = quantity;
+        recalculateSubTotal();
+    }
+
+    public void setPrice(Money price) {
+        Objects.requireNonNull(price, "price must not be null");
+        this.price = price;
+        recalculateSubTotal();
+    }
+
+    // Getters and other setters omitted
+}
+----
 
 == Domain Events ==
 
