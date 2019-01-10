@@ -34,9 +34,23 @@ def main():
 	# check articles
 	for article in glob(TUTORIALS_ROOT + "/*/"):
 		check_article_or_section(article, MANDATORY_ARTICLE_PROPERTIES)
+		# check article props in detail:
 		articleProps = get_properties(article)
 		if len(articleProps["title"]) > 75:
 			log_error("Error: Title '" + articleProps["title"] + "' too long - check " + article)
+
+		try:
+			publishDateString = articleProps["publish_date"]
+			if len(publishDateString) > 0:
+				try:
+					datetime.datetime.fromisoformat(publishDateString)
+				except :
+					log_error("Error: Unable to parse date '" + publishDateString + "' - check " + article)
+			else:
+				log_error("Error: Parse date empty - check " + article)
+		except:
+			pass
+
 		# check sections
 		for section in glob(article + "/*__*/"):
 			check_article_or_section(section, MANDATORY_SECTION_PROPERTIES)
