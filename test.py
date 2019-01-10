@@ -64,7 +64,7 @@ def main():
 
 # Checks article or section properties
 def check_article_or_section(folder, mandatoryProps):
-	print("Checking " + folder + "...")
+	# print("Checking " + folder + "...")
 	props = get_properties(folder)
 	for prop in mandatoryProps:
 		if not prop in props:

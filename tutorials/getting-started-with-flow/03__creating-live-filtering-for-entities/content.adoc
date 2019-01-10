@@ -3,6 +3,7 @@
 
 :title: Part 3 - Creating live filtering for entities
 :author: Vaadin
+:tags: Flow, Java
 :sectnums:
 :imagesdir: ./images
 

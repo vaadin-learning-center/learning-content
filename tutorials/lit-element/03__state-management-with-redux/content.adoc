@@ -3,7 +3,7 @@
 :authors: marcus
 :type: text, video
 :topic: frontend
-:tags: LitElement, redux, state management
+:tags: LitElement, Redux, State management, JavaScript
 :description: Using Redux for state management in a LitElement application
 :repo: https://github.com/vaadin-learning-center/lit-element-tutorial-state-management-with-redux
 :linkattrs:

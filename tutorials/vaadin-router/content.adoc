@@ -1,7 +1,7 @@
 = Creating a simple app using Vaadin Router
 
 :title: Creating a simple app using Vaadin Router
-:tags: JavaScript
+:tags: JavaScript, Navigation
 :description: This guide describes how to create a simple app using Vaadin Router
 :linkattrs:
 :sectnums:

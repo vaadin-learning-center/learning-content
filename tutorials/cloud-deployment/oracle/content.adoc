@@ -3,7 +3,7 @@
 :title: Deploy to Oracle Cloud
 :authors: amahdy
 :type: text, image
-:tags: backend, cloud, deploy, flow
+:tags: Backend, Cloud, Deploy, Flow, Java
 :description: Learn how to deploy Java app to Oracle cloud
 :repo:
 :linkattrs:
