@@ -1,0 +1,66 @@
+= CSS Encapsulation with Shadow DOM
+
+:tags: Web Components, JavaScript, Shadow DOM, CSS 
+:author: Nii Yeboah
+:publish_date: 
+:description: Encapsulating CSS styles with the Shadow DOM
+:repo:
+:linkattrs:
+:imagesdir: ./images
+
+== The Global Problem
+
+The global scope of CSS can be problematic for a number of reasons. Every CSS rule we define has the potential to have wide ranging and often unintended side affects or in other cases, a rule has no effect due to conflicts with global styles. As applications increase in scale and complexity, maintainability and extensibility become increasingly challenging as a result of the global nature of CSS. There are a lot of different approaches to solving the CSS scoping problem:
+
+* Naming conventions: http://getbem.com/introduction[BEM]
+* Framework specific solutions: https://vue-loader.vuejs.org/guide/scoped-css.html[Vue], https://angular.io/guide/component-styles#style-scope[Angular]
+* CSS-in-JS: https://www.styled-components.com[styled-components], https://emotion.sh[emotion]
+
+== Shadow DOM
+
+In this tutorial we will focus on the browsers very own solution to CSS encapsulation which is the Shadow DOM. The Shadow DOM allows the browser to render DOM elements without putting them in the main DOM tree. Basically, this enables local scoping for HTML and CSS. 
+
+TIP: When creating custom elements with libraries like https://lit-element.polymer-project.org[LitElement] or https://polymer-library.polymer-project.org[Polymer], the creation of the Shadow DOM has been abstracted and is done automatically unless you explicitly change this behaviour.
+
+We will be looking at how to create a Shadow DOM using vanilla JavaScript. In order to do this, we simply call the https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow[`attachShadow`] method on certain HTML elements or any custom element we define. The following HTML will render the text "Light DOM" in red because of the CSS rule that targets all `<span>` elements:
+
+[source,html]
+----
+<style>
+  span {
+    color: red;
+  }
+</style>
+<div class="shadow-dom">
+  <span>Light DOM</span>
+</div>
+----
+
+image::html-and-dom-1.png[The words Light DOM in the color red.]
+
+We can create a Shadow DOM with a local `<span>` element and a local style targeting it like this:
+
+[source,javascript]
+----
+const element = document.querySelector('.shadow-dom');
+element.attachShadow({ mode: 'open' });  // <1>
+element.shadowRoot.innerHTML = `
+  <style>
+    span {
+      color: green; // <2>
+    }
+  </style>
+  <span>Shadow DOM</span> // <3>
+  <slot></slot> // <4>
+`
+----
+<1> Attach a Shadow DOM tree to the `<div>`.
+<2> Define a local CSS rule for `<span>` elements. This rule will not affect any `<span>` elements outside of the Shadow DOM.
+<3> Place a `<span>` in the elements Shadow DOM. This `<span>` will not be affected by global CSS rules.
+<4> The `<slot>` element tells the browser where to render elements placed in the light DOM.
+
+TIP: You must provide the `ShadowRootInit` parameter for the `attachShadow` method. This is an object with a `mode` property. The mode should always be `"open"` as this allows us to access the shadow DOM by referencing the elements `shadowRoot` property.
+
+image::html-and-dom-2.png[The words Shadow DOM written in green followed by the words Light DOM in the color red.]
+
+Live code example https://codepen.io/niiyeboah/pen/wREZpy[here].
