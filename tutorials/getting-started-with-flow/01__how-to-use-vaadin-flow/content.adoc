@@ -3,6 +3,7 @@
 
 :title: Part 1 - How to use Vaadin Flow
 :author: Vaadin
+:tags: Flow, Java
 :sectnums:
 :imagesdir: ./images
 
