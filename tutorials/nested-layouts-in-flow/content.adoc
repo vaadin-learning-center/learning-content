@@ -1,7 +1,7 @@
 = Nested Layouts in Flow
 
 :type: text, video
-:tags: layout, vaadin-flow, nested-layout
+:tags: Layout, Flow, Navigation, Java
 :description: How to use Layouts in Flow
 :repo: https://github.com/vaadin-learning-center/flow-layout-nested-layouts
 :linkattrs:

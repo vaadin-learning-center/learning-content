@@ -3,7 +3,7 @@
 :title: Deploy to Azure Cloud
 :authors: amahdy
 :type: text
-:tags: backend, cloud, deploy
+:tags: Backend, Cloud, Deploy, Java
 :description: Learn how to deploy Java app to Azure cloud
 :repo:
 :linkattrs:
