@@ -2,9 +2,11 @@
 
 *Domain-Driven Design* (DDD) has been around since *Eric Evans* published his book about the subject in 2003. I myself came into contact with DDD some years ago when I joined a project that suffered from data consistency problems. Duplicates showed up in the database, some information was not saved at all and you could run into optimistic locking errors anywhere and anytime. We managed to solve this by using the building blocks of tactical domain-driven design.
 
-I have learned more about domain-driven design since then and also try use it in my projects wherever appropriate. However, during the past years when I have talked to other developers many of them have heard about the term domain-driven design but they do not know what it actually means. In this article, I am going to give a brief introduction to domain-driven design as I see and understand it. You will not become an expert in domain-driven design by reading the article, but I hope it will inspire you to read more about it elsewhere. In the last section I have some pointers to further reading that I encourage you to check out. 
+I have learned more about domain-driven design since then and also try use it in my projects wherever appropriate. However, during the past years when I have talked to other developers many of them have heard about the term domain-driven design but they do not know what it actually means. In this article series, I am going to give a brief introduction to domain-driven design as I see and understand it. The content is very much based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon*. However, I have tried to explain everything in my own words and also inject my own thoughts, opinions and experiences.
 
-Now let's get started.
+You will not become an expert in domain-driven design by reading my article series, but I hope it will inspire you to read more about it elsewhere. I also highly encourage you to read the books by Evans and Vernon.
+
+Now let's get started with the first subject, namely strategic domain-driven design.
 
 == What is a Domain?
 
@@ -59,7 +61,7 @@ Since we are building an EMR system, it is pretty safe to assume that *patient r
 
 == From Problems to Solutions
 
-You sometimes find the domain referred to as the "problem domain". This comes from the fact that the domain defines problems that the software is going to solve (after all, there is a reason why the software is being made in the first place). In his book *Implementing Domain-Driven Design*, *Vaughn Vernon* splits a domain up into a _problem space_ and a _solution space_. The problem space concentrates on what _business problems_ we are trying to solve. The subdomains belong to this space.
+You sometimes find the domain referred to as the "problem domain". This comes from the fact that the domain defines problems that the software is going to solve (after all, there is a reason why the software is being made in the first place). Vaughn Vernon splits a domain up into a _problem space_ and a _solution space_. The problem space concentrates on what _business problems_ we are trying to solve. The subdomains belong to this space.
 
 The solution space concentrates on _how_ the problems in the problem space are going to be solved. It is more concrete, more technical and contains more details. So how are we going to transform our problems into solutions?
 
@@ -98,7 +100,7 @@ image::contexts.png[Example bounded contexts]
 
 In a very simple system you probably would squeeze everything into a single context, but this EMR is more advanced and provides streamlined and optimized features for each type of service that is provided. However, we are still within the same core subdomain.
 
-== Relationships between Contexts
+== Relationships Between Contexts
 
 In a non-trivial system, very few (if any) bounded contexts are completely independent. Most contexts will have some kind of relationship with other contexts. Identifying these relationships is of importance not only techncially (how will the systems technically communitate with each other) but also to how they are developed (how will the teams that develop the systems communicate with each other).
 
@@ -180,4 +182,4 @@ I also know myself good enough to identify a risk with this approach: finding su
 
 == Next: Tactical Domain-Driven Design
 
-In the next section, we are going to look at tactical domain-driven design. You will learn about the building blocks you can use to transform your bounded contexts into implementable designs. These building blocks will also aid you in creating the domain model and the ubiquitous langauge.
+In the next article in this series, we are going to look at tactical domain-driven design. You will learn about the building blocks you can use to transform your bounded contexts into implementable designs. These building blocks will also aid you in creating the domain model and the ubiquitous langauge.
