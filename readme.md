@@ -124,7 +124,7 @@ Might be outdated, check https://gitlab.vaadin.com/vaadincom/webpage/blob/develo
 
 **1. What is the author id? Where should we add it, the article itself or the article.properties file?**
 
-The author ID (UUID, LR screen name or email address of the author) is used to resolve the author in the DB to get the real name and portrait. Everything defined in the article.properties file is the default for the whole article but can always be overwritten by section properties.
+The author ID (UUID, LR screen name or email address of the author) is used to resolve the author in the DB to get the real name and portrait. Everything defined in the article.properties file is the default for the whole article but can always be overwritten by section properties. As an UUID please take the existing ID from the source of the vaadin.com team page.
 
 **2. Where is the teaser shown? How long should it be?**
 
@@ -136,8 +136,18 @@ The URLs will not break as the order is not part of it. Putting it into the cont
 
 **4. What are the required attributes? Which ones are supported?**
 
+Necessary attributes are in content.adoc (title, authors, type, topic, tags, description) and in article.properties (title, author,
+author_id, topics). Valid values for the "topic[s]" attribute can be found in topics.json and for the "tags" attribute in allowed_tags.lst. How to get the UUI is described in FAQ #1.  
+
 Check definitions of articles and sections above.
 
 **5. What should the folder structure be for single articles?**
 
 Check the folder example above.
+
+**6. Checklist for publishing an article?
+
+1. create files and folders like in the above described structure
+2. set the right meta data configuration in the header of the content.adoc as well as in the article.properties. Valid values can be found in allowed_tags.lst and topics.json. Please check FAQ #4.
+3. check consistency with test.py file. Therefor install python3 on your machine and let it run to make sure your article is consistent with the system
+4. create a Pull Request to this repository.  

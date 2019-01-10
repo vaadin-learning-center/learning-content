@@ -34,6 +34,23 @@ def main():
 	# check articles
 	for article in glob(TUTORIALS_ROOT + "/*/"):
 		check_article_or_section(article, MANDATORY_ARTICLE_PROPERTIES)
+		# check article props in detail:
+		articleProps = get_properties(article)
+		if len(articleProps["title"]) > 75:
+			log_error("Error: Title '" + articleProps["title"] + "' too long - check " + article)
+
+		try:
+			publishDateString = articleProps["publish_date"]
+			if len(publishDateString) > 0:
+				try:
+					datetime.datetime.fromisoformat(publishDateString)
+				except :
+					log_error("Error: Unable to parse date '" + publishDateString + "' - check " + article)
+			else:
+				log_error("Error: Parse date empty - check " + article)
+		except:
+			pass
+
 		# check sections
 		for section in glob(article + "/*__*/"):
 			check_article_or_section(section, MANDATORY_SECTION_PROPERTIES)
@@ -82,16 +99,23 @@ def log_error(msg):
 # Returns all article or section properties found in the given folder
 def get_properties(folder):
 	# check for full article
+	fullProps = {}
 	if os.path.isfile(folder + "/article.properties"):
-		return load_properties(folder + "/article.properties")
+		fullProps = load_properties(folder + "/article.properties")
 	# check for full section
 	elif os.path.isfile(folder + "/section.properties"):
 		with open(folder + "/section.properties", "r", encoding="utf-8") as fp:
-			return load_properties(folder + "/section.properties")
-	elif os.path.isfile(folder + "/content.adoc"):
-		return load_asciidoc_attributes(folder + "/content.adoc")
-	else:
+			fullProps = load_properties(folder + "/section.properties")
+	contentAdocProps = {}
+	if os.path.isfile(folder + "/content.adoc"):
+		contentAdocProps =  load_asciidoc_attributes(folder + "/content.adoc")
+
+	props = {**fullProps, **contentAdocProps}
+
+	if not props:
 		log_error("Error: Unable to load properties of '" + folder + "'")
+
+	return props
 
 # Returns attributes found in given AsciiDoc file
 def load_asciidoc_attributes(adocFile):
@@ -106,6 +130,12 @@ def load_asciidoc_attributes(adocFile):
 			result["author"] = result["authors"]
 	except KeyError:
 		pass
+
+	# special handling for title property that is also the first line in the file
+	with open(adocFile, "r", encoding="utf-8") as f:
+		line = f.readline().rstrip()
+		if line.startswith("= "):
+			result["title"] = line[2:]
 
 	return result
 

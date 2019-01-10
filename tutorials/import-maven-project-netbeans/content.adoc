@@ -1,0 +1,57 @@
+= Importing a Maven Project in NetBeans
+
+:tags: vaadin, java, maven, intellij, idea
+:author: Alejandro Duarte
+:description: Learn how to import an existing Maven project into NetBeans
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+This tutorial explains how to import an existing Maven project into Apache NetBeans and how to create a running configuration for a Maven goal. This is useful for example when using the Jetty Maven plugin that allows you to quickly deploy and run a Java web application using this popular server.
+
+== Download an existing Maven project
+
+You can create your Maven project from a Maven archetype or download an existing one from the web. This tutorial uses one of the several project starters at https://vaadin.com/start which include a web application and a `pom.xml` file with a preconfigured Jetty Maven plugin in it.
+
+Go to https://vaadin.com/start and select *Project Base*. Click the *Download* button and extract the ZIP file somewhere in your hard drive. The extracted content should include a directory with a Maven project in it:
+
+image::maven-project-directory.png[Maven project directory]
+
+== Import the project
+
+In NetBeans, select *File | Open Project...*. Select the directory corresponding to the Maven project:
+
+image::open-project.png[Open project]
+
+Click on *Open Project* to complete the process.
+
+== Running Maven goals
+
+NetBeans has excellent integration with Maven. You can run common commands such as `mvn clean` or `mvn jetty:run` without having to leave the IDE.
+
+When you select the project in the *Projects* view, NetBeans shows common Maven goals inside the *Navigator* view:
+
+image::navigator-view.png[Navigator view]
+
+You can execute any of these goals by double-clicking them. For example, you can double-click the *jetty run* goal to run the web application implemented in the project you imported.
+
+To stop the server, click the stop button in the *Output* view:
+
+image::output-view.png[Output view]
+
+Since using the `jetty:run` goal could be a frequent task during the development of a Java web application, you might prefer to bind a Maven goal to an _IDE action_.
+
+== Binding Maven goals to IDE actions
+
+Let's associate the *Run project* action to the `jetty:run` Maven goal. Right-click the project in the *Projects* view and select *Properties*. In the *Project Properties* window, select *Actions* from the Categories tree. Select the *Run project* option in the *Actions* list and type `jetty:run` in *Execute Goals*:
+
+image::actions.png[Actions]
+
+Click *OK*.
+
+Now you can deploy and run the web application by clicking the run icon in the toolbar:
+
+image::toolbar.png[Toolbar]
+
+You can repeat the process to bind the `jetty:run` goal to the *Debug project* IDE action.
+
+NOTE: You can invoke the web application at http://localhost:8080.
