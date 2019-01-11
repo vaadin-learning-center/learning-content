@@ -103,7 +103,7 @@ Create a new file, `src/views/base-view.js`:
 .`*src/views/base-view.js*`
 [source,javascript]
 ----
-import { LitElement } from '@polymer/lit-element';
+import { LitElement } from 'lit-element';
 export class BaseView extends LitElement {
   createRenderRoot() {
     return this;
@@ -115,8 +115,8 @@ export class BaseView extends LitElement {
 .`*src/views/todo-view.js*`
 [source,diff]
 ----
--import { LitElement, html } from '@polymer/lit-element';
-+import { html } from '@polymer/lit-element';
+-import { LitElement, html } from 'lit-element';
++import { html } from 'lit-element';
 ---
 -class TodoView extends connect(store)(LitElement) {
 +class TodoView extends connect(store)(BaseView) {
@@ -132,7 +132,7 @@ export class BaseView extends LitElement {
 .`*src/views/not-found-view.js*`
 [source,javascript]
 ----
-import { html } from '@polymer/lit-element';
+import { html } from 'lit-element';
 import { BaseView } from './base-view.js';
 
 class NotFoundView extends BaseView {
@@ -172,7 +172,7 @@ Then create a new file `stats-view.js` in the `views`-folder, :
 .`*src/views/stats-view.js*`
 [source,javascript]
 ----
-import { html } from '@polymer/lit-element';
+import { html } from 'lit-element';
 import { connect } from 'pwa-helpers';
 import { store } from '../redux/store.js';
 import { statsSelector } from '../redux/reducer.js';
