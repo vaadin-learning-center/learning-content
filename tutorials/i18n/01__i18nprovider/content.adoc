@@ -180,6 +180,27 @@ For this tutorial we are setting the property inside the main method of the clas
     setProperty("vaadin.i18n.provider", VaadinI18NProvider.class.getName());
 ----
 
+== How to use in your code?
+After we activated the I18NProvider Implementation we are ready to use this in our code.
+Setting the label will be done with the result from the method *getTranslation(..)*.
+
+``private final Button btnClickMe = new Button(getTranslation("btn.click-me"));``
+
+The implementation will now check if the key *btn.click-me* is available.
+To define this key for the english language you have to add the key plus value to your
+properties file *vaadinapp_en.properties*, and for the german version into the file
+*vaadinapp_de.properties*.
+
+[source,property]
+----
+    btn.click-me=click me
+----
+
+[source,property]
+----
+    btn.click-me=drücke mich
+----
+
 == Next
 In this tutorial we learned how to implement a simple I18NProvider. To learn more in practice
 check out the latest source code
