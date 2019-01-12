@@ -4,7 +4,7 @@
 :authors: marcus
 :type: text, video
 :topic: frontend
-:tags: LitElement, templating
+:tags: LitElement, Templating, JavaScript
 :description: Learn how to set up a new project with LitElement
 :repo: https://github.com/vaadin-learning-center/lit-element-tutorial-starting-a-lit-element-project
 :linkattrs:
@@ -52,14 +52,14 @@ image::starter-app.png[Empty starter app running on localhost]
 Start by installing LitElement.
 
 [source]
-$ npm install --save @polymer/lit-element
+$ npm install --save lit-element
 
 Create a new folder `*views*` in the `*src*` folder, and create a file `*todo-view.js*` in it. We always name our files the same as their HTML tag names to make it easier to navigate the source. 
 
 .`*views/todo-view.js*`
 [source,javascript]
 ----
-import { LitElement, html } from '@polymer/lit-element'; <1>
+import { LitElement, html } from 'lit-element'; <1>
 
 class TodoView extends LitElement { <2>
   render() {

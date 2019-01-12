@@ -1,8 +1,7 @@
 = Importing a Maven Project in IntelliJ IDEA
 
-:tags: vaadin, java, maven, intellij, idea
+:tags: Java, Maven, IntelliJ IDEA
 :author: Alejandro Duarte
-:publish_date:
 :description: Learn how to import an existing Maven project into IntelliJ IDEA
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images

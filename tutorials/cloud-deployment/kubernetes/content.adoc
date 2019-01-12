@@ -3,7 +3,7 @@
 :title: Deploy to Kubernetes
 :authors: amahdy
 :type: text
-:tags: backend, cloud, deploy, kubernetes
+:tags: Backend, Cloud, Deploy, Kubernetes, Java
 :description: Learn how to deploy Java app to Kubernetes
 :repo:
 :linkattrs:

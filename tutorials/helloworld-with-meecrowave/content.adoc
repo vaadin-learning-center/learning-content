@@ -1,7 +1,7 @@
 = HelloWorld - with Apache meecrowave - Ramp up in a second
 
 :type: text, video
-:tags: apache, meecrowave, vaadin-flow
+:tags: Apache, Meecrowave, Flow, Java
 :description: How to start a Vaadin Flow project with Apache meecrowave in a second
 :repo: https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave
 :linkattrs:

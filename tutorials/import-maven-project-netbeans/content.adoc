@@ -1,8 +1,7 @@
 = Importing a Maven Project in NetBeans
 
-:tags: vaadin, java, maven, intellij, idea
+:tags: Java, Maven, NetBeans
 :author: Alejandro Duarte
-:publish_date:
 :description: Learn how to import an existing Maven project into NetBeans
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
