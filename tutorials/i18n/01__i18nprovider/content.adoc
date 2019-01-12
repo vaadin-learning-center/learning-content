@@ -2,7 +2,7 @@
 
 :title: I18n in Flow - I18NProvider
 :type: text
-:tags: I18N, flow, languages
+:tags: I18N, Flow
 :description: How to start with i18n - the flow way
 :repo: https://github.com/vaadin-learning-center/flow-i18n-i18nprovider
 :imagesdir: ./images
