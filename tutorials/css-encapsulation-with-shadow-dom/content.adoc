@@ -10,7 +10,7 @@
 
 == The Global Problem
 
-The global scope of CSS can be problematic for a number of reasons. Every CSS rule we define has the potential to have wide ranging and often unintended side affects or in other cases, a rule has no effect due to conflicts with global styles. As applications increase in scale and complexity, maintainability and extensibility become increasingly challenging as a result of the global nature of CSS. There are a lot of different approaches to solving the CSS scoping problem:
+The global scope of CSS can be problematic for many reasons. Every CSS rule we define has the potential to have wide-ranging and often unintended side effects. In other cases, a rule may have no effect due to conflicts with global styles. As applications increase in scale and complexity, maintainability and extensibility become increasingly challenging as a result of the global nature of CSS. There are a lot of different approaches to solving the CSS scoping problem:
 
 * Naming conventions: http://getbem.com/introduction[BEM]
 * Framework specific solutions: https://vue-loader.vuejs.org/guide/scoped-css.html[Vue], https://angular.io/guide/component-styles#style-scope[Angular]
@@ -18,11 +18,11 @@ The global scope of CSS can be problematic for a number of reasons. Every CSS ru
 
 == Shadow DOM
 
-In this tutorial we will focus on the browsers very own solution to CSS encapsulation which is the Shadow DOM. The Shadow DOM allows the browser to render DOM elements without putting them in the main DOM tree. Basically, this enables local scoping for HTML and CSS. 
+In this tutorial, we focus on the browsers very own solution to CSS encapsulation which is the Shadow DOM. The Shadow DOM allows the browser to render DOM elements without putting them in the main DOM tree, which enables local scoping for HTML and CSS. 
 
-TIP: When creating custom elements with libraries like https://lit-element.polymer-project.org[LitElement] or https://polymer-library.polymer-project.org[Polymer], the creation of the Shadow DOM has been abstracted and is done automatically unless you explicitly change this behaviour.
+TIP: When creating custom elements with libraries like https://lit-element.polymer-project.org[LitElement] or https://polymer-library.polymer-project.org[Polymer], the creation of the Shadow DOM has been abstracted and is done automatically unless you explicitly change this behavior.
 
-We will be looking at how to create a Shadow DOM using vanilla JavaScript. In order to do this, we simply call the https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow[`attachShadow`] method on certain HTML elements or any custom element we define. The following HTML will render the text "Light DOM" in red because of the CSS rule that targets all `<span>` elements:
+We will be looking at how to create a Shadow DOM using vanilla JavaScript. To do this, we call the https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow[`attachShadow`] method on certain HTML elements or any custom element we define. The following HTML renders the text "Light DOM" in red because of the CSS rule that targets all `<span>` elements:
 
 [source,html]
 ----
@@ -64,3 +64,5 @@ TIP: You must provide the `ShadowRootInit` parameter for the `attachShadow` meth
 image::html-and-dom-2.png[The words Shadow DOM written in green followed by the words Light DOM in the color red.]
 
 Live code example https://codepen.io/niiyeboah/pen/wREZpy[here].
+
+
