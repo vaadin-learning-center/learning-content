@@ -3,6 +3,7 @@ Apache
 Backend
 Cloud
 Code splitting
+CSS
 Deploy
 Eclipse
 Flow
@@ -25,6 +26,7 @@ PWA
 React
 Reactive
 Redux
+Shadow DOM
 Spring
 Spring Boot
 State management
