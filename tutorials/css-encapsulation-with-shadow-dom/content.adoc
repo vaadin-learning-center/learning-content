@@ -2,9 +2,7 @@
 
 :tags: Web Components, JavaScript, Shadow DOM, CSS 
 :author: Nii Yeboah
-:publish_date: 
 :description: Encapsulating CSS styles with the Shadow DOM
-:repo:
 :linkattrs:
 :imagesdir: ./images
 
