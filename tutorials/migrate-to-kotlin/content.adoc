@@ -2,7 +2,7 @@
 
 :title: Migrating Java enterprise apps to Kotlin
 :type: text, image
-:tags: kotlin, jvm, migrate, flow
+:tags: Kotlin, JVM, Migration, Flow
 :description: Learn how to migrate Java enterprise applications to Kotlin
 :repo: https://github.com/mvysny/beverage-buddy-vok
 :linkattrs:

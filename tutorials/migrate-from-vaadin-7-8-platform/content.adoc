@@ -4,7 +4,7 @@
 :authors: sebastian
 :type: text
 :topic: migration
-:tags: migration, vaadin-flow
+:tags: Migration, Flow, Java, Vaadin 7, Vaadin 8
 :description: Step-by-step guide to migration your application from Vaadin 7 or 8 to Vaadin platform
 :repo: https://github.com/SebastianKuehnau/VaadinComparison
 :linkattrs:
@@ -62,7 +62,7 @@ public class ListView extends HorizontalLayout {
 
 The class names in the code snippets were taken from the previous Vaadin 7 application to show the same components in the new Vaadin platform context.
 
-In Vaadin flow, several interfaces are provided to implement that execute methods executed after entering or before leaving the view, to set components into a context of the main layout or manage given parameter in the URL. A detailed description and many more features can be found here:  
+In Vaadin flow, several interfaces are provided to implement that execute methods executed after entering or before leaving the view, to set components into a context of the main layout or manage given parameter in the URL. A detailed description and many more features can be found here:
 https://vaadin.com/docs/v10/flow/routing/tutorial-routing-annotation.html
 
 === c. Swap the imports of the components
@@ -122,14 +122,14 @@ personGrid.addSelectionListener(selectionEvent -> {
 The data modeling has been mostly retained from Vaadin 8, and due to the reason the API has completely changed compared to Vaadin 7 let’s make short recap how data are bound to the UI in Vaadin 7 in the first instance.
 
 In Vaadin 7 data sources are not directly bound to UI-components to avoid extra implementation work (data communication, etc.) and any other conflicts (data type mismatch). To decouple the data source and component, we have a _property_ between the bean attribute and the field on the UI. This property has a type and contains a value. All changes from the UI are buffered in the property and can be read or set to the backend via a simple Java API.
-
-Bean-Attribute ←→ Property ←→ Field
+[.text-center]
+*Bean-Attribute ←→ Property ←→ Field*
 
 To convert values between the component and the bean and validate the user input according to the requested format, you need to attach Converters and Validators directly to the field. The field value is available through a property, and value changes are propagated via several listeners.
 
 A list of properties can be encapsulated into an item, and a list of items are bound to a container, which can be used in a Grid, Combobox, etc. With item, you can bind a bean to a FieldGroup on a form and a collection of beans to list many items in a component (like a grid).
-
-List of beans ←→ Container ←→ Item ←→ Properties ←→ UI Component
+[.text-center]
+*List of beans ←→ Container ←→ Item ←→ Properties ←→ UI Component*
 
 More information about properties and data provider can be found here:
 https://vaadin.com/docs/v7/framework/datamodel/datamodel-properties.html
@@ -144,17 +144,19 @@ Here are the necessary steps to change a simple read and update view from the Va
 |=======================
 ^|Vaadin 7
 ^|Vaadin 8 / Vaadin platform
-2+l|`@PropertyId("email")`
+2+|`@PropertyId("email")` {nbsp} +
 `private final TextField emailField = new TextField("Email");`
-|`private final FieldGroup binder = new FieldGroup();`
-|`private final Binder<Person> binder = new Binder<>(Person.class);`
+|`FieldGroup binder =` {nbsp} +
+  {nbsp} `new FieldGroup();`
+|`Binder<Person> binder =` {nbsp} +
+  {nbsp} `new Binder<>(Person.class);`
 |`binder.bind(emailField, "email");`
-.4+l|`binder.forField(emailField)
-  .withNullRepresentation(“”)
-  .withValidator(...)
-  .withConverter(...)
-  .asRequired(...)
-  .bind(Person::getEmail, Person::setEmail);`
+.4+|`binder.forField(emailField)` {nbsp} +
+  {nbsp} `.withNullRepresentation(“”)` {nbsp} +
+  {nbsp} `.withValidator(...)` {nbsp} +
+  {nbsp} `.withConverter(...)` {nbsp} +
+  {nbsp} `.asRequired(...)` {nbsp} +
+  {nbsp} `.bind(Person::getEmail, Person::setEmail);`
 |`emailField.addValidator(...);`
 |`emailField.setConverter(...);`
 |`emailField.setRequired(true);`
@@ -172,14 +174,18 @@ In Vaadin platform, you use a `DataProvider` for binding a list of beans to the 
 |=======================
 |Vaadin 7|Vaadin platform
 |`Grid personGrid = new Grid();`
-|`Grid<Person> personGrid = new Grid<>(Person.class);`
-|`BeanItemContainer<Person> personContainer = new BeanItemContainer<>(Person.class);`
+|`Grid<Person> personGrid =` {nbsp} +
+{nbsp} `new Grid<>(Person.class);`
+|`BeanItemContainer<Person> personContainer =` {nbsp} +
+{nbsp} `new BeanItemContainer<>(Person.class);`
 
 `personContainer.addAll(personService.getPersonList());`
 
 `personGrid.setContainerDataSource(personContainer);`
-|`personGrid.setItems(personService.getPersonList());`
-||`personGrid.getDataProvider().refreshItem(person) ;`
+|`personGrid.setItems(` {nbsp} +
+{nbsp} `personService.getPersonList());`
+||`personGrid.getDataProvider()` {nbsp} +
+{nbsp} `.refreshItem(person) ;`
 |`personGrid.addSelectionListener(...);`
 `personGrid.addItemClickListener(...);`|`personGrid.addSelectionListener(...);`
 |=======================

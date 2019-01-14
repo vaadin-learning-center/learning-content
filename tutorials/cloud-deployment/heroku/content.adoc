@@ -3,7 +3,7 @@
 :title: Deploy to Heroku Cloud
 :authors: amahdy
 :type: text
-:tags: backend, cloud, deploy, flow
+:tags: Backend, Cloud, Deploy, Flow, Java
 :description: Learn how to deploy Java app to Heroku cloud
 :repo:
 :linkattrs:

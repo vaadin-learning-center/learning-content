@@ -64,7 +64,7 @@ def main():
 
 # Checks article or section properties
 def check_article_or_section(folder, mandatoryProps):
-	print("Checking " + folder + "...")
+	# print("Checking " + folder + "...")
 	props = get_properties(folder)
 	for prop in mandatoryProps:
 		if not prop in props:
@@ -110,7 +110,7 @@ def get_properties(folder):
 	if os.path.isfile(folder + "/content.adoc"):
 		contentAdocProps =  load_asciidoc_attributes(folder + "/content.adoc")
 
-	props = {**fullProps, **contentAdocProps}
+	props = merge_dicts(fullProps, contentAdocProps)
 
 	if not props:
 		log_error("Error: Unable to load properties of '" + folder + "'")
@@ -154,6 +154,11 @@ def load_properties(propsFile):
 def path_leaf(path):
 	head, tail = ntpath.split(path)
 	return tail or ntpath.basename(head)
+
+def merge_dicts(x, y):
+    z = x.copy()   # start with x's keys and values
+    z.update(y)    # modifies z with y's keys and values & returns None
+    return z
 
 # run
 if __name__ == "__main__":main()
