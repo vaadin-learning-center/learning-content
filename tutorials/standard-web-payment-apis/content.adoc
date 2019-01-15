@@ -11,15 +11,15 @@
 
 == Intro
 
-Payment Request API is a new, streamlined way to collect payment and shipping details from the user. Its main goal is to eliminate checkout forms completely by standardizing the payment communication flow as much as possible. Some benefits of using Payment Request API over traditional checkout forms are:
+Payment Request API is a new, streamlined way to collect payment and shipping details from the user. Its primary goal is to eliminate checkout forms by standardizing the payment communication flow as much as possible. Some benefits of using Payment Request API over traditional checkout forms are:
 
 * Platform native and familiar for the user
 * If the user gives consent, the payment data can be synced between desktop and mobile
-* It’s simple to use from the developers point of view
+* It’s simple to use from the developer's point of view
 
-Many third party vendors provided an online payment solution to tackle some of those issues, but the usage of a third party comes with a user limitation: whether  or not they have accounts with those third parties, and whether their platform and devices supports it. Some developers went with the extreme of adding all possible "checkout" buttons to their forms, which is not nice from user experience point of view.
+Many third-party vendors have provided online payment solutions to tackle some of those issues, but the usage of a third party solutions comes with a user limitation: whether or not they have accounts with those third parties, and whether their platform and devices support it. Some developers went with the extreme of adding all possible "checkout" buttons to their forms, which is not nice from a user experience point of view.
 
-With a standardized API, you no longer need to rely on a specific vendor, and you can eliminate the unneeded checkout buttons. But it's important to notice that the standard payment request API is not a payment gateway and *will not process the credit card data*. It's simply moving the issue to the server, in which you can easily chose your prefered vendor to process the card data without any hassle to your users.
+With a standardized API, you no longer need to rely on a specific vendor, and you can eliminate the unneeded checkout buttons. However, it's important to notice that the standard payment request API is not a payment gateway and *will not process the credit card data*. It's merely moving the issue to the server, in which you can easily choose your preferred vendor to process the card data without any hassle to your users.
 
 == Payment request add-on for Vaadin
 
@@ -75,13 +75,13 @@ paymentRequest.getElement()
 add(paymentRequest);
 ----
 
-There is also another similar https://vaadin.com/directory/component/payment-request-addon[add-on] that uses https://vaadin.com/blog/payment-request-api-in-vaadin-10[the same approoch] but written differently.
+There is also another similar https://vaadin.com/directory/component/payment-request-addon[add-on] that uses https://vaadin.com/blog/payment-request-api-in-vaadin-10[the same approach] but written differently.
 
 == Bring your own implementation to Vaadin
 
-You can also write your own style of handling the payment request on the brwoser in a form or a https://vaadin.com/tutorials/using-web-components[standard web compoent].
+You can also write your style of handling the payment request on the browser in a form or a https://vaadin.com/tutorials/using-web-components[standard web compoent].
 
-The add-on mentioned above is actually based on a community-driven https://github.com/jorgecasar/payment-request[web component]. Check out https://vaadin.com/tutorials/web-components-in-flow[the steps] needed to create this add-on.
+The add-on mentioned above is based on a community-driven https://github.com/jorgecasar/payment-request[web component]. Check out https://vaadin.com/tutorials/web-components-in-flow[the steps] needed to create this add-on.
 
 == Implement payment API
 
