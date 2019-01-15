@@ -2,7 +2,7 @@
 
 :title: Standard Web Payment APIs
 :type: text
-:tags: Web Components, Java, Web Payment, Payment Request, Standard
+:tags: Web Components, Java, Web Payment, Payment Request
 :description: Learn how to use the standard payment request APIs in Java
 :repo: https://github.com/amahdy/payment-request-flow
 :linkattrs:
