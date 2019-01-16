@@ -1,6 +1,6 @@
 = Learning Maven Concepts
 
-:tags: maven, java
+:tags: Maven, Java
 :author: Alejandro Duarte
 :publish_date:
 :description: 
