@@ -199,7 +199,7 @@ The add-on comes with a test class `DemoView` pre-configured and ready to be use
 ----
 <payment-request label="Total" currency="EUR">
   <payment-method slot="method" supported='["basic-card"]' data='{
-    "supportedNetwork": ["amex", "mastercard", "visa" ],
+    "supportedNetworks": ["amex", "mastercard", "visa" ],
     "supportedTypes": ["debit", "credit"]
   }'></payment-method>
   <payment-item label="Item 1" currency="EUR" value="1337"></payment-item>
@@ -212,7 +212,7 @@ Translating this in Java, we start by defining the `data` JSON of the `payment-m
 [source,java]
 ----
 Map<String, List<String>> paymentMethodData = new HashMap<>();
-paymentMethodData.put("supportedNetwork",
+paymentMethodData.put("supportedNetworks",
   Arrays.asList("amex", "mastercard", "visa"));
 paymentMethodData.put("supportedTypes",
   Arrays.asList("debit", "credit"));
