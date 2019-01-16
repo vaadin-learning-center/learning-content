@@ -2,7 +2,6 @@
 
 :tags: Maven, Java
 :author: Alejandro Duarte
-:publish_date:
 :description: 
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
