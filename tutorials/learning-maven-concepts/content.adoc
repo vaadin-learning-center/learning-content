@@ -1,0 +1,175 @@
+= Learning Maven Concepts
+
+:tags: maven, java
+:author: Alejandro Duarte
+:publish_date:
+:description: 
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+
+
+Maven is a tool that many Java developers use on a daily basis. You can get started with Maven and incorporate it into your everyday life fairly quickly: http://maven.apache.org[Install Maven], https://vaadin.com/start[download], checkout, or create a new Maven project, run `mvn install`, and execute the application through a plugin goal such as `mvn jetty:run`. When you need to add a Java library, edit the `pom.xml` file to add a `<dependency>` section to it. These are the most common tasks you do with Maven.
+
+Naturally, from time to time, you need to tweak configurations and even perform advanced tasks with Maven, but these are the exceptions rather than the rule. Additionally, using Maven is straightforward with most IDEs making it easy to forget or even to ignore some of the fundamental concepts of Maven. Let's fix that!
+
+
+
+== What is Maven?
+
+Maven is a __project management tool__. Not only you can build a software project with Maven, you can also manage its dependencies, create distributable archives, deploy projects, run reports, manage code quality, and incorporate information about environments, licenses, developers, contributors, and organizations.
+
+
+
+== What is an artifact?
+
+An _artifact_ is a file used during the development or execution of a program. The most common types of artifacts are JAR and WAR files. Artifacts are identified by:
+
+- A `groupId`: Used to group related artifacts typically using a reversed domain name (such as `com.vaadin`).
+
+- An `artifactId`: A name that identifies the artifact in the `groupId`. There cannot be more than one artifact with the same combination of `groupId` and `artifactId`.
+
+- A `version`: A software version typically in the form `<mayor>.<minor>.<incremental>-<qualifier>` (for example, `1.0.0-beta1`).
+
+NOTE: The combination of the values for the `groupId`, `artifactId`, and `version` properties for a given artifact is known as the __Maven coordinates__ of the artifact.
+
+When a project depends on an artifact, such artifact is also called a _dependency_. These are the famous dependencies you add in the `<dependencies>` section of the `pom.xml` file.
+
+=== SNAPSHOT versions
+
+A SNAPSHOT version is a special kind of version Maven handles differently. A SNAPSHOT version means "under development".
+
+When you build a project that has a version ending in `-SNAPSHOT` (for example `2.0.0-SNAPSHOT`), Maven replaces this token with a time/date stamp and deploys it to the repository. When a project depends on a SNAPSHOT dependency, and you build the project, Maven periodically checks if there's a new version of the dependency in the remote repositories. Compare this with non-SNAPSHOT dependencies which are copied from the local repository if they already exist there but are never retrieved from the remote repositories in future builds.
+
+
+
+== What is a repository?
+
+A Maven _repository_ is a file directory that contains Maven artifacts. This artifacts are organized according to their ``groupId``s. For example, the artifact with coordinates:
+
+[source,xml]
+----
+<groupId>com.vaadin</groupId>
+<artifactId>vaadin-core</artifactId>
+<version>12.0.3</version>
+----
+
+Is a file with the name `vaadin-core.jar` placed inside the `com/vaadin/` directory of a Maven repository.
+
+When you install and run Maven, it creates a _local repository_ in the `${user.home}/.m2/repository/` directory in your hard drive. This repository is empty at the beginning and gets filled by artifacts downloaded from remote Maven repositories when you build projects that have dependencies on libraries such as Hibernate, Spring, or Vaadin.
+
+A _remote repository_ is a server with HTTP endpoints that allow to `GET` (download) and `PUT` (deploy or publish) artifacts.
+
+When you build a project, Maven checks first if a required dependency is in the local repository. If the dependency it's not there, it downloads it from one of the configured remote repositories. The https://github.com/apache/maven/blob/master/maven-model-builder/src/main/resources/org/apache/maven/model/pom-4.0.0.xml[_Super POM_] (which all Maven projects extend) defines the https://repo.maven.apache.org/maven2[Central Repository]–a repository provided by the Maven community which contains a large number of popular dependencies.
+
+
+
+== What is a build goal?
+
+A _build goal_ is a concrete task that Maven performs. For example, the `compiler:compile` goal compiles the main source code files. Goals are invoked using the following syntax:
+
+```
+mvn plugin:goal
+```
+
+A goal is implemented in a _Mojo_ (Maven plain Old Java Object). A Mojo is a class that extends the functionality of Maven.
+
+A goal can be bound to one or more _build phases_.
+
+== What is a build phase?
+
+A _build phase_ is a stage in the _build lifecycle_. Build phases help determine which build goals are executed depending on other configurations. For example, the `jar:jar` goal is bound to the `package` build phase when the packaging is configured to `jar`, so when you run `mvn package` you know you'll get a JAR file. If the packaging is set to `war`, the `war:war` goal is bound to the `package` phase instead. You can think of phases as placeholders for goals.
+
+Phases are invoked using the following syntax:
+
+```
+mvn phase
+```
+
+When invoking a build phase, all the previous phases in the _build lifecycle_ are executed before executing the specified phase.
+
+== What is a build lifecycle?
+
+A _build lifecycle_ is an ordered sequence of build phases. Each lifecycle helps with a different aspect of the software project management. There are three build lifecycles in Maven: `clean`, `default`, and `site`.
+
+NOTE: You can also define custom lifecycles.
+
+The `clean` lifecycle _cleans_ the project build, which in practice usually means deleting the `${basedir}/target/` directory.
+
+The `default` lifecycle handles the project build process–tasks related to compiling and packaging the project.
+
+The `site` lifecycle handles the documentation building process.
+
+You can execute all the phases in a given lifecycle (except the `default` lifecycle) as follows:
+
+```
+mvn lifecycle
+```
+
+To execute phases of the `default` lifecycle, you need to specify a phase, for example:
+
+```
+mvn install
+```
+
+
+
+== What is a Plugin?
+
+Build goals are packaged in _Maven plugins_. For example, the Surefire plugin contains the goals used to run unit tests.
+
+
+
+== What is POM?
+
+Maven projects are defined by a _Project Object Model_ (POM) in a `pom.xml` file located in the project's root directory. Thanks to Maven's sensible defaults, the simplest `pom.xml` could be something like this:
+
+.pom.xml
+[source,xml]
+----
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>maven-app</artifactId>
+    <version>1.0</version>
+</project>
+----
+
+If you run `mvn package`, Maven will compile any Java source files in `src/main/java` and package the output in a JAR file inside the `target` directory.
+
+Maven uses convention over configuration by providing defaults. For example, Maven assumes:
+
+- The source code is in `__${basedir}__/src/main/java/`.
+- The resources are in `__${basedir}__/src/main/resources/`.
+- The test code is in `__${basedir}__/src/test/java/`.
+- The test resources are in `__${basedir}__/src/test/resources/`.
+- Compiled `.class` files are generated in `__${basedir}__/target/classes/`.
+- Distributable archives (like JAR or WAR files) are generated in `__${basedir}__/target/`.
+- The project generates a JAR file.
+
+NOTE: `_${basedir}_` is a _property_ that resolves to the project's root directory.
+
+
+=== The Super POM
+
+Defaults are not inside Maven itself. They are in what's called the __Super POM__–a POM that all Maven projects extend.
+
+The Super POM is a file (`pom-4.0.0.xml`) packaged in the Maven distribution. If you https://github.com/apache/maven/blob/master/maven-model-builder/src/main/resources/org/apache/maven/model/pom-4.0.0.xml[inspect this file], you'll see, for example, properties like `sourceDirectory` and `outputDirectory`. Is in this file, the Super POM, where you'll find the definition of the Central Repository, the default plugins, and other default configurations.
+
+All these defaults can be customized when needed.
+
+
+== What is an Archetype
+
+A Maven _archetype_ is a tool that generates new Maven projects. You can think of it as a template you can use to start a new project. For example, to create a new Java web application you can run the following command:
+
+```
+mvn archetype:generate  \
+    -DarchetypeGroupId=in.virit  \
+    -DarchetypeArtifactId=viritin-vaadin-flow-archetype  \
+    -DarchetypeVersion=1.0
+```
+
+Of course, after creating a new project, the next natural step is to import it into an IDE such as https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], or https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans].
+
+As an alternative to Maven archetypes, technologies and frameworks such as https://start.spring.io[Spring], https://thorntail.io/generator[Thorntail], and https://vaadin.com/start[Vaadin] offer web interfaces to initialize new projects quickly.
