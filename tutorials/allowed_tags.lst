@@ -12,6 +12,7 @@ IntelliJ IDEA
 Internationalisation
 Java
 JavaScript
+jUnit5
 JVM
 Kotlin
 Kubernetes
@@ -20,6 +21,7 @@ LitElement
 Maven
 Meecrowave
 Migration
+Mutation Testing
 Navigation
 NetBeans
 Offline
