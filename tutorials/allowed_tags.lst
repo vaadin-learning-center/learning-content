@@ -3,12 +3,16 @@ Apache
 Backend
 Cloud
 Code splitting
+CSS
 Deploy
 Eclipse
 Flow
+I18N
 IntelliJ IDEA
+Internationalisation
 Java
 JavaScript
+jUnit5
 JVM
 Kotlin
 Kubernetes
@@ -17,6 +21,7 @@ LitElement
 Maven
 Meecrowave
 Migration
+Mutation Testing
 Navigation
 NetBeans
 Offline
@@ -25,6 +30,7 @@ PWA
 React
 Reactive
 Redux
+Shadow DOM
 Spring
 Spring Boot
 State management
@@ -34,5 +40,3 @@ Vaadin 8
 Vue
 Web Components
 Webpack
-I18N
-Internationalisation
