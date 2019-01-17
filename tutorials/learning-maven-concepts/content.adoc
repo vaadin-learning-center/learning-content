@@ -2,7 +2,7 @@
 
 :tags: Maven, Java
 :author: Alejandro Duarte
-:description: 
+:description: Learn the fundamental concepts in Maven: build goals, phases, lifecycles, snapshot versions, repositories, plugins, POM, and more.
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
