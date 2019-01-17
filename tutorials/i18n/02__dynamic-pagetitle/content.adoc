@@ -1,36 +1,31 @@
-= Dynamic PageTitle in Flow
+= Dynamic PageTitle in Vaadin Flow
 
-:title: Dynamic PageTitle in Flow
+:title: Dynamic PageTitle in Vaadin Flow
 :type: text
 :author: Sven Ruppert
-:tags: I18N, Flow
-:description: How to set dynamically the PageTitle in Flow
+:tags: I18N, Flow, Java
+:description: How to set dynamically the page title in Vaadin Flow
 :repo: https://github.com/vaadin-learning-center/flow-i18n-dynamic-pagetitle
 :linkattrs:
 :imagesdir: ./images
 
-This section describes various ways in which you can
-set the PageTitle in Flow at runtime, focusing on how to handle different languages. (I18N).
-
-____
-
-All tutorials are available under https://vaadin.com/tutorials[https://vaadin.com/tutorials]
-____
+This tutorial describes various ways in which you can
+set the page title in Flow at runtime, focusing on how to handle different languages. (I18N).
 
 == Download base project
-As "Hello World" basic project the `flow-helloworld-maven-meecrowave`
-from the learning center is used. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
+This tutorial uses the `flow-helloworld-maven-meecrowave`
+as a base. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
 
 You are able to find the latest version of the source code for this tutorial
 https://github.com/vaadin-learning-center/flow-i18n-dynamic-pagetitle[@github]
 
-== recommended to read before
+== Recommended reading
 
 It is recommended to read the tutorial about the https://vaadin.com/tutorials/i18n/i18nprovider[I18NProvider] first.
 This tutorial will use the *I18NProvider* later for the translations.
 
-== setting the Title in Flow
-In this solution the title is set inside a constructor of a view.
+== Setting the page title
+In this solution, the title is set inside a constructor of a view.
 
 [source,java]
 ----
@@ -47,17 +42,16 @@ In this solution the title is set inside a constructor of a view.
 
 Here are some points I would like to discuss.
 The first is based on the assumption that your application is not only based on one view.
-Are you sure you want to write this peace of code a few times? And how often your colleges
-in your team will forget this?
-The next is, that here is an implicit definition of a format for the page title.
+Are you sure you want to write this piece of code a few times? And how often your colleagues in your team will forget this?
+The next is, that there is an implicit definition of a format for the page title.
 **xx + " | " + yy**
 
-We have to extract the repeating part..  This could lead to version 02...
+We have to extract the repeating part.  This could lead to version 02...
 
-== Solution 02 - A - extracting the formatter
+== Solution 2A - extracting the formatter
 
-We are extracting the formatting part, first. For this a class with the name **TitleFormatter**
-is created. Inside you can define the way, how the page title will be formatted.
+We are extracting the formatting part first. For this a class with the name **TitleFormatter**
+is created. Inside you can define how the page title will be formatted.
 
 [source,java]
 ----
@@ -70,9 +64,8 @@ public class TitleFormatter {
 }
 ----
 
-With this class,
-we have a central place for the definition, how the title should look like.
-The next step is, to remove the invocation method out of the constructor.
+With this class, we have a central place for the definition of how the title should look like.
+The next step is to remove the invocation method out of the constructor.
 Vaadin provides an interface called *HasDynamicTitle*. Implementing this,
 you can overwrite the method *getPageTitle()*. But again, you would implement this
 in every view…
@@ -95,14 +88,14 @@ public class View002 extends Composite<Div> implements HasDynamicTitle {
 One solution could be based on inheritance, packing this stuff into a parent class.
 But how to get the actual *key* to resolve without implementing something in every child class?
 
-== Solution 02 - B - using the annotation
+== Solution 2B - using the @PageTitle annotation
 
 Vaadin will give you one other way to define the page title. The other solution is based on
 an annotation called *PageTitle*
 
 [source,java]
 ----
-@PageTitle("My PapeTitle")
+@PageTitle("My PageTitle")
 @Route(View002.VIEW_002)
 public class View002 extends Composite<Div> {
   public static final String VIEW_002 = "view002";
@@ -111,34 +104,33 @@ public class View002 extends Composite<Div> {
 ----
 
 It can only be used the Annotation or the interface *HasDynamicTitle*. Both together in one class will not work.
+
 So, make sure that there is nothing in your inheritance.
 
-The challenge here is based on the fact, that the annotation only consumes static Strings.
+The challenge here is based on the fact that the annotation only consumes static Strings.
 I18N is not possible with this solution.
 
-== Solution 03 - my favourite solution ;-)
+== Solution 3 - my favourite solution ;-)
 
-After playing around with this solutions, I developed a
-a solution that could handle
+After playing around with these solutions, I developed a solution that could handle
 
 * message bundles
 * is not inside inheritance
-* is based on Annotations
+* is based on annotations
 * is easy to extend
 * can change the language during runtime
 
 === The developer / user view
 
-Mostly it is a good approach to develop a solution for a developer
-from the perspective of a developer.
+Mostly it is a good approach to develop a solution for a developer from the perspective of a developer.
 Here it means, what should a developer see if he/she have to use your solution.
 
-The developer will see this Annotation.
+The developer will see this annotation.
 Three things can be defined here.
 
 * The message key that will be used to resolve the message based on the actual Locale
-* A default value the will be used, if no corresponding resource key was found neither fallback language is provided
-* Definition of the message formatter, default Formatter will only return the translated key.
+* A default value the will be used, if no corresponding resource key was found and no fallback language is provided
+* Definition of the message formatter, default formatter will only return the translated key.
 
 [source,java]
 ----
@@ -168,9 +160,9 @@ Here we could use the following interfaces.
 * UIInitListener,
 * BeforeEnterListener
 
-With this interfaces we are able to hook into the life cycle of a view. At this time slots
-we have all information's we need.
-The Annotation to get the message key and the locale of the current request is available.
+With these interfaces, we are able to hook into the life cycle of a view. At this time slots
+we have all the information we need.
+The annotation to get the message key and the locale of the current request is available.
 
 The class that is implementing all these interfaces is called *I18NPageTitleEngine*
 
@@ -187,7 +179,7 @@ public class I18NPageTitleEngine
   public void beforeEnter(BeforeEnterEvent event) {
     Class<?> navigationTarget = event.getNavigationTarget();
     I18NPageTitle annotation = navigationTarget.getAnnotation(I18NPageTitle.class);
-    if(annotation == null) {
+       if(annotation == null) {
       logger().info(ERROR_MSG_NO_ANNOTATION + navigationTarget.getName());
     } else {
       final String messageKey = (annotation.messageKey().isEmpty())
@@ -220,7 +212,7 @@ public class I18NPageTitleEngine
         formatter.apply(i18NProvider , providedLocale , messageKey)
         .ifPresentOrElse(txt -> UI.getCurrent()
                                     .getPage()
-
+          
                                 .setTitle(txt),
                          failed -> logger().info(failed)
         );
@@ -253,7 +245,7 @@ public class I18NPageTitleEngine
 ----
 
 The method with the name *beforeEnter* is the important part. Here you can see how the key is resolved.
-But there is one new thing… let´s have a look ot the following lines.
+But there is one new thing –  let's have a look at the following lines.
 
 [source,java]
 ----
@@ -263,25 +255,24 @@ But there is one new thing… let´s have a look ot the following lines.
                   .getI18NProvider();
 ----
 
-This few lines are introducing a new thing, that is available in Flow.
+This few lines are introducing a new thing that is available in Flow.
 The interface *I18NProvider* is used to implement a mechanism for the internationalization
 of Vaadin applications.
 
 To read more about it go to our I18NProvider Tutorial https://vaadin.com/tutorials/i18n/i18nprovider[here]
 
-Last step for today, is the activation of our *I18NPageTitleEngine*
+Last step is the activation of our *I18NPageTitleEngine*
 This is done inside the file with the name *com.vaadin.flow.server.VaadinServiceInitListener*
 you have to create inside the folder *META-INF/services*
-The only line we have to add is the full qualified name of our class.
+The only line we have to add is the fully qualified name of our class.
 
 [source]
 ----
 com.vaadin.tutorial.flow.i18n.pagetitle.I18NPageTitleEngine
 ----
 
-If you have questions or something to discuss.. ping me via
-email link:sven.ruppert@gmail.com[mailto::sven.ruppert@gmail.com]
-or via Twitter : link:@SvenRuppert[https://twitter.com/SvenRuppert]
+If you have questions or something to discuss, add a comment below.
+
 
 
 
