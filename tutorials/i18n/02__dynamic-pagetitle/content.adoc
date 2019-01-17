@@ -110,7 +110,7 @@ public class View002 extends Composite<Div> {
 }
 ----
 
-The usage of this Annotation is XOR to the usage of the interface *HasDynamicTitle*.
+It can only be used the Annotation or the interface *HasDynamicTitle*. Both together in one class will not work.
 So, make sure that there is nothing in your inheritance.
 
 The challenge here is based on the fact, that the annotation only consumes static Strings.
@@ -187,43 +187,54 @@ public class I18NPageTitleEngine
   public void beforeEnter(BeforeEnterEvent event) {
     Class<?> navigationTarget = event.getNavigationTarget();
     I18NPageTitle annotation = navigationTarget.getAnnotation(I18NPageTitle.class);
-    match(
-        matchCase(() -> success(annotation.messageKey())) ,
-        matchCase(() -> annotation == null ,
-                  () -> failure(ERROR_MSG_NO_ANNOTATION + navigationTarget.getName())) ,
-        matchCase(() -> annotation.messageKey().isEmpty() ,
-                  () -> success(annotation.defaultValue()))
-    )
-        .ifPresentOrElse(
-            msgKey -> {
-              final I18NProvider i18NProvider = VaadinService
-                  .getCurrent()
-                  .getInstantiator()
-                  .getI18NProvider();
-              final Locale locale = event.getUI().getLocale();
-              final List<Locale> providedLocales = i18NProvider.getProvidedLocales();
-              match(
-                  matchCase(() -> success(providedLocales.get(0))) ,
-                  matchCase(() -> locale == null && providedLocales.isEmpty() ,
-                            () -> failure(ERROR_MSG_NO_LOCALE + i18NProvider.getClass().getName())) ,
-                  matchCase(() -> locale == null ,
-                            () -> success(providedLocales.get(0))) ,
-                  matchCase(() -> providedLocales.contains(locale) ,
-                            () -> success(locale))
-              ).ifPresentOrElse(
-                  finalLocale -> ((CheckedFunction<Class<? extends TitleFormatter>, TitleFormatter>) f -> f.getDeclaredConstructor().newInstance())
-                      .apply(annotation.formatter())
-                      .ifPresentOrElse(
-                          formatter -> formatter
-                              .apply(i18NProvider , finalLocale , msgKey).
-                                  ifPresentOrElse(title -> UI.getCurrent()
-                                                             .getPage()
-                                                             .setTitle(title) ,
-                                                  failed -> logger().info(failed)) ,
-                          failed -> logger().info(failed)) ,
-                  failed -> logger().info(failed));
-            }
-            , failed -> logger().info(failed));
+    if(annotation == null) {
+      logger().info(ERROR_MSG_NO_ANNOTATION + navigationTarget.getName());
+    } else {
+      final String messageKey = (annotation.messageKey().isEmpty())
+                          ? annotation.defaultValue()
+                          : annotation.messageKey();
+
+      final I18NProvider i18NProvider = VaadinService
+          .getCurrent()
+          .getInstantiator()
+          .getI18NProvider();
+      final Locale locale = event.getUI().getLocale();
+      final List<Locale> providedLocales = i18NProvider.getProvidedLocales();
+
+      Locale providedLocale = null;
+
+      if(locale == null && providedLocales.isEmpty()){
+        logger().info(ERROR_MSG_NO_LOCALE + i18NProvider.getClass().getName());
+      } else if(locale == null){
+        providedLocale = providedLocales.get(0);
+      } else if(providedLocales.contains(locale)) {
+        providedLocale = locale;
+      } else {
+        providedLocale = providedLocales.get(0);
+      }
+
+      final Class<? extends TitleFormatter> formatterCls = annotation.formatter();
+
+      try {
+        final TitleFormatter formatter = formatterCls.getDeclaredConstructor().newInstance();
+        formatter.apply(i18NProvider , providedLocale , messageKey)
+        .ifPresentOrElse(txt -> UI.getCurrent()
+                                    .getPage()
+
+                                .setTitle(txt),
+                         failed -> logger().info(failed)
+        );
+
+      } catch (InstantiationException e) {
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (InvocationTargetException e) {
+        e.printStackTrace();
+      } catch (NoSuchMethodException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   @Override
