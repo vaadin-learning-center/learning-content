@@ -73,7 +73,7 @@ There is one file allowed with the same main name but without any locale in the 
 This is the resource that will be used as fall back if there is nothing else that matches.
 
 Some languages, like German, are a little bit different if they are used in different countries.
-Let´s assume we want to support Germany and Switzerland.
+Let's assume we want to support Germany and Switzerland.
 The German properties files would get the name *vaadinapp_de*
 and the properties file for Switzerland would have the name  *vaadinapp_de_CH*
 The last file would only contain the properties that would have a different value, compared
