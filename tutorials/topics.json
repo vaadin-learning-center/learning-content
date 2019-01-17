@@ -52,6 +52,12 @@
 		"title":"Howtos",
 		"description":"Any backend only related tutorials",
 		"icon":"vc-product-icons:flow"
+	},
+	{
+		"id":"Internationalisation",
+		"title":"Internationalisation [i18n]",
+		"description":"All about Internationalisation in Flow",
+		"icon":"vc-product-icons:flow"
 	}
 ]
 
