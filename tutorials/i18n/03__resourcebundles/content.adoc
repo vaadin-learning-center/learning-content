@@ -9,45 +9,39 @@
 :linkattrs:
 :imagesdir: ./images
 
-This section describes how to implements custom ResourceBundles that are used in Flow (I18N).
+This section describes how to implement custom ResourceBundles for internationalization (I18N) in Vaadin Flow.
 
-____
-
-All tutorials are available under https://vaadin.com/tutorials[https://vaadin.com/tutorials]
-____
 
 == Download base project
-As "Hello World" basic project the `flow-helloworld-maven-meecrowave`
-from the learning center is used. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
+This tutorial uses the `flow-helloworld-maven-meecrowave`
+as a base. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
 
 You are able to find the latest version of the source code for this tutorial
 https://github.com/vaadin-learning-center/flow-i18n-resoucebundles[@github]
 
-== recommended to read before
+== Recommended reading
 
 It is recommended to read the tutorial about the https://vaadin.com/tutorials/i18n/i18nprovider[I18NProvider] first.
 This tutorial will use the *I18NProvider* later for the translations.
 
 == ResourceBundles
-As mentioned in the previos parts of this tutorial series we need a ResourceBundle
-for every locale we want to support at runtime. The basic implementation of the ResourceBundle is
-inside the abstract class called *ResourceBundle* To use this we have three ways we can go.
+As mentioned in the previous parts of this tutorial series, we need a ResourceBundle
+for every locale we want to support at runtime. The basic implementation of the ResourceBundle isinside the abstract class called *ResourceBundle* To use this we have three ways we can go.
 
 === PropertyResourceBundle
-The most used version is the implementation that is using
-properties files. Here we are ready to go, after we created the needed properties files.
+The most used version is the implementation that is using properties files. Here we are ready to go after we created the needed properties files.
 How to do this is explained well in the first tutorial and the JavaDoc of the class.
 But the key point is, that the properties files must be available inside the classpath.
-Sometimes this is not what you need...
+Sometimes this is not what you need
 
 === ListResourceBundle
 The abstract implementation of the ResouceBundle we are talking about is
 located in the class *ListResourceBundle*. Here we get an abstract implementation
 that will provide the properties for a dedicated Locale. We have to implement the
-method ``protected Object[][] getContents()``.
+method `protected Object[][] getContents()`.
 
 For every Locale we want to support at runtime, we need one corresponding implementation.
-In practice it looks like the following.
+In practice, it looks like the following.
 
 [source,java]
 ----
@@ -63,7 +57,7 @@ public class VaadinAppResource extends ListResourceBundle {
 ----
 
 This implementation we saw above we will use as default resource.
-To get now an english and a german variation, we have to implement two more classes.
+To get now an English and a German variation, we have to implement two more classes.
 
 
 [source,java]
@@ -94,11 +88,9 @@ public class VaadinAppResource_en extends ListResourceBundle {
 The name of the classes must follow the same rules, we have for properties files.
 
 But how to use this?
-The usage of this ResourceBundle is based on the full qualified name of the main class, in our case the class
-*VaadinAppResource*. With this classname and the requested locale the static method *getBundle* from the class
-Resourcebundle will give you the instance of the custom ResourceBundle.
+The usage of this ResourceBundle is based on the fully qualified name of the main class, in our case the class*VaadinAppResource*. With this classname and the requested locale the static method *getBundle* from the class ResourceBundle will give you the instance of the custom ResourceBundle.
 
-``ResourceBundle.getBundle(VaadinAppResource.class.getName(), Locale.ENGLISH )``
+`ResourceBundle.getBundle(VaadinAppResource.class.getName(), Locale.ENGLISH )`
 
 One thing, that may not be used regularly, is the usage of the default locale.
 To get the default ResouceBundle the locale *ROOT* must be used.
@@ -133,24 +125,20 @@ public class VaadinAppResourceTest {
 
 
 === Custom ResourceBundle
-The previous two ways are provided by the JDK itself. But the third way you can go, is based on the
-implementation of the abstract class ResouceBundle itself. By the way, there is no interface ResouceBundle
-that can be used.
+The previous two ways are provided by the JDK itself. But the third way you can go is based on the implementation of the abstract class ResouceBundle itself. By the way, there is no interface ResouceBundlethat can be used.
 
-The abstract class ResouceBundle have two methods to implement.
+The abstract class ResouceBundle has two methods to implement.
 
-* protected Object handleGetObject(String key)
-* public Enumeration<String> getKeys()
+* `protected Object handleGetObject(String key)`
+* `public Enumeration<String> getKeys()`
 
-Let´s start with the method *handleGetObject*. as you can see here, the ResourceBundle
+Let's start with the method *handleGetObject*. As you can see here, the ResourceBundle
 is not limited to Strings. This mechanism can be used for every output type,
 but we are using it here only for translations. The method is the translation itself.
-To stay as simple as possible, the implementation in this example will be based on a ConcurrentHashMap
-as key/value store. But have in mind, at this point you can do what ever is needed.
-For example, here you can consume external services or connect to a persitence storage or...
+To stay as simple as possible, the implementation in this example will be based on a ConcurrentHashMaps a key/value store. But have in mind, at this point you can do whatever is needed.
+For example, here you can consume external services or connect to a persistence storage or...
 
-Back to our simple key/value storage, the implementation of this method is
-trivial.
+Back to our simple key/value storage, the implementation of this method is a delegator to the method *get* from the Map itself.  .
 
 [source,java]
 ----
@@ -187,17 +175,12 @@ public class VaadinResourceBundle extends ResourceBundle {
 }
 ----
 
-Sure, this implementations are depending on the storage that will be used. But the logic
-is strait forward. The more interesting thing is, how to get the instance of this ResourceBundle
-based on a requested locale? Have in mind, that the basic mechanism needs one instance for
-one locale. Here we are at a point, that we have to make technical decisions that are fitting to the project
-that should use this implementation.
-For this example, I decided to use a static factory method. Maybe in your project you want to do
-it via ServiceLocator, DependencyInjection or something different.
+Sure, these implementations are depending on the storage that will be used. But the logic
+is straight forward. The more interesting thing is, how to get the instance of this ResourceBundle based on a requested locale? Have in mind, that the basic mechanism needs one instance for
+one locale. Here we are at a point, that we have to make technical decisions that are fitting to the project that should use this implementation.For this example, I decided to use a static factory method. Maybe in your project, you want to do
+it via ServiceLocator, dependency injection or something different.
 
-The static factory method will give me the requested locale that should be used for the created instance.
-Here you can start with different strategies, how to deal with requested locales that are not supported,
-or specialized locales for different variations of a language.
+The static factory method will give me the requested locale that should be used for the created instance.Here you can start with different strategies, how to deal with requested locales that are not supported,or specialized locales for different variations of a language.
 
 One other big topic is caching and lazy loading strategies if the ResouceBundle is expensive.
 Here we are not dealing with all of this, it is straight forward an init of the instance.
@@ -209,7 +192,7 @@ public class VaadinResourceBundle extends ResourceBundle {
 
   private  Map<String, String> values = new ConcurrentHashMap<>();
 
-  // the technical decision how to create a variant for a Locale
+  // the technical decision on how to create a variant for a Locale
   public static ResourceBundle forLocale(Locale locale) {
 
     final VaadinResourceBundle resourceBundle = new VaadinResourceBundle();
@@ -244,18 +227,8 @@ The usage of this will be inside the *I18NProvider* implementation.
 ____
 
 == Conclusion
-With this information you are able to start implementing your custom ResourceBundle.
+With this information, you are able to start implementing your custom ResourceBundle.
 The topic is way bigger as it was handled here. But several related topics you can find
-as separate tutorial.
+as separate tutorials.
 
-If you have questions or something to discuss.. ping me via
-email link:sven.ruppert@gmail.com[mailto::sven.ruppert@gmail.com]
-or via Twitter : link:@SvenRuppert[https://twitter.com/SvenRuppert]
-
-or start reading the next tutorial ..
-
-
-
-
-
-
+If you have questions or something to discuss, add a comment below.
