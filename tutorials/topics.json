@@ -1,63 +1,62 @@
 [
-	{
-		"id":"ui-development",
-		"title":"UI Development",
-		"description":"Any UI related tutorials that don't fit the more specific topics",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"backend",
-		"title":"Backend",
-		"description":"Any backend only related tutorials",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"integration",
-		"title":"Integration",
-		"description":"Any backend only related tutorials",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"best-practices",
-		"title":"Best practices",
-		"description":"Any backend only related tutorials",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"security",
-		"title":"Security",
-		"description":"Any backend only related tutorials",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"test-and-performance",
-		"title":"Testing and performance",
-		"description":"Any backend only related tutorials",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"deployment",
-		"title":"Deployment",
-		"description":"Any backend only related tutorials",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"migration",
-		"title":"Migration",
-		"description":"Any migration only related tutorials",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"howtos",
-		"title":"Howtos",
-		"description":"Any backend only related tutorials",
-		"icon":"vc-product-icons:flow"
-	},
-	{
-		"id":"Internationalisation",
-		"title":"Internationalisation [i18n]",
-		"description":"All about Internationalisation in Flow",
-		"icon":"vc-product-icons:flow"
-	}
+  {
+    "id": "ui-development",
+    "title": "UI Development",
+    "description": "Any UI related tutorials that don't fit the more specific topics",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "backend",
+    "title": "Backend",
+    "description": "Any backend only related tutorials",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "integration",
+    "title": "Integration",
+    "description": "Any backend only related tutorials",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "best-practices",
+    "title": "Best practices",
+    "description": "Any backend only related tutorials",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "security",
+    "title": "Security",
+    "description": "Any backend only related tutorials",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "test-and-performance",
+    "title": "Testing and performance",
+    "description": "Any backend only related tutorials",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "deployment",
+    "title": "Deployment",
+    "description": "Any backend only related tutorials",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "migration",
+    "title": "Migration",
+    "description": "Any migration only related tutorials",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "howtos",
+    "title": "Howtos",
+    "description": "Any backend only related tutorials",
+    "icon": "vc-product-icons:flow"
+  },
+  {
+    "id": "Internationalization",
+    "title": "Internationalization [i18n]",
+    "description": "All about internationalization",
+    "icon": "vc-product-icons:flow"
+  }
 ]
-
