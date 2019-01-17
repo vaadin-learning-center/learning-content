@@ -1,0 +1,310 @@
+= Integrate a Web Component into Vaadin Flow
+
+:type: text
+:topic: frontend
+:tags: Web Components, Java, JavaScript, Flow
+:description: All steps needed to integrate a web component into Vaadin Flow and publish to the directory
+:repo: https://github.com/amahdy/payment-request-flow
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials: using-web-components-in-java,using-web-components
+
+In this tutorial, we will take https://github.com/jorgecasar/payment-request[a web component] `payment-request` and implement all Java APIs needed to make it usable from Vaadin Flow, then publish it to the https://vaadin.com/directory[Vaadin directory].
+
+=== Prepare a base add-on
+
+First, we must deploy the web component as a WebJar, as explained in the second section of https://vaadin.com/tutorials/using-web-components-in-java[using web components in java] tutorial.
+
+[source,xml]
+----
+<dependency>
+  <groupId>org.webjars.bowergithub.jorgecasar</groupId>
+  <artifactId>payment-request</artifactId>
+  <version>1.0.1</version>
+</dependency>
+----
+
+Now let's create a new https://vaadin.com/start/latest/component[Add-on Component for Flow] and give it the Github URL of the designated web component:
+
+image::new-addon.png[New Addon]
+
+=== Create base Java components
+Extract and open the Maven project in your editor of choice (see here for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], or https://vaadin.com/tutorials/import-maven-project-netbeans[Netbeans]). 
+
+In the new project, we will find the `PaymentRequest` class created automatically and corresponds to the `payment-request` tag. Let's create four similar classes for the other custom tags used by the component (`payment-address`, `payment-item`, `payment-method`, `payment-shipping-option`), following this pattern:
+
+[source,java]
+----
+@Tag("payment-item")
+@HtmlImport("bower_components/payment-item/payment-item.html")
+public class PaymentItem extends Component {
+
+  public PaymentItem() {
+  }
+}
+----
+
+No need to implement `payment-request-all` since it's just a link to import all other components.
+
+=== Expose properties
+
+A simple component like `payment-address` contains only a few properties, we can implement getters and setters for them as follows:
+
+[source,java]
+----
+private final String PROP_COUNTRY = "country";
+public void setCountry(String country) {
+  getElement().setProperty(PROP_COUNTRY, country);
+}
+public String getCountry() {
+  return getElement().getProperty(PROP_COUNTRY);
+}
+
+private final String PROP_ADDRESS_LINE = "addressLine";
+public void addAddressLine(String addressLine) {
+  JsonArray addressLines;
+  if(getElement().hasProperty(PROP_ADDRESS_LINE)) {
+    addressLines =  (JsonArray) getElement().getPropertyRaw(PROP_ADDRESS_LINE);
+  }else {
+    addressLines = Json.createArray();
+  }
+  addressLines.set(addressLines.length(), addressLine);
+  getElement().setPropertyJson(PROP_ADDRESS_LINE, addressLines);
+}
+public String[] getAddressLines() {
+  JsonArray addressLines = (JsonArray) getElement().getPropertyRaw(PROP_ADDRESS_LINE);
+  String[] lines = new String[addressLines.length()];
+  for (int i=0; i<addressLines.length(); i++) {
+    lines[i] = addressLines.getString(i);
+  }
+  return lines;
+}
+
+[..]
+----
+
+Moving to the next component `payment-item`, it has some properties that can be implemented in a similar way as above, but we notice from the definition of the property in the source code that there are some with default values like `currencySystem`. This default value can be set in the getter. In non-String properties, it is mandatory to provide a default value.
+
+[source,java]
+----
+public String getCurrencySystem() {
+  return getElement().getProperty(PROP_CURRENCY_SYSTEM, "urn:iso:std:iso:4217");
+}
+
+public Boolean isPending() {
+  return getElement().getProperty(PROP_PENDING, Boolean.FALSE);
+}
+----
+
+Some property values are provided as `computed`. A computed property is read-only and should not have a setter.
+
+Currently it's not possible to get a value directly from a computed property because of synchronization race. Here is a https://github.com/vaadin/flow/issues/4909[bug] to track it.
+
+Similarly in `payment-methods`, `data` property is defined with a default value as a function and can be treated as a read-only value. Execution of a function is done using `callFunction()` and will be explained in a separate section below.
+
+The `payment-shipping-option` getters and setters are implemented the same way as in the previous component.
+
+The last remaining, and the main component is `payment-request`. We start as usual by implementing getters and setters for the properties, except for those with `readOnly: true` attribute, we should not have setters for them. In the next few sections, we will cover other parts of the component implementations.
+
+=== Dispatch events
+
+The source code of the component is well https://github.com/jorgecasar/payment-request/blob/1.0.1/payment-request.html#L35[documented] to specify the various available events, a straightforward implementation to expose those events to whoever uses the component is to define a helper event class:
+
+[source,java]
+----
+private static class CustomEvent extends ComponentEvent<PaymentRequest> {
+  private JsonObject detail;
+
+  public CustomEvent(
+      PaymentRequest source, boolean fromClient, JsonObject detail) {
+    super(source, fromClient);
+    setDetail(detail);
+  }
+
+  public JsonObject getDetail() {
+    return detail;
+  }
+  public void setDetail(JsonObject detail) {
+    this.detail = detail;
+  }
+}
+----
+
+For each of the available events, we create a class that extends the `CustomEvent` class and uses `@DomEvent` annotation to specify the `eventType` and `@EventData` to specify the parts of the event to expose:
+
+[source,java]
+----
+@DomEvent("response")
+public static class ResponseEvent extends CustomEvent {
+  public ResponseEvent(
+    PaymentRequest source, boolean fromClient,
+    @EventData("event.detail") JsonObject detail) {
+    super(source, fromClient, detail);
+  }
+}
+@DomEvent("request")
+public static class RequestEvent extends CustomEvent {
+  public RequestEvent(
+    PaymentRequest source, boolean fromClient,
+    @EventData("event.detail") JsonObject detail) {
+    super(source, fromClient, detail);
+  }
+}
+
+[..]
+----
+
+And create some APIs to register the event from outside the component:
+
+[source,java]
+----
+public Registration addResponseListener(
+  ComponentEventListener<ResponseEvent> listener) {
+  return addListener(ResponseEvent.class, listener);
+}
+public Registration addRequestListener(
+  ComponentEventListener<RequestEvent> listener) {
+  return addListener(RequestEvent.class, listener);
+}
+
+[..]
+----
+
+=== Implement APIs for functions
+
+The last part is to expose the public functions and provide them as available APIs from the Java code. By naming convention, we assume that public functions are those functions that do not start with the underscore `_` character, so we want to expose functions like `updateLastRequest`, `addRequestListeners`, `buyButtonTap` ..etc. For that, we use `callFunction`.
+
+[source,java]
+----
+public void updateLastRequest(
+  String[] methods, String details, JsonObject options) {
+  getElement().callFunction(
+    "updateLastRequest", methods, details, options);
+}
+
+public void buyButtonTap() {
+  getElement().callFunction("buyButtonTap");
+}
+
+[..]
+----
+
+Currently it is not possible to directly get a return value from `callFunction`. The reason is again a synchronization race and it is discussed in is this https://github.com/vaadin/flow/issues/1724[bug] with a possible workaround.
+
+=== Testing the new component
+
+The add-on comes with a test class `DemoView` pre-configured and ready to be used to test our new component. Let's take the simple test scenario written in the `README` of the web component page:
+
+[source,js]
+----
+<payment-request label="Total" currency="EUR">
+  <payment-method slot="method" supported='["basic-card"]' data='{
+    "supportedNetworks": ["amex", "mastercard", "visa" ],
+    "supportedTypes": ["debit", "credit"]
+  }'></payment-method>
+  <payment-item label="Item 1" currency="EUR" value="1337"></payment-item>
+  <button id="buyButton">Buy</button>
+</payment-request>
+----
+
+Translating this in Java, we start by defining the `data` JSON of the `payment-method`:
+
+[source,java]
+----
+Map<String, List<String>> paymentMethodData = new HashMap<>();
+paymentMethodData.put("supportedNetworks",
+  Arrays.asList("amex", "mastercard", "visa"));
+paymentMethodData.put("supportedTypes",
+  Arrays.asList("debit", "credit"));
+----
+
+Then define the `PaymentMethod` object itself and assign the provided properties and attributes:
+
+[source,java]
+----
+PaymentMethod paymentMethod = new PaymentMethod();
+paymentMethod.addSupported("basic-card");
+paymentMethod.setData(createObject(paymentMethodData));
+paymentMethod.getElement().setAttribute("slot", "method");
+----
+
+Also defining `PaymentItem`, `buyButton`, and `PaymentRequest`:
+
+[source,java]
+----
+PaymentItem paymentItem = new PaymentItem();
+paymentItem.setLabel("Item 1");
+paymentItem.setCurrency("EUR");
+paymentItem.setValue(1337D);
+
+Button buyButton = new Button("Buy");
+buyButton.getElement().setAttribute("id", "buyButton");
+
+PaymentRequest paymentRequest = new PaymentRequest();
+paymentRequest.setLabel("Total");
+paymentRequest.setCurrency("EUR");
+----
+
+While testing the code, I got an error message in the browser:
+
+[source]
+----
+  GET http://localhost:8080/payment-item.html 404 (Not Found)
+----
+
+And it's because of an explicit inclusion from the source code of a `payment-item` component in the `total` slot. While it may be arguably a bug, but facing similar problems can happen all time when integrating components and we need to seek alternative workarounds till they get fixed. In our example here, I've declared an empty `PaymentItem` with the required slot:
+
+[source,java]
+----
+PaymentItem paymentTotal = new PaymentItem();
+paymentTotal.getElement().setAttribute("slot", "total");
+----
+
+The next step is to add all those declared elements as children to the `paymentRequest` element:
+
+[source,java]
+----
+paymentRequest.getElement()
+  .appendChild(paymentMethod.getElement())
+  .appendChild(paymentItem.getElement())
+  .appendChild(paymentTotal.getElement())
+  .appendChild(buyButton.getElement());
+----
+
+We also need only to add the `paymentRequest` component to the UI, nothing else.
+
+[source,java]
+----
+add(paymentRequest);
+----
+
+And finally, listen to the response event to decide how the server should process the received data and how to respond back to the client:
+
+[source,java]
+----
+paymentRequest.addResponseListener(e -> {
+  paymentRequest.getElement().executeJavaScript("this.lastResponse.complete()", "");
+
+  JsonObject creditCardDetails = e.getDetail().get("details");
+  (new Notification(new Html("<p>Server received the following information:<br>"
+    + "<b>Card Number:</b> " + creditCardDetails.getString("cardNumber") + "<br>"
+    + "<b>CVC:</b> " + creditCardDetails.getString("cardSecurityCode") + "<br>"
+    + "<b>Full Name:</b> " + creditCardDetails.getString("cardholderName") + "<br>"
+    + "<b>Expiry Month:</b> " + creditCardDetails.getString("expiryMonth") + "<br>"
+    + "<b>Expiry Year:</b> " + creditCardDetails.getString("expiryYear") + "</p>"))).open();
+});
+----
+
+The previous code does not handle side cases, like when the request is canceled by the user or failed for various reasons. But it should be easy at the moment to know how to listen to those various events and build the application logic. In the previous code, we are explicitly executing `this.lastResponse.complete()` to hide the payment window.
+
+image::payment-show.png[Show Payment]
+
+image::payment-done.png[Payment Success]
+
+=== Publish to Vaadin Directory
+
+A good idea to publish your work to the https://vaadin.com/director[Vaadin Directory] to get feedback from the community and potential contributions from other users. Accessing the https://vaadin.com/directory/my-components?uploadNewComponent=[publish new component] page gives pretty much all the information needed to proceed. We have done the first three steps already, and we are few maven commands away from having the add-on ready and published.
+
+image::upload-addon.png[Upload Addon]
+
+Check out the https://vaadin.com/directory/component/payment-request[add-on] created throughout this tutorial and the https://github.com/amahdy/payment-request-flow[final source code].
