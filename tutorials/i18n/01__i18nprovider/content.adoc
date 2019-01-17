@@ -1,32 +1,28 @@
-= I18n in Flow - I18NProvider
+=Internationalization in Vaadin Flow
 
-:title: I18n in Flow - I18NProvider
+:title: Internationalization in Vaadin Flow
 :type: text
 :author: Sven Ruppert
-:tags: I18N, Flow
-:description: How to start with i18n - the flow way
+:tags: I18N, Flow, Java
+:description: Learn how to translate/internationalize Vaadin Flow applications with an i18n provider.
 :repo: https://github.com/vaadin-learning-center/flow-i18n-i18nprovider
 :imagesdir: ./images
 
-In this tutorial we will learn how to implement an I18NProvider
-that is used for the translation functionality inside Flow.
-Focus will be the question, how to deal with different languages (I18N).
+In this tutorial, we will learn how to implement an I18NProvider
+that is used for translating text content in a Vaadin application
 
-== Video tutorial for this part
-..not available right now
+
 
 == Download base project
-As "Hello World" basic project the `flow-helloworld-maven-meecrowave`
-from the learning center is used. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
+This tutorial uses  the `flow-helloworld-maven-meecrowave`
+as a base. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
 
 You are able to find the latest version of the source code for this tutorial
 https://github.com/vaadin-learning-center/flow-i18n-i18nprovider[@github]
 
-== The challenge
-How to deal with different languages in Flow.
 
 === Preparations for this tutorial
-For this tutorial we assume to have the following peace of code in flow/java
+For this tutorial, we assume to have the following piece of code
 
 [source,java]
 ----
@@ -52,39 +48,36 @@ For this tutorial interesting part is the following line of code.
 
 == ResourceBundles
 The description on the Button is given in plain text. If we want to deal with different languages
-we need something that will give us a mechanism to deliver the requested translation of the message
- *click me*.
+we need something that will give us a mechanism to deliver the requested translation of the message *click me*.
 
-But first we will go a step back and remember what is already included inside the JDK.
+But first, we will go a step back and remember what is already included inside the JDK.
 The mechanism/element I have in mind is called *ResourceBundle*.
 ResourceBundles are part of the JDK since version *1.1*
-The JDK itself will provide a few implementations of the abstract class ``RessourceBundle``.
-One implementation is called ``PropertyResourceBundle``.
+The JDK itself will provide a few implementations of the abstract class `ResourceBundle`.
+One implementation is called `PropertyResourceBundle`.
 This implementation will be used for this tutorial.
 
-This implementation is based on Property files.
+This implementation is based on property files.
 
 The short version:
-A PropertyResourceBundle is based on a bunch of property-files that are containing the same keys
-but with different values for the same key.
+A PropertyResourceBundle is based on a bunch of property-files that are containing the same keys but with different values for the same key.
 
 The longer version:
-The PropertyResourceBundle needs a bunch of property-files with the same name in the beginning
-but with different endings.
-In this tutorial the resource files are located inside the resoure folder
+The PropertyResourceBundle needs a bunch of property-files with the same name in the beginning but with different endings.
+In this tutorial, the resource files are located inside the resource folder
 and the main name of the files is *vaadinapp*. The main name is followed by locale shortcuts.
-Here we are providing english (en) and german (de)
-The full name of the file with the english resource definitions is *vaadinapp_en.properties*
+Here we are providing English (en) and German (de)
+The full name of the file with the English resource definitions is *vaadinapp_en.properties*
 
 There is one file allowed with the same main name but without any locale in the end.
 This is the resource that will be used as fall back if there is nothing else that matches.
 
-Some languages, like german, are a little bit different if they are used in different countries.
+Some languages, like German, are a little bit different if they are used in different countries.
 Let´s assume we want to support Germany and Switzerland.
-The german properties files would get the name *vaadinapp_de*
+The German properties files would get the name *vaadinapp_de*
 and the properties file for Switzerland would have the name  *vaadinapp_de_CH*
 The last file would only contain the properties that would have a different value, compared
-to the original german language file.
+to the original German language file.
 
 == How to use?
 The usage of this implementation depends on one method, with a few different signatures.
@@ -98,8 +91,8 @@ With the method *getBundle(..)* the corresponding properties file will be loaded
   private static final ResourceBundle RESOURCE_BUNDLE_DE = getBundle(RESOURCE_BUNDLE_NAME , GERMAN);
 ----
 
-In this tutorial we a loading two bundles. An english and a german one.
-Both we will hold in a static class attribute. At this point we are assuming that the
+In this tutorial we a loading two bundles. An English and a German one.
+Both are held in a static class attribute. At this point, we are assuming that the
 resources are static during the runtime of the program.
 
 == I18NProvider implementation
@@ -114,10 +107,8 @@ public interface I18NProvider extends Serializable {
 }
 ----
 
-The first one *getProvidedLocales()* will be used to decide
-if the requested locale is provided by this implementation or not.
-Based on the fact,
-that this implementation will not support changes during the runtime of the application,
+The first one *getProvidedLocales()* will be used to decide if the requested locale is provided by this implementation or not.
+Based on the fact that this implementation will not support changes during the runtime of the application,
 the result can be a static unmodifiable list of locales.
 
 [source,java]
@@ -126,7 +117,6 @@ the result can be a static unmodifiable list of locales.
 
   @Override
   public List<Locale> getProvidedLocales() {
-    logger().info("VaadinI18NProvider getProvidedLocales..");
     return providedLocales;
   }
 ----
@@ -137,33 +127,30 @@ or if needed and supported, into the translation based on the default locale.
 [source,java]
 ----
   @Override
-  public String getTranslation(String key , Locale locale , Object... params) {
-    return match(
-        matchCase(() -> success(RESOURCE_BUNDLE_EN)) ,
-        matchCase(() -> GERMAN.equals(locale) , () -> success(RESOURCE_BUNDLE_DE)) ,
-        matchCase(() -> ENGLISH.equals(locale) , () -> success(RESOURCE_BUNDLE_EN))
-    )
-        .map(resourceBundle -> {
-          if (! resourceBundle.containsKey(key))
-          return (resourceBundle.containsKey(key))
-              ? resourceBundle.getString(key)
-              : key;
-        })
-        .getOrElse(() -> key + " - " + locale);
+  public String getTranslation(String key, Locale locale, Object... params) {
+       ResourceBundle resourceBundle = RESOURCE_BUNDLE_EN;
+    if (GERMAN.equals(locale)) {
+        resourceBundle = RESOURCE_BUNDLE_DE;
+    }
+
+    if (! resourceBundle.containsKey(key)) {
+      logger().info("missing resource key (i18n) " + key);
+      return key + " - " + locale;
+    } else {
+      return (resourceBundle.containsKey(key)) ? resourceBundle.getString(key) : key;
+    }
   }
 ----
 
-The method *getTranslation* will get the key itself,
-the requested locale and an optional list of params.
-The workflow is based on the following steps.
+The method *getTranslation* will get the key itself,the requested locale and an optional list of params.
+The workflow is based on the following steps:
 
 1) check if the requested locale is available and select the corresponding resource bundle.
 If the requested locale is not supported decide what to do. In this implementation,
-the fall back is the english locale.
+the fall back is the English locale.
 
 2) check if the requested key is available inside the resource bundle and convert the key into the value.
-if not, decide what should be done. This implementation will convert the key into a value based on the
-key itself and the request locale. This makes it easy for the developer to detect what is missing.
+If not, decide what should be done. This implementation will convert the key into a value based on the key and the request locale. This makes it easy for the developer to detect what is missing.
 
 
 == Activation of the Implementation
@@ -174,7 +161,7 @@ will be checked. Flow is expecting the class name of the I18NProvider implementa
 and will start with the instantiation.
 
 There are different ways to set the system property.
-For this tutorial we are setting the property inside the main method of the class *BasicTestUIRunner*.
+For this tutorial, we are setting the property inside the main method of the class *BasicTestUIRunner*.
 
 [source,java]
 ----
@@ -185,11 +172,11 @@ For this tutorial we are setting the property inside the main method of the clas
 After we activated the I18NProvider Implementation we are ready to use this in our code.
 Setting the label will be done with the result from the method *getTranslation(..)*.
 
-``private final Button btnClickMe = new Button(getTranslation("btn.click-me"));``
+`private final Button btnClickMe = new Button(getTranslation("btn.click-me"));`
 
 The implementation will now check if the key *btn.click-me* is available.
-To define this key for the english language you have to add the key plus value to your
-properties file *vaadinapp_en.properties*, and for the german version into the file
+To define this key for the English language you have to add the key plus value to your
+properties file *vaadinapp_en.properties*, and for the German version into the file
 *vaadinapp_de.properties*.
 
 [source,property]
@@ -203,6 +190,8 @@ properties file *vaadinapp_en.properties*, and for the german version into the f
 ----
 
 == Next
-In this tutorial we learned how to implement a simple I18NProvider. To learn more in practice
+In this tutorial, we learned how to implement a simple I18NProvider. To learn more in practice
 check out the latest source code
 https://github.com/vaadin-learning-center/flow-i18n-i18nprovider[@github].
+
+
