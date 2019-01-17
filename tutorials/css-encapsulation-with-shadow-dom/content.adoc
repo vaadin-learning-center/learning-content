@@ -3,7 +3,6 @@
 :tags: Web Components, JavaScript, Shadow DOM, CSS 
 :author: Nii Yeboah
 :description: Encapsulating CSS styles with the Shadow DOM
-:linkattrs:
 :imagesdir: ./images
 
 == The Global Problem
@@ -52,15 +51,13 @@ element.shadowRoot.innerHTML = `
   <slot></slot> // <4>
 `
 ----
-<1> Attach a Shadow DOM tree to the `<div>`.
+<1> Attach a Shadow DOM tree to the `<div>` element.
 <2> Define a local CSS rule for `<span>` elements. This rule will not affect any `<span>` elements outside of the Shadow DOM.
-<3> Place a `<span>` in the elements Shadow DOM. This `<span>` will not be affected by global CSS rules.
-<4> The `<slot>` element tells the browser where to render elements placed in the light DOM.
+<3> Place a `<span>` element in the Shadow DOM. This `<span>` element will not be affected by global CSS rules.
+<4> Place a `<slot>` element in the Shadow DOM. This tells the browser where to render elements placed in the light DOM.
 
 TIP: You must provide the `ShadowRootInit` parameter for the `attachShadow` method. This is an object with a `mode` property. The mode should always be `"open"` as this allows us to access the shadow DOM by referencing the elements `shadowRoot` property.
 
 image::html-and-dom-2.png[The words Shadow DOM written in green followed by the words Light DOM in the color red.]
 
 Live code example https://codepen.io/niiyeboah/pen/wREZpy[here].
-
-

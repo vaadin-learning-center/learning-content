@@ -12,6 +12,7 @@ IntelliJ IDEA
 Internationalization
 Java
 JavaScript
+jUnit5
 JVM
 Kotlin
 Kubernetes
@@ -20,6 +21,7 @@ LitElement
 Maven
 Meecrowave
 Migration
+Mutation Testing
 Navigation
 NetBeans
 Offline
@@ -28,6 +30,7 @@ PWA
 React
 Reactive
 Redux
+ResourceBundle
 Shadow DOM
 Spring
 Spring Boot
