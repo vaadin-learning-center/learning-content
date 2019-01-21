@@ -1,7 +1,6 @@
 = How to use Web Components in Angular
 
 :type: text, video
-:topic: frontend
 :tags: Web Components, Angular, JavaScript
 :description: Learn how to include and use Web Components in Angular
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-angular

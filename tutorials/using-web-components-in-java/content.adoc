@@ -1,7 +1,6 @@
 = How to use Web Components in Java
 
 :type: text
-:topic: frontend
 :tags: Web Components, Java, Flow
 :description: Learn how to include and use Web Components in Java
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-java

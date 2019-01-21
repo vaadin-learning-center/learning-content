@@ -1,7 +1,6 @@
 = How to use Web Components in Vue
 
 :type: text, video
-:topic: frontend
 :tags: Web Components, Vue, JavaScript
 :description: Learn how to include and use Web Components in Vue
 :repo: https://github.com/vaadin-learning-center/using-web-components-in-vue

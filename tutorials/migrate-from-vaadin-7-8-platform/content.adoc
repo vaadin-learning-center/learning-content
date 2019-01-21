@@ -3,7 +3,6 @@
 :title: Practical steps for migrating  a Vaadin 7 application to Vaadin platform
 :authors: sebastian
 :type: text
-:topic: migration
 :tags: Migration, Flow, Java, Vaadin 7, Vaadin 8
 :description: Step-by-step guide to migration your application from Vaadin 7 or 8 to Vaadin platform
 :repo: https://github.com/SebastianKuehnau/VaadinComparison

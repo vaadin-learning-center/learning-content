@@ -1,7 +1,6 @@
 = Integrate a Web Component into Vaadin Flow
 
 :type: text
-:topic: frontend
 :tags: Web Components, Java, JavaScript, Flow
 :description: All steps needed to integrate a web component into Vaadin Flow and publish to the directory
 :repo: https://github.com/amahdy/payment-request-flow
