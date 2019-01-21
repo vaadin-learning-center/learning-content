@@ -1,25 +1,27 @@
 [[flow.tutorial.filtering]]
-= Creating live filtering for entities
+== Creating Live Filtering for Entities
 
-:title: Part 3 - Creating live filtering for entities
+:title: Part 3 - Creating Live Filtering for Entities
 :author: Vaadin
 :tags: Flow, Java
 :sectnums:
 :imagesdir: ./images
 
-A search functionality is expected in every modern application and it is also a nice Vaadin development exercise. Let’s add a filtering functionality to our Customer listing we created in the previous step.
-// The following video shows how to do this step of the tutorial:
+All modern applications need search functionality and it also makes for a nice Vaadin development exercise. 
 
-// video::Alejandro[youtube, width="640", height="400"]
-We’ll start by introducing a [classname]#TextField# component as a field to our [classname]#MainView# class:
+In this part of the tutorial we add filtering functionality to the `Customer` listing we created in <<tutorial-get-started-second-part#,Part 2 - Listing Entities in a Grid>>.  
 
+. In `MainView.java` introduce a `TextField` component:
+
++
 [source,java]
 ----
 private TextField filterText = new TextField();
 ----
 
-In the [classname]#MainView# constructor, configure the text field to contain a helpful input prompt and add a text change listener to the field. The exact place of these lines is not important, but add them, for example, at the beginning of the constructor.
+. Configure the text field to display an input prompt and add a text change listener, by adding the following code at the beginning of the constructor:
 
++
 [source,java]
 ----
 filterText.setPlaceholder("Filter by name...");
@@ -27,13 +29,11 @@ filterText.setValueChangeMode(ValueChangeMode.EAGER);
 filterText.addValueChangeListener(e -> updateList());
 ----
 
-[TIP]
-To keep your code more readable, you can use autoformat after you write or copy paste code snippets. The default keyboard shortcut in Eclipse is kbd:[Ctrl+Shift+F] or kbd:[Cmd+Shift+F]. This can also be configured for all save actions in Eclipse, that means this command does formatting whenever you need, but it can also be automated, if the user wants to.
-By selecting the Format source code in “Preferences > Save Actions”, you can automate the formating action.
+* As its name implies, the value change listener reacts to changes in the value in the text field, and `EAGER` mode ensures the event is fired while the user types. This is ideal for this kind of automatic filtering. When the user enters text, the listing updates by calling the `updateList` method, as before.
 
-As its name implies, the value change listener allows you to react to changes in the value contained in the text field. When setting the mode as `EAGER`, it is configured so that the event is fired while the user is typing. This makes it perfect for this kind of automatic filtering. When the user is typing in the text, we’ll just update the listing, calling the `updateList` method as before.
-To keep the `updateList` method functionality correct, it should take into consideration the possible value in the filterText field. Change the body of the method into this:	 
+. To ensure the filter value is taken into consideration when updating grid items, change the body of the `updateList` method as shown below: 
 
++
 [source,java]
 ----
 public void updateList() {
@@ -44,34 +44,47 @@ public void updateList() {
     grid.setItems(service.findAll(filterText.getValue()));
 }
 ----
+* This keeps the method functionality correct, by taking the possible value in the `filterText` field into consideration. 
 
-Before adding the text field to the UI, let’s improve the usability a bit and make a short exercise to compose better components from lower level UI components. The search field can naturally be cleared with the keyboard, but let’s add a clear button next to the text field. Start by adding the following lines to the constructor, for example right after your `filterText` configuration:
+. Add a button to clear the text field to improve usability, by adding the following code to the constructor directly after the `filterText` configuration:
 
++
 [source,java]
 ----
 Button clearFilterTextBtn = new Button(
-        new Icon(VaadinIcon.CLOSE_CIRCLE));
+       new Icon(VaadinIcon.CLOSE_CIRCLE));
 clearFilterTextBtn.addClickListener(e -> filterText.clear());
 ----
 
-Vaadin Flow includes a set of built in icons, from which we use the "X" icon, `VaadinIcon.CLOSE_CIRCLE` here, which most users will recognise as a functionality to clear a value. In the click listener, we simply clear the text from the field.
-Vaadin Flow contains lots of different kinds of layouts. The simplest way to align the text field and the button next to each other is to use a [classname]#HorizontalLayout#. Add this line to the constructor right after you configured the `clearFilterTextBtn`:
+* While the search field could previously be cleared using the keyboard, adding a button makes it easier for the user. 
+* We use the "X" icon, `VaadinIcon.CLOSE_CIRCLE`, from the built-in set of icons provided by Flow.
+* In the click listener, we simply clear the text from the field. 
 
+. Align the text field and the button so they line up next to each other, by adding the following code to the constructor directly after `clearFilterTextBtn`: 
+ 
++
 [source,java]
 ----
 HorizontalLayout filtering = new HorizontalLayout(filterText,
     clearFilterTextBtn);
 ----
 
-Finally, *change* the line *add(grid)* in the constructor that currently adds only the grid, to add both the `filtering` layout and the grid to the main view.
+* Using `HorizontalLayout` is the simplest way to do this. Flow provides many different kinds of layouts. 
 
+
+. Change the `add(grid)` code line in the constructor to: 
++
 [source,java]
 ----
 add(filtering, grid);
 ----
 
-Now the mainView looks like this:
+* This line previously only added the grid layout. It now additionally adds the `filtering` layout.
 
+
+. At this point your `MainView` body code should be:
+
++
 [source,java]
 ----
 /**
@@ -115,6 +128,4 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-Now it is a good time to save your changes and try them out in your browser!
-
-Good job! Let's move on, and continue by creating a form using plain Java in the next tutorial section.
+. Save your code changes and refresh your browser to view the changes.
