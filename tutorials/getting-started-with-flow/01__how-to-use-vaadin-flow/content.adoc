@@ -43,7 +43,7 @@ As the starting point for the application, we use a Vaadin Application Starter, 
 
 . Start by pointing your browser at https://vaadin.com/start[Vaadin Start]
 
-. Select the Project Base for V10 by clicking it
+. Under the Latest Release tab, select the Project Base box by clicking it
 
 . For [guilabel]#Group ID#: Give `com.vaadin.starter.skeleton`
 
