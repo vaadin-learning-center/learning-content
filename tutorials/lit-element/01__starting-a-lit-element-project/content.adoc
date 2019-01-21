@@ -3,7 +3,6 @@
 :title: Creating a LitElement project
 :authors: marcus
 :type: text, video
-:topic: frontend
 :tags: LitElement, Templating, JavaScript
 :description: Learn how to set up a new project with LitElement
 :repo: https://github.com/vaadin-learning-center/lit-element-tutorial-starting-a-lit-element-project

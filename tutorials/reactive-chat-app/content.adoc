@@ -2,7 +2,6 @@
 
 :tags: Java, Flow, Spring, Spring Boot, Reactive
 :author: Marcus Hellberg
-:topic: ui-development
 :description: Learn how to build a reactive chat application with Spring Boot, Project Reactor, and Vaadin
 :repo: https://github.com/vaadin-learning-center/reactive-chat-app
 :linkattrs: 
