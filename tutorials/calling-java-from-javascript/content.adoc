@@ -5,10 +5,11 @@
 :description: This tutorial explains how to call Java methods from JavaScript code.
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
+:related: getting-started-with-flow
 
-Typically, applications make server-side Java methods available to the client-side by exposing them as end-points in a REST web service. Although this is a perfectly valid approach, this tutorial shows an easy way to call Java methods in the server without having to implement web services. This is possible thanks to Vaadin Flow, a framework that incorporates a set of Java classes that, not only allows you to build web UIs in plain Java, but that includes an automated communication mechanism that makes calling Java methods from JavaScript pretty straightforward.
+Typically, applications make server-side Java methods available to the client-side by exposing them as end-points in a REST web service. Although this is a perfectly valid approach, this tutorial shows an alternative way to call Java methods on the server without having to implement web services. This is possible thanks to Vaadin Flow, a framework that incorporates a set of Java classes that, not only allows you to build web UIs in plain Java, but also includes an automated communication mechanism that makes calling Java methods from JavaScript  straightforward.
 
-In this step by step tutorial, you will learn how to use Vaadin to call server-side Java code from client-side JavaScript code. All you need to follow this tutorial is a basic understanding of the Java Programming Language, the fundamentals of JavaScript, JDK 8 or later, and a Java IDE.
+In this step-by-step tutorial, you will learn how to use Vaadin to call server-side Java code from client-side JavaScript code. All you need to follow this tutorial is a basic understanding of the Java Programming Language, the fundamentals of JavaScript, JDK 8 or later, and a Java IDE.
 
 NOTE: You can find the source code for this tutorial on https://github.com/vaadin-learning-center/calling-java-from-javascript[GitHub].
 
@@ -25,10 +26,10 @@ image::starter-page.png[Starter page, 80%, align="center"]
 
 . The ZIP contains a Maven project. Import the Maven project into your favorite IDE (see the instructions for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans]). This project is a simple starting point for developing a Java web application with Vaadin.
 
-NOTE: Don't worry if you are not familiar with Maven. Most IDEs have excellent support for Maven, to the point you don't really need to understand all its details in order to use it. If you want to learn more about the key concepts in Maven, see https://vaadin.com/tutorials/learning-maven-concepts[this article].
+NOTE: Don't worry if you are not familiar with Maven. Most IDEs have excellent support for Maven, to the point you don't need to understand all its details to use it. If you want to learn more about the key concepts in Maven, see https://vaadin.com/tutorials/learning-maven-concepts[this article].
 
 [start=5]
-. Since the _starter_ creates a simple "Hello, World" application we don't need right now, and we want to keep the project as simple as possible, go ahead and delete the `MainView` class and the `resources`, `frontend/src`, and `frontend/styles` directories (keep the `frontend` directory). The directory structure should look like this:
+. Since the _starter_ creates a simple "Hello, World" application we don't need right now. We want to keep the project as simple as possible, so go ahead and delete the `MainView` class and the `resources`, `frontend/src`, and `frontend/styles` directories (keep the `frontend` directory). The directory structure should look like this:
 
 image::directory-structure.png[Directory structure, 60%, align="center"]
 
@@ -62,9 +63,9 @@ public class MainView extends Div {
 }
 ```
 
-By default, the `@Route` annotation makes Vaadin map the class with the context root when the annotated class is named `MainView`. So when `http://localhost:8080/` is requested, the `MainView` class will have the chance to perform any logic on the server side. If we wanted to map the class to, say `http://localhost:8080/example` we would need to say it explicitly with `@Route("example")`.
+By default, the `@Route` annotation makes Vaadin map the class with the context root when the annotated class is named `MainView`. So when `http://localhost:8080/` is requested, the `MainView` class will have the chance to perform any logic on the server side. If we wanted to map the class to  `http://localhost:8080/example`, we would need to say it explicitly with `@Route("example")`.
 
-If you run the project at this point, you will get an empty web page. Let's confirm this by executing the Maven Jetty Plugin. If you have Maven installed in your machine, just run `mvn jetty:run` in command line. If you are using an IDE create a run configuration for the `jetty:run` _goal_. See the detailed instructions for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans].
+If you run the project at this point, you will get an empty web page. Let's confirm this by executing the Maven Jetty Plugin. If you have Maven installed in your machine, just run `mvn jetty:run` in the command line. If you are using an IDE, create a run configuration for the `jetty:run` _goal_. See the detailed instructions for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans].
 
 NOTE: The Jetty Maven Plugin is configured in the `pom.xml` file. This plugin allows us to easily deploy the web application to a Jetty server without having to install it manually.
 
@@ -74,7 +75,7 @@ Point your browser to http://localhost:8080 to see the empty web page. Nothing e
 
 Before calling Java from JavaScript, we need to set up the JavaScript file itself. Create a new file with the name `script.js` in the `src/main/webapp/frontend/` directory and code a simple function in it:
 
-.src/main/webapp/frondend/script.js
+.src/mainwebapp/frontend/script.js
 ```JavaScript
 function greet(name) {
     console.log("Hi, " + name);
@@ -104,7 +105,7 @@ public MainView() {
 }
 ```
 
-The `getElement()` method returns a _Java representation_ of the `<div>` element in the DOM. There a small improvement we can make to this line of code. We can separate the argument values from the function call and get the same behaviour:
+The `getElement()` method returns a _Java representation_ of the `<div>` element in the DOM. There a small improvement we can make to this line of code. We can separate the argument values from the function call and get the same behavior:
 
 .MainView.java
 ```Java
@@ -113,7 +114,7 @@ public MainView() {
 }
 ```
 
-Try the application now. Stop the server and run it again (using the run configuration in your IDE or `mvn jetty:run` in the command line).
+Try the application now. Stop the server and rerun it (using the run configuration in your IDE or `mvn jetty:run` in the command line).
 
 You should see the greeting in the browser's console:
 
@@ -136,7 +137,7 @@ public class MainView extends Div {
 
 ```
 
-Now we need to expose this method to the client-side by simply annotating the method with `@ClientCallable`:
+Now we need to expose this method to the client-side by annotating the method with `@ClientCallable`:
 
 .MainView.java
 ```Java
