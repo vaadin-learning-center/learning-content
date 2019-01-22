@@ -1,0 +1,136 @@
+= HelloWorld - with RedHat Thorntail Swarm - Ramp up in a second
+
+:type: text, video
+:tags: RedHat, Thorntail, Swarm, Wildfly,  Flow, Java
+:description: How to start a Vaadin Flow project with RedHat Thorntail Swarm in a second
+:repo: https://github.com/vaadin-learning-center/flow-helloworld-maven-thorntail
+:linkattrs:
+:imagesdir: ./images
+
+
+A nano project to start a Vaadin project running in a RedHat Thorntail Swarm Container, based on Undertow.
+
+== Target of this project
+
+The target of this project is a minimal rampup time for a first hello world.
+Why we need one more HelloWorld? Well, the answer is quite easy.
+If you have to try something out, or you want to make a small POC to present something,
+there is no time and budget to create a demo project.
+You don't want to copy paste all small things together.
+Here you will get a HelloWorld-Project that will give you all in a second.
+
+Clone the repo and start editing the class `VaadinApp`.
+Nothing more.
+
+== Used Servlet container?
+Here we are using the RedHat **Thorntail Swarm** Container as Servlet-Container.
+https://thorntail.io/[https://thorntail.io/]
+
+== The UI itself
+
+The UI itself contains not so many elements. There is only a button you can click.
+For every click, the counter will be increased.
+The component will be registered under the root-path, based on the Annotation `@Route("")`
+For more information's about the routing itself have a look at
+https://vaadin.com/docs/flow/routing/tutorial-routing-annotation.html[https://vaadin.com/docs/flow/routing/tutorial-routing-annotation.html]
+
+[source,java]
+----
+@Route("")
+public class VaadinApp extends Composite<Div> {
+
+  private final Button         btnClickMe   = new Button("click me");
+  private final Span           lbClickCount = new Span("0");
+  private final VerticalLayout layout       = new VerticalLayout(btnClickMe, lbClickCount);
+
+  private int clickcount = 0;
+
+  public VaadinApp() {
+    btnClickMe.addClickListener(event -> lbClickCount.setText(valueOf(++clickcount)));
+    //set the main Component
+    System.out.println("setting now the main ui content..");
+    getContent().add(layout);
+
+  }
+}
+----
+
+== Maven dependencies
+To use this together with the RedHat **Thorntail Swarm** Container you should add
+first the Thorntail BOM (versions) followed by the Vaadin Platform BOM.
+
+[source,xml]
+----
+  <dependencyManagement>
+    <dependencies>
+      <!--Thorntail-->
+      <dependency>
+        <groupId>io.thorntail</groupId>
+        <artifactId>bom</artifactId>
+        <version>${thorntail.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      <!--Vaadin -->
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-bom</artifactId>
+        <version>${vaadin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+----
+
+
+To use the Thorntail Swarm at runtime, we need to add the dependency
+that will provide the Undertow as Servlet container.
+Optional you could add the logging as well.
+
+[source,xml]
+----
+    <dependency>
+      <groupId>io.thorntail</groupId>
+      <artifactId>logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.thorntail</groupId>
+      <artifactId>undertow</artifactId>
+    </dependency>
+----
+
+The last needed dependency is the thorntail maven plugin. This will make sure that
+all the needed preparations are done during the build and startup process.
+
+[source,xml]
+----
+      <plugin>
+        <groupId>io.thorntail</groupId>
+        <artifactId>thorntail-maven-plugin</artifactId>
+        <version>${thorntail.version}</version>
+        <executions>
+          <execution>
+            <id>package</id>
+          </execution>
+          <execution>
+            <id>start</id>
+          </execution>
+          <execution>
+            <id>stop</id>
+          </execution>
+        </executions>
+      </plugin>
+----
+
+== How to start it
+With this plugin the demo could be started.
+Try the following maven command inside the folder that was created from git during the clone process.
+
+```mvn clean install thorntail:run ```
+
+After the demo was build from scratch, maven got all dependencies from maven central and Thorntail Swarm was started,
+you are able to try the webapp on http://localhost:8080/[http://localhost:8080/]
+
+
+Happy Coding.
