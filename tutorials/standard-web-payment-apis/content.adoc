@@ -1,0 +1,122 @@
+= Standard Web Payment APIs
+
+:title: Standard Web Payment APIs
+:type: text
+:tags: Web Components, Java, Web Payment, Payment Request, Standard
+:description: Learn how to use the standard payment request APIs in Java
+:repo: https://github.com/amahdy/payment-request-flow
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials: web-components-in-flow
+
+== Intro
+
+Payment Request API is a new, streamlined way to collect payment and shipping details from the user. Its primary goal is to eliminate checkout forms by standardizing the payment communication flow as much as possible. Some benefits of using Payment Request API over traditional checkout forms are:
+
+* Platform native and familiar for the user
+* If the user gives consent, the payment data can be synced between desktop and mobile
+* It’s simple to use from the developer's point of view
+
+Many third-party vendors have provided online payment solutions to tackle some of those issues, but the usage of third-party solutions comes with a user limitation: whether or not they have accounts with those third parties, and whether their platform and devices support it. Some developers went with the extreme of adding all possible "checkout" buttons to their forms, which is not helpful from a user experience point of view.
+
+With a standardized API, you no longer need to rely on a specific vendor, and you can eliminate the unneeded checkout buttons. However, it's important to notice that the standard payment request API is not a payment gateway and *does not process the credit card data*. It's merely moving the issue to the server, in which you can easily choose your preferred vendor to process the card data without any hassle to your users.
+
+== Payment request add-on for Vaadin
+
+If you are using Vaadin Flow, here is an https://vaadin.com/directory/component/payment-request[add-on] available that you can use right away.
+
+Start by adding the maven dependency:
+
+[source,xml]
+----
+<dependency>
+  <groupId>com.vaadin.tutorial.webcomponent</groupId>
+  <artifactId>payment-request</artifactId>
+  <version>1.0.0</version>
+</dependency>
+----
+
+And here is a sample code to use it:
+
+[source,java]
+----
+// Define payment methods:
+PaymentMethod paymentMethod = new PaymentMethod();
+paymentMethod.addSupported("basic-card");
+paymentMethod.getElement().setAttribute("slot", "method");
+
+// Show items to pay for:
+PaymentItem paymentItem = new PaymentItem();
+paymentItem.setLabel("Item 1");
+paymentItem.setCurrency("EUR");
+paymentItem.setValue(1337D);
+
+// Add a slot for payment total:
+PaymentItem paymentTotal = new PaymentItem();
+paymentTotal.getElement().setAttribute("slot", "total");
+
+// Define the buy button:
+Button buyButton = new Button("Buy");
+buyButton.getElement().setAttribute("id", "buyButton");
+
+// Define the Payment Request:
+PaymentRequest paymentRequest = new PaymentRequest();
+paymentRequest.setLabel("Total");
+paymentRequest.setCurrency("EUR");
+
+// Add payment methods and items to the request:
+paymentRequest.getElement()
+  .appendChild(paymentMethod.getElement())
+  .appendChild(paymentItem.getElement())
+  .appendChild(paymentTotal.getElement())
+  .appendChild(buyButton.getElement());
+
+// Add the component to the UI:
+add(paymentRequest);
+----
+
+There is also another similar https://vaadin.com/directory/component/payment-request-addon[add-on] that uses https://vaadin.com/blog/payment-request-api-in-vaadin-10[the same approach] but written differently.
+
+== Bring your own implementation to Vaadin
+
+You can also write your style of handling the payment request on the browser in a form or a https://vaadin.com/tutorials/using-web-components[standard web compoent].
+
+The add-on mentioned above is based on a community-driven https://github.com/jorgecasar/payment-request[web component]. Check out https://vaadin.com/tutorials/web-components-in-flow[the steps] needed to create this add-on.
+
+== Implement payment API
+
+You can implement Payment Request APIs from scratch on the client-side using Javascript. Here is a sample of the minimal code needed to get started. Constructing the payload for the supported payment methods and payment details to display to the user:
+
+[source,js]
+----
+const supportedPaymentMethods = [
+  {
+    supportedMethods: 'basic-card',
+  }
+];
+
+const paymentDetails = {
+  total: {
+    label: 'Total',
+    amount:{
+      currency: 'USD',
+      value: 0
+    }
+  }
+};
+----
+
+Followed by using the `PaymentRequest` constructor, and call the object’s `show()` method:
+
+[source,js]
+----
+const request = new PaymentRequest(
+  supportedPaymentMethods,
+  paymentDetails
+);
+
+request.show()
+.then(..).catch(..);
+----
+
+The constructor has two mandatory arguments: supported methods of payment and payment details. The `show` method returns a promise which is fulfilled with the payment data once the user has authorized the payment. You can https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API[read more] about the API variants and the other parameters that you can use, and also https://vaadin.com/tutorials/web-component-for-vaadin-flow[this tutorial] on how to integrate a client-side web component into Vaadin Flow.
