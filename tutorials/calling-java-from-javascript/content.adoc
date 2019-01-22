@@ -1,6 +1,6 @@
 = Calling Java from JavaScript
 
-:tags: Vaadin, Java
+:tags: Flow, Java
 :author: Alejandro Duarte
 :description: This tutorial explains how to call Java methods from JavaScript code.
 :linkattrs: // enable link attributes, like opening in a new window
