@@ -30,9 +30,9 @@ Start by adding the maven dependency:
 [source,xml]
 ----
 <dependency>
-   <groupId>com.vaadin.tutorial.webcomponent</groupId>
-   <artifactId>payment-request</artifactId>
-   <version>1.0.0</version>
+  <groupId>com.vaadin.tutorial.webcomponent</groupId>
+  <artifactId>payment-request</artifactId>
+  <version>1.0.0</version>
 </dependency>
 ----
 
@@ -85,7 +85,7 @@ The add-on mentioned above is based on a community-driven https://github.com/jor
 
 == Implement payment API
 
-Payment Request API is simple. Just create a request using the `PaymentRequest` constructor, and call the object’s `show()` method:
+You can implement Payment Request APIs from scratches on the client-side using Javascript. Here is a sample of the minimal code needed to get started. Constructing the payload for the supported payment methods and payment details to diplay to the user:
 
 [source,js]
 ----
@@ -94,6 +94,7 @@ const supportedPaymentMethods = [
     supportedMethods: 'basic-card',
   }
 ];
+
 const paymentDetails = {
   total: {
     label: 'Total',
@@ -103,7 +104,12 @@ const paymentDetails = {
     }
   }
 };
+----
 
+Followed by using the `PaymentRequest` constructor, and call the object’s `show()` method:
+
+[source,js]
+----
 const request = new PaymentRequest(
   supportedPaymentMethods,
   paymentDetails
@@ -113,4 +119,4 @@ request.show()
 .then(..).catch(..);
 ----
 
-The constructor has two mandatory arguments: supported methods of payment and payment details. The `show` method returns a promise which will be fulfilled with the payment data once the user has authorized the payment.
+The constructor has two mandatory arguments: supported methods of payment and payment details. The `show` method returns a promise which will be fulfilled with the payment data once the user has authorized the payment. You can https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API[read more] about the API variants and the other paramenters that you can use, and also https://vaadin.com/tutorials/web-component-for-vaadin-flow[this tutorial] on how to integrate a client-side web component into Vaadin Flow.
