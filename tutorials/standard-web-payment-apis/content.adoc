@@ -17,9 +17,9 @@ Payment Request API is a new, streamlined way to collect payment and shipping de
 * If the user gives consent, the payment data can be synced between desktop and mobile
 * It’s simple to use from the developer's point of view
 
-Many third-party vendors have provided online payment solutions to tackle some of those issues, but the usage of a third party solutions comes with a user limitation: whether or not they have accounts with those third parties, and whether their platform and devices support it. Some developers went with the extreme of adding all possible "checkout" buttons to their forms, which is not nice from a user experience point of view.
+Many third-party vendors have provided online payment solutions to tackle some of those issues, but the usage of third-party solutions comes with a user limitation: whether or not they have accounts with those third parties, and whether their platform and devices support it. Some developers went with the extreme of adding all possible "checkout" buttons to their forms, which is not helpful from a user experience point of view.
 
-With a standardized API, you no longer need to rely on a specific vendor, and you can eliminate the unneeded checkout buttons. However, it's important to notice that the standard payment request API is not a payment gateway and *will not process the credit card data*. It's merely moving the issue to the server, in which you can easily choose your preferred vendor to process the card data without any hassle to your users.
+With a standardized API, you no longer need to rely on a specific vendor, and you can eliminate the unneeded checkout buttons. However, it's important to notice that the standard payment request API is not a payment gateway and *does not process the credit card data*. It's merely moving the issue to the server, in which you can easily choose your preferred vendor to process the card data without any hassle to your users.
 
 == Payment request add-on for Vaadin
 
@@ -85,7 +85,7 @@ The add-on mentioned above is based on a community-driven https://github.com/jor
 
 == Implement payment API
 
-You can implement Payment Request APIs from scratches on the client-side using Javascript. Here is a sample of the minimal code needed to get started. Constructing the payload for the supported payment methods and payment details to diplay to the user:
+You can implement Payment Request APIs from scratch on the client-side using Javascript. Here is a sample of the minimal code needed to get started. Constructing the payload for the supported payment methods and payment details to display to the user:
 
 [source,js]
 ----
@@ -119,4 +119,4 @@ request.show()
 .then(..).catch(..);
 ----
 
-The constructor has two mandatory arguments: supported methods of payment and payment details. The `show` method returns a promise which will be fulfilled with the payment data once the user has authorized the payment. You can https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API[read more] about the API variants and the other paramenters that you can use, and also https://vaadin.com/tutorials/web-component-for-vaadin-flow[this tutorial] on how to integrate a client-side web component into Vaadin Flow.
+The constructor has two mandatory arguments: supported methods of payment and payment details. The `show` method returns a promise which is fulfilled with the payment data once the user has authorized the payment. You can https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API[read more] about the API variants and the other parameters that you can use, and also https://vaadin.com/tutorials/web-component-for-vaadin-flow[this tutorial] on how to integrate a client-side web component into Vaadin Flow.
