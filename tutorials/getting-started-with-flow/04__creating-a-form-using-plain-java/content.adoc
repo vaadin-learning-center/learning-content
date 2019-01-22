@@ -1,39 +1,37 @@
 [[flow.tutorial.form]]
-= Creating a form using plain Java
+= Creating a Form Using Plain Java
 
-:title: Part 4 - Creating a form using plain Java
+:title: Part 4 - Creating a Form Using Plain Java
 :author: Vaadin
 :tags: Flow, Java
 :sectnums:
 :imagesdir: ./images
 
-In this section, we first of all explain how to create a form and show the grids selected row in it and secondly,
-how to Add, Update, and Delete the customer data of the form.
+In this part of the tutorial, we:
 
-[[flow.tutorial.form.showselectedrow]]
-== Create a form and show the grids selected row in it
-// The following video shows how to create a form using plain Java:
+* Create a form using plain Java and connect it to the grid.
+* Add functionality to add, update and delete customer data. 
 
-// video::Alejandro[youtube, width="640", height="400"]
-In this part we want to create a new form and connect it to the Grid. We start by creating a new Java class with the name CustomerForm.
-In Eclipse, right click on the "com.vaadin.starter.skeleton" package and choose "New > Class". Type in the name `CustomerForm`,
-define the superclass as `com.vaadin.flow.component.formlayout.FormLayout` and click `finish`.
+=== Creating the Form and Connecting It to the Grid
 
-We need a field for each property in the [classname]#Customer# class that we want to edit.
-There are different kinds of fields in Vaadin for editing different kinds of properties. In this example,
-we’ll use two [classname]#TextField# and a [classname]#ComboBox#.
-Add the following field declarations as Java fields to [classname]#CustomerForm#:
+. Create a new class, `CustomerForm`.
 
+. Edit `CustomerForm.java` and add the following:
+.. Create two https://vaadin.com/components/vaadin-text-field[text] fields and a https://vaadin.com/components/vaadin-combo-box[combo box] field, by adding the following field declarations :
+
++
 [source,java]
 ----
 private TextField firstName = new TextField("First name");
 private TextField lastName = new TextField("Last name");
 private ComboBox<CustomerStatus> status = new ComboBox<>("Status");
 ----
+* Vaadin offers numerous kinds of prebuilt components for editing different kinds of properties. 
 
-Also, we will later need a reference to the currently edited [classname]#Customer# instance, [classname]#CustomerService# and the [classname]#MainView#.
-Add these fields and a basic constructor that accepts [classname]#MainView# as a parameter to [classname]#CustomerForm#:
+.. Add references to the `Customer`, `CustomerService` and `MainView` classes, by adding the fields and a basic constructor that accepts `MainView` as a parameter, and
+.. Add the fields.
 
++
 [source,java]
 ----
 private CustomerService service = CustomerService.getInstance();
@@ -46,20 +44,18 @@ public CustomerForm(MainView mainView) {
     add(firstName, lastName, status);
 }
 ----
+* We use these references later. 
 
-In the constructor we add the fields to the [classname]#CustomerForm# - side-by-side using a [classname]#HorizontalLayout#.
-Although the form is not yet fully functional, you might want to see what it looks
-like at this point. 
-
-Next add the newly created form as a field to [classname]#MainView# class:
+. In `MainView.java`:
+.. Add the new form as a field:
++
 [source,java]
 ----
 private CustomerForm form = new CustomerForm(this);
 ----
 
-Now, let’s modify [classname]#MainView# to show the form. Let’s wrap both the [classname]#Grid#
-and the [classname]#CustomerForm# in a horizontal layout. Replace the line *add(filtering, grid);* with the following:
-
+.. Display the form, and wrap the `Grid` and `CustomerForm` in a horizontal layout, by replacing the `add(filtering, grid)` code line with:
++
 [source,java]
 ----
 HorizontalLayout main = new HorizontalLayout(grid, form);
@@ -69,40 +65,46 @@ main.setSizeFull();
 add(filtering, main);
 ----
 
-The `main.setAlignItems(Alignment.START);` is there to make sure that the contents are aligned to the top of the layout.
-Now when you save your changes and reload your application page in your browser, you should see your form next to the grid that lists your existing entities.
-Let’s get back to [classname]#CustomerForm#. The first thing we’ll need to do is to populate the options for the [classname]#ComboBox#.
-To add all enum values as valid selections, add the following line to the constructor:
+* `main.setAlignItems(Alignment.START);` makes sure that the content is aligned to the top of the layout.
 
+. Save your code changes and refresh your browser. The form now contains three fields and is shown to the right of the grid.
+
+. In `CustomerForm.java`, add all enum values as valid options in the `ComboBox` field, by adding the following line to the constructor:
+
++
 [source,java]
 ----
 status.setItems(CustomerStatus.values());
 ----
++
 
-To finish our form, we need to create a public API because we should be able to send the selected row from the [classname]#MainView# to the [classname]#CustomerForm#.
-We’ll start by adding a Binder as a field to our [classname]#CustomerForm#:
 
+. In `CustomerForm.java`, complete the form by creating a public API. This allows you to pass a selected item from `MainView.java` to `CustomerForm.java`. 
+.. Add a `Binder` as a field:
+
++
 [source,java]
 ----
 private Binder<Customer> binder = new Binder<>(Customer.class);
 ----
 
-Binder is an object that  connects data to a form that is defined in the declarative format.
-Vaadin Framework provides a Binder class that the developer can use to define how the values in a business object should be bound to the fields shown in the user interface.
-Binder takes care of reading values from the business object and converting the user’s data between the format expected by the business object and the format expected by the field.
+* A `Binder` is an object that connects data to a form that is defined in the declarative format.
+* You can use a binder class to define how the values in a business object should be bound to the fields shown in the UI. 
+The binder takes care of reading values from the business object, and converts user data from the format expected by the field to that expected by the business object. 
 
-In the form constructor, add the following line to configure the binder:
 
+.. Configure the binder in the form constructor, by adding:
++
 [source,java]
 ----
 binder.bindInstanceFields(this);
 ----
 
-This configures the binder to use all the similarly named editor fields in this class to bind their values with their counterpart in the [classname]#Customer# class.
-For example, the `CustomerForm.firstName` [classname]#TextField# will be bound to the `Customer.firstName` property.
-Create a setter method for the customer field. Just type `setCus` in the body of the form class (outside any methods)
-and hit autocomplete (kbd:[Ctrl+Space]), and Eclipse will create a method stub for you. Complete it with the following implementation:
+* This configures the binder to use all similarly named fields in this class and to bind their values with their counterparts in the `Customer` class.
 
+.. Create a setter method for the customer field. 
+
++
 [source,java]
 ----
 public void setCustomer(Customer customer) {
@@ -111,14 +113,15 @@ public void setCustomer(Customer customer) {
 }
 ----
 
-We are calling the `Binder.setBean` method. This will initialise all fields in the form and automatically update the
-values in the domain objects as the corresponding field value changes in the user interface.
+* This calls the `Binder.setBean` method that initializes all fields in the form and automatically updates the values in the domain objects as the corresponding field value changes in the UI
 
-[TIP]
-If the naming convention based data binding doesn’t fit your needs, you can use the https://vaadin.com/api/platform/11.0.0/com/vaadin/flow/data/binder/PropertyId.html[PropertyId] annotation on fields to explicitly declare the edited property.
++
+[NOTE]
+As an alternative to naming-convention-based data binding, you can use the https://vaadin.com/api/platform/11.0.0/com/vaadin/flow/data/binder/PropertyId.html[`@PropertyId`] annotation on fields to explicitly declare the edited property.
 
-For connecting the form to the application, add the following selection listener to the end of the MainView constructor:
+. In `MainView.java`, connect the form to the grid, by adding the following selection listener at the end of the `MainView` constructor:
 
++
 [source,java]
 ----
 grid.asSingleSelect().addValueChangeListener(event -> {
@@ -126,10 +129,11 @@ grid.asSingleSelect().addValueChangeListener(event -> {
 });
 ----
 
-In the listener, we simply take the Customer object of the selected row and pass it to the [classname]#CustomerForm# for editing. Previously, we added a line in the `setCustomer` method that will bind the domain object to the corresponding fields.
+* This listener simply takes the `Customer` object of the selected row and passes it to the `CustomerForm` for editing. 
 
-Now your CustomerForm looks like this:
+. At this point, your `CustomerForm` body code should be:
 
++
 [source,java]
 ----
 public class CustomerForm extends FormLayout {
@@ -155,55 +159,50 @@ public class CustomerForm extends FormLayout {
 }
 ----
 
-Run your project again, and you should see your form next to the grid that lists your existing entities. The form is now connected to the Grid and when you select a row, the data is copied into the fields.
+. Save your code changes and refresh your browser to view the changes. When you select a row, the data is copied to the fields because the form is now "connected" to the grid.
 
-[[flow.tutorial.form.deleteupdate]]
-== How to Delete and Update the data
+=== Adding Save and Delete Buttons
 
-In this part we want to edit, add and remove Customer objects. 
-Let’s start by adding the following action buttons as Java fields to [classname]#CustomerForm#:
+In this part, we add functionality to update and delete `Customer` objects.  
 
+. In `CustomerForm.java` add buttons as Java fields: 
+
++
 [source,java]
 ----
 private Button save = new Button("Save");
 private Button delete = new Button("Delete");
 ----
 
-Add the following line to the constructor, above the line *add(firstName, lastName, status)*
+. Add the buttons in a `HorizontalLayout` by adding following line to the constructor, 
 
++
 [source,java]
 ----
 HorizontalLayout buttons = new HorizontalLayout(save, delete);
 ----
 
-Add the buttons object in the *add(firstName, lastName, status)* so that it looks like this:
+. Add the `buttons` object by amending the `add(firstName, lastName, status)` code line to:
 
++
 [source,java]
 ----
 add(firstName, lastName, status, buttons);
 ----
 
-Let’s also improve the UX a bit. The most common thing your users will want to do with this kind of form is to save it. Let’s decorate the button with a style name that makes it more prominent in the UI:
+. Make the save button prominent by decorating it with a style name:
 
++
 [source,java]
 ----
 save.getElement().setAttribute("theme", "primary");
 ----
 
-Add the following code to the `setCustomer` method:
+* This improves the UI by highlighting the more common action. 
 
-[source,java]
-----
-boolean enabled = customer != null;
-save.setEnabled(enabled);
-delete.setEnabled(enabled);
-if (enabled) {
-    firstName.focus();
-}
-----
+. Disable the save and cancel buttons when no customer is selected, by amending the `setCustomer` method to:
 
-Now the `setCustomer` method should look like this:
-
++
 [source,java]
 ----
 public void setCustomer(Customer customer) {
@@ -217,17 +216,22 @@ public void setCustomer(Customer customer) {
     }
 }
 ----
+* Disabling the buttons discourages user interaction when there is no selection. 
+* As an alternative, you could disable the input fields, by calling the `setEnabled()` method on each. 
+* Setting the focus on the `firstName` field improves the user experience.
 
-To finish off the `setCustomer` setter method, let's call `setCustomer(null)` at the end of the constructor to make sure that the save and delete buttons are disabled by default.
+. Finalize the `setCustomer` setter method by calling `setCustomer(null)` at the end of the constructor.  
 
++
 [source,java]
 ----
 setCustomer(null);
 ----
+* This makes sure that the save and delete buttons are disabled by default. 
 
-We’ll disable the save and cancel buttons to prevent user interaction, if there is no customer selected. We could also disable the input fields if necessary, by calling the setEnabled() method on each of them. For improved user experience, we focus the `firstName` field.
-The last thing we need to do is to handle `save` and `delete` button clicks. Add the following methods to the [classname]#CustomerForm# class:
+. Add methods that will be called by the save and delete button click listeners in the next step.
 
++
 [source,java]
 ----
 private void delete() {
@@ -243,19 +247,19 @@ private void save() {
 }
 ----
 
-Finally, we’ll add listeners to the buttons to call these methods. Adding these simple lambda expressions to the constructor will take care of that:
+. Add listeners to the buttons to call these methods by adding simple Lambda expressions to the constructor: 
 
++
 [source,java]
 ----
 save.addClickListener(e -> this.save());
 delete.addClickListener(e -> this.delete());
 ----
 
-[TIP]
-For a truly re-usable form component in a real life project, you’d want to introduce an interface to replace the MainView reference or, even better, use an event system like CDI events to completely decouple the components. We’ll leave that out of this tutorial for simplicity.
 
-Now the [classname]#CustomerForm# looks like this:
+. At this point your `CustomerForm` body code should be:
 
++
 [source,java]
 ----
 public class CustomerForm extends FormLayout {
@@ -307,15 +311,18 @@ public class CustomerForm extends FormLayout {
 }
 ----
 
-[[flow.tutorial.form.add]]
-== How to Add the data
+. Save your code changes and refresh your browser to view the changes. You can now edit and update current customer records. 
++
+[TIP]
+For a truly re-usable form component in a real life project, you would want to introduce an interface to replace the `MainView` class. To keep things simple, we have not included this in the tutorial. As an even better alternative, you could use an event system like CDI events to completely decouple the components.
 
-To allow users to also create new customer records, we’ll create a simple "Add customer button" to the top of the UI, right next to the `filtering` composition we have already built in a previous step. Introduce a new [classname]#Button# with a click listener, by adding the following lines to the constructor, right after where you introduced the `filtering` composition:
+=== Adding New Customers
 
-// The following video shows how to do this step of the tutorial:
+In this part, we add functionality in `MainView.java` to add new customer records. We create a new button, labeled *Add new customers*, above the grid next to the `filterText` field. 
 
-// video::Alejandro[youtube, width="640", height="400"]
+. Add a new `Button` with a click listener, by adding the following lines of code to the constructor, directly after `HorizontalLayout filtering = new HorizontalLayout...`:
 
++
 [source,java]
 ----
 Button addCustomerBtn = new Button("Add new customer");
@@ -323,26 +330,25 @@ addCustomerBtn.addClickListener(e -> {
     grid.asSingleSelect().clear();
     form.setCustomer(new Customer());
 });
-----
-
-In the click listener, we first clear a possible selection from the grid, and then instantiate a new customer object and pass that to the form for editing.
-To add it beside our `filtering` composition, we can use a `HorizontalLayout` to create a toolbar where we place both components. First, introduce a toolbar like this after the previously created `addCustomerBtn`:
-
-[source,java]
-----
 HorizontalLayout toolbar = new HorizontalLayout(filtering,
     addCustomerBtn);
 ----
 
-And, again, *replace* the line *add(filtering, main)* that populates your main layout to add the toolbar instead of just the `filtering` composition, which we just moved to the `toolbar` layout.
+* The click listener first clears a possible selection from the grid, then instantiates a new customer object, and then passes that to the form for editing.
+* The `HorizontalLayout` creates a `toolbar` that includes both components next to the `filtering` composition.
 
+. Add the toolbar by replacing the `add(filtering, grid);` code line with:
++
 [source,java]
 ----
 add(toolbar, main);
 ----
 
-Now the [classname]#MainView# should look like this:
+* The `filtering` composition was moved to the `toolbar` in the previous step.
 
+. At this point:
+.. Your `MainView` body code should be:
++
 [source,java]
 ----
 /**
@@ -402,11 +408,10 @@ public class MainView extends VerticalLayout {
         grid.setItems(service.findAll(filterText.getValue()));
     }
 }
-
 ----
 
-And the [classname]#CustomerForm# should look like this:
-
+.. Your `CustomerForm` body code should be::
++
 [source,java]
 ----
 public class CustomerForm extends FormLayout {
@@ -458,14 +463,18 @@ public class CustomerForm extends FormLayout {
 }
 ----
 
-All planned features are now done. You can save the changes and play around with
-the application. You can also download
-https://github.com/vaadin/flow-and-components-documentation/tree/master/tutorial-getting-started[the final application] from Github.
+. Save your code changes and refresh your browser to view the changes. 
+Users can now create customer records that are stored in the demo backend.
 
 
-Congratulations! Users can now create, read, update and delete customer records stored in the demo backend, using the app you created with Vaadin Flow.
+Well done! You have just created your first app with Vaadin Flow. 
 
-If you are an experienced Java developer, you are probably already full of ideas of how you can use your existing skills and create new UIs for your existing Java apps. If you want more ideas of how to create full stack applications, you might, for example, go through the http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] guide and create a bit similar UI with a real database backend, implemented with Spring Data JPA. We have also collected a couple of other resources for an easy start in your Vaadin developer career.
 
- * https://vaadin.com/start#vaadin10[Vaadin 10 app starters]
- * http://vaadin.com/directory[Directory] - a vast source of awesome Vaadin add-ons
+== Next Steps
+
+Use your new skills to create new UIs for your existing Java apps. Here are a few resources to get you started: 
+
+* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - For ideas about creating full stack applications, with a real database backend, implemented with Spring Data JPA. 
+
+* https://vaadin.com/start#vaadin10[Vaadin app starters] - Explore the various starter packages. 
+* http://vaadin.com/directory[Directory] - Contains many Vaadin add-ons.
