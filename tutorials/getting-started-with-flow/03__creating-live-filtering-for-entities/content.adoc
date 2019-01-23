@@ -9,7 +9,7 @@
 
 All modern applications need search functionality and it also makes for a nice Vaadin development exercise. 
 
-In this part of the tutorial we add filtering functionality to the `Customer` listing we created in <<tutorial-get-started-second-part#,Part 2 - Listing Entities in a Grid>>.  
+In this part of the tutorial we add filtering functionality to the `Customer` listing we created in <<tutorial-get-started-second-part#,Listing Entities in a Grid>>.  
 
 . In `MainView.java` introduce a `TextField` component:
 
@@ -29,7 +29,8 @@ filterText.setValueChangeMode(ValueChangeMode.EAGER);
 filterText.addValueChangeListener(e -> updateList());
 ----
 
-* As its name implies, the value change listener reacts to changes in the value in the text field, and `EAGER` mode ensures the event is fired while the user types. This is ideal for this kind of automatic filtering. When the user enters text, the listing updates by calling the `updateList` method, as before.
+* Placeholder shows the given String inside the field as long as no value is set. When the user starts typing, the placeholder is automatically removed. 
+* As its name implies, the value change listener reacts to changes in the value in the text field. `EAGER` ensures the change event is fired immediately when the user types. This is ideal for this kind of automatic filtering. 
 
 . To ensure the filter value is taken into consideration when updating grid items, change the body of the `updateList` method as shown below: 
 
@@ -44,7 +45,7 @@ public void updateList() {
     grid.setItems(service.findAll(filterText.getValue()));
 }
 ----
-* This keeps the method functionality correct, by taking the possible value in the `filterText` field into consideration. 
+* The method now takes the filter value into consideration and passes it to the backend service when updating the grid items. 
 
 . Add a button to clear the text field to improve usability, by adding the following code to the constructor directly after the `filterText` configuration:
 
@@ -82,7 +83,7 @@ add(filtering, grid);
 * This line previously only added the grid layout. It now additionally adds the `filtering` layout.
 
 
-. At this point your `MainView` body code should be:
+. At this point, your `MainView` body code should be:
 
 +
 [source,java]
