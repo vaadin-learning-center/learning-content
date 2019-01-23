@@ -8,16 +8,15 @@
 :imagesdir: ./images
 
 
-A nano project to start a Vaadin project running in a RedHat Thorntail Swarm Container, based on Undertow.
+This tutorial shows you how to set up a small Vaadin project running in a RedHat Thorntail Swarm Container, based on Undertow.
 
 == Target of this project
 
-The target of this project is a minimal rampup time for a first hello world.
+The target of this project is a minimal ramp-up time for a first hello world.
 Why we need one more HelloWorld? Well, the answer is quite easy.
-If you have to try something out, or you want to make a small POC to present something,
-there is no time and budget to create a demo project.
+If you have to try something out, or you want to make a small POC to demonstrate something, there is no time and budget to create a demo project.
 You don't want to copy paste all small things together.
-Here you will get a HelloWorld-Project that will give you all in a second.
+Here you will get a Hello World-Project that will give you all in a second.
 
 Clone the repo and start editing the class `VaadinApp`.
 Nothing more.
@@ -26,10 +25,10 @@ Nothing more.
 Here we are using the RedHat **Thorntail Swarm** Container as Servlet-Container.
 https://thorntail.io/[https://thorntail.io/]
 
-== The UI itself
+== The UI
 
-The UI itself contains not so many elements. There is only a button you can click.
-For every click, the counter will be increased.
+The UI doesn't contain many elements. There is only a button you can click.
+The counter is increased on every click.
 The component will be registered under the root-path, based on the Annotation `@Route("")`
 For more information's about the routing itself have a look at
 https://vaadin.com/docs/flow/routing/tutorial-routing-annotation.html[https://vaadin.com/docs/flow/routing/tutorial-routing-annotation.html]
@@ -56,8 +55,7 @@ public class VaadinApp extends Composite<Div> {
 ----
 
 == Maven dependencies
-To use this together with the RedHat **Thorntail Swarm** Container you should add
-first the Thorntail BOM (versions) followed by the Vaadin Platform BOM.
+To use this together with the RedHat **Thorntail Swarm** container, you should first add the Thorntail BOM (versions) followed by the Vaadin Platform BOM.
 
 [source,xml]
 ----
@@ -100,8 +98,7 @@ Optional you could add the logging as well.
     </dependency>
 ----
 
-The last needed dependency is the thorntail maven plugin. This will make sure that
-all the needed preparations are done during the build and startup process.
+The last needed dependency is the thorntail maven plugin. This will make sure that all the needed preparations are done during the build and startup process.
 
 [source,xml]
 ----
@@ -124,13 +121,12 @@ all the needed preparations are done during the build and startup process.
 ----
 
 == How to start it
-With this plugin the demo could be started.
-Try the following maven command inside the folder that was created from git during the clone process.
+The Thorntail plugin allows you to run the demo. Run the following maven command inside the folder that was created from git during the cloning process.
 
 ```mvn clean install thorntail:run ```
 
-After the demo was build from scratch, maven got all dependencies from maven central and Thorntail Swarm was started,
-you are able to try the webapp on http://localhost:8080/[http://localhost:8080/]
+The command builds the demo from scratch, fetches dependencies from Maven central, and starts Thorntail Swarm.
+You can access the application on http://localhost:8080/[http://localhost:8080/]
 
 
 Happy Coding.
