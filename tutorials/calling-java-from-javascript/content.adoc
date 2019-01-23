@@ -3,6 +3,7 @@
 :tags: Flow, Java
 :author: Alejandro Duarte
 :description: This tutorial explains how to call Java methods from JavaScript code.
+:repo: https://github.com/vaadin-learning-center/calling-java-from-javascript
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 :related: getting-started-with-flow
@@ -29,7 +30,7 @@ image::starter-page.png[Starter page, 80%, align="center"]
 NOTE: Don't worry if you are not familiar with Maven. Most IDEs have excellent support for Maven, to the point you don't need to understand all its details to use it. If you want to learn more about the key concepts in Maven, see https://vaadin.com/tutorials/learning-maven-concepts[this article].
 
 [start=5]
-. Since the _starter_ creates a simple "Hello, World" application we don't need right now. We want to keep the project as simple as possible, so go ahead and delete the `MainView` class and the `resources`, `frontend/src`, and `frontend/styles` directories (keep the `frontend` directory). The directory structure should look like this:
+. The _starter_ creates a simple "Hello, World" application we don't need right now. We want to keep the project as simple as possible, so go ahead and delete the `MainView` class and the `resources`, `frontend/src`, and `frontend/styles` directories (keep the `frontend` directory). The directory structure should look like this:
 
 image::directory-structure.png[Directory structure, 60%, align="center"]
 
@@ -44,24 +45,26 @@ NOTE: If you want to see where this auto configuration happens, take a look at t
 To see this in action, create a new class with the name `MainView` inside the `com.example` package:
 
 .src/main/java/com/example/MainView.java
-```Java
+[source,java]
+----
 package com.example;
 
 public class MainView {
 }
-```
+----
 
 We want to _expose_ this class as a web page in the browser. Since we have Vaadin in our project and it creates a `VaadinServlet` all we need to do is annotate the previous class with `@Route` and make it extend a _UI component_ such as `Div`:
 
 .MainView.java
-```Java
+[source,java]
+----
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 
 @Route
 public class MainView extends Div {
 }
-```
+----
 
 By default, the `@Route` annotation makes Vaadin map the class with the context root when the annotated class is named `MainView`. So when `http://localhost:8080/` is requested, the `MainView` class will have the chance to perform any logic on the server side. If we wanted to map the class to  `http://localhost:8080/example`, we would need to say it explicitly with `@Route("example")`.
 
@@ -76,43 +79,47 @@ Point your browser to http://localhost:8080 to see the empty web page. Nothing e
 Before calling Java from JavaScript, we need to set up the JavaScript file itself. Create a new file with the name `script.js` in the `src/main/webapp/frontend/` directory and code a simple function in it:
 
 .src/mainwebapp/frontend/script.js
-```JavaScript
+[source,javascript]
+----
 function greet(name) {
     console.log("Hi, " + name);
 }
-```
+----
 
 We need to import this file in the Java class. Annotate the `MainView` class with `@JavaScript` as follows:
 
 .MainView.java
-```Java
+[source,java]
+----
 @JavaScript("frontend://script.js")
 @Route
 public class MainView extends Div {
     public MainView() {
     }
 }
-```
+----
 
 NOTE: `frontend://` is used to reference the directory where static resources are. This is useful when transpiling JavaScript code to support older browsers, for example.
 
 With the JavaScript file loaded, we can call the `greet` function in the constructor as follows:
 
 .MainView.java
-```Java
+[source,java]
+----
 public MainView() {
     getElement().executeJavaScript("greet('client')");
 }
-```
+----
 
 The `getElement()` method returns a _Java representation_ of the `<div>` element in the DOM. There a small improvement we can make to this line of code. We can separate the argument values from the function call and get the same behavior:
 
 .MainView.java
-```Java
+[source,java]
+----
 public MainView() {
     getElement().executeJavaScript("greet($0)", "client");
 }
-```
+----
 
 Try the application now. Stop the server and rerun it (using the run configuration in your IDE or `mvn jetty:run` in the command line).
 
@@ -125,7 +132,8 @@ image::client-greeting.png[Greeting the client]
 Now that Java to JavaScript is working, let's complete the circle by calling a Java method from a JavaScript function. First, we need a Java method. Let's implement a server-side Java version of a greeting by adding the following to the `MainView` class:
 
 .MainView.java
-```Java
+[source,java]
+----
 public class MainView extends Div {
     ...
 
@@ -135,22 +143,24 @@ public class MainView extends Div {
 
 }
 
-```
+----
 
 Now we need to expose this method to the client-side by annotating the method with `@ClientCallable`:
 
 .MainView.java
-```Java
+[source,java]
+----
 @ClientCallable
 public void greet(String name) {
     System.out.println("Hi, " + name);
 }
-```
+----
 
 To invoke this method from the client side, we need the reference that the Java `getElement()` method returns. We can send it to the JavaScript function by modifying the constructor of the `MainView` class as follows:
 
 .MainView.java
-```Java
+[source,java]
+----
 public class MainView extends Div {
 
     public MainView() {
@@ -160,26 +170,28 @@ public class MainView extends Div {
     ...
 }
 
-```
+----
 Notice how we added the argument to the function call (`$1`) and how we added the actual value as an extra argument in the call to the `executeJavaScript` method.
 
 Now we can _accept_ this value in the client side JavaScript by adding a parameter to the `greet` function as follows:
 
 .script.js
-```JavaScript
+[source,javascript]
+----
 function greet(name, element) {
     console.log("Hi, " + name);
 }
-```
+----
 
 The `element` object includes a `$server` member that we can use to call the server-side Java `greet` method. Here's how:
 
-```JavaScript
+[source,javascript]
+----
 function greet(name, element) {
     console.log("Hi, " + name);
     element.$server.greet("server");
 }
-```
+----
 
 Restart the Jetty server again and try the application to see the greeting in the server's log:
 
@@ -191,7 +203,8 @@ So, the circle is closed–we called JavaScript from Java and Java from JavaScri
 
 However, Vaadin is much more than a library to connect JavaScript with Java. As you can imagine, Vaadin's automated communication mechanism can be used to generate powerful web user interfaces. Well, Vaadin allows you to do so in Plain Java! For example, try modifying the `MainView` class to the following:
 
-```Java
+[source,java]
+----
 @Route
 public class MainView extends Div {
 
@@ -205,7 +218,7 @@ public class MainView extends Div {
     }
 
 }
-```
+----
 
 Without coding any JavaScript at all you get this HTML-based web application in the browser:
 
