@@ -1,5 +1,5 @@
 [[flow.tutorial]]
-= How to use Vaadin Flow
+= How to Use Vaadin Flow
 
 :title: Part 1 - How to use Vaadin Flow
 :author: Vaadin
@@ -7,72 +7,98 @@
 :sectnums:
 :imagesdir: ./images
 
-Using https://vaadin.com/flow[Vaadin Flow] is very simple. No extensive knowledge of Java is needed, only basic programming skills are required. This tutorial shows you how to create a single-page web UI. All you need is an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE], like Eclipse, and JDK 8 installed on your computer.
+This basic tutorial takes you through the process of creating your first web app with https://vaadin.com/flow[Vaadin Flow].
 
-[[flow.tutorial.overview]]
+You can get up and running with quickly with Vaadin Flow. You don't need extensive Java knowledge, but you do need basic Java programming skills, some experience using an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like Eclipse), and JDK 8 installed on your computer.  
+
+
 == Overview
 
-With this document, you can create your first Vaadin Flow application. To complete all four parts of the tutorial, you need about 20 to 60 minutes.
+In this tutorial we build a very simple customer management system to demonstrate basic Vaadin Flow development. The system has no real-world application and is for demonstration purposes only. To help you understand how to hook it to an existing Java-based backend, we use an in-memory "backend". 
 
-In this tutorial, we build a simple customer management system. It is not a real application; we use an in-memory "back-end", so that you can understand how to hook it to an existing Java based back-end. We cover the basic Vaadin Flow development and you can use the result as a basis for more experiments with Vaadin Flow, such as using add-ons, your own custom look-and-feel (aka theme), adding new views, or optimizing the result for mobile support.
-
-At the end of this tutorial, you will have a page composed of a grid, which has the ability of filtering and also the functionality of adding new customers, deleting customers, and updating the existing customers. The final page will look as follows:
+The result is a single web page, consisting of a table (called a Grid in Vaadin) with filtering capabilities and functionality to add, delete and update customer data. 
 
 //[[figure.flow.tutorial.final-ui]]
 //.UI to be built in the tutorial
-image:FinishedUI.png[UI to be built in the tutorial]
+image:images/FinishedUI.png[UI to be built in the tutorial]
 
-If you do not want to do the exercise at all, you can also just
-https://github.com/vaadin/flow-and-components-documentation/tree/master/tutorial-getting-started[download the final application] and play
-around with it.
+Use the result as a starting point for more Flow experiments, such as using add-ons, adding a custom theme, adding new views, or optimizing for mobile. 
 
-[[flow.tutorial.overview.tools]]
-=== Installing the Development Tools
+The tutorial should take 20 - 60 minutes to complete. 
 
-The tutorial uses Java 8, so please ensure that you have an up-to-date JDK 8
-installed. Most Linux distributions can use package managers to install JDK8.
-Windows and Mac users should download it from http://www.oracle.com/technetwork/java/javase/downloads/index.html[Oracle's Java SE site].
-Also, make sure you have the latest version of your IDE. Eclipse is available in
-various packages; be sure to download the *Eclipse IDE for Java EE Developers*
-from http://www.eclipse.org/downloads/[eclipse.org].
-
-[[flow.tutorial.overview.projectbase]]
-=== Starting with the Project Base
-
-As the starting point for the application, we use a Vaadin Application Starter, called Project Base for Vaadin 10. Project Bases are project stubs that have dependencies set up, and may include some example code. The steps of creating a Vaadin Application are as follows:
-
-. Start by pointing your browser at https://vaadin.com/start[Vaadin Start]
-
-. Select the Project Base for V10 by clicking it
-
-. For [guilabel]#Group ID#: Give `com.vaadin.starter.skeleton`
-
-. For [guilabel]#App Name#: Give `my-app`
-
-. Click [guilabel]#download# button to download the preconfigured project stub as a ZIP file. (If the download button is not active, you should log in to download the starter).
-
-. The name of the downloaded ZIP package should be `my_app.zip`. Locate it from your hard drive and extract it to a folder of your preference.
-
-. Fire up Eclipse, and from the file menu, select  import. From the select window choose Existing Maven Project from Maven section. Select the [guilabel]#next# button. Select the [guilabel]#Browse# button to choose your project and finally click the [guilabel]#finish# button.
-
-If this is your first Vaadin app, opening the project might take a while, depending on the speed of your network, as Vaadin libraries and other dependencies are being downloaded. Maven caches them on your local file system, so creating your next Maven-based Vaadin project will be much faster.
-
-Right click on the newly created project in [guilabel]#Project Explorer# and choose "Run as > Maven Install". This initiates a full build of your application and finally creates a https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file into a directory named [guilabel]#target# in your project folder. You can deploy the WAR file to your application server when you go to production; but during the development, we’ll use Jetty which is provided through Maven and so, there is no need to install an application server. The first build might take a while, as Maven might need to download some additional modules.
+As an alternative to coding from scratch, you can 
+https://github.com/vaadin/flow-and-components-documentation/tree/master/tutorial-getting-started[download the final application] and experiment with it.
 
 
-[TIP]
-For the Maven compilation to work you need a JDK to be configured in your
-Eclipse in "Window > Preferences > Java > Installed JREs > Add...".
-This step is necessary at least on Windows, if you are using a fresh installation
-of Eclipse or for some other reason haven't configured a JDK to your Eclipse.
-The JDK by default installs to [filename]#\Program Files\Java# on Windows.
-You can make JDK the default JRE for your Eclipse.
 
-While the build is running, let us have a look at what you got from the App Starter. You can browse your project resources from the tree structure in the [guilabel]#Project Explorer#. The [filename]#pom.xml# Maven file on the top level contains settings for building your project and declares the used dependencies. The Vaadin UI code is in [filename]#src/main/java#.
+=== Installing the Development Tools 
 
-The Java code of the application stub main view can be found in the
-[filename]#MainView.java# file. Let us take a look at it to see how it works.
 
+* *JDK 8*: The tutorial uses Java 8. Make sure that you have JDK 8 installed and that it is up to date.
+** Most Linux distributions can use package managers to install JDK 8.
+** Windows and Mac users need to download JDK 8 from http://www.oracle.com/technetwork/java/javase/downloads/index.html[Oracle's Java SE Downloads].
+
+* *IDE*: The tutorial uses Eclipse, but you can use any IDE. Make sure you have the latest version installed. 
+** To download Eclipse, select *Eclipse IDE for Java EE Developers* from the available packages at https://www.eclipse.org/downloads/packages/[eclipse.org].
+
+
+
+=== Installing the Project Base
+
+The tutorial uses the *Project Base* starter pack for Vaadin. 
+
+A starter pack is a project stub that has all the dependencies set up, and may also include sample code. 
+
+To download the starter pack:
+
+. Open https://vaadin.com/start[Start a new project] in your browser. 
+
+. Go to *Latest Release* > *For Java Developers* and select *Project Base*.
+
+. In *Get Started* enter:
+** *Group ID*: `com.vaadin.starter.skeleton`
+
+** *App Name*: `my-app`
+
+. Select *Download* to download the `my_app.zip` package to your file system. If the button is not active, you may need to log in.
+
+To import the starter pack into Eclipse:
+
+. Extract `my-app.zip` to a new `my-app` folder.
+
+. In Eclipse, go to *File* > *Import*.
+
+. Expand *Maven* and select *Existing Maven Project*.
+
+. Select *Next*.
+
+. Select *Browse* and then select the `my-app` folder.
+
+. Select *Finish*.
+
+To build the project in Eclipse:
+
+. In *Project Explorer* right-click the `my-app` folder.
+
+. Select *Run as* > *Maven Install*. 
+
+[NOTE]
+*Maven Install* initiates a full build of your application and creates a https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file in the `/target` directory of your project folder. You can deploy the WAR file to your application server when you go to production. During development, we use Jetty that is provided through Maven, and there is no need to install an application server. 
+
+ 
+=== Viewing the Starter Files
+
+You can view your project resources in the *Project Explorer* tree. 
+
+Note:
+
+* `/pom.xml` contains the settings for building your project and declares the dependencies that are used. 
+
+* `/Java Resources/src/main/java` contains the Vaadin UI code.
+
+** `../MainView.java` defines the application layout. 
+
++
 [source,java]
 ----
 /**
@@ -89,38 +115,36 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-The annotation, [classname]#@Route("")#, tells Vaadin Flow to direct the root URL to this view.
-In the main view, we have a button and when this button is clicked, a notification is shown. The logic is attached to the button with a simple Java 8 lambda expression, and finally the button is added into the main view.
+*** The [classname]`@Route("")` annotation tells Vaadin Flow to direct the root URL to this view.
+*** There is a button in the main view and a notification is shown when it is clicked. 
+*** The logic is attached to the button with a simple Java 8 Lambda expression.
+*** Finally, the button is added in the main view.
 
-To test your first Vaadin application, right-click on the project and choose [guilabel]#“Debug as ▸ Maven build…”#​. The debug mode is slightly slower than the basic run mode, but it often helps you to figure out what is happening in your application.
-In the run configuration dialog, type `Debug in Jetty` to the [guilabel]#Name# input and `jetty:run` to the [guilabel]#Goals# input.
 
-[[figure.flow.tutorial.jetty-run]]
-.Generating a Maven launch for `jetty:run` target
-image:Jetty-Run.png[Generating a Maven launch for `jetty:run` target]
+=== Testing the Application
 
-Now click [guibutton]#Debug# to continue. This will download Jetty, a small Java web server (if not cached to your local Maven repository), and use it to host your application. Once the server has started, point your browser to the URL http://localhost:8080 to see the application in action!
+To test your application:
 
-If you make changes to the code, Jetty will notice the changes and in a couple of seconds, most changes are automatically deployed. Reloading the page in your browser will show the changes.
+. Right-click the `my-app` folder. 
+
+. Select [guilabel]*Debug as* > *Maven build…*. 
++
+
+. In the dialog enter:
+
+** *Name*: `Debug in Jetty` 
+** *Goals*: `jetty:run`.
+
++
+image:images/Jetty-Run.png[Generating a Maven launch for `jetty:run` target]
+
+. Select *Debug*. 
++
+
+. Once the server has started, open `http://localhost:8080` to see your application in the browser.
+
+[NOTE]
+If you make changes to the code, Jetty  picks up the changes and deploys most of them automatically within a few seconds. You can also reload the page to reflect the changes.
 
 [TIP]
-In some cases your JVM might not allow injecting changes on the fly. In these cases, Eclipse will complain about "Hot Code Replace Failed". Just choose to restart the server to get the latest changes. Many Java developers use a commercial tool called http://zeroturnaround.com/software/jrebel/[JRebel] to make code replacement work better.
-
-Mastering the usage of the Java debugger is also handy to better understand how your application actually works and finding causes for any bugs. As Vaadin Flow is Java code, you can use all of Java’s debugging tools. Double-click on the line number in the Java editor, for example of the following line in the main view constructor:
-
-[source,java]
-----
-Button button = new Button("Click me",
-                event -> Notification.show("Clicked!"));
-----
-
-Doing so adds a breakpoint to the selected line. If you then reload the page in your browser, the execution of the application will stop on that line. Eclipse will ask you to enter to _Debugging perspective_. That way you can step through the execution and inspect the variables. Clicking on the _play_ icon in the toolbar will continue the execution. Double-click the same line again to remove the breakpoint.
-
-[[figure.flow.tutorial.breakpoint]]
-.Execution in a break point in the button click listener
-image:Debugging.png[Execution in a break point in the button click listener]
-
-Clicking the red square in the [guilabel]#Console# view will terminate the Jetty server process. You can restart it easily from the run/debug history. You can find that from the small down arrow next to the green play button or bug button (for the debug mode) in the toolbar. Alternatively, you can use the main menu "Run > Run history/Debug history > Debug in Jetty".
-To get back to the _Java EE Perspective_, an Eclipse mode designed for editing Java web app code, click the [guibutton]#Java EE# button in the toolbar.
-
-Good job! Let's move on and continue by adding a data grid and list some entities in the grid in the next tutorial section.
+If your JVM does not permit injecting changes on the fly, Eclipse will show an error similar to `Hot Code Replace Failed`. Restart the server to display the latest changes. Many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) to ensure that hot code replacement work smoothly.

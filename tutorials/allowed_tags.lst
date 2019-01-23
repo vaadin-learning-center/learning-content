@@ -9,6 +9,7 @@ Eclipse
 Flow
 I18N
 IntelliJ IDEA
+Internationalisation
 Java
 JavaScript
 jUnit5
@@ -24,8 +25,10 @@ Mutation Testing
 Navigation
 NetBeans
 Offline
+Payment Request
 Performance
 PWA
+RedHat
 React
 Reactive
 Redux
@@ -34,10 +37,16 @@ Shadow DOM
 Spring
 Spring Boot
 State management
+Swarm
+Standard
 Templating
 TomEE
+Thorntail
 Vaadin 7
 Vaadin 8
 Vue
 Web Components
 Webpack
+Web Payment
+Webpack
+Wildfly
