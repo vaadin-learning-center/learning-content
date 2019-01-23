@@ -3,6 +3,7 @@
 :tags: Flow, Java
 :author: Alejandro Duarte
 :description: This tutorial explains how to call Java methods from JavaScript code.
+:repo: https://github.com/vaadin-learning-center/calling-java-from-javascript
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 :related: getting-started-with-flow
