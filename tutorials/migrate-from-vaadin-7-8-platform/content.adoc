@@ -188,7 +188,9 @@ In Vaadin platform, you use a `DataProvider` for binding a list of beans to the 
 ||`grid.getDataProvider()` {nbsp} +
 {nbsp} `.refreshItem(person) ;`
 |`grid.addSelectionListener(...);`
-`grid.addItemClickListener(...);`|`personGrid.addSelectionListener(...);`
+
+`grid.addItemClickListener(...);`
+|`grid.addSelectionListener(...);`
 |=======================
 
 The code to the given examples can be found here: https://github.com/SebastianKuehnau/VaadinComparison
