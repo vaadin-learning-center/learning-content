@@ -9,7 +9,7 @@
 
 This basic tutorial takes you through the process of creating your first web app with https://vaadin.com/flow[Vaadin Flow].
 
-You can quickly get up and running with Vaadin Flow. You don't need extensive Java knowledge, but you do need basic Java programming skills, some experience using an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like Eclipse), and JDK 8 installed on your computer.  
+You can quickly get up and running with Vaadin Flow. You don't need extensive Java knowledge, but you do need basic Java programming skills, some experience using an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like Eclipse), and JDK 8 or later installed on your computer.  
 
 
 == Overview
@@ -34,7 +34,7 @@ https://github.com/vaadin/flow-and-components-documentation/tree/master/tutorial
 === Installing the Development Tools 
 
 
-* *JDK 8*: The tutorial uses Java 8. Make sure that you have JDK 8 installed and that it is up to date.
+* *JDK 8*: The tutorial uses Java 8. Make sure that you have JDK 8 or later installed and that it is up to date.
 ** Most Linux distributions can use package managers to install JDK 8.
 ** Windows and Mac users need to download JDK 8 from http://www.oracle.com/technetwork/java/javase/downloads/index.html[Oracle's Java SE Downloads].
 
