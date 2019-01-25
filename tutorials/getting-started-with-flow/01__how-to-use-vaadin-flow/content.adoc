@@ -27,7 +27,7 @@ Use the result as a starting point for more Flow experiments, such as using add-
 The tutorial should take 20 - 60 minutes to complete. 
 
 As an alternative to coding from scratch, you can 
-https://github.com/vaadin/flow-and-components-documentation/tree/master/tutorial-getting-started[download the final application] and experiment with it.
+https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application] and experiment with it.
 
 
 
