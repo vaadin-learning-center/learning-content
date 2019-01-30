@@ -11,7 +11,6 @@ This basic tutorial takes you through the process of creating your first web app
 
 You need basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like https://www.eclipse.org[Eclipse]) and https://www.oracle.com/technetwork/java/javase/downloads/index.html[JDK 8] or newer installed on your computer to get started.
 
-
 == Overview
 
 In this tutorial we build a very simple customer management system to demonstrate basic Vaadin Flow development. The system has no real-world application and is for demonstration purposes only. To help you understand how to hook it to an existing Java-based backend, we use an in-memory "backend". 
@@ -20,21 +19,21 @@ The result is a single web page, consisting of a table (called a Grid in Vaadin)
 
 //[[figure.flow.tutorial.final-ui]]
 //.UI to be built in the tutorial
-image:images/FinishedUI.png[UI to be built in the tutorial]
+image:FinishedUI.png[UI to be built in the tutorial]
 
 You can use the result as a starting point for more Vaadin Flow experiments, such as using add-ons, adding a custom theme, adding new views, or optimizing for mobile. 
 
 The tutorial should take 20 - 60 minutes to complete. 
 
 As an alternative to coding from scratch, you can 
-https://github.com/vaadin/flow-and-components-documentation/tree/master/tutorial-getting-started[download the final application] and experiment with it.
+https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application] and experiment with it.
 
 
 
 === Installing the Development Tools 
 
 
-* *JDK 8*: The tutorial uses Java 8. Make sure that you have JDK 8 installed and that it is up to date.
+* *JDK 8*: The tutorial uses Java 8. Make sure that you have JDK 8 or later installed and that it is up to date.
 ** Most Linux distributions can use package managers to install JDK 8.
 ** Windows and Mac users need to download JDK 8 from http://www.oracle.com/technetwork/java/javase/downloads/index.html[Oracle's Java SE Downloads].
 
@@ -135,7 +134,7 @@ To test your application:
 ** *Goals*: `jetty:run`.
 
 +
-image:images/Jetty-Run.png[Generating a Maven launch for `jetty:run` target]
+image:Jetty-Run.png[Generating a Maven launch for `jetty:run` target]
 
 . Select *Debug*. 
 +
