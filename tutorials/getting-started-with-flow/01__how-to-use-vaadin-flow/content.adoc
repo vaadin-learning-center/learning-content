@@ -83,7 +83,7 @@ To build the project in Eclipse:
 . Select *Run As* > *Maven install*. 
 
 [NOTE]
-*Maven install* initiates a full build of your application and creates a https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file in the `/target` directory of your project folder. You can deploy the WAR file to your application server when you go to production. During development, we use Jetty that is provided through Maven, and there is no need to install an application server. 
+*Maven install* initiates a full build of your application and creates a https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file in the `/target` directory of your project folder. You can deploy the WAR file to your application server when you go to production. In the tutorial we use Jetty Maven plugin to run the application locally, so there is no need to install an application server. 
 
  
 === Viewing the Starter Files
