@@ -37,7 +37,7 @@ https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application
 ** Most Linux distributions can use package managers to install JDK.
 ** Windows and Mac users need to download JDK from http://www.oracle.com/technetwork/java/javase/downloads/index.html[Oracle's Java SE Downloads].
 
-* *IDE*: The tutorial uses https://www.eclipse.org[Eclipse], but you can use other IDE that you already master. Make sure you have the latest version installed. 
+* *IDE*: The tutorial uses https://www.eclipse.org[Eclipse], but you can use any other IDE that you are familiar with. Make sure you have the latest version installed. 
 ** Choose *Eclipse IDE for Enterprise Java Developers* distribution the Eclipse installer.
 
 
