@@ -163,7 +163,7 @@ public class CustomerForm extends FormLayout {
 
 In this part, we add functionality to update and delete `Customer` objects.  
 
-. In `CustomerForm.java`, add buttons as Java fields: 
+. In `CustomerForm.java`, add buttons as class variables: 
 
 +
 [source,java]
