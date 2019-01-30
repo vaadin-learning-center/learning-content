@@ -9,8 +9,7 @@
 
 This basic tutorial takes you through the process of creating your first web app with https://vaadin.com/flow[Vaadin Flow].
 
-You can quickly get up and running with Vaadin Flow. You don't need extensive Java knowledge, but you do need basic Java programming skills, some experience using an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like Eclipse), and JDK 8 or later installed on your computer.  
-
+You need basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like https://www.eclipse.org[Eclipse]) and https://www.oracle.com/technetwork/java/javase/downloads/index.html[JDK 8] or newer installed on your computer to get started.
 
 == Overview
 
@@ -22,7 +21,7 @@ The result is a single web page, consisting of a table (called a Grid in Vaadin)
 //.UI to be built in the tutorial
 image:FinishedUI.png[UI to be built in the tutorial]
 
-Use the result as a starting point for more Flow experiments, such as using add-ons, adding a custom theme, adding new views, or optimizing for mobile. 
+You can use the result as a starting point for more Vaadin Flow experiments, such as using add-ons, adding a custom theme, adding new views, or optimizing for mobile. 
 
 The tutorial should take 20 - 60 minutes to complete. 
 
@@ -56,9 +55,9 @@ To download the starter pack:
 . Go to *Latest Release* > *For Java Developers* and select *Project Base*.
 
 . In *Get Started* enter:
-** *Group ID*: `com.vaadin.starter.skeleton`
+** *Group ID*: `com.vaadin.starter.skeleton`.
 
-** *App Name*: `my-app`
+** *App Name*: `my-app`.
 
 . Select *Download* to download the `my_app.zip` package to your file system. If the button is not active, you may need to log in.
 
@@ -80,10 +79,10 @@ To build the project in Eclipse:
 
 . In *Project Explorer* right-click the `my-app` folder.
 
-. Select *Run as* > *Maven Install*. 
+. Select *Run As* > *Maven install*. 
 
 [NOTE]
-*Maven Install* initiates a full build of your application and creates a https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file in the `/target` directory of your project folder. You can deploy the WAR file to your application server when you go to production. During development, we use Jetty that is provided through Maven, and there is no need to install an application server. 
+*Maven install* initiates a full build of your application and creates a https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file in the `/target` directory of your project folder. You can deploy the WAR file to your application server when you go to production. In the tutorial we use Jetty Maven plugin to run the application locally, so there is no need to install an application server. 
 
  
 === Viewing the Starter Files
@@ -97,7 +96,6 @@ Note:
 * `/Java Resources/src/main/java` contains the Vaadin UI code.
 
 ** `../MainView.java` defines the application layout. 
-
 +
 [source,java]
 ----
@@ -117,7 +115,7 @@ public class MainView extends VerticalLayout {
 
 *** The [classname]`@Route("")` annotation tells Vaadin Flow to direct the root URL to this view.
 *** There is a button in the main view and a notification is shown when it is clicked. 
-*** The logic is attached to the button with a simple Java 8 Lambda expression.
+*** The logic is attached to the button with a simple Java 8 lambda expression.
 *** Finally, the button is added in the main view.
 
 
@@ -127,12 +125,12 @@ To test your application:
 
 . Right-click the `my-app` folder. 
 
-. Select [guilabel]*Debug as* > *Maven build…*. 
+. Select [guilabel]*Debug As* > *Maven build…*. 
 +
 
 . In the dialog enter:
 
-** *Name*: `Debug in Jetty` 
+** *Name*: `Debug in Jetty`. 
 ** *Goals*: `jetty:run`.
 
 +
@@ -147,4 +145,4 @@ image:Jetty-Run.png[Generating a Maven launch for `jetty:run` target]
 If you make changes to the code, Jetty  picks up the changes and deploys most of them automatically within a few seconds. You can also reload the page to reflect the changes.
 
 [TIP]
-If your JVM does not permit injecting changes on the fly, Eclipse will show an error similar to `Hot Code Replace Failed`. Restart the server to display the latest changes. Many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) to ensure that hot code replacement work smoothly.
+If your JVM does not permit injecting changes on the fly, Eclipse will show an error similar to `Hot Code Replace Failed`. Restart the server to display the latest changes. Many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) to ensure that hot-code replacement work smoothly.
