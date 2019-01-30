@@ -22,7 +22,7 @@ The result is a single web page, consisting of a table (called a Grid in Vaadin)
 //.UI to be built in the tutorial
 image:images/FinishedUI.png[UI to be built in the tutorial]
 
-Use the result as a starting point for more Vaadin Flow experiments, such as using add-ons, adding a custom theme, adding new views, or optimizing for mobile. 
+You can use the result as a starting point for more Vaadin Flow experiments, such as using add-ons, adding a custom theme, adding new views, or optimizing for mobile. 
 
 The tutorial should take 20 - 60 minutes to complete. 
 
