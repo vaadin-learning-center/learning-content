@@ -9,7 +9,7 @@
 
 This basic tutorial takes you through the process of creating your first web app with https://vaadin.com/flow[Vaadin Flow].
 
-You need basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like https://www.eclipse.org[Eclipse]) and https://www.oracle.com/technetwork/java/javase/downloads/index.html[JDK 8] or newer, installed on your computer to get started.
+You need basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like https://www.eclipse.org[Eclipse]) and https://www.oracle.com/technetwork/java/javase/downloads/index.html[JDK 8] or later, installed on your computer to get started.
 
 == Overview
 
@@ -37,7 +37,7 @@ https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application
 ** Windows and Mac users need to download JDK from http://www.oracle.com/technetwork/java/javase/downloads/index.html[Oracle's Java SE Downloads].
 
 * *IDE*: The tutorial uses https://www.eclipse.org/downloads/[Eclipse], but you can use any other IDE that you are familiar with. Make sure you have the latest version installed. 
-** Choose *Eclipse IDE for Enterprise Java Developers* distribution the Eclipse installer.
+** Choose the *Eclipse IDE for Enterprise Java Developers* distribution in the Eclipse installer.
 
 
 
@@ -116,7 +116,7 @@ public class MainView extends VerticalLayout {
 
 To test your application:
 
-. Right-click on the project root in *Project Explorer* view 
+. Right-click the project root in *Project Explorer* view 
 
 . Select [guilabel]*Debug As* > *Maven build…*. 
 +
