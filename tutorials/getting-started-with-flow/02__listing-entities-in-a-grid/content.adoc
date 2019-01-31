@@ -14,17 +14,19 @@ In this part of the tutorial we cover how to display data in a grid in your UI.
 Before getting into actual Vaadin development, we add the necessary domain objects and a dummy backend. In a real-world application, you would most probably have something similar implemented with JPA and EJB, or a Spring-based service.
 
 The first step is to copy three Java classes from GitHub and add them to your project. 
-We use these classes to build the UI. 
+We will use these classes to when building the UI. 
 
 Here is a list of the files to copy: 
 
-* https://raw.githubusercontent.com/vaadin/flow-and-components-documentation/master/tutorial-getting-started/src/main/java/com/vaadin/starter/skeleton/CustomerStatus.java[`CustomerStatus.java`]: This is a simple enum class
-* https://raw.githubusercontent.com/vaadin/flow-and-components-documentation/master/tutorial-getting-started/src/main/java/com/vaadin/starter/skeleton/Customer.java[`Customer.java`]: This this is the main domain object. It is the basic Java bean that we use in our example.
-* https://raw.githubusercontent.com/vaadin/flow-and-components-documentation/master/tutorial-getting-started/src/main/java/com/vaadin/starter/skeleton/CustomerService.java[`CustomerService.java`]: This is a simple service class via which you can request and modify `Customer` instances. Think of this class as the entry point to the dummy database.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/CustomerStatus.java[`CustomerStatus.java`]: This is a simple enum class
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/Customer.java[`Customer.java`]: This this is the main domain object. It is the basic Java bean that we use in our example.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/CustomerService.java[`CustomerService.java`]: This is a simple service class via which you can request and modify `Customer` instances. Think of this class as the entry point to the dummy database.
 
+[TIP]
+The fastest way to copy classes using Eclipse is to use your good, old clipboard. Select the text content of the whole class from your browser, choose "Edit > Copy", focus the node representing the [packagename]#com.vaadin.starter.skeleton.my-app# Java package in Eclipse’s Java Resources view and choose "Edit > Paste". Eclipse is smart enough to automatically create a properly named Java file for the class.
 
 [NOTE]
-The actual implementation of these classes is not relevant for this tutorial, but feel free to explore and enhance your Java knowledge.
+The actual implementation of these classes is not relevant for this tutorial, but feel free to explore them.
 
 
 === Adding UI Code to Show Data in a Grid
@@ -40,66 +42,35 @@ When building a UI for a data-centric application, you would typically start by 
 public class MainView extends VerticalLayout {
 
     private CustomerService service = CustomerService.getInstance();
-    private Grid<Customer> grid = new Grid<>();
+    private Grid<Customer> grid = new Grid<>(Customer.class);
 
     public MainView() {
 ----
 
-. List all properties of all `Customer` objects from the backend service, by replacing the [classname]`MainView` constructor with:
+[TIP]
+If you are new to Java development, you probably do not feel comfortable with the red compilation error for the line where the [classname]#Grid# got introduced, because of a missing import. This is easily fixed in Eclipse by using the "Source > Organize Imports" command. Learn its shortcut (kbd:[Ctrl-Shift-O]		
+ or kbd:[CMD-Shift-O] on Macs), you will be using it a lot in Java development. In possible class name collisions, always choose the appropriate class from the `com.vaadin.flow` package if you want to import core Vaadin Flow UI components, like the Grid.
+
+. To list first name, last name and status properties of all `Customer` objects from the backend service, introduce a method `updateList` and replace the [classname]`MainView` constructor with:
 
 +
 [source,java]
 ----
 public MainView() {
-    grid.setSizeFull();
 
-    grid.addColumn(Customer::getFirstName).setHeader("First name");
-    grid.addColumn(Customer::getLastName).setHeader("Last name");
-    grid.addColumn(Customer::getStatus).setHeader("Status");
+	// limit and define the order of properties shown by Grid
+	grid.setColumns("firstName", "lastName", "status");
 
-    add(grid);
-    setHeight("100vh");
-    updateList();
-}
-----
+	add(grid);
 
-** In conjunction, the lines `setHeight("100vh")` and `grid.setSizeFull()` make sure that both the app and the `Grid` use the entire available vertical space. "100vh" means 100% of the viewport height and is more reliable than setting your main view to "100%". 
-
-. Add the following code to put the customer listing part in its own `updateList` method, using the `public` modifier:
-
-+
-[source,java]
-----
-public void updateList() {
-    grid.setItems(service.findAll());
-}
-----
-
-* This allows you to refresh the listing from various places in your application. 
-
-
-. At this point, your `MainView` body code should be:
-
-+
-[source,java]
-----
-private CustomerService service = CustomerService.getInstance();
-private Grid<Customer> grid = new Grid<>();
-
-public MainView() {
-    grid.setSizeFull();
-
-    grid.addColumn(Customer::getFirstName).setHeader("First name");
-    grid.addColumn(Customer::getLastName).setHeader("Last name");
-    grid.addColumn(Customer::getStatus).setHeader("Status");
-
-    add(grid);
-    setHeight("100vh");
-    updateList();
+	// make layout use full height (and grid expand to consume it)
+	setSizeFull();
+	
+	updateList();
 }
 
 public void updateList() {
-    grid.setItems(service.findAll());
+	grid.setItems(service.findAll());
 }
 ----
 
