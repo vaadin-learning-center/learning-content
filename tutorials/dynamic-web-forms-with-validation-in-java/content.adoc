@@ -287,7 +287,7 @@ private void addOrder(SnackOrder order) {
 Run the application and test it out. You should now be able to add new orders to the grid with the dynamic form you created.
 
 .The finished application.
-image::java-form-and-grid-ui-components.png[The complete application.]
+image::dynamic-web-form-java.gif[The complete application.]
 
 == Conclusion
 You now know how to build a web form for populating a Java object and displaying it. You can find the full source code in GitHub below. 
