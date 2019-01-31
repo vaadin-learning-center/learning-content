@@ -9,7 +9,7 @@
 
 This basic tutorial takes you through the process of creating your first web app with https://vaadin.com/flow[Vaadin Flow].
 
-You need basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like https://www.eclipse.org[Eclipse]) and https://www.oracle.com/technetwork/java/javase/downloads/index.html[JDK 8] or newer installed on your computer to get started.
+You need basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] (like https://www.eclipse.org[Eclipse]) and https://www.oracle.com/technetwork/java/javase/downloads/index.html[JDK 8] or newer, installed on your computer to get started.
 
 == Overview
 
@@ -27,7 +27,6 @@ The tutorial should take 20 - 60 minutes to complete.
 
 As an alternative to coding from scratch, you can 
 https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application] and experiment with it.
-
 
 
 === Installing the Development Tools 
@@ -76,7 +75,7 @@ To build the project in Eclipse:
 . Select *Run As* > *Maven install*. 
 
 [NOTE]
-*Maven install* initiates a full build of your application and creates a https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file in the `/target` directory of your project folder. You can deploy the WAR file to your application server when you go to production. In the tutorial we use Jetty Maven plugin to run the application locally, so there is no need to install an application server. 
+*Maven install* initiates a full build of your application and creates a https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file in the `/target` directory of your project folder. You can deploy the WAR file to your application server when you go to production. In the tutorial, we use the Jetty Maven plugin to run the application locally, so there is no need to install an application server. 
 
  
 === Viewing the Starter Files
