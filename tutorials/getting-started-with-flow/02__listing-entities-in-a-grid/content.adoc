@@ -23,7 +23,7 @@ Here is a list of the files to copy:
 * https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/CustomerService.java[`CustomerService.java`]: This is a simple service class via which you can request and modify `Customer` instances. Think of this class as the entry point to the dummy database.
 
 [TIP]
-The fastest way to copy classes using Eclipse is to use your good, old clipboard. Select the text content of the whole class from your browser, choose "Edit > Copy", focus the node representing the [packagename]#com.vaadin.starter.skeleton.my-app# Java package in Eclipse’s Java Resources view and choose "Edit > Paste". Eclipse is smart enough to automatically create a properly named Java file for the class.
+The fastest way to copy classes in Eclipse is to use your clipboard. In your browser, select the text content of the class and choose *Edit > Copy*. In *Project Explorer* in Eclipse, right-click `../[packagename]#com.vaadin.starter.skeleton.my-app#` in `Java Resources` and choose *Edit > Paste*. Eclipse is smart enough to automatically create a properly-named Java file for the class.
 
 [NOTE]
 The actual implementation of these classes is not relevant for this tutorial, but feel free to explore them.
