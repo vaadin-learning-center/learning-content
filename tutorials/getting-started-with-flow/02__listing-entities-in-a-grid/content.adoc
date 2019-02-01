@@ -48,7 +48,7 @@ public class MainView extends VerticalLayout {
 ----
 
 [TIP]
-If you are new to Java development, you probably do not feel comfortable with the red compilation error for the line where the [classname]#Grid# got introduced, because of a missing import. This is easily fixed in Eclipse by using the "Source > Organize Imports" command. Learn its shortcut (kbd:[Ctrl-Shift-O]		
+You can fix red compilation errors in Eclipse at any time using the *Source > Organize Imports* command. (shortcut (kbd:[Ctrl-Shift-O]).		
  or kbd:[CMD-Shift-O] on Macs), you will be using it a lot in Java development. In possible class name collisions, always choose the appropriate class from the `com.vaadin.flow` package if you want to import core Vaadin Flow UI components, like the Grid.
 
 . To list first name, last name and status properties of all `Customer` objects from the backend service, introduce a method `updateList` and replace the [classname]`MainView` constructor with:
