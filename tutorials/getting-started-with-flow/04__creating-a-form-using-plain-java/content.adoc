@@ -4,7 +4,6 @@
 :title: Part 4 - Creating a Form Using Plain Java
 :author: Vaadin
 :tags: Flow, Java
-:sectnums:
 :imagesdir: ./images
 
 In this part of the tutorial, we:
