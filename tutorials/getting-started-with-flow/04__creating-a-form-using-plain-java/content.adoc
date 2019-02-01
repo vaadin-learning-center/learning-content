@@ -218,7 +218,7 @@ public void setCustomer(Customer customer) {
 }
 ----
 
-. To initialize form state without an active customer, call `setCustomer(null)` at the end of the constructor.  
+. To initialize the form state without an active customer, call `setCustomer(null)` at the end of the constructor.  
 
 +
 [source,java]
