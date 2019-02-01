@@ -14,7 +14,7 @@ In this part of the tutorial we cover how to display data in a grid in your UI.
 Before getting into actual Vaadin development, we add the necessary domain objects and a dummy backend. In a real-world application, you would most probably have something similar implemented with JPA and EJB, or a Spring-based service.
 
 The first step is to copy three Java classes from GitHub and add them to your project. 
-We will use these classes to when building the UI. 
+We use these classes to build the UI.
 
 Here is a list of the files to copy: 
 
