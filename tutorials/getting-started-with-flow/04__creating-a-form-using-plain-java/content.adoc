@@ -75,7 +75,7 @@ status.setItems(CustomerStatus.values());
 +
 
 
-. In `CustomerForm.java`, we need a public API for the `MainView` to define which `Customer` to edit. We will also use `Binder` to make two-way databinding between the properties of the `Customer` and the UI fields in the form. 
+. In `CustomerForm.java`, we need a public API for the `MainView` to define which `Customer` to edit. We also use `Binder` for two-way data binding between the properties of the `Customer` and the UI fields in the form. 
 .. Add a `Binder` as a field:
 
 +
