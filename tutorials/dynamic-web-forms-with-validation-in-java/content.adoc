@@ -11,6 +11,8 @@ When building business web apps, one of the most common tasks is data entry, tha
 
 In this tutorial, we walk through the creation of a basic form that binds to a plain Java object, applies validation to the input fields, and dynamically changes based on the state of the form. 
 
+video::4G8jRyRoCgs[youtube]
+
 In this example, we are building a snack ordering system. The form requires the user to enter their name and the number of snacks. They then use a dropdown to select the type of snack, which enables and populates a second dropdown with snacks of that type. Once submitted, the populated object is added to a list and displayed in a data grid. 
 
 The UI fields are bound to a Java object through the Vaadin data binding API `Binder`. The Vaadin framework will take care of all HTML creation and communication between the server and the browser, so there is no need to introduce additional REST services. 
