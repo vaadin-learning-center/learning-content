@@ -4,6 +4,7 @@ Backend
 Cloud
 Code splitting
 CSS
+Data entry
 Deploy
 Eclipse
 Flow
@@ -43,6 +44,7 @@ Templating
 Thorntail
 Vaadin 7
 Vaadin 8
+Validation
 Vue
 Web Components
 Webpack
