@@ -84,7 +84,7 @@ status.setItems(CustomerStatus.values());
 private Binder<Customer> binder = new Binder<>(Customer.class);
 ----
 
-* A `Binder` is an object that synchronize the properties from domain objects to the UI fields. The binder takes care of reading values from the business object, and converts user data from the format expected by the field to that expected by the business object. 
+* A `Binder` is an object that synchronizes the properties of domain objects to the UI fields. The binder takes care of reading values from the business object, and converts user data from the format expected by the field to that expected by the business object. 
 
 
 .. Configure the binder in the form constructor, by adding:
