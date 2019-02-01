@@ -117,24 +117,24 @@ To test your application:
 
 . Right-click the project root in *Project Explorer* view 
 
-. Select [guilabel]*Debug As* > *Maven build…*. 
+. Select [guilabel]*Run As* > *Maven build…*. 
 +
 
 . In the dialog enter:
 
-** *Name*: `Debug in Jetty`. 
+** *Name*: `Run in Jetty`. 
 ** *Goals*: `jetty:run`.
 
 +
 image:Jetty-Run.png[Generating a Maven launch for `jetty:run` target]
 
-. Select *Debug*. 
+. Select *Run*. 
 +
 
 . Once the server has started, open `http://localhost:8080` to see your application in the browser.
 
 [NOTE]
-If you make changes to the code, Jetty  picks up the changes and deploys most of them automatically within a few seconds. You can also reload the page to reflect the changes.
+If you make changes to the code, Jetty  picks up the changes and deploys most of them automatically within a few seconds. You can also reload the page to reflect the changes. In IntelliJ IDEA you'll need to manually build the project with defaults settings.
 
 [TIP]
-If your JVM does not permit injecting changes on the fly, Eclipse will show an error similar to `Hot Code Replace Failed`. Restart the server to display the latest changes. Many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) to ensure that hot-code replacement work smoothly.
+To make the deployment cycle smoother, many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) or similar to allow smooth hot-code replacement.
