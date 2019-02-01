@@ -4,7 +4,6 @@
 :title: Part 1 - How to use Vaadin Flow
 :author: Vaadin
 :tags: Flow, Java
-:sectnums:
 :imagesdir: ./images
 
 This basic tutorial takes you through the process of creating your first web app with https://vaadin.com/flow[Vaadin Flow].
