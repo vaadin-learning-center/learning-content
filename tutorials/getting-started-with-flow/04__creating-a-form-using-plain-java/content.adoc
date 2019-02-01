@@ -202,7 +202,7 @@ save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 * This improves the UI by highlighting the more common action. 
 
-. Let's also improve the user experience by hidind the form when it is not bound to a domain object and focusing the first name text field when a user is selected. Amend the `setCustomer` method to:
+. We also improve the user experience by hiding the form when it is not bound to a domain object, and focus the first name text field when a user is selected. Amend the `setCustomer` method to:
 
 +
 [source,java]
