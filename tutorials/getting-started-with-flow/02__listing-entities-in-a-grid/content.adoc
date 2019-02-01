@@ -3,7 +3,6 @@
 
 :title: Part 2 - Listing Entities in a Grid
 :author: Vaadin
-:sectnums:
 :tags: Flow, Java
 :imagesdir: ./images
 
