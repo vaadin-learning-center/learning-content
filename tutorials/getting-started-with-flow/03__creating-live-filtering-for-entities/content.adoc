@@ -4,7 +4,6 @@
 :title: Part 3 - Creating Live Filtering for Entities
 :author: Vaadin
 :tags: Flow, Java
-:sectnums:
 :imagesdir: ./images
 
 All modern applications need search functionality and it also makes for a nice Vaadin development exercise. 
@@ -30,7 +29,7 @@ filterText.addValueChangeListener(e -> updateList());
 ----
 
 * Placeholder shows the given String inside the field as long as no value is set. When the user starts typing, the placeholder is automatically removed. 
-* As its name implies, the value change listener reacts to changes in the value in the text field. `EAGER` ensures the change event is fired immediately when the user types. This is ideal for this kind of automatic filtering. 
+* As its name implies, the value change listener reacts to changes in the value in the text field. `EAGER` ensures the change event is fired immediately when the user types. 
 
 . To ensure the filter value is taken into consideration when updating grid items, change the body of the `updateList` method as shown below: 
 
@@ -38,10 +37,6 @@ filterText.addValueChangeListener(e -> updateList());
 [source,java]
 ----
 public void updateList() {
-    /**
-    * Note that filterText.getValue() might return null; in this case, the backend
-    * takes care of it for us
-    */
     grid.setItems(service.findAll(filterText.getValue()));
 }
 ----
@@ -53,7 +48,7 @@ public void updateList() {
 [source,java]
 ----
 Button clearFilterTextBtn = new Button(
-       new Icon(VaadinIcon.CLOSE_CIRCLE));
+	       VaadinIcon.CLOSE_CIRCLE.create());
 clearFilterTextBtn.addClickListener(e -> filterText.clear());
 ----
 
@@ -73,17 +68,14 @@ HorizontalLayout filtering = new HorizontalLayout(filterText,
 * Using `HorizontalLayout` is the simplest way to do this. Flow provides many different kinds of layouts. 
 
 
-. Change the `add(grid)` code line in the constructor to: 
+. Change the `add(grid)` code line to include the `filtering` layout: 
 +
 [source,java]
 ----
 add(filtering, grid);
 ----
 
-* This line previously only added the grid layout. It now additionally adds the `filtering` layout.
-
-
-. At this point, your `MainView` body code should be:
+. At this point, your `MainView` body code look like:
 
 +
 [source,java]
@@ -92,40 +84,38 @@ add(filtering, grid);
  * The main view contains a button and a click listener.
  */
 @Route("")
+@PWA(name = "Project Base for Vaadin Flow", shortName = "Project Base")
 public class MainView extends VerticalLayout {
 
     private CustomerService service = CustomerService.getInstance();
-    private Grid<Customer> grid = new Grid<>();
+    private Grid<Customer> grid = new Grid<>(Customer.class);
     private TextField filterText = new TextField();
 
     public MainView() {
+
         filterText.setPlaceholder("Filter by name...");
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
         filterText.addValueChangeListener(e -> updateList());
-        Button clearFilterTextBtn = new Button(
-                new Icon(VaadinIcon.CLOSE_CIRCLE));
+
+        Button clearFilterTextBtn = new Button(VaadinIcon.CLOSE_CIRCLE.create());
         clearFilterTextBtn.addClickListener(e -> filterText.clear());
-        HorizontalLayout filtering = new HorizontalLayout(filterText,
-                clearFilterTextBtn);
+        HorizontalLayout filtering = new HorizontalLayout(filterText, clearFilterTextBtn);
 
-        grid.setSizeFull();
-
-        grid.addColumn(Customer::getFirstName).setHeader("First name");
-        grid.addColumn(Customer::getLastName).setHeader("Last name");
-        grid.addColumn(Customer::getStatus).setHeader("Status");
+        // limit and define the order of properties shown by Grid
+        grid.setColumns("firstName", "lastName", "status");
 
         add(filtering, grid);
-        setHeight("100vh");
+
+        // make layout use full height (and grid expand to consume it)
+        setSizeFull();
+
         updateList();
     }
 
     public void updateList() {
-        /**
-         * Note that filterText.getValue() might return null; in this case, the backend
-         * takes care of it for us
-         */
         grid.setItems(service.findAll(filterText.getValue()));
     }
+
 }
 ----
 
