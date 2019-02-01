@@ -1,0 +1,234 @@
+= jUnit5 basics for testing Vaadin Flow apps
+
+:title: jUnit5 basics for testing Vaadin Flow apps
+:type: text
+:author: Sven Ruppert
+:tags: jUnit5, Flow, Java
+:description: Learn how to start with jUnit5 to test your Vaadin app.
+:repo: https://github.com/vaadin-learning-center/tdd-junit5-01-basics
+:imagesdir: ./images
+
+In this tutorial, we will learn a few basics about jUnit5
+that are needed for testing web apps.
+
+== Download base project
+You can find the latest version of the source code for this tutorial
+https://github.com/vaadin-learning-center/tdd-junit5-01-basics[@github]
+
+== jUnit5 - project preparations
+jUnit5 has been available for a long time now and production ready. Finally, it is time to have a look at it.
+If you are using jUnit4 or you are starting to use jUnit from scratch, here is a short intro.
+
+The first step will be adding the needed dependencies to the **pom.xml**
+Make sure, all of them are defined for the scope **test**. To get the actual version, have a look at maven central.
+
+[source,xml]
+----
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+----
+
+The next step will be the activation of the tests during your **mvn clean install** process.
+The traditional way would be the usage of the Surefire plugin.
+I don't want to say that Surefire is terrible, but there is a better option you could choose.
+There is a plugin available from a developer of the jUnit5 team.
+I don't want to go to deep into the details, but it is way faster compared to Surefire and works like a charm with jUnit5. You should give it a try.
+
+[source,xml]
+----
+      <plugin>
+        <groupId>de.sormuras.junit</groupId>
+        <artifactId>junit-platform-maven-plugin</artifactId>
+        <version>${junit-platform-maven-plugin.version}</version>
+        <extensions>true</extensions> <!-- Necessary to execute it in 'test' phase. -->
+        <configuration>
+          <executor>JAVA</executor>
+          <javaOptions>
+            <additionalOptions>
+              <jacoco>${jacoco.java.option}</jacoco>
+            </additionalOptions>
+          </javaOptions>
+        </configuration>
+      </plugin>
+----
+
+As you can see inside the **configuration** element, the next step will be the activation of the **Jacoco**
+Plugin to generate LineCoverage reports. The **Jacoco** plugin needs two
+definitions inside your **pom.xml**
+
+[source,xml]
+----
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <id>pre-unit-test</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <propertyName>jacoco.java.option</propertyName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>post-unit-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+----
+
+[source,xml]
+----
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!-- select non-aggregate reports -->
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+----
+
+== jUnit5 - core functionalities
+With jUnit5 includes a lot of new features.
+However, few of them change the way you use jUnit.
+
+Assume we have to test the following implementation of a service:
+
+[source,java]
+----
+public class Service {
+  public int add(int a, int b){
+    return a + b;
+  }
+}
+----
+
+For sure, it is not a very useful implementation.
+However, it will lead us to a few challenges we have to solve.
+Even if we only have to add two values, many things
+could go wrong.
+
+However, let's start with the first test itself.
+To test if the service correctly adds 0 plus 0,
+we could write the following test:
+
+[source,java]
+----
+  @Test
+  void test001() {
+    final int result = new Service().add(0 , 0);
+    assertEquals(0 , result);
+  }
+----
+
+The test itself is written fast, but is this enough?
+If you want to read more about metrics, check out the tutorial about Mutation Testing.
+
+However, let's assume we need a collection of values that must be tested.
+If the amount of values is small and well defined,
+we could use the hard-coded definitions as the source for our test input values.
+jUnit5 will give you several ways to define this permutation of values.
+One way is to define the input values and the corresponding results
+in a table. This could be an external CSV file, or like in this example,
+direct defined inside the test class itself.
+To use this, the test method must be annotated with the
+Annotation **@ParameterizedTest**
+and a definition of the source where the values are coming from.
+
+[source,java]
+----
+  @ParameterizedTest(name = "{0} + {1} = {2}")
+  @CsvSource({
+      "0,    1,   1" ,
+      "1,    2,   3" ,
+      "49,  51, 100" ,
+      "1,  100, 101"
+  })
+  void test002(int first , int second , int expectedResult) {
+    Service service = new Service();
+    assertEquals(expectedResult , service.add(first , second) ,
+                 () -> first + " + " + second + " should equal " + expectedResult);
+  }
+----
+
+If this is not the right way to go for your problem, there is another way
+to define a source of input-/output- values.
+The source of the values could be a static factory - method.
+The only thing you should have in mind is that all values are produced
+at runtime of the test. Sometimes this is not what you need.
+For example, if you are consuming values from a database connection,
+make sure the transaction is still valid during test execution.
+
+[source,java]
+----
+  @ParameterizedTest(name = "{0} + {1} = {2}")
+  @MethodSource(value = "factoryMethod")
+  void test003(int first , int second , int expectedResult) {
+    Service service = new Service();
+    assertEquals(expectedResult , service.add(first , second) ,
+                 () -> first + " + " + second + " should equal " + expectedResult);
+  }
+
+  private static Stream<Arguments> factoryMethod() {
+    return IntStream
+        .range(0 , 5)
+        .mapToObj(i -> Arguments.of(i , i , i + i));
+  }
+----
+
+The last thing I want to show in this tutorial is the possibility to
+combine different assertions. Some test cases are defined in a way that
+different assertions must be valid at the same time. With junit4 the way to go was
+a combined boolean based on all expectations.
+With jUnit5 there is a new possibility to define this.
+The name is **assertAll** and consumes a list of **Predicates<Boolean>**.
+All results must be true; otherwise, the assert will fail.
+
+[source,java]
+----
+  @Test
+  void test006() {
+    List<String> names = asList("Sergio" , "Juan" , "Adolfo");
+    assertAll("names" ,
+              () -> assertEquals("Sergio" , names.get(0)) ,
+              () -> assertEquals("Juan" , names.get(1)) ,
+              () -> assertEquals("Adolfo" , names.get(2)));
+  }
+----
+
+With this basics, we are ready to go the next step. This will be the first example of how to manage the infrastructure that is needed for testing web apps like Vaadin Flow.
+

@@ -29,7 +29,7 @@ The actual implementation of these classes is not relevant for this tutorial, bu
 
 === Adding UI Code to Show Data in a Grid
 
-When building a UI for a data-centric application, the first step is typically to list the data from your backend. Vaadin offers several components and ways to do this. In this example, we use the `Grid` component to present our customer data in tabular form. 
+When building a UI for a data-centric application, you would typically start by listing the data from your backend. Vaadin offers several components and ways to do this. In this example, we use the `Grid` component to present our customer data in tabular form. 
 
 . Reference `CustomerService` and introduce a `Grid` field in [classname]`MainView.java`. 
 
@@ -78,7 +78,7 @@ public void updateList() {
 * This allows you to refresh the listing from various places in your application. 
 
 
-. At this point your `MainView` body code should be:
+. At this point, your `MainView` body code should be:
 
 +
 [source,java]

@@ -172,21 +172,24 @@ In Vaadin platform, you use a `DataProvider` for binding a list of beans to the 
 [options="header,footer"]
 |=======================
 |Vaadin 7|Vaadin platform
-|`Grid personGrid = new Grid();`
-|`Grid<Person> personGrid =` {nbsp} +
+|`Grid grid = new Grid();`
+|`Grid<Person> grid =` {nbsp} +
 {nbsp} `new Grid<>(Person.class);`
-|`BeanItemContainer<Person> personContainer =` {nbsp} +
+|`BeanItemContainer<Person> container` {nbsp} +
 {nbsp} `new BeanItemContainer<>(Person.class);`
 
-`personContainer.addAll(personService.getPersonList());`
-
-`personGrid.setContainerDataSource(personContainer);`
-|`personGrid.setItems(` {nbsp} +
+`container.addAll(` {nbsp} +
 {nbsp} `personService.getPersonList());`
-||`personGrid.getDataProvider()` {nbsp} +
+
+`grid.setContainerDataSource(container);`
+|`grid.setItems(` {nbsp} +
+{nbsp} `personService.getPersonList());`
+||`grid.getDataProvider()` {nbsp} +
 {nbsp} `.refreshItem(person) ;`
-|`personGrid.addSelectionListener(...);`
-`personGrid.addItemClickListener(...);`|`personGrid.addSelectionListener(...);`
+|`grid.addSelectionListener(...);`
+
+`grid.addItemClickListener(...);`
+|`grid.addSelectionListener(...);`
 |=======================
 
 The code to the given examples can be found here: https://github.com/SebastianKuehnau/VaadinComparison

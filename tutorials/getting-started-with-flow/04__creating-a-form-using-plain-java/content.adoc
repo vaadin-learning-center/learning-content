@@ -18,7 +18,6 @@ In this part of the tutorial, we:
 
 . Edit `CustomerForm.java` and add the following:
 .. Create two https://vaadin.com/components/vaadin-text-field[text] fields and a https://vaadin.com/components/vaadin-combo-box[combo box] field, by adding the following field declarations :
-
 +
 [source,java]
 ----
@@ -30,7 +29,6 @@ private ComboBox<CustomerStatus> status = new ComboBox<>("Status");
 
 .. Add references to the `Customer`, `CustomerService` and `MainView` classes, by adding the fields and a basic constructor that accepts `MainView` as a parameter, and
 .. Add the fields.
-
 +
 [source,java]
 ----
@@ -100,7 +98,7 @@ The binder takes care of reading values from the business object, and converts u
 binder.bindInstanceFields(this);
 ----
 
-* This configures the binder to use all similarly named fields in this class and to bind their values with their counterparts in the `Customer` class.
+* When using this method, the binder analyzes the bean and the form classes, and binds properties and fields with same names. For instance, the text field `firstName` is bound to the `Customer` property `firstName`. You can, of course, also do this manually.
 
 .. Create a setter method for the customer field. 
 
@@ -165,7 +163,7 @@ public class CustomerForm extends FormLayout {
 
 In this part, we add functionality to update and delete `Customer` objects.  
 
-. In `CustomerForm.java` add buttons as Java fields: 
+. In `CustomerForm.java`, add buttons as class variables: 
 
 +
 [source,java]
@@ -190,12 +188,12 @@ HorizontalLayout buttons = new HorizontalLayout(save, delete);
 add(firstName, lastName, status, buttons);
 ----
 
-. Make the save button prominent by decorating it with a style name:
+. Make the save button prominent, by decorating it with a style name:
 
 +
 [source,java]
 ----
-save.getElement().setAttribute("theme", "primary");
+save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 ----
 
 * This improves the UI by highlighting the more common action. 
@@ -220,7 +218,7 @@ public void setCustomer(Customer customer) {
 * As an alternative, you could disable the input fields, by calling the `setEnabled()` method on each. 
 * Setting the focus on the `firstName` field improves the user experience.
 
-. Finalize the `setCustomer` setter method by calling `setCustomer(null)` at the end of the constructor.  
+. Finalize the `setCustomer` setter method, by calling `setCustomer(null)` at the end of the constructor.  
 
 +
 [source,java]
@@ -247,7 +245,7 @@ private void save() {
 }
 ----
 
-. Add listeners to the buttons to call these methods by adding simple Lambda expressions to the constructor: 
+. Add listeners to the buttons to call these methods by adding simple lambda expressions to the constructor: 
 
 +
 [source,java]
@@ -257,7 +255,7 @@ delete.addClickListener(e -> this.delete());
 ----
 
 
-. At this point your `CustomerForm` body code should be:
+. At this point, your `CustomerForm` body code should be:
 
 +
 [source,java]
