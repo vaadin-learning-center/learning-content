@@ -8,20 +8,19 @@
 :repo: https://github.com/vaadin-learning-center/tdd-junit5-01-basics
 :imagesdir: ./images
 
-In this tutorial, we will learn a few basic things about junit5
-that is needed for testing webapps.
+In this tutorial, we will learn a few basics about jUnit5
+that are needed for testing web apps.
 
 == Download base project
-You are able to find the latest version of the source code for this tutorial
+You can find the latest version of the source code for this tutorial
 https://github.com/vaadin-learning-center/tdd-junit5-01-basics[@github]
 
 == jUnit5 - project preparations
-jUnit5 is available since a longer time now and production ready. Finally, it is time to have a look at it.
-If you are using junit4 or you are starting to use jUnit from scratch, here you are right for a short intro.
+jUnit5 has been available for a long time now and production ready. Finally, it is time to have a look at it.
+If you are using jUnit4 or you are starting to use jUnit from scratch, here is a short intro.
 
-The first step will be, adding the needed dependencies to the **pom.xml**
-Make sure, all of them are defined for the scope **test**. To get the actual version,
-have a look at maven central, please.
+The first step will be adding the needed dependencies to the **pom.xml**
+Make sure, all of them are defined for the scope **test**. To get the actual version, have a look at maven central.
 
 [source,xml]
 ----
@@ -47,12 +46,11 @@ have a look at maven central, please.
   </dependencies>
 ----
 
-The next step will be, the activation of the tests during your **mvn clean install** process.
+The next step will be the activation of the tests during your **mvn clean install** process.
 The traditional way would be the usage of the Surefire plugin.
-I don´t want to say that Surefire is bad itself, but there is a better option you could choose.
-From a developer of the jUnit5 Team, there is a plugin available.
-I don´t want to go to deep into the details, but it is way faster compared to Surefire and
-is working with jUnit5 like a charm. You should give it a try.
+I don't want to say that Surefire is terrible, but there is a better option you could choose.
+There is a plugin available from a developer of the jUnit5 team.
+I don't want to go to deep into the details, but it is way faster compared to Surefire and works like a charm with jUnit5. You should give it a try.
 
 [source,xml]
 ----
@@ -72,7 +70,7 @@ is working with jUnit5 like a charm. You should give it a try.
       </plugin>
 ----
 
-As you can see inside the **configuration** element itself, the next step will be the activation of the **Jacoco**
+As you can see inside the **configuration** element, the next step will be the activation of the **Jacoco**
 Plugin to generate LineCoverage reports. The **Jacoco** plugin needs two
 definitions inside your **pom.xml**
 
@@ -125,10 +123,10 @@ definitions inside your **pom.xml**
 ----
 
 == jUnit5 - core functionalities
-With jUnit5 a lot of new features are available,
-but a few of them are really changing the way jUnit could be used now.
+With jUnit5 includes a lot of new features.
+However, few of them change the way you use jUnit.
 
-Asume we have to test the following implementation of a service.
+Assume we have to test the following implementation of a service:
 
 [source,java]
 ----
@@ -140,13 +138,13 @@ public class Service {
 ----
 
 For sure, it is not a very useful implementation.
-But it will lead us to a few challenges we have to solve.
-Even if we only have to add two values, a lot of things
+However, it will lead us to a few challenges we have to solve.
+Even if we only have to add two values, many things
 could go wrong.
 
-But let´s start with the first test itself.
-To test if the service would add 0 plus 0 in a correct way,
-we could write the following test.
+However, let's start with the first test itself.
+To test if the service correctly adds 0 plus 0,
+we could write the following test:
 
 [source,java]
 ----
@@ -157,15 +155,14 @@ we could write the following test.
   }
 ----
 
-The test itself is written fast, but would this be enough?
-I don´t want to go into details about metrics at this point.
-If you want to read more about this check out the tutorial about Mutation Testing.
+The test itself is written fast, but is this enough?
+If you want to read more about metrics, check out the tutorial about Mutation Testing.
 
-But let´s assume, we need a collection of values that must be tested.
-If the amount of values is small, or better, well defined,
-we could use the hard coded definitions as source for our test input values.
+However, let's assume we need a collection of values that must be tested.
+If the amount of values is small and well defined,
+we could use the hard-coded definitions as the source for our test input values.
 jUnit5 will give you several ways to define this permutation of values.
-One way is, to define the input values and the corresponding results
+One way is to define the input values and the corresponding results
 in a table. This could be an external CSV file, or like in this example,
 direct defined inside the test class itself.
 To use this, the test method must be annotated with the
@@ -188,10 +185,10 @@ and a definition of the source where the values are coming from.
   }
 ----
 
-If this is not the right way to go for your problem, there is an other way
+If this is not the right way to go for your problem, there is another way
 to define a source of input-/output- values.
 The source of the values could be a static factory - method.
-The only thing you should have in mind is, that all values are produced
+The only thing you should have in mind is that all values are produced
 at runtime of the test. Sometimes this is not what you need.
 For example, if you are consuming values from a database connection,
 make sure the transaction is still valid during test execution.
@@ -213,13 +210,13 @@ make sure the transaction is still valid during test execution.
   }
 ----
 
-The last thing I want to show in this tutorial, is the possibility to
-combine different assertions. Some test cases are defined in a way, that
-different assertions must be valid at the same time. With junit4 the way to go, was
+The last thing I want to show in this tutorial is the possibility to
+combine different assertions. Some test cases are defined in a way that
+different assertions must be valid at the same time. With junit4 the way to go was
 a combined boolean based on all expectations.
 With jUnit5 there is a new possibility to define this.
 The name is **assertAll** and consumes a list of **Predicates<Boolean>**.
-All results must be true, otherwise the assert will fail.
+All results must be true; otherwise, the assert will fail.
 
 [source,java]
 ----
@@ -233,6 +230,5 @@ All results must be true, otherwise the assert will fail.
   }
 ----
 
-With this basics, we are ready to go the next step. This would be the first example how to manage
-infrastructure that is needed for testing webapps like Vaadin Flow.
+With this basics, we are ready to go the next step. This will be the first example of how to manage the infrastructure that is needed for testing web apps like Vaadin Flow.
 
