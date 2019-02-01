@@ -4,7 +4,6 @@
 :title: Part 3 - Creating Live Filtering for Entities
 :author: Vaadin
 :tags: Flow, Java
-:sectnums:
 :imagesdir: ./images
 
 All modern applications need search functionality and it also makes for a nice Vaadin development exercise. 
