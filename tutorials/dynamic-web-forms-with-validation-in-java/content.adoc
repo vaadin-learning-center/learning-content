@@ -173,8 +173,10 @@ Next, disable the snack selection `ComboBox` initially, and add a listener on th
     snackSelect.setEnabled(false);
     snackTypeSelect.addValueChangeListener(e -> {
       String type = e.getValue();
-      snackSelect.setEnabled(type != null && !type.isEmpty());
-      if (type != null && !type.isEmpty()) {
+      boolean enabled = type != null && !type.isEmpty();
+      snackSelect.setEnabled(enabled);
+      if (enabled) {
+        snackSelect.setValue("");
         snackSelect.setItems(snacks.get(type));
       }
     });
