@@ -419,9 +419,9 @@ Well done! You have just created your first app with Vaadin Flow.
 
 == Next Steps
 
-Use your new skills to create new UIs for your existing Java apps. Here are a few resources to get you started: 
+The next step is to use your new skills to create UIs for your existing Java apps or to create a completely new application. Here are a few resources to get you started: 
 
-* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - For ideas about creating full stack applications, with a real database backend, implemented with Spring Data JPA. 
-
-* https://vaadin.com/start#vaadin10[Vaadin app starters] - Explore the various starter packages. 
+* https://vaadin.com/start#vaadin10[Vaadin app starters] - Explore the various starter packages.
+* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - Check another Vaadin tutorial with Spring Boot and Spring Data JPA backend, allowing you to connect your application to real database.
+* https://vaadin.com/tutorials[Vaadin tutorials] - Learn more about Vaadin and integartions to other related technologies.
 * http://vaadin.com/directory[Directory] - Contains many Vaadin add-ons.
