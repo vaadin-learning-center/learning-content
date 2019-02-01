@@ -5,11 +5,12 @@
 :author: Vaadin
 :tags: Flow, Java
 :imagesdir: ./images
+:linkattrs:
 
 In this part of the tutorial, we:
 
 * Create a form using plain Java and connect it to the grid.
-* Add functionality to add, update and delete customer data. 
+* Add functionality to add, update and delete customer data.
 
 === Creating the Form and Connecting It to the Grid
 
@@ -41,7 +42,7 @@ public CustomerForm(MainView mainView) {
     add(firstName, lastName, status, birthDate);
 }
 ----
-* We use these references later. 
+* We use these references later.
 
 . In `MainView.java`:
 .. Add the new form as a field:
@@ -74,7 +75,7 @@ status.setItems(CustomerStatus.values());
 +
 
 
-. In `CustomerForm.java`, we need a public API for the `MainView` to define which `Customer` to edit. We also use `Binder` for two-way data binding between the properties of the `Customer` and the UI fields in the form. 
+. In `CustomerForm.java`, we need a public API for the `MainView` to define which `Customer` to edit. We also use `Binder` for two-way data binding between the properties of the `Customer` and the UI fields in the form.
 .. Add a `Binder` as a field:
 
 +
@@ -83,7 +84,7 @@ status.setItems(CustomerStatus.values());
 private Binder<Customer> binder = new Binder<>(Customer.class);
 ----
 
-* A `Binder` is an object that synchronizes the properties of domain objects to the UI fields. The binder takes care of reading values from the business object, and converts user data from the format expected by the field to that expected by the business object. 
+* A `Binder` is an object that synchronizes the properties of domain objects to the UI fields. The binder takes care of reading values from the business object, and converts user data from the format expected by the field to that expected by the business object.
 
 
 .. Configure the binder in the form constructor, by adding:
@@ -95,7 +96,7 @@ binder.bindInstanceFields(this);
 
 * When using this method, the binder analyzes the bean and the form classes, and binds properties and fields with same names. For instance, the text field `firstName` is bound to the `Customer` property `firstName`. You can, of course, also do this manually.
 
-.. Create a setter method for the customer field. 
+.. Create a setter method for the customer field.
 
 +
 [source,java]
@@ -122,7 +123,7 @@ grid.asSingleSelect().addValueChangeListener(event -> {
 });
 ----
 
-* This listener simply takes the `Customer` object of the selected row and passes it to the `CustomerForm` for editing. 
+* This listener simply takes the `Customer` object of the selected row and passes it to the `CustomerForm` for editing.
 
 . At this point, your `CustomerForm` body code should be:
 
@@ -130,7 +131,7 @@ grid.asSingleSelect().addValueChangeListener(event -> {
 [source,java]
 ----
 public class CustomerForm extends FormLayout {
-    
+
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
     private ComboBox<CustomerStatus> status = new ComboBox<>("Status");
@@ -139,19 +140,19 @@ public class CustomerForm extends FormLayout {
     private CustomerService service = CustomerService.getInstance();
     private Customer customer;
     private MainView mainView;
-    
+
     private Binder<Customer> binder = new Binder<>(Customer.class);
 
     public CustomerForm(MainView mainView) {
         this.mainView = mainView;
-        
+
         add(firstName, lastName, status, birthDate);
-        
+
         status.setItems(CustomerStatus.values());
 
         binder.bindInstanceFields(this);
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
         binder.setBean(customer);
@@ -164,9 +165,9 @@ public class CustomerForm extends FormLayout {
 
 === Adding Save and Delete Buttons
 
-In this part, we add functionality to update and delete `Customer` objects.  
+In this part, we add functionality to update and delete `Customer` objects.
 
-. In `CustomerForm.java`, add buttons as class variables: 
+. In `CustomerForm.java`, add buttons as class variables:
 
 +
 [source,java]
@@ -175,7 +176,7 @@ private Button save = new Button("Save");
 private Button delete = new Button("Delete");
 ----
 
-. Add the buttons in a `HorizontalLayout` by adding following line to the constructor, 
+. Add the buttons in a `HorizontalLayout` by adding following line to the constructor,
 
 +
 [source,java]
@@ -199,7 +200,7 @@ add(firstName, lastName, status, birthDate, buttons);
 save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 ----
 
-* This improves the UI by highlighting the more common action. 
+* This improves the UI by highlighting the more common action.
 
 . We also improve the user experience by hiding the form when it is not bound to a domain object, and focus the first name text field when a user is selected. Amend the `setCustomer` method to:
 
@@ -217,7 +218,7 @@ public void setCustomer(Customer customer) {
 }
 ----
 
-. To initialize the form state without an active customer, call `setCustomer(null)` at the end of the constructor.  
+. To initialize the form state without an active customer, call `setCustomer(null)` at the end of the constructor.
 
 +
 [source,java]
@@ -244,7 +245,7 @@ private void save() {
 }
 ----
 
-. Add listeners to the buttons to call these methods by adding simple lambda expressions to the constructor: 
+. Add listeners to the buttons to call these methods by adding simple lambda expressions to the constructor:
 
 +
 [source,java]
@@ -319,14 +320,14 @@ public class CustomerForm extends FormLayout {
 }
 ----
 
-. Save your code changes and refresh your browser to view the changes. You can now edit and update current customer records. 
+. Save your code changes and refresh your browser to view the changes. You can now edit and update current customer records.
 +
 [TIP]
 For a truly re-usable form component in a real life project, you would want to introduce an interface to replace the `MainView` class. To keep things simple, we have not included this in the tutorial. As an even better alternative, you could use an event system like CDI events to completely decouple the components.
 
 === Adding New Customers
 
-In this part, we add functionality in `MainView.java` to add new customer records. We create a new button, labeled *Add new customers*, above the grid next to the `filterText` field. 
+In this part, we add functionality in `MainView.java` to add new customer records. We create a new button, labeled *Add new customers*, above the grid next to the `filterText` field.
 
 . Add a new `Button` with a click listener, by adding the following lines of code to the constructor, directly after `HorizontalLayout filtering = new HorizontalLayout...`:
 
@@ -366,17 +367,17 @@ public class MainView extends VerticalLayout {
     private Grid<Customer> grid = new Grid<>(Customer.class);
     private TextField filterText = new TextField();
     private CustomerForm form = new CustomerForm(this);
-    
+
     public MainView() {
 
         filterText.setPlaceholder("Filter by name...");
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
         filterText.addValueChangeListener(e -> updateList());
-        
+
         Button clearFilterTextBtn = new Button(VaadinIcon.CLOSE_CIRCLE.create());
         clearFilterTextBtn.addClickListener(e -> filterText.clear());
         HorizontalLayout filtering = new HorizontalLayout(filterText, clearFilterTextBtn);
-        
+
         Button addCustomerBtn = new Button("Add new customer");
         addCustomerBtn.addClickListener(e -> {
             grid.asSingleSelect().clear();
@@ -393,16 +394,16 @@ public class MainView extends VerticalLayout {
         grid.setSizeFull();
 
         add(toolbar, main);
-        
+
         // make layout use full height (and grid expand to consume it)
         setSizeFull();
 
         updateList();
-        
+
         grid.asSingleSelect().addValueChangeListener(event -> {
             form.setCustomer(event.getValue());
         });
-        
+
     }
 
     public void updateList() {
@@ -412,16 +413,16 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-. Save your code changes and refresh your browser to view the changes. 
+. Save your code changes and refresh your browser to view the changes.
 Users can now create customer records that are stored in the demo backend.
 
-Well done! You have just created your first app with Vaadin Flow. 
+Well done! You have just created your first app with Vaadin Flow.
 
 == Next Steps
 
-The next step is to use your new skills to create UIs for your existing Java apps or to create a completely new application. Here are a few resources to get you started: 
+The next step is to use your new skills to create UIs for your existing Java apps or to create a completely new application. Here are a few resources to get you started:
 
-* https://vaadin.com/start#vaadin10[Vaadin app starters] - Explore the various starter packs.
-* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - Another Vaadin tutorial with Spring Boot and Spring Data JPA backend that allows you to connect your application to a real database.
+* https://vaadin.com/start#vaadin10[Vaadin app starters^] - Explore the various starter packs.
+* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin^] - Another Vaadin tutorial with Spring Boot and Spring Data JPA backend that allows you to connect your application to a real database.
 * https://vaadin.com/tutorials[Vaadin tutorials] - Learn more about Vaadin and integrations with related technologies.
 * http://vaadin.com/directory[Directory] - Contains many Vaadin add-ons.
