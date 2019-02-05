@@ -25,6 +25,9 @@ Nothing more.
 == Used Servlet container?
 Here we are using the Jakarta EE 8 server **TomEE** as Servlet-Container.
 http://tomee.apache.org/[http://tomee.apache.org/]
+If you want to use Vaadin together with CDI, have a look at the CDI starter. This is 
+using TomEE together with the CDI AddOn. 
+You can find the starter at https://vaadin.com/start/latest/project-base-cdi[https://vaadin.com/start/latest/project-base-cdi]
 
 == The UI itself
 
