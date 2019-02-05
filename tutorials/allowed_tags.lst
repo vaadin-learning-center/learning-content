@@ -1,5 +1,6 @@
 Angular
 Apache
+API
 Backend
 Cloud
 Code splitting
@@ -7,6 +8,7 @@ CSS
 Deploy
 Eclipse
 Flow
+Fluent API
 I18N
 IntelliJ IDEA
 Internationalisation
@@ -40,6 +42,7 @@ State management
 Swarm
 Standard
 Templating
+Testbench
 Thorntail
 Vaadin 7
 Vaadin 8

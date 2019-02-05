@@ -1,7 +1,7 @@
 = Fluent Component API For Flow
 
 :type: text, video
-:tags: Layout, Flow, API, Java, Fluent
+:tags: Layout, Flow, API, Java, Fluent API
 :description: How to create a fluent API for Flow
 :repo: https://github.com/vaadin-learning-center/flow-api-fluent
 :linkattrs:
