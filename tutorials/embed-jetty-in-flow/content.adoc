@@ -47,11 +47,6 @@ In the `<dependencies>` add the Jetty server as a dependency as well as other ne
 ----
 <dependency>
   <groupId>org.eclipse.jetty</groupId>
-  <artifactId>jetty-plus</artifactId>
-  <version>${jetty.version}</version>
-</dependency>
-<dependency>
-  <groupId>org.eclipse.jetty</groupId>
   <artifactId>jetty-continuation</artifactId>
   <version>${jetty.version}</version>
 </dependency>
@@ -147,11 +142,7 @@ context.setConfigurations(new Configuration[]{
   new AnnotationConfiguration(),
   new WebInfConfiguration(),
   new WebXmlConfiguration(),
-  new MetaInfConfiguration(),
-  new FragmentConfiguration(),
-  new EnvConfiguration(),
-  new PlusConfiguration(),
-  new JettyWebXmlConfiguration()
+  new MetaInfConfiguration()
 });
 context.getServletContext().setExtendedListenerTypes(true);
 context.addEventListener(new ServletContextListeners());
