@@ -5,7 +5,7 @@
 :description: Learn how to embed Jetty server into a Vaadin Flow application. 
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
-// :repo: https://github.com/vaadin-learning-center/vaadin-flow-form-example
+:repo: https://github.com/amahdy/vaadin-flow-light
 
 This tutorial will teach you how to embed a Jetty server into your Vaadin Flow application. While you can check Alejandro's https://github.com/alejandro-du/embedded-jetty-demo[demo] and use it directly, but here we will go over the steps in details to make your existing Vaadin application deploys with a Jetty server embedded into the Jar file. Not to confuse this with Spring Boot, we will not use Spring but the build will produce a Jar file instead of a War.
 
@@ -29,6 +29,15 @@ public class App {
 == Update pom.xml
 
 Few changes are needed in the `pom.xml` file as follows:
+
+=== Packaging
+
+Change the packaging from `war` to `jar`:
+
+[source,xml]
+----
+<packaging>jar</packaging>
+----
 
 === Dependencies
 
@@ -182,4 +191,4 @@ context.setInitParameter("original.frontend.resources", "true");
 
 == Optimization
 
-Embedding everything under one Jar file can be useful in many cases, but sometimes we need to optimize and remove unneeded dependencies that might make the final file big. In this tutorial I've provided the minimal needed dependencies needed to get the application to work, so feel free to remove from `pom.xml` file any dependency or profile that you don't think you will need in the application. Here is a demo light version of Vaadin Flow as explained in this tutorial.
+Embedding everything under one Jar file can be useful in many cases, but sometimes we need to optimize and remove unneeded dependencies that might make the final file big. In this tutorial I've provided the minimal dependencies needed to get the application to work, so feel free to remove from `pom.xml` file any dependency or profile that you don't think you will need in the application. Here is a https://github.com/amahdy/vaadin-flow-light[demo light version] of Vaadin Flow as explained in this tutorial. And https://github.com/amahdy/vaadin-light[older version] is aslo available for Vaadin 7/8.
