@@ -1,0 +1,70 @@
+= Consuming REST services from Java applications
+
+:tags: Java, REST
+:author: Matti Tahvonen
+:description: Learn how to call REST services in Java and Convert the REST response to Java objects.
+:repo: https://github.com/mstahv/consuming-rest-apis
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+:related: getting-started-with-flow
+
+Using REST services has really struck though during the last couple of years. They often act as a "public API" for third-party solutions like mobile apps or as a "persistence layer" for client-side web apps (GWT, Angular etc.). Java is probably the most common platform for providing REST services, but several Java applications need to consume them as well. And, it might even be that REST services consume other REST services for providing their data.
+
+A typical mistake among us Java developers is to do-it-all by ourselves. A typical way to do it by hand is to do a `URL.openStream()`, read the response into a string and parse data from the string manually. Completely possible and quite easy even with core JDK libraries but there are much better ways to do this.
+
+The Java ecosystem has lots of excellent libraries, many really well-designed standards and often even multiple competing implementations for them. https://jax-rs-spec.java.net/[JAX-RS] is one of those and also one that’s well known among Java EE developers for providing https://en.wikipedia.org/wiki/Representational_state_transfer[REST services]. But the specification also contains a bit less known API for consuming REST services. Using it will make your code faster and simpler to write and maintain.
+
+My https://github.com/mstahv/consuming-rest-apis[example application] is a small Java EE application that collects weather forecasts from http://openweathermap.org/[openweathermap.org] into simple POJOs and displays them in the browser using a very simple Vaadin UI. The real meat of the tutorial is by no means specific to Java EE or even Vaadin, but they’ll let us avoid a lot of boilerplate code to focus on the essential stuff. Although JAX-RS comes as a part of the Java EE specification, it depends on no other specification in Java EE. So, if your Java application isn’t running in a Java EE container, just drop in a JAX-RS implementation, https://jersey.java.net/documentation/latest/modules-and-dependencies.html#client-jdk[like Jersey] and configure an object mapping library to work with it and adapt the example to your needs. If you happen to be working with a Spring-based stack, you might want to look into http://spring.io/guides/gs/consuming-rest/[RestTemplate API] instead that does pretty much the same as a JAX-RS client.
+
+The process can be broken down into three steps: Model, Process, and Consume.
+
+== Step 1: Model the data
+Most commonly your service provides its data in either XML or JSON format. Unless the responses are really trivial (e.g. lists of strings), you generally don’t save time by accessing them directly. While using low-level APIs or a map based representation for JSON is possible, going that way doesn’t really improve the readability of your code. Sometimes it is possible to get your hands on the original Java model they use at the providing end, but reverse engineering POJOs from both XML and JSON is fast and dead simple as well.
+
+Smaller models can be reverse engineered manually in no time, but tooling can improve your productivity a lot in this step. To generate https://github.com/mstahv/consuming-rest-apis/tree/master/src/main/java/org/example/domain[the complete model] for this example I used an excellent online service, http://www.jsonschema2pojo.org/[www.jsonschema2pojo.org]. All I did was copypasted one example JSON response from the service, adapted the checkboxes for my needs and copied the generated artifacts to my project. I didn’t need any annotations or other hints for the object mapping libraries. In many cases with well-crafted data, proper naming conventions are enough. The underlying tools used by the service are also available for https://github.com/joelittlejohn/jsonschema2pojo/wiki/Getting-Started[local usage].
+
+== Step 2: Fetch the data
+The actual usage of the JAX-RS client API is dead simple. Still, I wrapped that part into a https://github.com/mstahv/consuming-rest-apis/blob/master/src/main/java/org/example/JsonService.java[service class] to separate that from the actual UI code. Your UI code doesn’t necessarily need to know whether it is accessing a REST service, a Web Service or a DB. The public API reveals just the reverse engineered WeatherResponse class for the actual UI code.
+
+The usage of the JAX-RS client API mostly happens around https://jax-rs-spec.java.net/nonav/2.0-rev-a/apidocs/javax/ws/rs/client/Client.html[Client] and https://jax-rs-spec.java.net/nonav/2.0-rev-a/apidocs/javax/ws/rs/client/WebTarget.html[WebTarget] objects. The Client object is the thing that actually handles all the communication. Although they aren’t especially heavy, I only created one instance of them per service class as the suggestion is to use a minimum amount of instances. In our case the client needs no special configuration, so we just get an instance with default settings from the ClientBuilder.
+
+[source,java]
+----
+private Client client;
+private WebTarget target;
+
+@PostConstruct
+protected void init() {
+    client = ClientBuilder.newClient();
+    //query params: ?q=Turku&cnt=10&mode=json&units=metric
+    target = client.target("http://api.openweathermap.org/data/2.5/forecast/daily")
+       .queryParam("cnt", "10")
+       .queryParam("mode", "json")
+       .queryParam("units", "metric");
+}
+----
+
+Note, since a change in openweathermap.com service, you'll nowadays also need to have an "API key", which you pass in as an https://github.com/mstahv/consuming-rest-apis/blob/master/src/main/java/org/example/JsonService.java#L33[appid query parameter]. The example in GitHub uses DeltaSpike properties to configure it to your app. Get an API key and configure it to https://github.com/mstahv/consuming-rest-apis/blob/master/src/main/resources/META-INF/apache-deltaspike.properties[`src/main/resources/META-INF/apache-deltaspike.properties`] file.
+
+WebTargets are immutable objects which model specific URIs in the service you are accessing. In the init method you can see how the fluent API can be used to stack "static" parameters on each other and save the intermediate target as a field. In the business method, we only need to append the dynamic parameter and do the actual request.
+
+[source,java]
+----
+public ForecastResponse getForecast(String place) {
+    return target.queryParam("q", place)
+            .request(MediaType.APPLICATION_JSON)
+            .get(ForecastResponse.class);
+}
+----
+
+In the request method, you can explicitly request for a specific type of answer, which is obsolete in this case, as we have given it as a service-specific parameter already. The actual GET request is done with a similarly named method. At this point, it is time to take advantage of our data model that we reverse engineered in step 1. Instead of inspecting the Response object manually, we can just pass the response model class as a parameter.
+
+Behind the scenes, an object mapping library, like http://jackson.codehaus.org/[Jackson], is used to automatically convert the raw JSON (in this case) into your reverse engineered domain model. If you are using the  API in a Java SE runtime, be sure to configure your object mapping library together with the JAX-RS API. Note, the special type https://jax-rs-spec.java.net/nonav/2.0-rev-a/apidocs/javax/ws/rs/core/GenericType.html[GenericType], that can be used in some cases to avoid reverse engineering simple types like lists of strings or lists of your domain-specific types.
+
+Other HTTP methods like POST and PUT are naturally supported as well and you can submit your payload using the same automatic POJO mapping but in the opposite direction. Just wrap the payload into an https://jax-rs-spec.java.net/nonav/2.0-rev-a/apidocs/javax/ws/rs/client/Entity.html[Entity] using its static factory methods.
+
+== Step 3: Consume the data
+Using POJOs with pretty much any Java technology is so basic stuff that I’ll skip covering that part thoroughly. To complete the example as a runnable application I hooked the service into a Vaadin UI. From https://github.com/mstahv/consuming-rest-apis/blob/master/src/main/java/org/example/VaadinUI.java[VaadinUI] you can select three predefined cities and the ForecastDisplay[ForecastDisplay] loops through the daily forecasts and displays the data in a human-readable form.  
+
+You should now understand the basics of using JAX-RS client APIs. You’ll find more details in the https://jax-rs-spec.java.net/nonav/2.0-rev-a/apidocs/index.html?overview-summary.html[JavaDocs] or in implementation specific manuals. An easy way to get more comfortable with this awesome helper is to check out http://github.com/mstahv/consuming-rest-apis[my example project] into your favorite IDE and start hacking!
+
