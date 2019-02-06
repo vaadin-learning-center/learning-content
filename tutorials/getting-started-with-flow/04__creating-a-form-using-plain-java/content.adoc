@@ -4,33 +4,31 @@
 :title: Part 4 - Creating a Form Using Plain Java
 :author: Vaadin
 :tags: Flow, Java
-:sectnums:
 :imagesdir: ./images
+:linkattrs:
 
 In this part of the tutorial, we:
 
 * Create a form using plain Java and connect it to the grid.
-* Add functionality to add, update and delete customer data. 
+* Add functionality to add, update and delete customer data.
 
 === Creating the Form and Connecting It to the Grid
 
-. Create a new class, `CustomerForm`.
+. Create a new class, `CustomerForm` that extends from `FormLayout`.
+.. In Eclipse, right click on the "com.vaadin.starter.skeleton" package and choose "New > Class". Type in the name `CustomerForm`, define the superclass as `com.vaadin.flow.component.formlayout.FormLayout` and click `finish`.
 
 . Edit `CustomerForm.java` and add the following:
 .. Create two https://vaadin.com/components/vaadin-text-field[text] fields and a https://vaadin.com/components/vaadin-combo-box[combo box] field, by adding the following field declarations :
-
 +
 [source,java]
 ----
 private TextField firstName = new TextField("First name");
 private TextField lastName = new TextField("Last name");
 private ComboBox<CustomerStatus> status = new ComboBox<>("Status");
+private DatePicker birthDate = new DatePicker("Birthday");
 ----
-* Vaadin offers numerous kinds of prebuilt components for editing different kinds of properties. 
 
-.. Add references to the `Customer`, `CustomerService` and `MainView` classes, by adding the fields and a basic constructor that accepts `MainView` as a parameter, and
-.. Add the fields.
-
+.. Next add fields for the `Customer`, `CustomerService` and `MainView` and a basic constructor that accepts `MainView` as a parameter and adds the components to the layout:
 +
 [source,java]
 ----
@@ -41,10 +39,10 @@ private MainView mainView;
 public CustomerForm(MainView mainView) {
     this.mainView = mainView;
 
-    add(firstName, lastName, status);
+    add(firstName, lastName, status, birthDate);
 }
 ----
-* We use these references later. 
+* We use these references later.
 
 . In `MainView.java`:
 .. Add the new form as a field:
@@ -59,17 +57,15 @@ private CustomerForm form = new CustomerForm(this);
 [source,java]
 ----
 HorizontalLayout main = new HorizontalLayout(grid, form);
-main.setAlignItems(Alignment.START);
 main.setSizeFull();
+grid.setSizeFull();
 
 add(filtering, main);
 ----
 
-* `main.setAlignItems(Alignment.START);` makes sure that the content is aligned to the top of the layout.
+. Save your code changes and refresh your browser. The main view now shows the form draft with four unconfigured fields to the right of the grid.
 
-. Save your code changes and refresh your browser. The form now contains three fields and is shown to the right of the grid.
-
-. In `CustomerForm.java`, add all enum values as valid options in the `ComboBox` field, by adding the following line to the constructor:
+. In `CustomerForm.java`, add all enum values as options in the `ComboBox` field by adding the following line to the constructor:
 
 +
 [source,java]
@@ -79,7 +75,7 @@ status.setItems(CustomerStatus.values());
 +
 
 
-. In `CustomerForm.java`, complete the form by creating a public API. This allows you to pass a selected item from `MainView.java` to `CustomerForm.java`. 
+. In `CustomerForm.java`, we need a public API for the `MainView` to define which `Customer` to edit. We also use `Binder` for two-way data binding between the properties of the `Customer` and the UI fields in the form.
 .. Add a `Binder` as a field:
 
 +
@@ -88,9 +84,7 @@ status.setItems(CustomerStatus.values());
 private Binder<Customer> binder = new Binder<>(Customer.class);
 ----
 
-* A `Binder` is an object that connects data to a form that is defined in the declarative format.
-* You can use a binder class to define how the values in a business object should be bound to the fields shown in the UI. 
-The binder takes care of reading values from the business object, and converts user data from the format expected by the field to that expected by the business object. 
+* A `Binder` is an object that synchronizes the properties of domain objects to the UI fields. The binder takes care of reading values from the business object, and converts user data from the format expected by the field to that expected by the business object.
 
 
 .. Configure the binder in the form constructor, by adding:
@@ -100,9 +94,9 @@ The binder takes care of reading values from the business object, and converts u
 binder.bindInstanceFields(this);
 ----
 
-* This configures the binder to use all similarly named fields in this class and to bind their values with their counterparts in the `Customer` class.
+* When using this method, the binder analyzes the bean and the form classes, and binds properties and fields with same names. For instance, the text field `firstName` is bound to the `Customer` property `firstName`. You can, of course, also do this manually.
 
-.. Create a setter method for the customer field. 
+.. Create a setter method for the customer field.
 
 +
 [source,java]
@@ -129,7 +123,7 @@ grid.asSingleSelect().addValueChangeListener(event -> {
 });
 ----
 
-* This listener simply takes the `Customer` object of the selected row and passes it to the `CustomerForm` for editing. 
+* This listener simply takes the `Customer` object of the selected row and passes it to the `CustomerForm` for editing.
 
 . At this point, your `CustomerForm` body code should be:
 
@@ -137,18 +131,25 @@ grid.asSingleSelect().addValueChangeListener(event -> {
 [source,java]
 ----
 public class CustomerForm extends FormLayout {
+
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
     private ComboBox<CustomerStatus> status = new ComboBox<>("Status");
+    private DatePicker birthDate = new DatePicker("Birthday");
+
     private CustomerService service = CustomerService.getInstance();
     private Customer customer;
     private MainView mainView;
+
     private Binder<Customer> binder = new Binder<>(Customer.class);
 
     public CustomerForm(MainView mainView) {
         this.mainView = mainView;
-        add(firstName, lastName, status);
+
+        add(firstName, lastName, status, birthDate);
+
         status.setItems(CustomerStatus.values());
+
         binder.bindInstanceFields(this);
     }
 
@@ -156,6 +157,7 @@ public class CustomerForm extends FormLayout {
         this.customer = customer;
         binder.setBean(customer);
     }
+
 }
 ----
 
@@ -163,9 +165,9 @@ public class CustomerForm extends FormLayout {
 
 === Adding Save and Delete Buttons
 
-In this part, we add functionality to update and delete `Customer` objects.  
+In this part, we add functionality to update and delete `Customer` objects.
 
-. In `CustomerForm.java` add buttons as Java fields: 
+. In `CustomerForm.java`, add buttons as class variables:
 
 +
 [source,java]
@@ -174,7 +176,7 @@ private Button save = new Button("Save");
 private Button delete = new Button("Delete");
 ----
 
-. Add the buttons in a `HorizontalLayout` by adding following line to the constructor, 
+. Add the buttons in a `HorizontalLayout` by adding following line to the constructor,
 
 +
 [source,java]
@@ -182,25 +184,25 @@ private Button delete = new Button("Delete");
 HorizontalLayout buttons = new HorizontalLayout(save, delete);
 ----
 
-. Add the `buttons` object by amending the `add(firstName, lastName, status)` code line to:
+. Add the `buttons` object by amending the `add(firstName, lastName, status, birthDate)` code line to:
 
 +
 [source,java]
 ----
-add(firstName, lastName, status, buttons);
+add(firstName, lastName, status, birthDate, buttons);
 ----
 
-. Make the save button prominent by decorating it with a style name:
+. Make the save button prominent, by decorating it with a style name:
 
 +
 [source,java]
 ----
-save.getElement().setAttribute("theme", "primary");
+save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 ----
 
-* This improves the UI by highlighting the more common action. 
+* This improves the UI by highlighting the more common action.
 
-. Disable the save and cancel buttons when no customer is selected, by amending the `setCustomer` method to:
+. We also improve the user experience by hiding the form when it is not bound to a domain object, and focus the first name text field when a user is selected. Amend the `setCustomer` method to:
 
 +
 [source,java]
@@ -209,25 +211,21 @@ public void setCustomer(Customer customer) {
     this.customer = customer;
     binder.setBean(customer);
     boolean enabled = customer != null;
-    save.setEnabled(enabled);
-    delete.setEnabled(enabled);
+    setVisible(enabled);
     if (enabled) {
         firstName.focus();
     }
 }
 ----
-* Disabling the buttons discourages user interaction when there is no selection. 
-* As an alternative, you could disable the input fields, by calling the `setEnabled()` method on each. 
-* Setting the focus on the `firstName` field improves the user experience.
 
-. Finalize the `setCustomer` setter method by calling `setCustomer(null)` at the end of the constructor.  
+. To initialize the form state without an active customer, call `setCustomer(null)` at the end of the constructor.
 
 +
 [source,java]
 ----
 setCustomer(null);
 ----
-* This makes sure that the save and delete buttons are disabled by default. 
+* This hides the form by default, until a `Customer` object is assigned to it.
 
 . Add methods that will be called by the save and delete button click listeners in the next step.
 
@@ -247,7 +245,7 @@ private void save() {
 }
 ----
 
-. Add listeners to the buttons to call these methods by adding simple Lambda expressions to the constructor: 
+. Add listeners to the buttons to call these methods by adding simple lambda expressions to the constructor:
 
 +
 [source,java]
@@ -257,41 +255,51 @@ delete.addClickListener(e -> this.delete());
 ----
 
 
-. At this point your `CustomerForm` body code should be:
+. At this point, your `CustomerForm` body code should be:
 
 +
 [source,java]
 ----
 public class CustomerForm extends FormLayout {
+
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
     private ComboBox<CustomerStatus> status = new ComboBox<>("Status");
+    private DatePicker birthDate = new DatePicker("Birthday");
+
     private CustomerService service = CustomerService.getInstance();
     private Customer customer;
     private MainView mainView;
+
     private Binder<Customer> binder = new Binder<>(Customer.class);
+
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
 
     public CustomerForm(MainView mainView) {
         this.mainView = mainView;
-        add(firstName, lastName, status);
-        status.setItems(CustomerStatus.values());
-        binder.bindInstanceFields(this);
+
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
-        add(firstName, lastName, status, buttons);
-        save.getElement().setAttribute("theme", "primary");
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        add(firstName, lastName, status, birthDate, buttons);
+
+        status.setItems(CustomerStatus.values());
+
+        binder.bindInstanceFields(this);
+
         setCustomer(null);
+
         save.addClickListener(e -> this.save());
         delete.addClickListener(e -> this.delete());
+
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
         binder.setBean(customer);
         boolean enabled = customer != null;
-        save.setEnabled(enabled);
-        delete.setEnabled(enabled);
+        setVisible(enabled);
         if (enabled) {
             firstName.focus();
         }
@@ -308,17 +316,18 @@ public class CustomerForm extends FormLayout {
         mainView.updateList();
         setCustomer(null);
     }
+
 }
 ----
 
-. Save your code changes and refresh your browser to view the changes. You can now edit and update current customer records. 
+. Save your code changes and refresh your browser to view the changes. You can now edit and update current customer records.
 +
 [TIP]
 For a truly re-usable form component in a real life project, you would want to introduce an interface to replace the `MainView` class. To keep things simple, we have not included this in the tutorial. As an even better alternative, you could use an event system like CDI events to completely decouple the components.
 
 === Adding New Customers
 
-In this part, we add functionality in `MainView.java` to add new customer records. We create a new button, labeled *Add new customers*, above the grid next to the `filterText` field. 
+In this part, we add functionality in `MainView.java` to add new customer records. We create a new button, labeled *Add new customers*, above the grid next to the `filterText` field.
 
 . Add a new `Button` with a click listener, by adding the following lines of code to the constructor, directly after `HorizontalLayout filtering = new HorizontalLayout...`:
 
@@ -351,130 +360,69 @@ add(toolbar, main);
 +
 [source,java]
 ----
-/**
- * The main view contains a button and a click listener.
- */
 @Route("")
 public class MainView extends VerticalLayout {
 
     private CustomerService service = CustomerService.getInstance();
-    private Grid<Customer> grid = new Grid<>();
+    private Grid<Customer> grid = new Grid<>(Customer.class);
     private TextField filterText = new TextField();
     private CustomerForm form = new CustomerForm(this);
 
     public MainView() {
+
         filterText.setPlaceholder("Filter by name...");
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
         filterText.addValueChangeListener(e -> updateList());
-        Button clearFilterTextBtn = new Button(
-	        new Icon(VaadinIcon.CLOSE_CIRCLE));
+
+        Button clearFilterTextBtn = new Button(VaadinIcon.CLOSE_CIRCLE.create());
         clearFilterTextBtn.addClickListener(e -> filterText.clear());
-        HorizontalLayout filtering = new HorizontalLayout(filterText,
-                clearFilterTextBtn);
+        HorizontalLayout filtering = new HorizontalLayout(filterText, clearFilterTextBtn);
 
         Button addCustomerBtn = new Button("Add new customer");
         addCustomerBtn.addClickListener(e -> {
-                grid.asSingleSelect().clear();
-                form.setCustomer(new Customer());
+            grid.asSingleSelect().clear();
+            form.setCustomer(new Customer());
         });
         HorizontalLayout toolbar = new HorizontalLayout(filtering,
-                addCustomerBtn);
+            addCustomerBtn);
 
-        grid.setSizeFull();
-
-        grid.addColumn(Customer::getFirstName).setHeader("First name");
-        grid.addColumn(Customer::getLastName).setHeader("Last name");
-        grid.addColumn(Customer::getStatus).setHeader("Status");
+        // limit and define the order of properties shown by Grid
+        grid.setColumns("firstName", "lastName", "status");
 
         HorizontalLayout main = new HorizontalLayout(grid, form);
-        main.setAlignItems(Alignment.START);
         main.setSizeFull();
+        grid.setSizeFull();
 
         add(toolbar, main);
-        setHeight("100vh");
+
+        // make layout use full height (and grid expand to consume it)
+        setSizeFull();
+
         updateList();
 
         grid.asSingleSelect().addValueChangeListener(event -> {
-                form.setCustomer(event.getValue());
+            form.setCustomer(event.getValue());
         });
 
     }
 
     public void updateList() {
-        /**
-         * Note that filterText.getValue() might return null; in this case, the backend
-         * takes care of it for us
-         */
         grid.setItems(service.findAll(filterText.getValue()));
     }
+
 }
 ----
 
-.. Your `CustomerForm` body code should be::
-+
-[source,java]
-----
-public class CustomerForm extends FormLayout {
-    private TextField firstName = new TextField("First name");
-    private TextField lastName = new TextField("Last name");
-    private ComboBox<CustomerStatus> status = new ComboBox<>("Status");
-    private CustomerService service = CustomerService.getInstance();
-    private Customer customer;
-    private MainView mainView;
-    private Binder<Customer> binder = new Binder<>(Customer.class);
-    private Button save = new Button("Save");
-    private Button delete = new Button("Delete");
-
-    public CustomerForm(MainView mainView) {
-        this.mainView = mainView;
-        add(firstName, lastName, status);
-        status.setItems(CustomerStatus.values());
-        binder.bindInstanceFields(this);
-        HorizontalLayout buttons = new HorizontalLayout(save, delete);
-        add(firstName, lastName, status, buttons);
-        save.getElement().setAttribute("theme", "primary");
-        setCustomer(null);
-        save.addClickListener(e -> this.save());
-        delete.addClickListener(e -> this.delete());
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-        binder.setBean(customer);
-        boolean enabled = customer != null;
-        save.setEnabled(enabled);
-	delete.setEnabled(enabled);
-	if (enabled) {
-            firstName.focus();
-        }
-    }
-
-    private void delete() {
-        service.delete(customer);
-        mainView.updateList();
-        setCustomer(null);
-    }
-
-    private void save() {
-        service.save(customer);
-        mainView.updateList();
-        setCustomer(null);
-    }
-}
-----
-
-. Save your code changes and refresh your browser to view the changes. 
+. Save your code changes and refresh your browser to view the changes.
 Users can now create customer records that are stored in the demo backend.
 
-
-Well done! You have just created your first app with Vaadin Flow. 
-
+Well done! You have just created your first app with Vaadin Flow.
 
 == Next Steps
 
-Use your new skills to create new UIs for your existing Java apps. Here are a few resources to get you started: 
+The next step is to use your new skills to create UIs for your existing Java apps or to create a completely new application. Here are a few resources to get you started:
 
-* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - For ideas about creating full stack applications, with a real database backend, implemented with Spring Data JPA. 
-
-* https://vaadin.com/start#vaadin10[Vaadin app starters] - Explore the various starter packages. 
+* https://vaadin.com/start#vaadin10[Vaadin app starters^] - Explore the various starter packs.
+* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin^] - Another Vaadin tutorial with Spring Boot and Spring Data JPA backend that allows you to connect your application to a real database.
+* https://vaadin.com/tutorials[Vaadin tutorials] - Learn more about Vaadin and integrations with related technologies.
 * http://vaadin.com/directory[Directory] - Contains many Vaadin add-ons.
