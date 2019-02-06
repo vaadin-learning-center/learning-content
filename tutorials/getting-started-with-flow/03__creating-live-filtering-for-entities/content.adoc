@@ -3,6 +3,7 @@
 
 :title: Part 3 - Creating Live Filtering for Entities
 :author: Vaadin
+:description: Learn how to get use Grid filtering with Vaadin Flow
 :tags: Flow, Java
 :imagesdir: ./images
 

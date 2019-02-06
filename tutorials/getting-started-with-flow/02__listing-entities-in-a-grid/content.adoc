@@ -3,6 +3,7 @@
 
 :title: Part 2 - Listing Entities in a Grid
 :author: Vaadin
+:description: Learn how to show list data in a Grid with Vaadin Flow
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:
