@@ -2,7 +2,7 @@
 
 :type: text, video
 :tags: Layout, Flow, API, Java, Fluent API
-:description: How to create a fluent API for Flow
+:description: How to create a fluent API for Vaadin Flow components.
 :repo: https://github.com/vaadin-learning-center/flow-api-fluent
 :linkattrs:
 :imagesdir: ./images
@@ -11,22 +11,18 @@ In this tutorial, we explore possibilities how to create a fluent API
 for Vaadin Flow.
 
 == Download base project
-As "Hello World" basic project the `flow-helloworld-maven-meecrowave`
-from the learning centre is used.
+This tutorial uses the  `flow-helloworld-maven-meecrowave` starter as a base.
 You can find the latest version
 here: https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave[https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave]
 
-== The basic ideas behind
+== Why do we need a fluent API?
 
 If you are using Vaadin, mostly your code looks like the following.
-Let´s assume you want to create a `PasswordField`.
+Let's assume you want to create a `PasswordField`.
 For this, you often start with the instantiation of the class.
 
-=== The recommended Vaadin way
-
-However, first, we are doing it in the original Vaadin way.
-The PasswordField created as an attribute
-alternatively, as a field inside the initialisation block, mostly the constructor.
+The PasswordField is created as an attribute, or 
+alternatively as a field inside the initialization block, most often in the constructor.
 
 [source,java]
 ----
@@ -38,9 +34,9 @@ alternatively, as a field inside the initialisation block, mostly the constructo
     password.setRequired(true);
 ----
 
-If it is only like this, it looks ok so far. However, if the attribute is in a more global context, let´s say as a class attribute,
+If it is only like this, it looks ok so far. However, if the attribute is in a more global context, let's say as a class attribute,
 you have to maintain at least two places. First, the place where
-the attribute is defined and second the place where you are initialising the attribute itself.
+the attribute is defined and second the place where you are initializing the attribute itself.
 
 [source,java]
 ----
@@ -55,10 +51,10 @@ the attribute is defined and second the place where you are initialising the att
     }
 ----
 
-=== inner non static blocks
+=== Inner non static blocks
 
 If you want to hold the definition of the attribute and
-the initialising near together, you could think about using
+the initializing near together, you could think about using
 inner nonstatic blocks. At the first view, it looks
 nice. Both things are near together. Would this
 solution be refactoring safe? Well, if inner non-static
@@ -80,15 +76,15 @@ during refactorings.
     }
 ----
 
-=== Anonymous Inner Class
+=== Anonymous inner classes
 
 One other way is the usage of the *double curly braces* pattern.
 If you are searching for more information's about this
 you are finding many descriptions that this is an anti-pattern.
 Have in mind that most posts are from the year 2014/2015.
 The main points are,
-1. that a lot of anonymous classes are created
-2. a reference is held between holding class and anonymous class
+1. A lot of anonymous classes are created
+2. A reference is held between holding class and anonymous class
 
 Both arguments are not as bad as it looks.
 Other languages like Kotlin and Scala are creating many
@@ -106,7 +102,7 @@ use the following flags and enjoy reading the GC Logs.
 The little bit more biting fact is the reference itself.
 As long as you are not sharing references across the application,
 this is never a more significant challenge for the GC. So, have in mind.
-Don´t share the references, hold them inside your _View_.
+Don't share the references, hold them inside your _View_.
 
 If you are using this, your code looks like the following.
 
@@ -121,16 +117,16 @@ If you are using this, your code looks like the following.
     }}
 ----
 
-Now, the creation of the instance and the initialising is near together.
-The IDE can support you as well. Maybe this is not what you want to do.
+Now, the creation of the instance and the initializing is near together.
+The IDE can support you as well. However, this may not be what you want to do.
 What could be the next solution?
 
 === Optional or something similar
 
 Since Java8 we have the class Optional, and we could use this
-to hold the definition and the initialising near together.
+to hold the definition and the initializing near together.
 You can somehow use the method *ifPresent*.
-This usage of the Optional would not create anonymous classes and no reference you should have an eye on.
+This usage of the Optional would not create anonymous classes and no reference you need to track.
 
 [source,java]
 ----
@@ -148,34 +144,34 @@ This usage of the Optional would not create anonymous classes and no reference y
 == Fluent API
 
 Finally, we are at the point to have a view on the
-Fluent API for Vaadin. There are at least two different ways you can add
+fluent API for Vaadin. There are at least two different ways you can add
 the fluent API into the Vaadin Components.
-The oo-style would be the way to extend the Components itself.
-This construction would lead to a parallel Class - hierarchy. For sure, you can downcast
+The object-oriented style would be the way to extend the components themselves.
+This construction would lead to a parallel class hierarchy. For sure, you can downcast
 every time to the original class, but the main thing is:
-The fluent API is part of the component itself.
+the fluent API is part of the component itself.
 
-My point of view is different. I don´t want to have this
-as part of the component itself. Moreover, I don´t want to
+My point of view is different. I don't want to have this
+as part of the component itself. Moreover, I don't want to
 create a parallel class hierarchy. I prefer a solution that
 can be used in new and in old projects at the same time.
-Also, I don´t want to force the developer every time to use this.
+Also, I don't want to force the developer every time to use this.
 
 One big thing is, how you can deal with the existing code.
 If there is an existing component, and I want to invoke a few methods,
-I can not or don´t want to create a new instance.
+I can not or do not want to create a new instance.
 The fluent API should be usable for pre-initialized objects as well.
 
-=== The generic way
+=== The generic solution for building a fluent API
 
 First, we have a look at the generic version of the fluent API.
-To do so is important because this is the fall back if the fluent API is missing a method
+To do so is essential because this is the fall back if the fluent API is missing a method
 alternatively, you want to use the fluent API for your self-written components without
 writing a corresponding fluent API.
 
-The Vaadin platform itself brings a few nice things, that we can use.
-For example, the data binding is using a Functional Interface called
-`Setter&lt;T, V&gt;`. 
+The Vaadin platform itself brings a few nice things that we can use.
+For example, the data binding uses a functional interface called
+`Setter<T, V>`. 
 
 [source,java]
 ----
@@ -185,8 +181,8 @@ public interface Setter<BEAN, FIELDVALUE> extends BiConsumer<BEAN, FIELDVALUE>, 
 }
 ----
 
-With this, the attribute can set with a value.
-The usage looks like th following.
+With this, the attribute value can be set.
+The usage looks like this:
 
 [source,java]
 ----
@@ -200,8 +196,8 @@ setter.accept(password, "id" );
 ----
 
 
-This code we can refactor to some more compact code, now.
-First, we are transforming the anonymous inner class into a Lambda construct.
+This code we can be refactored to some more compact code now.
+First, we are transforming the anonymous inner class into a lambda construct.
 
 [source,java]
 ----
@@ -210,12 +206,12 @@ Setter<PasswordField, String> setter
 setter.accept(password, "id" );
 ----
 
-We can remove the Type - declaration and using more generic names for the parameters.
+We can remove the type declaration and use more generic names for the parameters.
 
 [source,java]
 ----
-Setter&lt;PasswordField, String&gt; setter
- = (bean, value) -&gt; bean.setId(value);
+Setter<PasswordField, String> setter
+ = (bean, value) -> bean.setId(value);
  setter.accept(password, "id" );
 ----
 
@@ -229,13 +225,12 @@ Now we can convert the Lambda construct into the usage of a method reference.
 ----
 
 The code is quite compact now. The next step is the abstraction of the
-definition what to do from the usage itself.
+definition of what to do from the usage itself.
 The definition, what to do, we can write as a function. For this we
-define an interface called `ComponentMixin&lt;T extends Component&gt;`.
-The instance of the component itself is held inside an Optional.
-However, we are not defining an attribute, and we are only defining the way how to get it.
-Now we can declare the generic way, how to set an attribute plus the return value,
-the instance itself.
+define an interface called `ComponentMixin<T extends Component>`.
+The instance of the component is held inside an `Optional`.
+However, we are not defining an attribute. We are only defining the way how to get it.
+Now we can declare how to set an attribute plus the return value generically on the instance itself.
 
 [source,java]
 ----
@@ -251,7 +246,7 @@ public interface ComponentMixin<T extends Component> {
 ----
 
 On the other side, we need the place to hold the instance of the component itself.
-This is done inside the class called `ComponentHolder&lt;T extends Component&gt;`
+This is done inside the class called `ComponentHolder<T extends Component>`
 
 [source,java]
 ----
@@ -274,7 +269,7 @@ public class ComponentHolder<T extends Component> {
 ----
 
 With this way to write the code, we have now divided the stateful and the stateless part.
-Both together is called `ComponentBuilder`.
+The combination of the two is called `ComponentBuilder`.
 
 [source,java]
 ----
@@ -293,8 +288,7 @@ public class ComponentBuilder
 ----
 
 Now it is time to create the basic UI to show how we can use a
-generic ComponentBuilder. The example shows how to create an instance of a
-PasswordField. 
+generic ComponentBuilder. The example shows how to create an instance of a `PasswordField`. 
 
 [source,java]
 ----
@@ -305,8 +299,8 @@ PasswordField.
 ----
 
 As you could see clearly, this is not nice because we have to put too much
-type information´s into the code itself. For this there are
-individual Builder provided, like the `PasswordFieldBuilder`.
+type information into the code itself. For this, there are
+individual Builders provided, like the `PasswordFieldBuilder`.
 
 [source,java]
 ----
@@ -319,8 +313,8 @@ individual Builder provided, like the `PasswordFieldBuilder`.
 If you have an instance already, you can use this one as well.
 Working with typed composites is giving  you an already created instance of
 the type of class that is used inside the declaration.
-The demo app ist using a `Composite&lt;HorizontalLayout&gt;` as base.
-The method *getContent()* will give you precisely this instance.
+The demo app uses a `Composite<HorizontalLayout>` as its base.
+The method *getContent()* gives you precisely this instance.
 To configure the instance, use this on as input for the Builder.
 
 [source,java]
