@@ -78,7 +78,7 @@ Point your browser to http://localhost:8080 to see the empty web page. Nothing e
 
 Before calling Java from JavaScript, we need to set up the JavaScript file itself. Create a new file with the name `script.js` in the `src/main/webapp/frontend/` directory and code a simple function in it:
 
-.src/mainwebapp/frontend/script.js
+.src/main/webapp/frontend/script.js
 [source,javascript]
 ----
 function greet(name) {
