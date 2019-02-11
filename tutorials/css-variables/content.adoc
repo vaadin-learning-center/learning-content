@@ -1,0 +1,126 @@
+= Styling Web Components with CSS variables
+
+:tags: CSS, Web Components
+:author: Juuso Kantonen
+:description: Styling Web Components with CSS variables
+:imagesdir: ./images
+
+== Why CSS variables?
+
+The purpose of CSS variables (https://www.w3.org/TR/css-variables/[CSS Custom Properties]) is to enable using a CSS value across your whole application. Previously this has been possible by using CSS preprocessor like Sass. Unlike SCSS or LESS - CSS variables are natively supported by most modern browsers (not IE11) and therefore there’s no need for separate compilation step. Because there’s no need for compilation, the values of CSS variables can be changed on-the-fly and browser is able to interpret the changes immediately.
+
+NOTE: Read more about Lumo and browser compability from https://cdn.vaadin.com/vaadin-lumo-styles/1.4.1/demo/compatibility.html[Lumo documentation]
+
+Using variables for theming ensures consistency and reduces code repetition. The whole theme becomes easier to maintain as the values are defined once and referenced throughout the code. Additionally the well-formatted variable names are much easier to interpret than hex-values for example.
+
+== How to use CSS variables?
+
+CSS variables are defined with following markup:
+
+[source,html]
+----
+html {
+  --green: #bada55;
+}
+----
+
+Define variables in document root to make them accessible anywhere in the DOM. Value can be reset anywhere in the DOM which helps scoping the styles to specific parts.
+
+Variables are accessed like this:
+
+[source,html]
+----
+.button {
+  background-color: var(--green);
+}
+----
+
+The markup also supports setting default values in case CSS variable isn’t defined:
+[source,html]
+----
+.button {
+  background-color: var(--green, #88aa66);
+}
+----
+
+https://codepen.io/juuso-vaadin/pen/gqMwWe[Here’s a simple example] of div elements styled as buttons that use variables to set color for text, background and border.
+
+image::codepen-sample.png[Two buttons themed with CSS variables]
+
+== Usage in Vaadin web-components
+
+Lumo theme uses CSS variables to define the look and feel of Vaadin’s web components, making it easy to alter the look and feel of the components by tweaking few basic variables. You can easily discover the variables available in you project by opening up inspector tools and taking a look at the <html> element’s CSS properties.
+
+NOTE: Lumo base variables are documented https://cdn.vaadin.com/vaadin-lumo-styles/1.4.1/demo/index.html[here].
+
+CSS variables are a good match for Web Components as the styles are inherited just like any other CSS properties. This helps taming the added complexity resulted by ShadowDOM.
+
+NOTE: More about global and local scope at https://github.com/vaadin/vaadin-themable-mixin/wiki[ThemableMixin documentation].
+
+=== Example
+
+. Starting point and default style.
+
+image::variables-example1.png[Default style for buttons]
+
+[start=2]
+. Let’s start by making small tweaks to existing Lumo variables. The global styles are defined within `<custom-style>` element inside `shared-styles.html`.
+
+[source,html]
+----
+<custom-style>
+  <style>
+    html {
+      --lumo-border-radius: 0 !important;
+      --lumo-primary-color: #0d548a;
+    }
+  </style>
+</custom-style>
+----
+
+image::variables-example2.png[Global changes to variables]
+
+[start=3]
+. Next we can introduce new variables for a custom color and custom gradient.
+
+[source,html]
+----
+<custom-style>
+  <style>
+    html {
+      --lumo-border-radius: 0 !important;
+      --lumo-primary-color: #0d548a;
+      --my-teal-color: #0d7f8c;
+      --my-primary-gradient: linear-gradient(var(--my-teal-color), var(--lumo-primary-color));
+    }
+  </style>
+</custom-style>
+----
+
+[start=4]
+. In order to use those new variables only within scope of `vaadin-button`, a *Theme Module* for `vaadin-button` has to be added.
+
+. For `vaadin-button` the border-radius is set to be 6px.
+
+. Using an attribute selector only primary buttons are targeted and gradient background is set.
+
+[source,html]
+----
+<dom-module id="my-button-styles" theme-for="vaadin-button">
+  <template>
+    <style>
+      :host {
+        --lumo-border-radius: 6px;
+      }
+      :host([theme="primary"]) {
+        background-image: var(--my-primary-gradient);
+      }
+    </style>
+  </template>
+</dom-module>
+----
+
+image::variables-example3.png[Buttons styled with variables]
+
+[start=7]
+. In the end text-fields use the variable values defined in *global scope* and buttons use the values defined in *vaadin-button scope*.
