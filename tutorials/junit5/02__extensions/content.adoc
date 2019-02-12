@@ -1,14 +1,14 @@
 = jUnit 5 Extensions
 
-:title: How to use Extensions to test Vaadin Flow apps
+:title: How to use jUnit extensions to test Vaadin Flow apps
 :type: text
 :author: Sven Ruppert
 :tags: jUnit5, Flow, Java, Testbench
-:description: Learn how to manage TDD for Webapps based on jUnit5 - Extensions.
+:description: Learn how to do TDD for Webapps based on jUnit5 - Extensions.
 :repo: https://github.com/vaadin-learning-center/tdd-junit5-02-extensions
 :imagesdir: ./images
 
-In this tutorial, we are learning how to implement a jUnit 5 - Extension
+In this tutorial, you will learn how to implement a jUnit 5 extension
 that is used for testing a Vaadin application with testbench.
 
 
@@ -22,8 +22,8 @@ https://github.com/vaadin-learning-center/tdd-junit5-02-extensions[@github]
 
 === Preparations for this tutorial
 For this tutorial, we assume to have the following piece of code.
-How to test this we discussed in the first part of this tutorial series.
-You can find the first part https://https://vaadin.com/tutorials/junit5/basics[here]
+We discussed how to test this piece of code in the first part of this tutorial series.
+You can find the first part https://https://vaadin.com/tutorials/junit5/basics[here].
 
 [source,java]
 ----
@@ -35,7 +35,7 @@ public class Service {
 ----
 
 However, now we want to use this service implementation inside a Vaadin app.
-For this, we need two input fields, one output field and a button to start
+For this, we need two input fields, one output field, and a button to start
 the calculation.
 
 [source,java]
@@ -49,7 +49,7 @@ public class VaadinApp extends Composite<Div> {
   private final TextField tfB = new TextField();
   private final TextField tfResult = new TextField();
   private final HorizontalLayout inputFields = new HorizontalLayout(
-      tfA , new Label("+") , tfB , new Label("=") , tfResult);
+      tfA , new Span("+") , tfB , new Span("=") , tfResult);
 
   private final Button ok = new Button(getTranslation("btnOK"));
 
@@ -76,9 +76,9 @@ public class VaadinApp extends Composite<Div> {
 ----
 
 The main question is, how to test the complete app now?
-Testing the class *Service* was straight forward.
+Testing the *Service* class was straight forward.
 Forever test method we could create per constructor a fresh instance of the class.
-But now, we need a complete web stack.
+However, now we need a complete web stack.
 
 The main steps are:
 
@@ -92,13 +92,12 @@ The main steps are:
 
 == The direct way to go
 
-Now, we have a life cycle around a test. There are many more questions, but let´s start with a simplified abstract example.
+Now, we have a life cycle around a test. There are many more questions, but let's start with a simplified abstract example.
 The general idea is that we need a bunch of steps that are in a strict order.
-Some information´s are used in more than one step, and we have to decide
-what steps are needed for every test or only once for a bunch of steps.
+Some information is used in more than one step, so we have to decide which steps are needed for every test and which ones are only needed once.
 
 
-=== The jUnit5 Events / Callbacks
+=== jUnit5 Events and Callbacks
 With jUnit5 we got an event based life cycle. There different ways to catch these events.
 One is the usage of Annotations like it was in jUnit4.
 
@@ -173,16 +172,14 @@ Process finished with exit code 0
 
 What you can see here is that the steps are in a logical order
 based on lifecycle step and position inside the class.
-However, don´t rely on the order of the execution from the same lifecycle step.
+However, don't rely on the order of the execution from the same lifecycle step.
 If you have multiple methods with the same annotation,
 the execution order is not guaranteed.
 Same if we are dealing with inheritance!
 
 Guaranteed is only the order of the lifecycle step types.
 The lifecycle of a test is more complicated as it shows
-until now. The complete list of events is the following.
-
-The complete list is:
+until now. The complete list of events is the following:
 
 * BeforeAllCallback
 * BeforeEachCallback
@@ -200,11 +197,10 @@ To deal with this, you have to implement the corresponding interface.
 The next question is, what is the right place for the implementation?
 
 === Inheritance
-One way could be the inheritance itself, directly inside the test class.
+One way could be the inheritance directly inside the test class.
 For sure, you could extract this into a parent class.
-But in the end, it is leading to a
-more complex inheritance structure for your test classes itself.
-However, let´s see how it works, first.
+However, in the end, it is leading to a more complex inheritance structure for your test classes itself.
+However, let's see how it works, first.
 
 [source,java]
 ----
@@ -249,7 +245,7 @@ public class LifeCycleInheritanceTest implements
 
 For every callback, there is a method to implement, the param of type
 ExtensionContext will give you the
-possibility to share information between callbacks. Don´t use the
+possibility to share information between callbacks. Don't use the
 instance of the implementation itself to hold pieces of information!
 
 For example: How to share an instance of a class between
@@ -316,7 +312,7 @@ Remember what we need for testing a web app based on Vaadin Flow.
 The main steps are:
 
 1. start the web container
-1. start / deploy the vaadin app
+1. start  and deploy the vaadin app
 1. create the webdriver
 1. load the web page you want to test
 1. validate what you want to validate
@@ -328,8 +324,7 @@ can ramp up the infrastructure, testing the app
 also, shutting down everything.
 
 
-As a preparation we are doing all the necessary
-things inside the test itself.
+As preparation, we are doing all the necessary things inside the test itself.
 
 
 [source,java]
@@ -394,13 +389,11 @@ public class ContainerExtension
 
 To activate the extension, the test class **VaadinAppExtensionsTest**
 must be annotated with **@ExtendWith(ContainerExtension.class)**
-After cleaning up the test method itself,
-removing the statements that were used to start-/stop the container,
-we could start using the test itself.
+After cleaning up the test method, removing the statements that were used to start-/stop the container, we could start using the test itself.
 
 == Conclusion
 With this extension, we can manage a basic part of the needed
 steps to test a web application based on Flow.
-But this is must be more specific if we want to be able to run tests in parallel.
+However, this is must be more specific if we want to be able to run tests in parallel.
 
-How we can achieve this, will be discribed in the next part of this series.
+We'll discuss how to achieve this in the next part of the series.
