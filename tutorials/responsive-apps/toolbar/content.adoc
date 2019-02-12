@@ -231,6 +231,6 @@ image::toolbar-360-3.png[]
 
 '''
 
-You can download the code sample here.
+You can download the code sample https://github.com/anezthes/responsive-toolbar-tutorial[here].
 
 In the next article we’ll discuss responsive navigation.
