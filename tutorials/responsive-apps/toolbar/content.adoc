@@ -4,6 +4,7 @@
 :author: Joacim Päivärinne
 :description: A simple responsive toolbar
 :imagesdir: ./images
+:repo: https://github.com/anezthes/responsive-toolbar-tutorial
 
 This article is intended for Java developers that aren’t too familiar with CSS.
 We’ll be writing a series of articles to try and help make your application a bit more responsive across different sized viewports.
