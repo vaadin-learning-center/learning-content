@@ -77,7 +77,7 @@ public class VaadinApp extends Composite<Div> {
 
 The main question is, how to test the complete app now?
 Testing the *Service* class was straight forward.
-Forever test method we could create per constructor a fresh instance of the class.
+For every execution of a test method we could create per constructor a fresh instance of the *Service* class.
 However, now we need a complete web stack.
 
 The main steps are:
@@ -377,7 +377,7 @@ public class ContainerExtension
                   AfterAllCallback {
   @Override
   public void afterAll(ExtensionContext ctx) throws Exception {
-    BasicTestUIRunner.start();
+    BasicTestUIRunner.stop();
   }
 
   @Override
