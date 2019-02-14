@@ -14,14 +14,14 @@ Let’s start with something simple: *a responsive toolbar*.
 
 Toolbars typically house a lot of actions.
 On desktop we usually have more than enough room, but on mobile it's a different story.
-A common solution is to use a so called *overflow menu*.
+A common solution is to use a so-called *overflow menu*.
 
 Let's take the *Google Docs* toolbar as an example.
 Here's what it looks like on a wide viewport:
 
 image::docs-1280.png[]
 
-On narrower viewports most of the actions are located in the overflow menu.
+On narrower viewports, most of the actions are located in the overflow menu.
 
 image::docs-720-1.png[]
 
@@ -32,7 +32,7 @@ image::docs-720-2.png[]
 So, how do we do something like this with Vaadin?
 
 == 1. Creating a simple toolbar
-There’s multiple ways of https://vaadin.com/docs/v12/flow/creating-components/tutorial-component-basic.html[creating a component in Vaadin]. For an example as basic as this, we’ll just be extending `HorizontalLayout`.
+There’re multiple ways of https://vaadin.com/docs/v12/flow/creating-components/tutorial-component-basic.html[creating a component in Vaadin]. For an example as basic as this, we’ll just be extending `HorizontalLayout`.
 
 .Toolbar.java
 [source,java]
@@ -82,10 +82,10 @@ vaadin-button {
 }
 ----
 
-This would however affect all our buttons.
+This would, however, affect all our buttons.
 We need some way of targetting only the buttons _inside_ the toolbar.
 
-To accomplish that we can either set a https://developer.mozilla.org/en-US/docs/Web/CSS/Class_selectors[class] or an https://developer.mozilla.org/en-US/docs/Web/CSS/ID_selectors[ID] for the toolbar, or convert it into a web component.
+To accomplish that we can either set a https://developer.mozilla.org/en-US/docs/Web/CSS/Class_selectors[class] or an https://developer.mozilla.org/en-US/docs/Web/CSS/ID_selectors[ID] for the toolbar or convert it into a web component.
 To keep things simple, we’ll be using the first approach (using the *class* attribute).
 
 We make the following adjustments to our component:
@@ -113,7 +113,7 @@ public class Toolbar extends HorizontalLayout {
 ----
 <1> Target buttons inside the toolbar.
 
-Next we’ll need to set a breakpoint, telling the browser _when_ to hide the buttons.
+Next, we’ll need to set a breakpoint, telling the browser _when_ to hide the buttons.
 We do so by using a https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries[media query].
 
 .toolbar.css
@@ -162,7 +162,7 @@ public class Toolbar extends HorizontalLayout {
 }
 ----
 <1> The menu is set to open when the button is clicked.
-<2> A corresponding menu item is created for each button that we hide on mobile. In this example there’s no click listeners set up for neither the buttons nor the menu items, so please disregard the null values in the code example above.
+<2> A corresponding menu item is created for each button that we hide on mobile. In this example there are no click listeners set up for neither the buttons nor the menu items, so please disregard the null values in the code example above.
 
 In the final step we’ll fix the following issues:
 
@@ -208,7 +208,7 @@ image::toolbar-360-3.png[]
 [caption=""]
 image::toolbar-360-4.png[]
 
-However, we still need to hide the overflow button on desktop (see last button):
+However, we still need to hide the overflow button on desktop (see the last button):
 
 image::toolbar-1280-2.png[]
 
@@ -233,4 +233,4 @@ image::toolbar-360-3.png[]
 
 You can download the code sample https://github.com/anezthes/responsive-toolbar-tutorial[here].
 
-In the next article we’ll discuss responsive navigation.
+In the next article, we’ll discuss responsive navigation.
