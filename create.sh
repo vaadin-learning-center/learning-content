@@ -9,11 +9,12 @@ echo "$github"
 echo "====================="
 
 #Read new content name
-echo "Please-enter-a-name-for-the-new-content:"
-read content
-echo "Please enter a name for the new content:"
+echo "Please enter a name for the new content"
+echo "e.g. Hello World Tutorial"
 read name
-echo "Alright, creating content for $name.."
+content=$(echo "$name" | tr '[:upper:]' '[:lower:]')
+content=$(echo "${content/ /-}")
+echo "Alright, creating content for $content.."
 
 #Create Git branch
 git branch "author/$github/$content"
