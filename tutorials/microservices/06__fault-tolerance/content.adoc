@@ -79,7 +79,7 @@ public interface CompanyService {
 }
 ----
 
-Use the `@Primary` annotation to declare the type of bean to inject by default in another bean (for example, beans of the type `AdminView`). You also have to enable Hystrix in a configuration file as follows (the https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/vaadin-10+/admin-application.yml[default configuration on GitHub] already has the required configuration):
+Use the `@Primary` annotation to declare the type of bean to inject by default in another bean (for example, beans of the type `AdminView`). You also have to enable Hystrix in a configuration file as follows (the https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/master/admin-application.yml[default configuration on GitHub] already has the required configuration):
 
 [source,yaml]
 ----

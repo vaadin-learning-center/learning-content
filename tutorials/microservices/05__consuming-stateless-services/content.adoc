@@ -62,7 +62,7 @@ eureka:
     leaseRenewalIntervalInSeconds: 1
 ----
 
-This configures the application for using the Discovery and Configuration servers. The rest of the configuration comes from the Configuration Server which in turn is read from https://github.com/alejandro-du/vaadin-microservices-demo-config/tree/vaadin-10+[GitHub], or your local Git repository, depending on your configuration. The https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/vaadin-10+/biz-application.yml[default configuration from GitHub] includes a connection to a file-based H2 database located in the `h2-database` directory inside your home directory. You cannot use an in-memory database with this example if you want to replicate the `biz-application` microservice since every instance of `biz-application` would create a new database.
+This configures the application for using the Discovery and Configuration servers. The rest of the configuration comes from the Configuration Server which in turn is read from https://github.com/alejandro-du/vaadin-microservices-demo-config[GitHub], or your local Git repository, depending on your configuration. The https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/master+/biz-application.yml[default configuration from GitHub] includes a connection to a file-based H2 database located in the `h2-database` directory inside your home directory. You cannot use an in-memory database with this example if you want to replicate the `biz-application` microservice since every instance of `biz-application` would create a new database.
 
 === Implementing a REST web service
 
@@ -142,7 +142,7 @@ public Module halModule() {
 }
 ----
 
-Remove the `application.properties` file and create a new `bootstrap.yml` file similar to the one in the `biz-application`. Remember to use `admin-application` as the name of the application. The https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/vaadin-10+/admin-application.yml[default configuration from GitHub] configures a client-side load balancer with https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-ribbon.html[Ribbon] and a circuit breaker with http://cloud.spring.io/spring-cloud-netflix/single/spring-cloud-netflix.html#_circuit_breaker_hystrix_clients[Hystrix].
+Remove the `application.properties` file and create a new `bootstrap.yml` file similar to the one in the `biz-application`. Remember to use `admin-application` as the name of the application. The https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/master/admin-application.yml[default configuration from GitHub] configures a client-side load balancer with https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-ribbon.html[Ribbon] and a circuit breaker with http://cloud.spring.io/spring-cloud-netflix/single/spring-cloud-netflix.html#_circuit_breaker_hystrix_clients[Hystrix].
 
 Create a simple domain class as follows:
 

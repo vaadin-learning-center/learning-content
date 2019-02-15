@@ -74,7 +74,7 @@ eureka:
     leaseRenewalIntervalInSeconds: 1
 ----
 
-This configures the application name, Eureka client, and configuration server, where the rest of the configuration is read from. By default, the configuration server will read the files from https://github.com/alejandro-du/vaadin-microservices-demo-config/tree/vaadin-10+[GitHub]. Here we are interested in the routing configuration in the `proxy-server.yml` configuration file:
+This configures the application name, Eureka client, and configuration server, where the rest of the configuration is read from. By default, the configuration server will read the files from https://github.com/alejandro-du/vaadin-microservices-demo-config[GitHub]. Here we are interested in the routing configuration in the `proxy-server.yml` configuration file:
 
 [source,yaml]
 ----
@@ -97,7 +97,7 @@ zuul:
 
 The `zuul.ignoredServices` property is needed to avoid exposing all the services registered with Eureka. The rest of the configuration maps paths to services by application name. For example, http://localhost:8080/admin/ is routed to an instance of the `admin-application`. The `sensitiveHeaders` property is a blacklist with the headers that shouldn’t be sent. By default this blacklist is not empty, we need to explicitly set it to an empty list in order to forward all headers, especially to allow Vaadin instances read session-related cookies.
 
-You also need to provide a `FallbackProvider` implementation used when a service is not available. You can find a https://github.com/alejandro-du/vaadin-microservices-demo/blob/vaadin-10+/proxy-server/src/main/java/com/example/CustomFallbackProvider.java[simple implementation on GitHub].
+You also need to provide a `FallbackProvider` implementation used when a service is not available. You can find a https://github.com/alejandro-du/vaadin-microservices-demo/blob/master/proxy-server/src/main/java/com/example/CustomFallbackProvider.java[simple implementation on GitHub].
 
 == Configuring the Vaadin SpringServlet
 
