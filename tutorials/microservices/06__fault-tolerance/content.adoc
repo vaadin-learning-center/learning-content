@@ -1,0 +1,144 @@
+= Fault tolerance
+
+:tags: Microservices, Java
+:author: Alejandro Duarte
+:description: This part shows how to add fault tolerance to web applications.
+:repo: https://github.com/alejandro-du/vaadin-microservices-demo
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+In the previous part of this tutorial, we developed two functional microservices: a REST web service, and a web UI for it. In this chapter, we’ll add fault tolerance capabilities, by making the web UI resilient to failures in the REST web service.
+
+Why do we need this?
+
+Microservices depend on other services in order to fulfill their requirements. Since microservices are deployed independently, their instances may go up and down at any point. When the number of interactions between microservices increases, the more likely a failure in a service would cause a severe impact in the system. This is illustrated in the following figure:
+
+image::failures.png[Failures]
+
+By introducing fault tolerance capabilities, an application is able to operate at a certain degree of satisfaction when failures happen. Failures in a system make a proportional effect in the operation of the application: The more severe a failure is, the more it affects the application. Without fault tolerance, a single failure in the system could cause a total breakdown.
+
+== How does it work?
+
+Fault tolerance can be implemented with the help of a circuit breaker, a pattern that wraps requests to external services and detects when they are faulty. When a failure is detected, the circuit breaker _opens_, and instead of keep making requests to the unhealthy service, all subsequent requests immediately return an error. This reduces the load in the unhealthy service, and prevents resource exhaustion in the client.
+
+Additionally to the circuit breaker, fallback mechanisms allow an application to _fail gracefully_ when external services are not available. By incorporating fallback mechanisms, you increase resiliency in applications. Applications frequently have views or screens where the failing service is not needed. These views or screens remain usable despite the external failure.
+
+Let’s see an example at the code level. In the previous part of this tutorial, we defined a `CompanyService` interface as a _Feign client_ that connects to the REST web service implemented in the `biz-application`:
+
+[source,java]
+----
+@FeignClient(name = "${biz-application.name:null}")
+public interface CompanyService {
+    ...
+}
+----
+
+We can implement a fallback class that we can use when the web service is down:
+
+[source,java]
+----
+@Service
+public class CompanyServiceFallback implements CompanyService {
+
+    @Override
+    public Resources<Company> findAll() {
+        ... return cached or default data ..
+    }
+
+    @Override
+    public Company add(Company company) {
+        ... save in an alternative temporary database ...
+    }
+
+    @Override
+    public Company update(Long id, Company company) {
+        ... save in an alternative database ...
+    }
+
+    @Override
+    public void delete(Long id) {
+        ... mark as deleted in a temporary database ...
+    }
+}
+----
+
+NOTE: You can find the fallback implementations for both the `admin-application` and the `news-application` on {repo}[GitHub].
+
+== Implementing a fallback service
+
+Start by specifying a fallback implementation using the `@FeignClient` annotation:
+
+[source,java]
+----
+@FeignClient(value = "${biz-application.name:null}",
+        url = "${biz-application.url:}",
+                fallback = CompanyServiceFallback.class)
+@Primary
+public interface CompanyService {
+    ...
+}
+----
+
+Use the `@Primary` annotation to declare the type of bean to inject by default in another bean (for example, beans of the type `AdminView`). You also have to enable Hystrix in a configuration file as follows (the https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/vaadin-10+/admin-application.yml[default configuration on GitHub] already has the required configuration):
+
+[source,yaml]
+----
+feign.hystrix.enabled: true
+----
+
+https://github.com/Netflix/Hystrix[Hystrix] is a library to control the interaction between services to provide latency and fault tolerance.
+
+It also makes sense to modify the view to let the user know that something might not have worked as expected or will take more time, for example. In the case of the demo application, we are simply showing a notification:
+
+[source,java]
+----
+@Route("")
+public class AdminView extends VerticalLayout {
+
+    private GridCrud<Company> crud = new GridCrud<>(Company.class, new VerticalCrudLayout());
+
+    public AdminView() {
+        ...
+        crud.setFindAllOperation(this::findAll);
+        ...
+    }
+
+    private Collection<Company> findAll() {
+        Resources<Company> resources = Services.getCompanyService().findAll();
+        Collection<Company> companies = Collections.emptyList();
+
+        if (resources != null) {
+            companies = resources.getContent();
+            if (!companies.isEmpty()) {
+                crud.getGrid().setHeightByRows(true);
+            }
+        } else {
+            Notification.show("An error occurred. Please try again later.");
+        }
+
+        return companies;
+    }
+
+}
+----
+
+Real-life applications might show instead a list of companies that haven’t been saved and an option to retry. For example, the `news-application`, which renders the latest tweets by the companies in the database, shows tweets from Vaadin, Pivotal, and Netflix when the web service is not available:
+
+[source,java]
+----
+@Service
+public class CompanyServiceFallback implements CompanyService {
+
+    @Override
+    public Resources<Company> findAll() {
+        return new Resources<>(Arrays.asList(new Company("vaadin"), new Company("pivotal"), new Company("netflix")));
+    }
+
+}
+----
+
+You can try the fallback implementations by stopping all the ´biz-application` instances and using the application in the browser.
+
+== What's next?
+
+In the part of this tutorial, you will learn about UI composition of microservices with Vaadin.

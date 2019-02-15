@@ -1,0 +1,50 @@
+= What are microservices?
+
+:tags: Microservices, Java
+:author: Alejandro Duarte
+:description: This part explains what microservices are.
+:repo: https://github.com/alejandro-du/vaadin-microservices-demo
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+Microservices are single-purpose, loosely coupled applications that can be developed, scaled, and deployed independently. The sum of them constitutes a whole system. Microservices promote continuous delivery, team independence (freedom to select the right tools and processes), quick evolvavility (faster release of features), independent scalability, reusability, resilience, and high availability.
+
+== Microservices run as separate processes
+
+When you use microservices, your application is modular. Modularization is done at the *process* level. Each microservice runs as a separate process that can be independently deployed. For example, a microservice implementing the shopping cart of an application could be deployed without having to worry about other parts of the application. Microservices communicate with each other through standard protocols, such as HTTP.
+
+== Microservices help in "big" projects
+
+Microservices help in big projects. https://www.infoq.com/news/2015/12/microservices-amazon[Amazon], https://www.infoq.com/presentations/service-arch-scale-google-ebay[Ebay], and http://blog.smartbear.com/microservices/why-you-cant-talk-about-microservices-without-mentioning-netflix/[Netflix] are often cited as examples where microservices solved challenging problems. On the other hand, a microservice should be “small”. Defining what’s small and what’s not depends on each project, so ask yourself whether your project _feels_ too big for your team or not. If the answer is yes, consider microservices. If the answer is no, don’t use microservices and incorporate only some of the techniques described in this tutorial. Always remember not to fall into the https://dzone.com/articles/soa-anti-pattern-nanoservices[_nanoservices_ antipattern], and as a rule of thumb, don't use microservices if you can fit your team around a large table.
+
+== Microservices and UIs
+
+Where do UIs fit in the microservices model? It depends on the specific requirements. Sometimes a single UI is be the best approach, sometimes separate UIs are better.
+
+=== Single UI
+
+This is probably the best scenario for most projects and Vaadin can easily fit in. Ideally, a UI is all about view logic without any business logic at all. If you can think of the UI as a tool for the data, then providing a single microservice that acts as a front-end for your project is a good approach.
+
+How does a Vaadin application communicate with other microservices? Because your Vaadin code is Java running on the server, you can consume other microservices using any Java technology to connect to them. There are a few patterns or techniques that you should at least consider when consuming microservices from a single Vaadin UI.
+
+First, use a service http://microservices.io/patterns/service-registry.html[registration and discovery mechanism]. This allows the clients of a service to locate services in environments where the exact location of a service might dynamically change. Client microservices consult a centralized registry for the location of a microservice.
+
+Second, use an API gateway when a client needs to invoke calls to several microservices with probably different communication protocols. Not only this might http://techblog.netflix.com/2013/01/optimizing-netflix-api.html[reduce network traffic], but also reduce the complexity of the client code. However, if your microservices are running on the same network, the API gateway might not be necessary when using the same connection protocols among them. In this situation, a Vaadin UI probably has a strong and fast network connection to the microservices and caching can be done at the UI level (often done somewhat automatically, for example in Grid rows).
+
+Could this become a big monolith? Maybe. https://8thlight.com/blog/mike-knepper/2016/01/20/hidden-costs-of-leaving-a-monolith.html[Not all monoliths are bad], though. If you think you’ll have to face the http://microservices.io/patterns/monolithic.html#resulting-context[problems typically associated with big monoliths], consider https://www.infoq.com/articles/microservices-intro[splitting] it into several individual projects.
+
+=== Multiple UIs
+
+Some authors and developers advocate for creating one UI per microservice. Before going this way, carefully think if this would be beneficial for your project. Software architecture should not be a goal but a tool. To fully harness the benefits of microservices, each microservice should work independently. The ideal scenario when having multiple microservices is that each one can be visualized in a complete web page, for example. There is no need to add special configurations in the case of microservices developed with this approach.
+
+However, let’s say you want to have separate UIs in individual microservices and aggregate them into a _mashup_. You have three alternatives in this scenario: IFrames, Portlets and UIs embedded directly in a single host page.
+
+The easiest way to integrate several web applications into a single one is by using HTML’s `<iframe>` tag. You can use Vaadin or any other web technology to develop the mash-up. IFrames are not that bad, however keep in mind there might be some http://www.rwblackburn.com/iframe-evil[pitfalls].
+
+A good alternative, if you want to go to the route of several Vaadin microservices integrated into a single UI, is Portlets. By using an enterprise portal framework you gain some extra features such as authentication, authorization, and portlets’ inter-communication. Depending on the vendor, it might be possible to fulfill the microservices definition we used here, particularly, regarding the ability of microservices to run in separate processes. If you are interested in using portlets, consult the documentation of portal providers regarding support for microservices architectures.
+
+The last alternative is to create a mashup which embeds multiple external UIs hosted in different servers into a single web page. The host page can be implemented with virtually any technology and can naturally be built with Vaadin Framework, as well. Keep in mind that you might have to enable Cross Origin Resource Sharing (CORS) in your microservices.
+
+== What's next?
+
+In the next parts of this tutorial, you will learn how to implement a web application using microservices with Spring Cloud and Vaadin.
