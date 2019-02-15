@@ -1,6 +1,6 @@
 = Responsive Toolbar in Flow
 
-:tags: vaadin, flow, java, css
+:tags: Flow, Java, CSS
 :author: Joacim Päivärinne
 :description: A simple responsive toolbar
 :imagesdir: ./images
