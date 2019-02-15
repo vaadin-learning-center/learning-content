@@ -13,7 +13,7 @@ Microservices are single-purpose, loosely coupled applications that can be devel
 
 When you use microservices, your application is modular. Modularization is done at the *process* level. Each microservice runs as a separate process that can be independently deployed. For example, a microservice implementing the shopping cart of an application could be deployed without having to worry about other parts of the application. Microservices communicate with each other through standard protocols, such as HTTP.
 
-== Microservices help in "big" projects
+== Microservices help in big projects
 
 Microservices help in big projects. https://www.infoq.com/news/2015/12/microservices-amazon[Amazon], https://www.infoq.com/presentations/service-arch-scale-google-ebay[Ebay], and http://blog.smartbear.com/microservices/why-you-cant-talk-about-microservices-without-mentioning-netflix/[Netflix] are often cited as examples where microservices solved challenging problems. On the other hand, a microservice should be “small”. Defining what’s small and what’s not depends on each project, so ask yourself whether your project _feels_ too big for your team or not. If the answer is yes, consider microservices. If the answer is no, don’t use microservices and incorporate only some of the techniques described in this tutorial. Always remember not to fall into the https://dzone.com/articles/soa-anti-pattern-nanoservices[_nanoservices_ antipattern], and as a rule of thumb, don't use microservices if you can fit your team around a large table.
 
