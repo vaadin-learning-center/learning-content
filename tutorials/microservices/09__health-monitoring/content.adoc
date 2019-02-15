@@ -86,7 +86,7 @@ turbine:
   instanceUrlSuffix: actuator/hystrix.stream
 ----
 
-This configures an _aggregator_ (Turbine) for the health stats from the biz-application, admin-application, news-application, and proxy-service services.
+This configures an _aggregator_ (Turbine) for the health stats from the `biz-application`, `admin-application`, `news-application`, and `proxy-service services.
 
 Make sure you are running all the services of the demo application, and compile and run the `monitor-application` by executing the following in the command line:
 
