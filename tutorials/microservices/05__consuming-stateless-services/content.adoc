@@ -1,0 +1,268 @@
+= Consuming stateless services
+
+:tags: Microservices, Java
+:author: Alejandro Duarte
+:description: This part shows how to implement and consume a stateless REST web service.
+:repo: https://github.com/alejandro-du/vaadin-microservices-demo
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+In the previous part of this tutorial, we focused on developing orchestration services to enable microservices. We implemented a Discovery Server to let applications consume services without knowing their exact location, and a Configuration Server to allow microservices to run in multiple environments without any modifications in the microservices themselves.
+
+In this chapter, we’ll implement the first two functional microservices: A REST web service and a web UI for it.
+
+== Why do we need this?
+
+Each microservice is typically developed and operated by independent development teams. The whole application is formed by several independently deployable services running in their own processes, which enables continuous delivery of single-purpose services. In short, microservices can be implemented, maintained, and deployed independently by separate development teams.
+
+Although microservices are developed more or less independently, during runtime they do depend on other services to fulfill their function. In this example, we are using a well-known communication mechanism: https://en.wikipedia.org/wiki/Representational_state_transfer[RESTful web services].
+
+Suppose we have two independent teams. The first one is developing a RESTful web service that allows customers to consume data from their systems. The second one is developing a web application to allow customers to consume data using a web UI in the browser. It makes sense to let the web UI use the RESTful web service the same way customers can use it from their systems.
+
+== Implementing a REST web service
+
+Use the https://start.spring.io[Spring Initializr] to create a new Spring Boot application named `biz-application` and include the *Eureka Discovery*, *Config Client*, *JPA*, *Rest Repositories*, *Rest Repositories HAL browser*, *Hystrix*, *Retry*, *Aspects*, *Actuator*, and *DevTools* (optional) dependencies:
+
+image::initializr-biz-application.png[Spring Initializr]
+
+Open up the `BizApplication` class and activate the discovery client by using the following annotations:
+
+[source,java]
+----
+@SpringBootApplication
+@EnableDiscoveryClient
+public class BizApplication {
+   ...
+}
+----
+
+Remove the `application.properties` file and create a new `bootstrap.yml` file with the following content:
+
+[source,yml]
+----
+server.port: 9001
+
+spring:
+  application.name: biz-application
+  cloud.config:
+    discovery:
+      enabled: true
+      serviceId: config-server
+    fail-fast: true
+    retry:
+      initialInterval: 2000
+      maxAttempts: 30
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka/
+    registryFetchIntervalSeconds: 1
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+----
+
+This configures the application for using the Discovery and Configuration servers. The rest of the configuration comes from the Configuration Server which in turn is read from https://github.com/alejandro-du/vaadin-microservices-demo-config[GitHub], or your local Git repository, depending on your configuration. The https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/master+/biz-application.yml[default configuration from GitHub] includes a connection to a file-based H2 database located in the `h2-database` directory inside your home directory. You cannot use an in-memory database with this example if you want to replicate the `biz-application` microservice since every instance of `biz-application` would create a new database.
+
+=== Implementing a REST web service
+
+Implement a simple domain class with JPA annotations, to configure the persistence to the database, as follows:
+
+[source,java]
+----
+@Entity
+public class Company {
+
+   @Id
+   @GeneratedValue
+   private Long id;
+
+   @NotNull
+   @Size(min = 1)
+   private String name;
+
+   @NotNull
+   @Size(min = 1)
+   private String twitterUsername;
+
+   ... hashCode, equals, setters and getters ...
+}
+----
+
+Define a repository interface and expose it a REST web service by marking it with the `@RepositoryRestResource` annotation:
+
+[source,java]
+----
+@RepositoryRestResource
+public interface CompanyRepository extends CrudRepository<Company, Long> {
+}
+----
+
+You don’t need to implement this interface. Spring will implement it at runtime.
+
+Make sure the `discovery-server` and `config-server` applications are running and then compile and run the application by executing the following on the command line (or equivalent run configuraion in your IDE):
+
+----
+cd biz-application
+mvn package
+java -jar target/biz-application-0.0.1-SNAPSHOT.jar
+----
+
+Point your browser to http://localhost:9001 to see the HAL Browser for Spring Data Rest. This is a tool that allows you to _navigate_ the web service for testing purposes. Try the `/companies` endpoint by typing it in the text field in the Explorer section and click the *Go!* button:
+
+image:hal-browser.png[HAL browser]
+
+== Consuming a REST web service
+
+Use the https://start.spring.io[Spring Initializr] to create a new Spring Boot application named `admin-application` and include the *Eureka Server*, *Config Client*, *Feign*, *HATEOAS*, *Vaadin*, *Validation*, *Hystrix*, *Retry*, *Aspects*, *Actuator*, and *DevTools* (optional) dependencies:
+
+image::initializr-admin-application.png[Spring Initializr]
+
+Open up the `AdminApplication` class and activate the discovery client, circuit breaker, Feign clients, and hypermedia support by using the following annotations:
+
+[source,java]
+----
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableCircuitBreaker
+@EnableFeignClients
+@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
+public class AdminApplication {
+    ...
+}
+----
+
+Since the web service uses http://stateless.co/hal_specification.html[Hypermedia Application Language] (HAL), an specification that describes a generic structure for RESTful resources, you have to define the following bean in the client:
+
+[source,java]
+----
+@Bean
+public Module halModule() {
+    return new Jackson2HalModule();
+}
+----
+
+Remove the `application.properties` file and create a new `bootstrap.yml` file similar to the one in the `biz-application`. Remember to use `admin-application` as the name of the application. The https://github.com/alejandro-du/vaadin-microservices-demo-config/blob/master/admin-application.yml[default configuration from GitHub] configures a client-side load balancer with https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-ribbon.html[Ribbon] and a circuit breaker with http://cloud.spring.io/spring-cloud-netflix/single/spring-cloud-netflix.html#_circuit_breaker_hystrix_clients[Hystrix].
+
+Create a simple domain class as follows:
+
+[source,java]
+----
+public class Company implements Serializable {
+
+    private Long id;
+
+    @NotNull
+    @Size(min = 1)
+    private String name;
+
+    @NotNull
+    @Size(min = 1)
+    private String twitterUsername;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Company company = (Company) o;
+        return Objects.equals(id, company.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    ... getters and setters ...
+}
+----
+
+Create a _Feign client_ that consumes the web service provided by the `biz-application` microservice:
+
+[source,java]
+----
+@FeignClient(name = "${biz-application.name:null}")
+public interface CompanyService {
+
+    @RequestMapping("/companies")
+    Resources<Company> findAll();
+
+    @RequestMapping(value = "/companies", method = RequestMethod.POST)
+    Company add(@RequestBody Company company);
+
+    @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
+    Company update(@PathVariable("id") Long id, @RequestBody Company company);
+
+    @RequestMapping(value = "/companies/{id}", method = RequestMethod.DELETE)
+    void delete(@PathVariable("id") Long id);
+
+}
+----
+
+Notice how thanks to the Discovery Server, we can use the name of the application serving the web service (`biz-application`) instead of a _hardcoded_ URL. This allows the team developing the `biz-application` to deploy their microservice anywhere. This also allows them to replicate the application as many times as they want, without having to modify the clients of the service. The Feign client (`CompanyService`) uses a client-side load balancer that consumes one instance of `biz-application` at a time using a _round-robin_ strategy. Since the `biz-application` is a stateless service, it doesn’t need to worry about replicating any state among the replicas.
+
+== Implementing a web UI for a REST web service
+
+Implementing a CRUD web UI for this service can be quickly done with Vaadin and the https://vaadin.com/directory/component/crud-ui-add-on[Crud UI add-on]. Add the following dependency in the pom.xml file:
+
+[source,java]
+----
+<dependency>
+    <groupId>org.vaadin.crudui</groupId>
+    <artifactId>crudui</artifactId>
+    <version>3.7.1</version>
+</dependency>
+----
+
+Implement a new `AdminView` class as follows:
+
+[source,java]
+----
+@Route("")
+public class AdminView extends VerticalLayout {
+
+    private GridCrud<Company> crud = new GridCrud<>(Company.class, new VerticalCrudLayout());
+
+    public AdminView() {
+        ReconnectDialogConfiguration configuration =
+                UI.getCurrent().getReconnectDialogConfiguration();
+        configuration.setDialogText("Please wait...");
+        configuration.setReconnectInterval(1000);
+
+        H2 title = new H2("Companies");
+
+        crud.getGrid().setColumns("name", "twitterUsername");
+        crud.getCrudFormFactory().setVisibleProperties("name", "twitterUsername");
+        crud.getCrudFormFactory().setUseBeanValidation(true);
+        crud.setClickRowToUpdate(true);
+        crud.setUpdateOperationVisible(false);
+        crud.setFindAllOperation(() -> companyService.findAll().getContent());
+        crud.setAddOperation(company -> Services.getCompanyService().add(company));
+        crud.setUpdateOperation(company -> Services.getCompanyService().update(company.getId(), company));
+        crud.setDeleteOperation(company -> Services.getCompanyService().delete(company.getId()));
+
+        add(title, crud);
+        setMargin(false);
+        setHeight(null);
+    }
+
+}
+----
+
+The `Route` annotation makes instances of the class Spring-managed beans and exposes the _route_ you can use in the browser to see this view. The constructor uses https://vaadin.com/flow[Vaadin Flow] to add an `H2` component and a `GridCrud` component to the view (a `VerticalLayout`).
+
+Compile the application, and run it by executing the following in the command line (or equivalent run configuration in your IDE):
+
+----
+cd admin-application
+mvn package
+java -Dserver.port=9401 -jar target/admin-application-0.0.1-SNAPSHOT.jar
+----
+
+Point your browser to http://localhost:9101 to see the web application in action:
+
+image::admin-application.png[Admin web application]
+
+== What's next?
+
+We’ll continue exploring topics such as UIs with Vaadin, fault tolerance, and load balancing in the next parts of this tutorial series.

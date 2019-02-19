@@ -1,0 +1,212 @@
+= UI composition with proxy servers
+
+:tags: Microservices, Java
+:author: Alejandro Duarte
+:description: This part shows how to compose a single UI from several independent web applications.
+:repo: https://github.com/alejandro-du/vaadin-microservices-demo
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+In the previous part of this tutorial, we learned about various patterns used in microservices. We have covered service discovery, externalized configuration, stateless services, and fault tolerance. In this chapter, you’ll learn how to render two separate independent web applications in a single web page.
+
+== Why do we need this?
+
+There are two general approaches when it comes to implementing UIs in microservices applications: Separate web applications that serve specific audiences, and _mash-ups_ that aggregate several UIs. Implementing separate web applications is straightforward and most of the times doesn’t require complicated configurations. However, sometimes it might be desirable or required to render one or more external web applications in a single view.
+
+How does it work?
+
+The simplest way to render multiple web applications into a single web page is by using https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe[HTML iframes]. This requires minimal additional configuration and allows you to mix web frameworks. The following screenshot illustrates the concept:
+
+image::iframe-example.png[Iframe example]
+
+One of the critical aspects in microservices is that instances of an application go up and down as manual or automatic scaling and deployment happen. Since a microservice can be replicated dozens or hundreds of times, its location is not fixed in the network. An `iframe` element requires one and only one URL pointing to the web application. Since there are probably many instances of the web application, we need a mechanism to route a single URL to instances of the correct web application. This can be done by introducing a router. The following screenshot illustrates the concept:
+
+image::proxy-server.png[Proxy server]
+
+The `proxy-server` application takes requests from a client and _proxies_ them to a web application according to a set of rules. In the example application, the `proxy-server`, which is configured to listen to port 8080, routes calls to http://localhost:8080/admin/companies to instances of the `admin-application`. With this in place, an HTML `iframe` can simply point to http://localhost:8080/admin/companies and let the `proxy-server` and `discovery-server` take care of routing and picking an instance of the `admin-application`.
+
+Usually, you don’t want to expose instances of the web applications to the world. A firewall can be configured to accept external connections only to the `proxy-server` application, making the web application look like a single instance to external observers.
+
+== Implementing a proxy server with Zuul
+
+https://github.com/Netflix/zuul[Zuul] is an edge service developed and used by Netflix as the “front door” for all backend service calls. It provides, among other things, routing capabilities and can be easily integrated with Spring Cloud, which provides an embedded reverse proxy suitable for proxying requests to other services, including web applications developed with Vaadin Framework.
+
+Use the http://start.spring.io/[Spring Initializr] to create a new Spring Boot application named config-server and include the *Eureka Discovery*, *Config Client*, *Zuul*, *Hystrix*, *Retry*, *Aspects*, and *Actuator* (optional) dependencies:
+
+image::initializr.png[Spring Initializr]
+
+Open up the `ProxyServerApplication` class and activate the discovery client, circuit breaker, and Zuul proxy by using the following annotations:
+
+[source,java]
+----
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableCircuitBreaker
+@EnableZuulProxy
+public class ProxyServerApplication {
+    ...
+}
+----
+
+Remove the `application.properties` file and create a new `bootstrap.yml` file with the following content:
+
+[source,yaml]
+----
+server.port: 8080
+
+spring:
+  application.name: proxy-server
+  cloud.config:
+    discovery:
+      enabled: true
+      serviceId: config-server
+    fail-fast: true
+    retry:
+      initialInterval: 2000
+      maxAttempts: 30
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka/
+    registryFetchIntervalSeconds: 1
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+----
+
+This configures the application name, Eureka client, and configuration server, where the rest of the configuration is read from. By default, the configuration server will read the files from https://github.com/alejandro-du/vaadin-microservices-demo-config[GitHub]. Here we are interested in the routing configuration in the `proxy-server.yml` configuration file:
+
+[source,yaml]
+----
+zuul:
+  ignoredServices: '*'
+  routes:
+    website-application:
+      path: /**
+      serviceId: website-application
+      sensitiveHeaders:
+    news-application:
+      path: /news/**
+      serviceId: news-application
+      sensitiveHeaders:
+    admin-application:
+      path: /admin/**
+      serviceId: admin-application
+      sensitiveHeaders:
+----
+
+The `zuul.ignoredServices` property is needed to avoid exposing all the services registered with Eureka. The rest of the configuration maps paths to services by application name. For example, http://localhost:8080/admin/ is routed to an instance of the `admin-application`. The `sensitiveHeaders` property is a blacklist with the headers that shouldn’t be sent. By default this blacklist is not empty, we need to explicitly set it to an empty list in order to forward all headers, especially to allow Vaadin instances read session-related cookies.
+
+You also need to provide a `FallbackProvider` implementation used when a service is not available. You can find a https://github.com/alejandro-du/vaadin-microservices-demo/blob/master/proxy-server/src/main/java/com/example/CustomFallbackProvider.java[simple implementation on GitHub].
+
+== Configuring the Vaadin SpringServlet
+
+Let's start by configuring a custom URL mapping for the Vaadin `SpringServlet`. With Spring Boot, you can configure this by defining a bean of type `ServletRegistrationBean` as follows:
+
+[source,java]
+----
+public class AdminApplication {
+    ...
+
+    @Bean
+    public ServletRegistrationBean<SpringServlet> springServlet(ApplicationContext applicationContext,
+            @Value("${vaadin.urlMapping}") String vaadinUrlMapping) {
+
+        SpringServlet servlet = buildSpringServlet(applicationContext);
+        ServletRegistrationBean<SpringServlet> registrationBean =
+                new ServletRegistrationBean<>(servlet, vaadinUrlMapping, "/frontend/*");
+        registrationBean.setLoadOnStartup(1);
+        registrationBean.addInitParameter(Constants.SERVLET_PARAMETER_SYNC_ID_CHECK, "false");
+        return registrationBean;
+    }
+
+}
+----
+
+Notice how the url mapping comes from the `vaadin.urlMapping` property. Add this property to the `bootstrap.yml` file and configure the servlet context path as follows:
+
+[source,yaml]
+----
+vaadin.urlMapping: /ui/*
+server.servlet.context-path: /
+----
+
+This makes both the Vaadin application and Spring Actuator's endpoints available.
+
+You also need to configure a custom name for the session cookie since each Vaadin application has its own HTTP session. You can do this by defining a `CookieSerializer` bean:
+
+[source,java]
+----
+@Bean
+public CookieSerializer cookieSerializer() {
+    DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+    serializer.setCookieName("ADMIN-SESSION");
+    serializer.setCookiePath("/");
+    serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
+    return serializer;
+}
+----
+
+You have to do the same for any other web application developed with Vaadin (`news-application` and `website-application` in the demo application).
+
+== Implementing the UI composition
+
+Implementing a UI composition with Vaadin is pretty straightforward. You can create a Java wrapper for the HTML `iframe` element as follows:
+
+[source,java]
+----
+@Tag("iframe")
+public class IFrame extends Component implements HasSize {
+
+    public IFrame(String url) {
+        getElement().setAttribute("src", url);
+        getElement().setAttribute("frameBorder", "0");
+        setSizeFull();
+    }
+
+}
+----
+
+Now you can add the `admin-application` and `news-application` in a single layout as follows:
+
+[source,java]
+----
+IFrame news = new IFrame("http://localhost:8080/admin/ui/");
+Iframe admin = new IFrame("http://localhost:8080/news/ui/");
+
+SplitLayout layout = new SplitLayout();
+layout.addToPrimary(admin);
+layout.addToSecondary(admin);
+----
+
+Something similar to this is done in the `website-application`. Notice how we are using the URLs configured in the `proxy-server`.
+
+Since it makes sense to make the `website-application` avaiable at the context root but the Vaadin `SpringServlet` is mapped to `/ui/*` you  can add a request mapping that _forwards_ a request to "/" to the Vaadin servlet:
+
+[source,java]
+----
+public class WebsiteApplication {
+    ...
+
+    @RequestMapping(value = "/")
+    public String forward(@Value("${vaadin.url}") String vaadinUrl) {
+        return "forward:" +  vaadinUrl;
+    }
+
+    ...
+}
+----
+
+This makes the `website-application` available at http://localhost:8080/ instead of http://localhost:8080/ui/.
+
+The `vaadin.url` and `vaadin.urlMapping` properties can be defined in the `bootstrap.yml` file as follows:
+
+[source,yaml]
+----
+vaadin.url: /ui/
+vaadin.urlMapping: ${vaadin.url}*
+----
+
+== What's next?
+
+In the next part of this tutorial, we’ll explore more about high availability of Vaadin applications and monitoring in microservices.
