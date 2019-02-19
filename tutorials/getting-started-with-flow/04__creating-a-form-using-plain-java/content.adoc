@@ -3,6 +3,7 @@
 
 :title: Part 4 - Creating a Form Using Plain Java
 :author: Vaadin
+:description: Learn how to create a simple form with Vaadin Flow
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:
