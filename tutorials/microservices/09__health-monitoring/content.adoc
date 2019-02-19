@@ -1,0 +1,110 @@
+= Health monitoring
+
+:tags: Microservices, Java
+:author: Alejandro Duarte
+:description: This part shows how to monitor microservices.
+:repo: https://github.com/alejandro-du/vaadin-microservices-demo
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+In previous parts of this tutorial, we discussed high availability and fault tolerance techniques that make services resilient to external failures. In this chapter, we’ll add _health endpoints_ and a dashboard to visually monitor service status.
+
+== Why do we need this?
+
+Microservices provide benefits. However, they come with costs. An evident cost of microservices is the increase in complexity. With more parts in a system, the challenge to fully understand and troubleshoot performance problems grows. Monitoring health in microservices helps to understand the overall performance of the system and detect individual points of failure.
+
+== How does it work?
+
+Microservices expose health endpoints with information about the status of the service. A monitor application keeps track of this data, aggregates it, and presents the result in a dashboard. For example, the `admin-application` exposes a health endpoint at `/actuator/health`. If you have an instance running on port 9101, you can request http://localhost:9101/actuator/health to see health information similar to the following:
+
+image::health-endpoint.png[Health endpoint]
+
+NOTE: You can see a list with the endpoints that are available at http://localhost:9101/actuator/.
+
+== Enabling health endpoints with Spring Boot Actuator
+
+Spring Boot includes many endpoints. You can enable all of them by adding the following to your configuration file:
+
+[source,yaml]
+----
+management.endpoints.web.exposure.include: "*"
+----
+
+The demo application enables all the endpoints for the `biz-application`, the `admin-application`, the `news-application`, the `website-application`, the `proxy-server`, and the `monitor-application` itself.
+
+== Implementing a monitor dashboard
+
+Use the https://start.spring.io[Spring Initializr] to create a new Spring Boot application named `monitor-application` and include the *Config client*, *Hystrix Dashboard*, *Turbine*, *Actuator*, *Retry*, *Aspects*, and *DevTools* (optional) dependencies:
+
+image::initializr.png[Spring Initializr]
+
+Open up the `MonitorApplication` class and enable the Hystrix Dashboard by using the following annotations:
+
+[source,java]
+----
+@SpringBootApplication
+@EnableHystrixDashboard
+@EnableTurbine
+public class MonitorApplication {
+   ...
+}
+----
+
+Remove the `application.properties` file and create a new `bootstrap.yml` file with the following content:
+
+[source,yaml]
+----
+server.port: 8201
+
+spring:
+  application.name: monitor-application
+  cloud.config:
+    discovery:
+      enabled: true
+      serviceId: config-server
+    fail-fast: true
+    retry:
+      initialInterval: 2000
+      maxAttempts: 30
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka/
+    registryFetchIntervalSeconds: 1
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+----
+
+Add a new `monitor-application.yml` file to your _external configuration_ with the following content:
+
+[source,yaml]
+----
+turbine:
+  appConfig: biz-application, admin-application, news-application, proxy-server
+  clusterNameExpression: "'default'"
+  instanceUrlSuffix: actuator/hystrix.stream
+----
+
+This configures an _aggregator_ (Turbine) for the health stats from the `biz-application`, `admin-application`, `news-application`, and `proxy-service services.
+
+Make sure you are running all the services of the demo application, and compile and run the `monitor-application` by executing the following in the command line:
+
+[source]
+----
+cd vaadin-microservices-demo/monitor-application
+
+java -jar target/monitor-application-0.0.1-SNAPSHOT.jar
+----
+
+Point your browser to http://localhost:8201/hystrix and introduce http://localhost:8201/turbine.stream as the stream URL. Click the *Monitor Stream* button to see a dashboard like the following:
+
+image::dashboard.png[Dasboard]
+
+Try using all the features of the application (http://localhost:8080) and shutting down some services to see how the dashboard reacts.
+
+== What's next?
+
+Always keep in mind that microservices introduce complexity in order to solve problems in big applications with multiple teams. Don't discard a monolithic approach if https://dwmkerr.com/the-death-of-microservice-madness-in-2018/[you are not facing such problems].
+
+Although there’s much more to talk about in microservices, I hope this tutorial gave you an idea of some of the key concepts, patterns, and challenges you may encounter when using them.

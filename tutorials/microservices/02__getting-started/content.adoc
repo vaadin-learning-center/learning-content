@@ -1,0 +1,170 @@
+= Getting started with microservices
+
+:tags: Microservices, Java
+:author: Alejandro Duarte
+:description: This part shows how to run a microservices application.
+:repo: https://github.com/alejandro-du/vaadin-microservices-demo
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+In this part of the tutorial, you'll learn how to run applications developed with microserivces. Although, in real scenarios, you would use an orchestration tool such as Kubernetes or Docker Swarm to automate the process, in this tutorial, you'll run and stop microservices manually. This will give you a clear understanding of how microservices work.
+
+== The demo application
+
+In this series of tutorials, you will develop a simple _news dashboard_. The following is a screenshot of the finished application:
+
+image::microservices-example-application.png[Microservices example aplication]
+
+On the left side, there's an _administration_ view with a list of companies and their Twitter handles. The latest tweets from this companies are shown in the right side. Both sides are implemented independently and use a third microservice to read and write data.
+
+NOTE: If you had to develop an application like the one in the previous screenshot, you would most likely go with a https://en.wikipedia.org/wiki/Monolithic_application[monolithic application]! Keep in mind that the objective of this series of articles is not to teach you whether microservices suit your needs but how to use concrete techniques and patterns common in microservices.
+
+=== Microservices
+
+The functionality of the demo application is provided through 4 microservices:
+
+* `biz-application`: A https://en.wikipedia.org/wiki/Representational_state_transfer[REST] API for managing data (companies).
+
+* `admin-application`: A web user interface to interact with data (companies).
+
+* `news-application`: A web user interface to display data (companies’ tweets).
+
+* `website-application`: A _portal-like_ website that renders the `admin-application` and the `news-application` in a single web page.
+
+=== Orchestration services
+
+Additionally, the application requires three orchestration and monitoring services:
+
+* `discovery-server`: A _service registration and discovery_ server.
+
+* `config-server`: An _externalized configuration_ server.
+
+* `proxy-server`: An _edge service_ with dynamic routing.
+
+* `monitor-application`: A dashboard for service monitoring.
+
+You'll learn about each of these applications and orchestration services throughout this tutorial series.
+
+== Running the demo application
+
+To get an idea of how this system runs, take a look at the following screenshot:
+
+image::running-the-app.png[Running the application]
+
+As you can see, each terminal is about to run a Java application as an individual process. We are using the same _host machine_ for running all processes, but they can be configured and run in separate machines if we wanted.
+
+The processes on the left are the orchestration services. The processes on the right are the functional microservices.
+
+The code for this demo application is published on GitHub. Give it a try and run the application by yourself! All you need is Maven, and 8 terminals like the ones in the previous screenshot. The following are the steps to download and run the demo application:
+
+. Download the code from {repo}[GitHub] or from the command line with Git:
+
+----
+git clone https://github.com/alejandro-du/vaadin-microservices-demo.git
+----
+
+[start=2]
+. Compile the project with Maven:
+
+----
+cd vaadin-microservices-demo
+mvn package
+----
+
+[start=3]
+. Open 8 terminals and change them to the `vaadin-microservices-demo` directory.
+
+[start=4]
+
+. The first service you need to get ready is the `discovery-server`. It allows services to discover other services without knowing their exact location (URI). Run the `discovery-server` application by executing the following in one of the terminals:
+
+----
+cd discovery-server
+java -jar target/discovery-server-0.0.1-SNAPSHOT.jar
+----
+
+NOTE: You don't need to wait for services to start or even run the services in any specific order. Services depending on others will eventually start correctly when their dependencies become available. However, to get a _smooth_ run of the app and avoid waiting for service registrations to happen, run the services in the order described here and wait for the service to start before running the next. If you don't, you might get exception messages and will have to refresh the browser until you get the app in a ready state. This is a completely normal behaviour, though.
+
+[start=5]
+. The second service you need in place before deploying the functional microservices is the `config-app`. It serves as an external source of configuration for the microservices. Run it by executing the following in one of the free terminals:
+
+----
+cd config-server
+java -jar target/config-server-0.0.1-SNAPSHOT.jar
+----
+
+[start=6]
+. Use free terminals to start each of the functional microservices:
+
+----
+cd biz-application
+java -jar target/biz-application-0.0.1-SNAPSHOT.jar
+----
+----
+cd admin-application
+java -jar target/admin-application-0.0.1-SNAPSHOT.jar
+----
+----
+cd news-application
+java -jar target/news-application-0.0.1-SNAPSHOT.jar
+----
+----
+cd website-application
+java -jar target/website-application-0.0.1-SNAPSHOT.jar
+----
+
+[start=7]
+. Start the edge service to allow access to the web applications through a single point:
+
+----
+cd proxy-server
+java -jar target/proxy-server-0.0.1-SNAPSHOT.jar
+----
+
+== Using the Demo Application
+
+Point your browser to http://localhost:8080 and try adding companies with actual Twitter account names. Refresh the browser to see the latest tweets of these companies.
+
+=== Scaling Microservices
+
+You can horizontally scale the system by running additional replicas of the `biz-application`, `admin-application`, `news-application`, and `website-application` microservices.
+
+For example, scale the `biz-application` microservice by opening a new terminal and starting an additional instance:
+
+----
+cd biz-application
+java -Dserver.port=9002 -jar target/admin-application-0.0.1-SNAPSHOT.jar
+----
+
+Once the new instance starts and becomes discoverable, requests (from the `admin-application` and `news-application` microservices) are load-balanced to the two running `biz-application` instances using a https://en.wikipedia.org/wiki/Round-robin_scheduling[round-robin] scheduling strategy.
+
+NOTE: Keep in mind that since this is a demo application, the current configuration aims to have a quick discovery of services and replication of data at the cost of increased network traffic and processor time.
+
+=== Testing High Availability
+
+Go to the browser, select one of the companies and modify it's name. Don't click the *Update* button yet! Let’s simulate the scenario when one of the `admin-application` instances becomes unavailable just before the user is about to save the changes.
+
+First, start a new instance of the `admin-application` as follows:
+
+----
+cd admin-application
+java -Dserver.port=9102 -jar target/admin-application-0.0.1-SNAPSHOT.jar
+----
+
+NOTE: `admin-application` instances are load balanced using round robing scheduling and sticky sessions with session replication.
+
+Make sure the new `admin-application` instance is up and running and stop the other one (press _Ctrl+C_ in the terminal). Return to the browser and click the *Update* button now. The web application should remain functional and eventually save the data you entered without losing the state of the UI. You might see a *Please wait...* message. This happens while the system updates the discovery registry and re-routes the request to an instance that is available.
+
+=== Testing System Resilience
+
+Stop all the `biz-application` instances and refresh the browser to see the fallback mechanisms.
+
+The `admin-application` will show an error message informing the data cannot be saved or loaded. In this example, the `admin-application` is only the https://en.wikipedia.org/wiki/Create,_read,_update_and_delete[CRUD] shown on the left of the page. In real-world cases, it would most likely contain many other screens. Thanks to the fallback mechanisms, users would be able to continue using the parts of the application that don’t depend on the `biz-application` microservice.
+
+In the case of the `news-application`, a predefined set of companies is shown when the `biz-application` is not available.
+
+When you start the `biz-application` again, its services become available and other microservices will start using it.
+
+== What's next?
+
+This was just the tip of the iceberg. There is much more to explore in this demo application. The next chapters explain how to develop this application from scratch while discussing each microservices technique and pattern used.
