@@ -1,8 +1,9 @@
 = Externalized configuration
 
+:title: Externalized configuration
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part shows how to implement a configuration service.
+:description: This part explains why externalizing configuration is important in microservices and shows how to implement a configuration server using Spring Cloud Config.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images

@@ -1,8 +1,9 @@
 = UI composition with proxy servers
 
+:title: UI composition with proxy servers
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part shows how to compose a single UI from several independent web applications.
+:description: This part explains what a reverse proxy server is, and how to use it as an edge service when composing single user interfaces from several independent web applications.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
