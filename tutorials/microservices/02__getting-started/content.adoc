@@ -1,8 +1,9 @@
 = Getting started with microservices
 
+:title: Getting started with microservices
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part shows how to run a microservices application.
+:description: This part shows how to run a demo microservices application. It explains how to scale individual microservices, and shows how high availability and resilience work in practice.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images

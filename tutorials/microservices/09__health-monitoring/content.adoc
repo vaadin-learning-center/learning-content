@@ -1,8 +1,9 @@
 = Health monitoring
 
+:title: Health monitoring
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part shows how to monitor microservices.
+:description: This part shows how to monitor microservices health using Spring Actuator and Hystrix Dashboard.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images

@@ -1,8 +1,9 @@
 = High availability
 
+:title: High availability
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part shows how to compose a single UI from several independent web applications.
+:description: This part explains how to increase service availability, what a load balancer is, how to replicate session state between Java web applications and how to implement sticky sessions in Vaadin applications that use Spring Session.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
