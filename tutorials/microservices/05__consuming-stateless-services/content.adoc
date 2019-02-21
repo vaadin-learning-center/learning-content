@@ -1,8 +1,9 @@
 = Consuming stateless services
 
+:title: Consuming stateless services
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part shows how to implement and consume a stateless REST web service.
+:description: This part shows how to implement and consume a stateless RESTful web service using Spring Boot and how to build a web user interface for it.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images

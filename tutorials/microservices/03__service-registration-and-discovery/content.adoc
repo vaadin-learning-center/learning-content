@@ -1,8 +1,9 @@
 = Service registration and discovery
 
+:title: Service registration and discovery
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part shows how to register and enable discovery of services.
+:description: This part explains how service registration and discovery works and how to implement a service discovery server using Eureka.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images

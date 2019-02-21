@@ -1,8 +1,9 @@
 = Fault tolerance
 
+:title: Fault tolerance
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part shows how to add fault tolerance to web applications.
+:description: This part explains why fault tolerance is important in microservices, how to add fault tolerance capabilities and fallback functionality used when services are unavailable.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images

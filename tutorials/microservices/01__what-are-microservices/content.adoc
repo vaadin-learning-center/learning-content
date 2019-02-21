@@ -1,8 +1,9 @@
 = What are microservices?
 
+:title: What are microservices?
 :tags: Microservices, Java
 :author: Alejandro Duarte
-:description: This part explains what microservices are.
+:description: This part explains how microservices run, how they help in big projects, and what are their relationship with web user interfaces.
 :repo: https://github.com/alejandro-du/vaadin-microservices-demo
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
