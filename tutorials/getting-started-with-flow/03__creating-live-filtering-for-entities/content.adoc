@@ -1,89 +1,105 @@
 [[flow.tutorial.filtering]]
-== Creating Live Filtering for Entities
+= Creating live filtering for entities
 
-:title: Part 3 - Creating Live Filtering for Entities
+:title: Part 3 - Creating live filtering for entities
 :author: Vaadin
-:description: Learn how to get use Grid filtering with Vaadin Flow
+:description: Learn how to filter data in a Grid with Vaadin Flow
 :tags: Flow, Java
 :imagesdir: ./images
 
-All modern applications need search functionality and it also makes for a nice Vaadin development exercise. 
+All modern applications need search functionality. Implementing this functionality is a good exercise for learning Vaadin. Let's add filtering functionality to the list of customers we created in the previous step of the tutorial.
 
-In this part of the tutorial we add filtering functionality to the `Customer` listing we created in <<tutorial-get-started-second-part#,Listing Entities in a Grid>>.  
+The following is a screenshot of the filter you'll implement in this section:
 
-. In `MainView.java` introduce a `TextField` component:
+image::filter.png[Filter]
 
-+
+== Adding the TextField component
+
+In the `MainView` class, introduce an instance variable of type `TextField` as follows:
+
 [source,java]
 ----
-private TextField filterText = new TextField();
+...
+public class MainView extends VerticalLayout {
+
+    ...
+    private TextField filterText = new TextField();
+
+    ...
+}
 ----
 
-. Configure the text field to display an input prompt and add a text change listener, by adding the following code at the beginning of the constructor:
+Configure the text field to display a _placeholder_ and add a _value change listener_ by adding the following code at the beginning of the constructor:
 
-+
 [source,java]
 ----
-filterText.setPlaceholder("Filter by name...");
-filterText.setValueChangeMode(ValueChangeMode.EAGER);
-filterText.addValueChangeListener(e -> updateList());
+public class MainView extends VerticalLayout {
+
+    ...
+
+    public MainView() {
+
+        filterText.setPlaceholder("Filter by name..."); <1>
+        filterText.setValueChangeMode(ValueChangeMode.EAGER); <2>
+        filterText.addValueChangeListener(e -> updateList()); <3>
+
+        ...
+    }
+    ...
+}
 ----
+<1> Shows the given string inside the field as long as no value is set. When the user starts typing, the placeholder is automatically removed.
 
-* Placeholder shows the given String inside the field as long as no value is set. When the user starts typing, the placeholder is automatically removed. 
-* As its name implies, the value change listener reacts to changes in the value in the text field. `EAGER` ensures the change event is fired immediately when the user types. 
+<2> `ValueChangeMode.EAGER` ensures that change events are fired immediately when the user types.
 
-. To ensure the filter value is taken into consideration when updating grid items, change the body of the `updateList` method as shown below: 
+<3> Adds a listener to react to changes in the value in the text field.
 
-+
+The value change listener calls the `updateList()` method. However, this method doesn't use the value in the filter. To use it, change the line in the `updateList()` method to send the value to the service (back end) call:
+
 [source,java]
 ----
 public void updateList() {
-    grid.setItems(service.findAll(filterText.getValue()));
+    grid.setItems(service.findAll(filterText.getValue())); <1>
 }
 ----
-* The method now takes the filter value into consideration and passes it to the backend service when updating the grid items. 
+<1> `filterText.getValue()` returns the current string in the text field.
 
-. Add a button to clear the text field to improve usability, by adding the following code to the constructor directly after the `filterText` configuration:
+== Clearing the filter
 
-+
+To improve usability, add a button to clear the text field. While the search field can be cleared using the keyboard, adding a button makes it even easier for the user. Adding the following code to the constructor directly after the `filterText` configuration:
+
 [source,java]
 ----
 Button clearFilterTextBtn = new Button(
-	       VaadinIcon.CLOSE_CIRCLE.create());
-clearFilterTextBtn.addClickListener(e -> filterText.clear());
+	       VaadinIcon.CLOSE_CIRCLE.create()); <1>
+clearFilterTextBtn.addClickListener(e -> filterText.clear()); <2>
 ----
+<1> Adds an "X" icon (`VaadinIcon.CLOSE_CIRCLE`) from the built-in set of icons provided by Vaadin.
 
-* While the search field could previously be cleared using the keyboard, adding a button makes it easier for the user. 
-* We use the "X" icon, `VaadinIcon.CLOSE_CIRCLE`, from the built-in set of icons provided by Flow.
-* In the click listener, we simply clear the text from the field. 
+<2> Clears the text in the text field.
 
-. Align the text field and the button so they line up next to each other, by adding the following code to the constructor directly after `clearFilterTextBtn`: 
+== Grouping components
+
+Add the text field and the button into a new layout so they line up next to each other. To align them horizontally, use a `HorizontalLayout`. Adding the following to the constructor directly after the `clearFilterTextBtn` code:
  
-+
 [source,java]
 ----
 HorizontalLayout filtering = new HorizontalLayout(filterText,
-    clearFilterTextBtn);
+        clearFilterTextBtn);
 ----
 
-* Using `HorizontalLayout` is the simplest way to do this. Flow provides many different kinds of layouts. 
 
+Change the `add(grid)` line of code to include the `filtering` layout:
 
-. Change the `add(grid)` code line to include the `filtering` layout: 
-+
 [source,java]
 ----
 add(filtering, grid);
 ----
 
-. At this point, your `MainView` body code look like:
+For reference, here's the complete implementation of the `MainLayout` class at this point:
 
-+
 [source,java]
 ----
-/**
- * The main view contains a button and a click listener.
- */
 @Route("")
 @PWA(name = "Project Base for Vaadin Flow", shortName = "Project Base")
 public class MainView extends VerticalLayout {
@@ -102,12 +118,10 @@ public class MainView extends VerticalLayout {
         clearFilterTextBtn.addClickListener(e -> filterText.clear());
         HorizontalLayout filtering = new HorizontalLayout(filterText, clearFilterTextBtn);
 
-        // limit and define the order of properties shown by Grid
         grid.setColumns("firstName", "lastName", "status");
 
         add(filtering, grid);
 
-        // make layout use full height (and grid expand to consume it)
         setSizeFull();
 
         updateList();
@@ -120,4 +134,4 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-. Save your code changes and refresh your browser to view the changes.
+Compile the project by selecting *Build | Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.
