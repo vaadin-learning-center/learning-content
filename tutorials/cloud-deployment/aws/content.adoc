@@ -19,7 +19,7 @@ Start by creating a https://aws.amazon.com/[free AWS account] then go to the *Bu
 
 image::select-web-app.png[Select Web App]
 
-In the following screen, give an *Application name*, chose *Tomcat* as a platform, and chose to upload your code then click *Upload*.
+In the following screen, give an *Application name*, chose *Tomcat* as a platform, and select your code to upload and click *Upload*.
 
 image::application-details.png[Application Details]
 
@@ -47,7 +47,7 @@ In the following screen, click on *Create pipeline*.
 
 image::create-pipeline.png[Create Pipeline]
 
-Give a pipeline name, and keep everything else default, the click *Next*.
+Give a pipeline name, and keep everything else default, then click *Next*.
 
 image::pipeline-name.png[Pipeline Name]
 
@@ -55,7 +55,7 @@ In the following screen, chose *Github* as source provider. Alternatively, you c
 
 image::source-github.png[Source Github]
 
-You are then asked to connect to your Github account. After you make the cnnection, select the *Repository* and *Branch* from which you want the code to get fetched. Configure the repository settings and then click *Next*.
+You are then asked to connect to your Github account. After you make the connection, select the *Repository* and *Branch* from which you want the code to get fetched. Configure the repository settings and then click *Next*.
 
 image::git-branch.png[Git Branch]
 
