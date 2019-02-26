@@ -1,3 +1,3 @@
-fullname="A.Mahdy Abdelaziz"
-id=f484d2b8-7747-40c0-8a81-461808f32786
-github=amahdy
+fullname="Firstname Lastname"
+id=012-345-678-9ab-cdef
+github=username
