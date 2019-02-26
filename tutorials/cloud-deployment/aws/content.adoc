@@ -1,0 +1,96 @@
+= Deploy to Amazon Web Services
+
+:title: Deploy to Amazon Web Services
+:authors: amahdy
+:type: text
+:tags: Backend, Cloud, Deploy, Java
+:description: Learn how to deploy Java app to Amazon Web Services
+:repo:
+:linkattrs:
+:imagesdir: ./images
+
+This tutorial aims to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Amazon Web Services. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try AWS as a potential host platform for your applications.
+
+We start by the natural and more straight forward way of deployment, which is just uploading a `war` file to a remote server. Eventually, we go into more details on how to set up a continuous deployment environment where changes get picked automatically from a Git repository.
+
+== Direct Deployment
+
+Start by creating a https://aws.amazon.com/[free AWS account] then go to the *Build a solution* section and click on *Build a web app*. It creates a managed platform to host the web application in Elastic Beanstalk.
+
+image::select-web-app.png[Select Web App]
+
+In the following screen, give an *Application name*, chose *Tomcat* as a platform, and chose to upload your code then click *Upload*.
+
+image::application-details.png[Application Details]
+
+For now, upload the pre-packaged war file of your Java application to deploy it directly into Tomcat. It's good to give it a unique version label as well to be able to revert to that version later if needed. Then click *Upload*.
+
+image::upload-code.png[Upload Code]
+
+Once the upload finishes, click on *Create application*.
+
+image::create-application.png[Create Application]
+
+That's pretty much it! A public link is available that points to your deployed application and you can preview it.
+
+image::preview-app.png[Preview App]
+
+== Continous Integration
+
+The previous steps are usually enough for immediate preview and evaluation of AWS. However, practically you want to be able to redeploy the application smoothly and automatically. In the following section, we show how to link to a git repository and redeploy whenever a code change happens on a particular branch. For that, we use *CodePipeline*.
+
+CodePipeline creates a complete integration plan, fetch the code upon changes, build, and deploy. To start, from https://console.aws.amazon.com/console/home[AWS Management Console], in the *Find Services* section, search for *CodePieline*.
+
+image::search-codepipeline.png[Search CodePipeline]
+
+In the following screen, click on *Create pipeline*.
+
+image::create-pipeline.png[Create Pipeline]
+
+Give a pipeline name, and keep everything else default, the click *Next*.
+
+image::pipeline-name.png[Pipeline Name]
+
+In the following screen, chose *Github* as source provider. Alternatively, you can set up a local repository on AWS, but in this tutorial, we are not covering those steps and assume that Github is hosting your code.
+
+image::source-github.png[Source Github]
+
+You are then asked to connect to your Github account. After you make the cnnection, select the *Repository* and *Branch* from which you want the code to get fetched. Configure the repository settings and then click *Next*.
+
+image::git-branch.png[Git Branch]
+
+The following step is to configure how the code gets built. You can choose either Jenkins or built-in AWS CodeBuild. Let's select CodeBuild and then click *Create project*.
+
+image::aws-codebuild.png[AWS CodeBuild]
+
+Now we need to create a project to specify how the build is done, a pop-up window opens. Inside this window, give a project name, under *Environment*, chose *Managed image*, *Ubuntu* as *Operating system*, *Java* for *Runtime*, and *openjdk8* for *Runtime version*. Those are the configuration for the build, not the hosting server.
+
+image::build-project.png[Build Project]
+
+In the *Buildspec* section, chose *Insert build commands* and click on *Switch to editor*. We specify how the build gets performed and the location of the artifact. In our demo application here, the build is done using maven `mvn package` and the output artifact is under *target* directory, so we updated the build script as follows:
+
+image::build-command.png[Build Command]
+
+The script moves the artifact from `target` to the root directory, and rename it to `ROOT.war` as expected by Tomcat for root deployment. Then `artifacts` section specifies that file to be picked as the war file to deploy into Tomcat.
+
+When everything is ready, click *Continue to CodePipeline*. You are taken to the previous screen with the project pre-selected, confirm and click *Next*.
+
+image::build-ready.png[Build Ready]
+
+The final step is to deploy the artifact into Tomcat. In the first section, we have already built a web environment for deployment, so we pick it from the list. Under *Deploy provider* select *AWS Elastic Beanstalk*.
+
+image::create-deploy.png[Create Deploy]
+
+You are then able to select the previously created application and environment. Select them and click *Next*.
+
+image::deploy-env.png[Deploy Env]
+
+The final screen shows all the pipeline for review, review everything then click *Create pipeline*.
+
+image::review.png[Review]
+
+You get to see the execution graph, and it takes a few minutes to complete the whole cycle.
+
+image::pipeline-success.png[Pipeline Success]
+
+When the deployment gets done, you can go back to the environment created earlier and test the link again to see changes. Now every time there is a new push to the specified git branch, the pipeline is executed, and updates are pushed to the environment.
