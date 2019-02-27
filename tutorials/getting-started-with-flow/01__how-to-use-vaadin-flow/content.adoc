@@ -113,7 +113,7 @@ public class MainView extends VerticalLayout {
 *** Finally, the button is added in the main view.
 
 
-=== Testing the Application
+=== Running the Application
 
 To test your application, deploy it to a server that supports Servlet 3.1 specification. To test using Jetty Maven plugin:
 
