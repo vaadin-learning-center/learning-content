@@ -12,23 +12,16 @@ In this part of the tutorial, you'll learn how to connect the `CustomerForm` com
 
 == Showing and hiding the form
 
-The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is null or shows it if the customer is not null. When the `MainView` is built, the form should be invisible since there's no customer selected in the `Grid` at that point. You can hide the form by setting a `null` customer as follows:
+The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is null or shows it if the customer is not null. When the `MainView` is built, the form should be invisible since there's no customer selected in the `Grid` at that point. You can hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
 
 [source,java]
 ----
-public class MainView extends VerticalLayout {
+public MainView() {
 
     ...
-
-    public MainView() {
-        ...
-        form.setCustomer(null); <1>
-    }
-
-    ...
+    form.setCustomer(null);
 }
 ----
-<1> Hides the form.
 
 To detect when the user selects or deselects a row on the `Grid`, you need to implement a _value change listener_. Add the following at the end of the `MainView` constructor:
 
@@ -45,7 +38,7 @@ Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and r
 
 == Adding New Customers
 
-Let's add the functionality to add new customer records by creating a new *Add new customers* button above the `Grid` and next to the `filtering` layout.
+Let's add the functionality to create new customers by adding a button above the `Grid` and next to the `filtering` layout.
 
 Add a new `Button` with a click listener, by adding the following lines to the `MainView` constructor, right after `HorizontalLayout filtering = new HorizontalLayout...`:
 
@@ -56,15 +49,12 @@ addCustomerBtn.addClickListener(e -> {
     grid.asSingleSelect().clear(); <1>
     form.setCustomer(new Customer()); <2>
 });
-
-HorizontalLayout toolbar = new HorizontalLayout(filtering,
-    addCustomerBtn);
 ----
-<1> Clears a possible selection from the `Grid`.
+<1> Clears a possible previous selection from the `Grid`.
 
-<2> Instantiates a new customer object and passes it to the form for editing.
+<2> Instantiates a new customer object and passes it to the `CustomerForm` for editing.
 
-To add the button beside the `filtering` layout, you can use a `HorizontalLayout` to _wrap_ both, the both, the `filtering` and `addCustomerBtn` components. First, introduce a new layout after the previous `addCustomerBtn` code:
+To add the button beside the `filtering` layout, you can use a `HorizontalLayout` that _wrapps_ both, the `filtering` and `addCustomerBtn` components. First, introduce a new layout right after the previous `addCustomerBtn` code:
 
 [source,java]
 ----

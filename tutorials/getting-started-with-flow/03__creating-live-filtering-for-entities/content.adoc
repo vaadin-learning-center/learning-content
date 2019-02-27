@@ -13,7 +13,7 @@ The following is a screenshot of the filter you'll implement in this section:
 
 image::filter.png[Filter]
 
-== Adding the TextField component
+== Using the TextField component
 
 In the `MainView` class, introduce an instance variable of type `TextField` as follows:
 
@@ -48,11 +48,11 @@ public class MainView extends VerticalLayout {
     ...
 }
 ----
-<1> Shows the given string inside the field as long as no value is set. When the user starts typing, the placeholder is automatically removed.
+<1> Shows the given string inside the field. When the user starts typing, the placeholder is automatically removed.
 
 <2> `ValueChangeMode.EAGER` ensures that change events are fired immediately when the user types.
 
-<3> Adds a listener to react to changes in the value in the text field.
+<3> Adds a listener to react to changes in the value of the text field.
 
 The value change listener calls the `updateList()` method. However, this method doesn't use the value in the filter. To use it, change the line in the `updateList()` method to send the value to the service (back end) call:
 
@@ -66,7 +66,7 @@ public void updateList() {
 
 == Clearing the filter
 
-To improve usability, add a button to clear the text field. While the search field can be cleared using the keyboard, adding a button makes it even easier for the user. Adding the following code to the constructor directly after the `filterText` configuration:
+To improve usability, add a button to clear the text field. While the search field can be cleared using the keyboard, adding a button makes it even easier for the end user. Add the following code to the constructor directly after the `filterText` configuration:
 
 [source,java]
 ----
@@ -76,11 +76,11 @@ clearFilterTextBtn.addClickListener(e -> filterText.clear()); <2>
 ----
 <1> Adds an "X" icon (`VaadinIcon.CLOSE_CIRCLE`) from the built-in set of icons provided by Vaadin.
 
-<2> Clears the text in the text field.
+<2> Clears the value in the text field.
 
 == Grouping components
 
-Add the text field and the button into a new layout so they line up next to each other. To align them horizontally, use a `HorizontalLayout`. Adding the following to the constructor directly after the `clearFilterTextBtn` code:
+Add the text field and the button into a new layout so they line up next to each other. To align them horizontally, use a `HorizontalLayout`. Add the following to the constructor directly after the `clearFilterTextBtn` code:
  
 [source,java]
 ----
@@ -89,7 +89,7 @@ HorizontalLayout filtering = new HorizontalLayout(filterText,
 ----
 
 
-Change the `add(grid)` line of code to include the `filtering` layout:
+Change the `add(grid)` line of code to include the `filtering` layout as follows:
 
 [source,java]
 ----
@@ -109,14 +109,16 @@ public class MainView extends VerticalLayout {
     private TextField filterText = new TextField();
 
     public MainView() {
-
         filterText.setPlaceholder("Filter by name...");
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button clearFilterTextBtn = new Button(VaadinIcon.CLOSE_CIRCLE.create());
+        Button clearFilterTextBtn = new Button(
+                VaadinIcon.CLOSE_CIRCLE.create());
         clearFilterTextBtn.addClickListener(e -> filterText.clear());
-        HorizontalLayout filtering = new HorizontalLayout(filterText, clearFilterTextBtn);
+
+        HorizontalLayout filtering = new HorizontalLayout(filterText,
+                clearFilterTextBtn);
 
         grid.setColumns("firstName", "lastName", "status");
 
@@ -134,4 +136,4 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.
+Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. Check that the filter works as expected.
