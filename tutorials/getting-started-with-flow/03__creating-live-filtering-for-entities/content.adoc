@@ -134,4 +134,4 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-Compile the project by selecting *Build | Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.
+Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.

@@ -1,0 +1,96 @@
+[[flow.tutorial.form]]
+= Connecting the form to the application
+
+:title: Part 4 - Connecting the form to the application
+:author: Vaadin
+:description: Learn how connect a custom form to a main layout
+:tags: Flow, Java
+:imagesdir: ./images
+:linkattrs:
+
+In this part of the tutorial you'll learn how to connect the `CustomerForm` component (implemented in the previous step) to the application. This includes, showing and hiding the form when a row is selected or deselected in the `Grid`, making the *Save* and *Delete* buttons work, and adding a _create new customer_ option.
+
+== Showing and hiding the form
+
+The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is null or shows it if the customer is not null. When the `MainView` is built, the form should be hidden since there's no customer selected in the `Grid` at that point. You can hide the form by setting a `null` customer as follows:
+
+[source,java]
+----
+public class MainView extends VerticalLayout {
+
+    ...
+
+    public MainView() {
+        ...
+        form.setCustomer(null); <1>
+    }
+
+    ...
+}
+----
+<1> Hides the form.
+
+In order to detect when the user selects or deselects a row in the `Grid` you need to implement a _value change listener_. Add the following at the end of the `MainView` constructor:
+
+[source,java]
+----
+grid.asSingleSelect().addValueChangeListener(event -> <1>
+        form.setCustomer(grid.asSingleSelect().getValue())); <2>
+----
+<1> Adds a listener to the `Grid`. The `Grid` component supports multi and single selection modes. This example uses the single select mode through the `asSingleSelect()` method.
+
+<2> Sets the selected customer in the `CustomerForm`. This also uses the single select mode. The `getValue()` method returns the `Customer` in the selected row or `null` if a row was deselected, effectively showing or hiding the form accordingly.
+
+Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. When you select a row, the data is _copied_ to the input fields. The form is now "connected" to the `Grid`. Also check that when you deselect a row, the form is hidden. Moreover, the *Save* and the *Delete* buttons should now work as well.
+
+== Adding New Customers
+
+Let's add the functionality to add new customer records by creating a new *Add new customers* button above the `Grid` and next to the `filtering` layout.
+
+Add a new `Button` with a click listener, by adding the following lines to the `MainView` constructor, right after `HorizontalLayout filtering = new HorizontalLayout...`:
+
+[source,java]
+----
+Button addCustomerBtn = new Button("Add new customer");
+addCustomerBtn.addClickListener(e -> {
+    grid.asSingleSelect().clear(); <1>
+    form.setCustomer(new Customer()); <2>
+});
+
+HorizontalLayout toolbar = new HorizontalLayout(filtering,
+    addCustomerBtn);
+----
+<1> Clears a possible selection from the `Grid`.
+
+<2> Instantiates a new customer object and passes it to the form for editing.
+
+To add the button beside the `filtering` layout, you can use a `HorizontalLayout` to _wrap_ both, the both, the `filtering` and `addCustomerBtn` components. First, introduce a a new layout after the previous `addCustomerBtn` code:
+
+[source,java]
+----
+HorizontalLayout toolbar = new HorizontalLayout(filtering,
+    addCustomerBtn);
+----
+
+Add the `toolbar` by replacing the `add(filtering, mainContent);` line with the following:
+
+[source,java]
+----
+add(toolbar, mainContent);
+----
+
+Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes: Users can now create customer records that are stored in the demo backend.
+
+Congratulations! You have just created your first app with Vaadin.
+
+== Next Steps
+
+After completing this tutorial, you might already have ideas on how to create new web UIs for your existing Java applications. Here there are a few resources that will help you to explore more advanced topics:
+
+* https://vaadin.com/start#vaadin10[Vaadin app starters] - Explore the various starter packs.
+
+* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - Another Vaadin tutorial with Spring Boot and a Spring Data JPA backend that allows you to connect your application to a real SQL database.
+
+* https://vaadin.com/tutorials[Vaadin tutorials] - Learn more about Vaadin and its integration with related technologies.
+
+* http://vaadin.com/directory[Directory] - Explore the many components and add-ons available for developing Vaadin applications.

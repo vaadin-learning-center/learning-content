@@ -89,6 +89,6 @@ At this point, the `Grid` columns are ready but there are no rows yet. To add th
 ...
 ----
 
-Compile the project by selecting *Build | Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
+Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
 
 image::grid.png[Grid with columns and rows]

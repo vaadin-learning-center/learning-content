@@ -53,7 +53,7 @@ Follow these steps to generate a new Vaadin project:
 
 Import the project in IntelliJ IDEA by following these steps:
 
-. In IntelliJ IDEA, click the *Open* option in the _welcome window_ or select *File* | *Open*.
+. In IntelliJ IDEA, click the *Open* option in the _welcome window_ or select *File* > *Open*.
 
 . Select the `pom.xml` file that you can find inside the `my-app` directory.
 
@@ -93,7 +93,7 @@ public class MainView extends VerticalLayout { <3>
 <5> Adds a _click listener_ (using a Java lambda expression) that shows a notification when the button is clicked.
 <6> Adds the button to the `VerticalLayout`.
 
-=== Running the Application
+=== Running the application
 
 To run the application, click on the *Maven* view and look for the *jetty:run* _Maven goal_:
 
@@ -102,7 +102,7 @@ image::jetty-run.png[jetty:run Maven goal]
 Double-click *jetty:run* to build the app and deploy it to a Jetty server. Once the server starts, open `http://localhost:8080` to see the application in the browser.
 
 [NOTE]
-You can make changes to the code, and compile the project by selecting the *Build | Build Project* option in IntelliJ IDEA. The Jetty server picks up the changes and deploys them automatically within a few seconds. You can also reload the page to reflect the changes.
+You can make changes to the code, and compile the project by selecting the *Build > Build Project* option in IntelliJ IDEA. The Jetty server picks up the changes and deploys them automatically within a few seconds. You can also reload the page to reflect the changes.
 
 [TIP]
 To make the deployment cycle smoother, many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) or similar to allow smooth hot-code replacement.
