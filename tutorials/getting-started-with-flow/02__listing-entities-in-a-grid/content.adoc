@@ -8,7 +8,7 @@
 :imagesdir: ./images
 :linkattrs:
 
-In this part of the tutorial you'll learn how to display data in a grid.
+In this part of the tutorial, you'll learn how to display data in a `Grid` component.
 
 == Adding domain objects
 
@@ -18,12 +18,12 @@ Copy or download the following three Java classes from GitHub and add them to yo
 
 * https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/CustomerStatus.java[`CustomerStatus.java`^]: This is a simple enum type.
 
-* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/Customer.java[`Customer.java`^]: This this is the main domain object– a basic _Java bean_ that that encapsulates data about a customer.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/Customer.java[`Customer.java`^]: This this is the main domain object– a basic _Java bean_ that encapsulates data about a customer.
 
 * https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/CustomerService.java[`CustomerService.java`^]: This is a simple service class that you can use to get and save `Customer` instances. Think of this class as the entry point to a dummy database.
 
 [TIP]
-A fast way to copy classes in IntelliJ IDEA is to use the clipboard. In the browser, select the content of the file and choose *Edit > Copy*. In IntelliJ IDEA, right-click `com.vaadin.starter.skeleton.my-app` in the *Project*` view and select the *Paste* option. IntelliJ IDEA is smart enough to automatically create a properly-named Java file for the class.
+A fast way to copy classes in IntelliJ IDEA is to use the clipboard. In the browser, select the content of the file and choose *Edit > Copy*. In IntelliJ IDEA, right-click `com.vaadin.starter.skeleton.my-app` in the *Project*` view and select the *Paste* option. IntelliJ IDEA is smart enough to create a properly-named Java file automatically.
 
 NOTE: The actual implementation of these classes is not relevant for this tutorial, but feel free to explore them. In a real-world application, you would most likely have something similar but implemented with JPA and EJB, or Spring-managed beans, for example.
 

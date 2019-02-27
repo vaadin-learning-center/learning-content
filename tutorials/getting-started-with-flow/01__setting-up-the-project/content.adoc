@@ -8,13 +8,13 @@
 :imagesdir: ./images
 :linkattrs:
 
-In this tutorial you'll learn how to create your first Java web application using https://vaadin.com/flow[Vaadin].
+In this tutorial, you'll learn how to create your first Java web application using https://vaadin.com/flow[Vaadin].
 
 All you need is basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE^] such as https://en.wikipedia.org/wiki/IntelliJ_IDEA[IntelliJ IDEA], and the https://jdk.java.net[JDK] version 8 or later. You'll need 20 to 60 minutes to complete the whole tutorial, depending on your current experience.
 
 == Overview
 
-In this tutorial you'll build a simple application to manage data about customers. For simplicity, the application doesn't connect to a real database but use an in-memory back end. This, however, will allow you to understand how to use a real-world back end using the persistence technology of your choice.
+You'll build a simple application to manage data about customers. For simplicity, the application doesn't connect to a real database but use an in-memory back end. This, however, will allow you to understand how to use a real-world back end using the persistence technology of your choice.
 
 At the end of the tutorial, you'll get a web page with a table (called a _Grid_ in Vaadin) with filtering capabilities and functionality to add, delete and update customer data.
 
@@ -22,7 +22,7 @@ image::finished-app.png[The finished web application]
 
 You can use the resulting application as a starting point for more experiments with Vaadin. For example, adding new views, creating a custom theme, using add-ons, and optimizing for mobile.
 
-If you don't want to code the application from scratch, you can just
+If you don't want to code the application from scratch, you can
 https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application^] and experiment with it.
 
 == Installing the Development Tools
@@ -61,11 +61,13 @@ Import the project in IntelliJ IDEA by following these steps:
 
 IntelliJ IDEA will download the required dependencies and build the project.
 
+NOTE: If this is your first Vaadin app, building the project might take a while, depending on the speed of your network, as libraries are downloaded. Maven caches them on your local file system. Creating your next Maven-based Vaadin project will be much faster.
+
 === The generated project files
 
 Let's take a look at some of the generated files:
 
-* `my-app/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way Maven represents a software project. Don't worry if you don't have experience with Maven, most IDEs make it straightforward to use it.
+* `my-app/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way Maven represents a software project. Don't worry if you don't have experience with Maven, most of the IDEs make it straightforward to use it.
 
 * `my-app/src/main/java`: This directory contains the Java code organized in packages. There's only one package at this point: `com.vaadin.starter.skeleton`. Inside this package you'll find the `MainView.java` file–a Java class that implements the web user interface using Vaadin:
 
@@ -90,7 +92,7 @@ public class MainView extends VerticalLayout { <3>
 <2> Tell Vaadin to activate automatic https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps[PWA] features. This annotation is optional.
 <3> Makes this view a `VerticalLayout` which shows components vertically.
 <4> Creates a button with the text `Click me` on it.
-<5> Adds a _click listener_ (using a Java lambda expression) that shows a notification when the button is clicked.
+<5> Adds a _click listener_ (using a Java lambda expression) that shows a notification when the user clicks the button.
 <6> Adds the button to the `VerticalLayout`.
 
 === Running the application
