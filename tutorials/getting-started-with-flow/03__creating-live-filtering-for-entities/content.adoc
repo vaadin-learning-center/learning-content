@@ -33,18 +33,12 @@ Configure the text field to display a _placeholder_ and add a _value change list
 
 [source,java]
 ----
-public class MainView extends VerticalLayout {
+public MainView() {
 
-    ...
+    filterText.setPlaceholder("Filter by name..."); <1>
+    filterText.setValueChangeMode(ValueChangeMode.EAGER); <2>
+    filterText.addValueChangeListener(e -> updateList()); <3>
 
-    public MainView() {
-
-        filterText.setPlaceholder("Filter by name..."); <1>
-        filterText.setValueChangeMode(ValueChangeMode.EAGER); <2>
-        filterText.addValueChangeListener(e -> updateList()); <3>
-
-        ...
-    }
     ...
 }
 ----
