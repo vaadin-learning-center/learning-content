@@ -1,7 +1,7 @@
 [[flow.tutorial.form]]
-= Creating a form using plain Java
+= Creating a Form Using Plain Java
 
-:title: Part 4 - Creating a form using plain Java
+:title: Part 4 - Creating a Form Using Plain Java
 :author: Vaadin
 :description: Learn how to implement a reusable form to edit data
 :tags: Flow, Java
@@ -12,7 +12,7 @@ In this part of the tutorial you'll learn how to implement a reusable form to ed
 
 image::form.png[Form]
 
-== Adding input fields and buttons
+== Adding Input Fields and Buttons
 
 So far, you have been coding the UI in one class: `MainView`. However, you can also use Object Oriented composition and create reusable UI components with Vaadin. A _customer form_ sounds like a perfect candidate for a reusable UI component.
 
@@ -64,7 +64,7 @@ public CustomerForm() {
 
 <2> Makes the save button prominent by decorating it with a style name.
 
-== Showing and hiding the form
+== Showing and Hiding the Form
 
 The applications requires to show the form with the corresponding data from a specific `Customer` instance, or completely hide the form.
 
@@ -104,7 +104,7 @@ public void setCustomer(Customer customer) {
 
 <2> When the `customer` is not null, show the form and make the *First name* input field keyboard-focused to allow typing on it immediately.
 
-== Implementing the save and delete actions
+== Implementing the Save and Delete Actions
 
 Since the save and the delete actions require updating the list of customers in the `MainView` class, you'll need a reference to this class. You can receive it in the constructor as follows:
 
@@ -174,7 +174,7 @@ private void delete() {
 
 NOTE: For a truly re-usable form component in a real-life project, you should introduce an interface to avoid coupling with the `MainView` class. Alternatively, you could use an event system, like CDI events, to completely decouple the components. For simplicity, we left this out of the scope of this tutorial.
 
-== Adding the form to the main view
+== Adding the Form to the Main View
 
 Let's add the form to the main view. Start by adding the form as an instance variable in the `MainView` class:
 

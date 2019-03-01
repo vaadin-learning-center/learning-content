@@ -1,7 +1,7 @@
 [[flow.tutorial.grid]]
-= Listing entities in a Grid
+= Listing Entities in a Grid
 
-:title: Part 2 - Listing entities in a Grid
+:title: Part 2 - Listing Entities in a Grid
 :author: Vaadin
 :description: Learn how to show data in tabular form using a Grid component
 :tags: Flow, Java
@@ -10,7 +10,7 @@
 
 In this part of the tutorial, you'll learn how to display data in a `Grid` component.
 
-== Adding the domain objects
+== Adding the Domain Objects
 
 Before getting into actual web development with Vaadin, we need to add the necessary _domain objects_ and a _dummy back end_.
 
@@ -27,7 +27,7 @@ A fast way to copy classes in IntelliJ IDEA is to use the clipboard. In the brow
 
 NOTE: The actual implementation of these classes is not relevant for this tutorial, but feel free to explore them. In a real-world application, you would most likely have something similar but implemented with JPA and EJB, or Spring-managed beans, for example.
 
-== Showing data in a Grid
+== Showing Data in a Grid
 
 When building user interfaces (UI) for data-centric applications, you frequently start by listing data from a backend. Vaadin offers several components and ways to do this. This tutorial uses the `Grid` component to present data in a tabular fashion. The data comes from the _dummy backend_ you added in the previous section.
 

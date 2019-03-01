@@ -1,7 +1,7 @@
 [[flow.tutorial.filtering]]
-= Creating live filtering for entities
+= Creating Live Filtering for Entities
 
-:title: Part 3 - Creating live filtering for entities
+:title: Part 3 - Creating Live Filtering for Entities
 :author: Vaadin
 :description: Learn how to filter data in a Grid with Vaadin Flow
 :tags: Flow, Java
@@ -13,7 +13,7 @@ The following is a screenshot of the filter you'll implement in this section:
 
 image::filter.png[Filter]
 
-== Using the TextField component
+== Using the TextField Component
 
 In the `MainView` class, introduce an instance variable of type `TextField` as follows:
 
@@ -58,7 +58,7 @@ public void updateList() {
 ----
 <1> `filterText.getValue()` returns the current string in the text field.
 
-== Clearing the filter
+== Clearing the Filter
 
 To improve usability, add a button to clear the text field. While the search field can be cleared using the keyboard, adding a button makes it even easier for the end user. Add the following code to the constructor directly after the `filterText` configuration:
 
@@ -72,7 +72,7 @@ clearFilterTextBtn.addClickListener(e -> filterText.clear()); <2>
 
 <2> Clears the value in the text field.
 
-== Grouping components
+== Grouping Components
 
 Add the text field and the button into a new layout so they line up next to each other. To align them horizontally, use a `HorizontalLayout`. Add the following to the constructor directly after the `clearFilterTextBtn` code:
  

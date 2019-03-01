@@ -1,7 +1,7 @@
 [[flow.tutorial.form]]
-= Connecting the form to the application
+= Connecting the Form to the Application
 
-:title: Part 4 - Connecting the form to the application
+:title: Part 4 - Connecting the Form to the Application
 :author: Vaadin
 :description: Learn how connect a custom form to a main layout
 :tags: Flow, Java
@@ -10,7 +10,7 @@
 
 In this part of the tutorial, you'll learn how to connect the `CustomerForm` component (implemented in the previous step) to the application. This includes showing and hiding the form when a row is selected or deselected in the `Grid`, making the *Save* and *Delete* buttons work, and adding a _create new customer_ option.
 
-== Showing and hiding the form
+== Showing and Hiding the Form
 
 The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is null or shows it if the customer is not null. When the `MainView` is built, the form should be invisible since there's no customer selected in the `Grid` at that point. You can hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
 

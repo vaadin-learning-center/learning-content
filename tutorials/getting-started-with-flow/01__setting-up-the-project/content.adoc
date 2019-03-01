@@ -1,7 +1,7 @@
 [[flow.tutorial]]
-= Setting up the project
+= Setting up the Project
 
-:title: Part 1 - Setting up the project
+:title: Part 1 - Setting up the Project
 :author: Vaadin
 :description: Learn how to get started with Java web development using Vaadin
 :tags: Flow, Java
@@ -33,7 +33,7 @@ TIP: Most *Linux* distributions can use package managers to install the JDK. *Wi
 
 This tutorial uses https://www.jetbrains.com/idea/[IntelliJ IDEA], but you can use any other Java IDE.
 
-== Creating the project
+== Creating the Project
 
 The easiest way to create a new Vaadin project is by using the _Project Base starter_.
 
@@ -63,7 +63,7 @@ IntelliJ IDEA will download the required dependencies and build the project.
 
 NOTE: If this is your first Vaadin app, building the project might take a while, depending on the speed of your network, as libraries are downloaded. Maven caches them on your local file system. Creating your next Maven-based Vaadin project will be much faster.
 
-=== The generated project files
+=== The Generated Project Files
 
 Let's take a look at some of the generated files:
 
@@ -99,7 +99,7 @@ public class MainView extends VerticalLayout { <3>
 
 <6> Adds the button to the `VerticalLayout`.
 
-=== Running the application
+=== Running the Application
 
 To run the application, click on the *Maven* view and look for the *jetty:run* _Maven goal_:
 
