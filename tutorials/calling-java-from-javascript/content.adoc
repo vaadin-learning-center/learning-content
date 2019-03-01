@@ -12,6 +12,8 @@ Typically, applications make server-side Java methods available to the client-si
 
 In this step-by-step tutorial, you will learn how to use Vaadin to call server-side Java code from client-side JavaScript code. All you need to follow this tutorial is a basic understanding of the Java Programming Language, the fundamentals of JavaScript, JDK 8 or later, and a Java IDE.
 
+video::3l0Ed8x2nCg[youtube]
+
 NOTE: You can find the source code for this tutorial on https://github.com/vaadin-learning-center/calling-java-from-javascript[GitHub].
 
 == Setting up the project
