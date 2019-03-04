@@ -1,0 +1,99 @@
+= Service registration and discovery
+
+:title: Service registration and discovery
+:tags: Microservices, Java
+:author: Alejandro Duarte
+:description: This part explains how service registration and discovery works and how to implement a service discovery server using Eureka.
+:repo: https://github.com/alejandro-du/vaadin-microservices-demo
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+In the previous part or this series, we explored a demo application implemented with microservices. The demo application is {repo}[available on GitHub] and you can follow the instructions there to run it by yourself.
+
+In this part, we’ll explore the concept of service registration and discovery, a mechanism that enables microservices to consume other microservices without knowing their exact location.
+
+== Why do we need this?
+
+Without this, the services’ locations would be coupled to each other, causing a hard to maintain system. The basic problem is evident: How do services know the IP and port of a service they need to consume? In a simple architecture, a static configuration works pretty well. Each service is deployed at the same location and it rarely changes. But this is not the case with microservices.
+
+One of the objectives of microservices is to enable the development teams to deploy and scale their applications independently. As more services and instances are added to the system, service locations start to change frequently: Partly because of manual or automatic scaling, partly because of continuous delivery processes. Instances will start to go up and down frequently as scaling and deployment happen. Clearly, a static configuration for the location of services is not a viable solution. A dynamic configuration is needed.
+
+== How does it work?
+
+The dynamic configuration that contains the location of the services is held in a _discovery service_. Each microservice only needs to know about the location of the discovery service and will use it to get the location of other microservices. In the demo application, the discovery service is implemented in the `discovery-server` application.
+
+Let’s take two of the microservices in the demo application as an example: The `admin-application` (a https://vaadin.com/flow[Vaadin] web application) and the `biz-application` (a https://projects.spring.io/spring-data-rest/[Spring Data REST] web service). The `admin-application` needs the `biz-application` for reading and writing data. The following diagram shows the communication flow when using a discovery server:
+
+image::discovery-server-flow.png[Discovery server communication flow]
+
+1. `The biz-application` starts up and tells the `discovery-server` it is available.
+
+2. The `admin-application` starts up and asks the `discovery-server` for the location of the `biz-application`.
+
+3. The `discovery-server` looks-up in its internal database and returns the location of the `biz-application`.
+
+4. The `admin-application` is now able to make direct requests to the `biz-application`.
+
+What happens when more instances of the `biz-application` are added? The process is shown in the following diagram:
+
+image::client-side-load-balancer-flow.png[Client-side load balancer]
+
+Notice how each `biz-application` instance registers itself (1 and 2) and how the `discovery-server` returns all available locations to the `admin-application` (4) which in turn selects one of them to make requests (5). Which instance to select is done through a _client-side load balancer_ with fault tolerance features. This part of the tutorial series focuses on service registration and discovery aspect. Load balancing and fault tolerance are covered in a later part.
+
+== Implementing a Discovery Server with Eureka
+
+There are many implementations suitable for service discovery. https://github.com/airbnb/smartstack-cookbook[SmartStack], https://zookeeper.apache.org/[Zookeeper], https://github.com/coreos/etcd[Etcd], https://www.consul.io/[Consul], http://nsq.io/[NSQ], https://www.serf.io/[Serf], and https://github.com/ha/doozerd[Doozer], are all good examples. The demo application uses the battle-proven https://github.com/Netflix/eureka[Eureka] by Netflix.
+
+‹http://projects.spring.io/spring-cloud/[Spring Cloud] offers excellent integration with Eureka (and with https://cloud.spring.io/spring-cloud-netflix/[Netflix OSS] in general) through https://cloud.spring.io/spring-cloud-netflix/[Spring Cloud Netflix]. Thanks to Spring Boot’s https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-auto-configuration.html[autoconfiguration] features, implementing a discovery service with Eureka is extremely easy.
+
+Use the http://start.spring.io/[Spring Initializr] to create a new Spring Boot application named `discovery-server` and include the *Eureka Server* and *Actuator* (optional) dependencies:
+
+image::initializr.png[Spring initializr]
+
+Click *Generate Project*, extract the generated file, and import the https://vaadin.com/tutorials/learning-maven-concepts[Maven] project into your favorite IDE (see instructions for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans]).
+
+Open up the `DiscoveryServerApplication` class and annotate it with `@EnableEurekaServer`:
+
+[source,java]
+----
+@SpringBootApplication
+@EnableEurekaServer
+public class DiscoveryServerApplication {
+   ...
+}
+----
+
+Remove the `application.properties? file and create an `application.yml` file with the following content:
+
+[source,yaml]
+----
+server.port: 8001
+spring.application.name: discovery-server
+
+eureka:
+  server:
+    evictionIntervalTimerInMs: 2000
+    response-cache-update-interval-ms: 2000
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    service-url.defaultZone: http://localhost:${server.port}/eureka
+----
+
+This file configures the application to use port 8001 and the name `discovery-server`. It also contains the configuration for Eureka.
+
+WARNING: This configuration is not intended to serve a production system. It’s adjusted to handle only a few instances of each microservice and to allow you to quickly see changes while trying the application. In production deployments, you should tune it according to your specific requirements. See https://github.com/Netflix/eureka/wiki/Configuring-Eureka[Eureka’s documentation] for more information on this.
+
+Compile and package the application using Maven and run it as a standard Java program using the command line (or your IDE):
+
+----
+cd discovery-server
+mvn package
+java -jar target/discovery-server-0.0.1-SNAPSHOT.jar
+----
+
+Go to http://localhost:8001 to see the dashboard included with Eureka. At this point, no instances are listed yet, but we’ll get to that in the next parts of this tutorial series.
+
+== What's next?
+
+In the next part of this tutorial, you'll learn how to externalize the configuration in microservices.
