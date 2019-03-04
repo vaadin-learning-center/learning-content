@@ -4,7 +4,7 @@
 :type: text
 :tags: Spring, Spring Boot
 :description: Form based login views using only Java or Polymer templates
-:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/master, https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/java-form
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/branches
 :linkattrs:
 :imagesdir: ./images
 

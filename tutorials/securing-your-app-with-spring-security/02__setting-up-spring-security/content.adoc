@@ -4,7 +4,7 @@
 :type: text
 :tags: Spring, Spring Boot
 :description: Detailed explanation to setup Spring Security for Vaadin applications
-:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/master
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin
 :linkattrs:
 :imagesdir: ./images
 

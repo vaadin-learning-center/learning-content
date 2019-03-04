@@ -4,7 +4,7 @@
 :type: text
 :tags: Spring, Spring Boot, Security
 :description: A small introduction of what you can expect from this tutorial, its goals and the initial setup
-:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/master
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin
 :linkattrs:
 :imagesdir: ./images
 
