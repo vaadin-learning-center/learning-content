@@ -1,9 +1,10 @@
-= Setting up Spring Security and add a login screen
+= Setting up Spring Security for Vaadin applications
+:title: Setting up Spring Security for Vaadin applications
 :author: Paul Römer
 :type: text
 :tags: Spring, Spring Boot
-:description: How to define properties and listen for events in lit-html templates
-:repo: https://github.com/vaadin-learning-center/lit-element-tutorial-templating-properties-and-events
+:description: Detailed explanation to setup Spring Security for Vaadin applications
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/master
 :linkattrs:
 :imagesdir: ./images
 
@@ -24,7 +25,7 @@ First, we have to add the needed Spring Security dependencies to our POM:
 </dependency>
 ----
 
-Second, we add a Vaadin aware Spring Security configuration via a `SecurityConfiguration` and some helpers.
+Second, we will add a Vaadin aware Spring Security configuration via the `SecurityConfiguration` class that uses some helpers you can check in the sources.
 [source,java,linenums]
 ----
 /**
@@ -64,6 +65,7 @@ protected void configure(HttpSecurity http) throws Exception {
 <5> Configure the URL to the login page for redirects and permit access to everyone.
 <6> Configure the login URL Spring Security is expecting POST requests to (form submit).
 
+Next, we have to make sure that resources Vaadin needs are bypassed and not affected by our security configuration above:
 [source,java,linenums]
 ----
 /**
@@ -97,7 +99,9 @@ public void configure(WebSecurity web) throws Exception {
 }
 ----
 <1> Mandatory.
-<2> Needed only if you develop a PWA.
+<2> Needed only if you develop a Progressive Web Application.
 <3> and <4> Allows access to frontend resources in development mode.
 <5> Grants access to all bundled resources. This is important for your login view (if a Polymer template needs to be accessed) or for every other public page.
+
+Once again, run `mvn spring-boot:run` to build and start the web application and notice the redirection to /login. So far, so good.
 

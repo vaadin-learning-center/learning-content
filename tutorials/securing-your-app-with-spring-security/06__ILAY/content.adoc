@@ -1,0 +1,9 @@
+= Simplify secured routing by using ILAY and getting even finer grained security
+:author: Paul Römer
+:type: text
+:tags: Spring, Spring Boot
+:description: Introduces the Vaadin Add-on ILAY that simplifies securing router navigation.
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/master
+:linkattrs:
+:imagesdir: ./images
+:placeholder:
