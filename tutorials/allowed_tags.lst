@@ -4,14 +4,18 @@ Backend
 Cloud
 Code splitting
 CSS
+Data entry
 Deploy
 Eclipse
+Embed
 Flow
 I18N
 IntelliJ IDEA
 Internationalisation
+Jar
 Java
 JavaScript
+Jetty
 jUnit5
 JVM
 Kotlin
@@ -20,6 +24,7 @@ Layout
 LitElement
 Maven
 Meecrowave
+Microservices
 Migration
 Mutation Testing
 Navigation
@@ -33,6 +38,7 @@ React
 Reactive
 Redux
 ResourceBundle
+REST
 Shadow DOM
 Spring
 Spring Boot
@@ -40,9 +46,12 @@ State management
 Swarm
 Standard
 Templating
+Testbench
+TomEE
 Thorntail
 Vaadin 7
 Vaadin 8
+Validation
 Vue
 Web Components
 Webpack

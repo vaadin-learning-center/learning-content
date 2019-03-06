@@ -172,9 +172,9 @@ Then, include the loader and an optional import for the ES5 compatibility script
 ----
 <script src="webcomponents/webcomponents-loader.js"></script>
 <script>
-  if (!window.customElements{document.write('<!--');}
+  if (!window.customElements) { document.write('<!--'); }
 </script>
-<scripsrc="webcomponents/custom-elements-es5-apter.js"></script>
+<script src="webcomponents/custom-elements-es5-adapter.js"></script>
 <!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
 ----
 
