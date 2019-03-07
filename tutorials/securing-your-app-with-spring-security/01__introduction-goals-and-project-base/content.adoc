@@ -10,18 +10,18 @@
 
 We get a lot questions in the forum about *how to use Vaadin 10+ with Spring Security*. We heard you, we will help you. But let's start with definition of "use", first:
 
-Since Vaadin 10 you all know that we also support *Polymer templates* besides the *Java-only approach*. That means we already have to discuss two different types of client side implementation. In addition we can use as much Spring Security as possible by submitting a form to the configured endpoint or a little less by hooking into Spring Security's authentication flow. Both have ups and downs we will eleborate.
-After that we will take a look on *how to secure the router navigation* and how to work with roles for finer grained security. Last but not least we will introduce the addon *ILAY* that simplifies our task in securing the app and that allows us to not only enable whole views but also components depending on the logged in user.
+Since Vaadin 10 you all know that we also support *Polymer templates* besides the *Java-only approach*. That means we already have to discuss two different types of client side implementation. In addition we can use as much Spring Security as possible by submitting a form to the configured endpoint or a little less by hooking into Spring Security's authentication flow. Both have pros and cons we will eleborate.
+After that we will take a look at *how to secure the router navigation* and how to work with roles for finer grained security. Last but not least we will introduce the addon *ILAY* that simplifies our task in securing the app and that allows us to not only enable whole views but also components depending on the logged in user.
 
 In sum we end up with:
 . Configuring Spring Security
-. Setting up a form based login view (Java and Polymer based)
+. Setting up a form-based login view (Java and Polymer based)
 . Hooking into the authentication flow and avoid reloading
 . Secure routing
 . Finer grained security with roles on view and component level
 . ILAY
 
-Important to know is that *basic knowledge of Vaadin 10+ and Spring Security and Spring Boot is required for this tutorial*. We will _not_ discuss styling, production builds or other security unrelated stuff. It's the functionality we are focusing on.
+Important to know is that *basic knowledge of Vaadin 10+ and Spring Security and Spring Boot is required for this tutorial*. We will _not_ discuss styling, production builds or other topics unrelated to security. It's the functionality we are focusing on.
 
 == Get the base Vaadin + Spring starter
 We are using https://vaadin.com/start/latest/project-base-spring as our starting point. At the time of writing the starter is using Vaadin 12.0.4 with Spring Boot 2.1.0.RELEASE.
@@ -54,7 +54,7 @@ We are using https://vaadin.com/start/latest/project-base-spring as our starting
 │                   └── icons
 │                       └── icon.png
 ```
-The project setup is very minimalistic: single Maven module, no styles, no Polymer templates (prepared folder structure), the typical SpringBoot `Application` class and a main view. Because this starter showcases Spring it includes a message bean that is injected and used in the `MainView`. But let's do not care about that.
+The project setup is very minimalistic: a single Maven module, no styles, no Polymer templates (prepared folder structure), the typical SpringBoot `Application` class and a main view. Because this starter showcases Spring it includes a message bean that is injected and used in the `MainView`. But let's do not care about that.
 
 Now, run `mvn spring-boot:run` to build and start the web application.
 
