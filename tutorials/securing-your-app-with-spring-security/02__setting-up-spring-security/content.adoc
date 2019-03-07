@@ -36,7 +36,7 @@ protected void configure(HttpSecurity http) throws Exception {
 	// Not using Spring CSRF here to be able to use plain HTML for the login page
 	http.csrf().disable() // <1>
 
-			// Register our CustomRequestCache, that saves unauthorized access attempts, so
+			// Register our CustomRequestCache that saves unauthorized access attempts, so
 			// the user is redirected after login.
 			.requestCache().requestCache(new CustomRequestCache()) // <2>
 
@@ -99,7 +99,7 @@ public void configure(WebSecurity web) throws Exception {
 }
 ----
 <1> Mandatory.
-<2> Needed only if you develop a Progressive Web Application.
+<2> Needed only when developing a Progressive Web Application.
 <3> and <4> Allows access to frontend resources in development mode.
 <5> Grants access to all bundled resources. This is important for your login view (if a Polymer template needs to be accessed) or for every other public page.
 
