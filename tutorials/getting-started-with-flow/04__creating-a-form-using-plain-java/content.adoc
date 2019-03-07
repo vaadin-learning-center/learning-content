@@ -189,7 +189,7 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-To display the form to the right of the `Grid` in the `MainView` class, you can introduce a `HorizontalLayout` to _wrap_ the `grid` and the `customerForm` components. Replace the `add(filtering, grid)` line of code with the following:
+To display the form to the right of the `Grid` in the `MainView` class, you can introduce a `HorizontalLayout` to _wrap_ the `grid` and the `customerForm` components. Replace the `add(filterText, grid)` line of code with the following:
 
 [source,java]
 ----
@@ -197,7 +197,7 @@ HorizontalLayout mainContent = new HorizontalLayout(grid, form);
 mainContent.setSizeFull();
 grid.setSizeFull();
 
-add(filtering, mainContent);
+add(filterText, mainContent);
 ----
 
 Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:

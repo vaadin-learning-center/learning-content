@@ -9,7 +9,7 @@
 
 All modern applications need search functionality. Implementing this functionality is a good exercise for learning Vaadin. In this part of the tutorial, you'll add filtering functionality to the list of customers created in the previous step.
 
-The following is a screenshot of the filter you'll implement in this section:
+The following is a screenshot of the filter you'll implement:
 
 image::filter.png[Filter]
 
@@ -29,24 +29,48 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-Configure the text field to display a _placeholder_ and add a _value change listener_ by adding the following code at the beginning of the constructor:
+Configure the text field to display a _placeholder_ and a _clear button_ by adding the following code at the beginning of the constructor:
 
 [source,java]
 ----
 public MainView() {
 
     filterText.setPlaceholder("Filter by name..."); <1>
-    filterText.setValueChangeMode(ValueChangeMode.EAGER); <2>
-    filterText.addValueChangeListener(e -> updateList()); <3>
+    filterText.setClearButtonVisible(true); <2>
 
     ...
 }
 ----
 <1> Shows the given string inside the field. When the user starts typing, the placeholder is automatically removed.
 
-<2> `ValueChangeMode.EAGER` ensures that change events are fired immediately when the user types.
+<2> Adds a _clear button_ displayed on the right-hand side of the text field when the user starts typing.
 
-<3> Adds a listener to react to changes in the value of the text field.
+Change the `add(grid)` line of code to include the `filterText` component as follows:
+
+[source,java]
+----
+add(filterText, grid);
+----
+
+== Filtering the Data
+
+To make the filter functional, add the following code at the right after the `filterText` configuration:
+
+[source,java]
+----
+public MainView() {
+
+    ...
+    filterText.setValueChangeMode(ValueChangeMode.EAGER); <1>
+    filterText.addValueChangeListener(e -> updateList()); <2>
+
+    ...
+}
+----
+
+<1> `ValueChangeMode.EAGER` ensures that change events are fired immediately when the user types.
+
+<2> Adds a _value change listener_ to react to changes in the value of the text field.
 
 The value change listener calls the `updateList()` method. However, this method doesn't use the value in the filter. To use it, change the line in the `updateList()` method to send the value to the service (back end) call:
 
@@ -58,37 +82,6 @@ public void updateList() {
 ----
 <1> `filterText.getValue()` returns the current string in the text field.
 
-== Clearing the Filter
-
-To improve usability, add a button to clear the text field. While the search field can be cleared using the keyboard, adding a button makes it even easier for the end user. Add the following code to the constructor directly after the `filterText` configuration:
-
-[source,java]
-----
-Button clearFilterTextBtn = new Button(
-	       VaadinIcon.CLOSE_CIRCLE.create()); <1>
-clearFilterTextBtn.addClickListener(e -> filterText.clear()); <2>
-----
-<1> Adds an "X" icon (`VaadinIcon.CLOSE_CIRCLE`) from the built-in set of icons provided by Vaadin.
-
-<2> Clears the value in the text field.
-
-== Grouping Components
-
-Add the text field and the button into a new layout so they line up next to each other. To align them horizontally, use a `HorizontalLayout`. Add the following to the constructor directly after the `clearFilterTextBtn` code:
- 
-[source,java]
-----
-HorizontalLayout filtering = new HorizontalLayout(filterText,
-        clearFilterTextBtn);
-----
-
-
-Change the `add(grid)` line of code to include the `filtering` layout as follows:
-
-[source,java]
-----
-add(filtering, grid);
-----
 
 For reference, here's the complete implementation of the `MainLayout` class at this point:
 
@@ -104,19 +97,13 @@ public class MainView extends VerticalLayout {
 
     public MainView() {
         filterText.setPlaceholder("Filter by name...");
+        filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button clearFilterTextBtn = new Button(
-                VaadinIcon.CLOSE_CIRCLE.create());
-        clearFilterTextBtn.addClickListener(e -> filterText.clear());
-
-        HorizontalLayout filtering = new HorizontalLayout(filterText,
-                clearFilterTextBtn);
-
         grid.setColumns("firstName", "lastName", "status");
 
-        add(filtering, grid);
+        add(filterText, grid);
 
         setSizeFull();
 

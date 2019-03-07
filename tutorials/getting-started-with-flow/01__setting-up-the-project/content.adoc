@@ -63,6 +63,12 @@ IntelliJ IDEA will download the required dependencies and build the project.
 
 NOTE: If this is your first Vaadin app, building the project might take a while, depending on the speed of your network, as libraries are downloaded. Maven caches them on your local file system. Creating your next Maven-based Vaadin project will be much faster.
 
+If you prefer to use Eclipse or NetBeans, see the following resources:
+
+* https://vaadin.com/tutorials/import-maven-project-eclipse
+
+* https://vaadin.com/tutorials/import-maven-project-netbeans
+
 === The Generated Project Files
 
 Let's take a look at some of the generated files:

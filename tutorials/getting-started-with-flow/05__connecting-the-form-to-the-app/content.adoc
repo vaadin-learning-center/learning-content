@@ -38,9 +38,9 @@ Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and r
 
 == Adding New Customers
 
-Let's add the functionality to create new customers by adding a button above the `Grid` and next to the `filtering` layout.
+Let's add the functionality to create new customers by adding a button above the `Grid` and next to the `filterText` component.
 
-Add a new `Button` with a click listener, by adding the following lines to the `MainView` constructor, right after `HorizontalLayout filtering = new HorizontalLayout...`:
+Add a new `Button` with a click listener, by adding the following lines to the `MainView` constructor, right after the `filterText` configuration:
 
 [source,java]
 ----
@@ -54,22 +54,26 @@ addCustomerBtn.addClickListener(e -> {
 
 <2> Instantiates a new customer object and passes it to the `CustomerForm` for editing.
 
-To add the button beside the `filtering` layout, you can use a `HorizontalLayout` that _wrapps_ both, the `filtering` and `addCustomerBtn` components. First, introduce a new layout right after the previous `addCustomerBtn` code:
+To add the button beside the `filterText` component, you can use a `HorizontalLayout` that _wrapps_ both, the `filterText` and `addCustomerBtn` components. First, introduce a new layout right after the previous `addCustomerBtn` code:
 
 [source,java]
 ----
-HorizontalLayout toolbar = new HorizontalLayout(filtering,
+HorizontalLayout toolbar = new HorizontalLayout(filterText,
     addCustomerBtn);
 ----
 
-Add the `toolbar` by replacing the `add(filtering, mainContent);` line with the following:
+Add the `toolbar` by replacing the `add(filterText, mainContent);` line with the following:
 
 [source,java]
 ----
 add(toolbar, mainContent);
 ----
 
-Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes: Users can now create customer records that are stored in the demo backend.
+Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
+
+image::finished-app.png[Finished app]
+
+Users can now create customer records that are stored in the demo backend.
 
 Congratulations! You have just created your first app with Vaadin.
 
