@@ -3,7 +3,7 @@
 
 :title: Part 4 - Connecting the Form to the Application
 :author: Vaadin
-:description: Learn how connect a custom form to a main layout
+:description: Learn how to communicate between components in a Vaadin application
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:

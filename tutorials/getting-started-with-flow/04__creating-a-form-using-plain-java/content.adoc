@@ -3,7 +3,7 @@
 
 :title: Part 4 - Creating a Form Using Plain Java
 :author: Vaadin
-:description: Learn how to implement a reusable form to edit data
+:description: Learn how to implement a reusable form to edit data in a Vaadin application.
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:

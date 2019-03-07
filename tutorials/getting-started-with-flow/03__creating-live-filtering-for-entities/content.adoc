@@ -7,7 +7,7 @@
 :tags: Flow, Java
 :imagesdir: ./images
 
-All modern applications need search functionality. Implementing this functionality is a good exercise for learning Vaadin. In this part of the tutorial, you'll add filtering functionality to the list of customers created in the previous step.
+Most applications need search functionality. Implementing this functionality is a good exercise for learning Vaadin. In this part of the tutorial, you'll add filtering functionality to the list of customers created in the previous step.
 
 The following is a screenshot of the filter you'll implement:
 
