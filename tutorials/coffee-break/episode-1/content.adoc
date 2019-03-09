@@ -22,21 +22,29 @@ https://twitter.com/leifastrand[Leif] has been in product development for many y
 _In the future is there a way not to worry about backward compatibility with Vaadin? -- Omar_
 ====
 
-A consultant answer would be "it depends".
-To give a better answer, we need to talk first about the web. The web as a platform is evolving quickly; there's no way around it. So things change all the time, like five years ago AngularJS was barely starting, but now it's not the most popular thing anymore. React has overtaken it, and Vue is getting up there. So things keep changing all the time.
+==== Background
+The web as a platform is evolving quickly; there's no way around it. So things change all the time, like five years ago AngularJS was barely starting, but now it's not the most popular thing anymore. React has overtaken it, and Vue is getting up there. So things keep changing all the time.
 
-Of course, you can still use Vaadin 6 if you want, we don't provide any security updates for free for it, but it works. It should work in all browsers, it works on relatively modern servers and so on. So if you have an application that just works, you can keep using it. However, if you want to benefit from all the new things, and make applications that look modern, that use the latest features from modern web browsers, then yes you need to make updates. Some of those updates require you to change more things because assumptions have changed, so it's really up to you.
+==== Old doesn't mean not working anymore
+You can still use Vaadin 6 if you want, we don't provide any security updates for free for it, but it works. It should work in all browsers, it works on relatively modern servers and so on. So if you have an application that just works, you can keep using it.
 
+==== New comes with a benefit
+If you want to benefit from all the new things and make applications that look modern, that use the latest features from modern web browsers, then yes you need to make updates. Some of those updates require you to change more things because assumptions have changed, so it's really up to you.
+
+==== We promise 5 years support for free
 We are giving quite good coverage there because when we released Vaadin 10, we said that it is getting support for five years to come. Looking at how quickly things evolve that's a long time still.
 
 ====
 _We know that AngularJS was a nice experiment, and then quickly started to cause trouble for people who wanted to migrate to latest versions. So are we in the phase of AngularJS or the phase of top-notch Angular? -- A.Mahdy_
 ====
 
+==== Smooth incremental updates
 The plan that we have now is to add new things incrementally, we have one big thing upcoming which is to change from Polymer 2 to Polymer 3, and from the old deprecated Bower dependency management to NPM instead. That is going to be a significant change behind the scenes, but we try hard to make it smooth for users also. So we have now built a quite solid foundation to build upon it.
 
-Again you can never know because things might change, but hopefully, this is a foundation that you can keep building on top of it.
+==== Building a foundation
+You can never know because things might change, but hopefully, this is a foundation that you can keep building on top of it.
 
+==== Version 14
 One version that many are going to pick is 14, which is again a long-term support version, which means that we are going to support it for free for five years. Also with this version and all other versions, we provide non-free support for longer, but five years is what we give to everyone anywhere for free. Vaadin 14 has a scheduled release on June 2019.
 
 == Run JavaEE and Spring Side by Side
@@ -45,7 +53,9 @@ One version that many are going to pick is 14, which is again a long-term suppor
 _We are doing gradual migration from JavaEE to Spring. Both are running at the same time, and more code gets shipped to Spring in each subsequent minor release update. Where usually would be a good place to start the migration? -- Melvin_
 ====
 
-The first step is to make sure that everything works when both stacks are running side by side — the next steps depend on your application structure. If you have independent services for different views, then you can make the view by view approach. Otherwise, you would have to go with layer by layer, start with service layer and then do a UI layer or vice versa. It's tough to give a generic answer without getting familiar with the application.
+* Make sure that everything works when both stacks are running side by side.
+* If you have independent services for different views, then you can make the view by view approach.
+* Otherwise, you would have to go with layer by layer, start with service layer and then do a UI layer or vice versa.
 
 ====
 _The migration of the backend is independent on Vaadin, and if the backend is decoupled from the front-end, then Vaadin code is indifferent in this case, and view by view migration makes more sense -- A.Mahdy_
@@ -57,19 +67,33 @@ _The migration of the backend is independent on Vaadin, and if the backend is de
 _I've seen people doing heat map on geographical maps like Google Maps, but I want to have a heat map on a floor map inside a building? -- Melvin_
 ====
 
-TBC
+* The heatmap feature in Charts is only about putting colors in a coordinate system, and it doesn't directly have anything to do with earth maps.
+
+* You can set the image (the floor map) as a chart background and then preferably adjust the x-axis and y-axis sizes to match the pixel dimensions of the image.
+
+* With older versions of Charts, there's a `setPlotBackgroundImage` method for doing that.
+
+* In newer version (6+), you instead use CSS to set the background image for `.highcharts-plot-background`.
 
 == Portlet Support for Vaadin 10+
 ====
 _Vaadin has had support for portlet (Liferay) development since version 6.  Does Vaadin 10+ support portlet development? -- Gordon_
 ====
 
-We wanted to get Vaadin 10 out as quickly as possible, and we had to do lots of compromises, one of them that, yes, portlet support did not get implemented. Another thing that we didn't get done was CDI support for instance. CDI support became available in Vaadin 12, so a couple of releases afterward. Portlet support is still pending right now. We have a pile of customers for that, which probably means that by Vaadin 14 (beginning of June 2019), we could have portlet support. Plans might change, but 14 or maybe 15 is what it looks like right now.
+==== Background
+We wanted to get Vaadin 10 out as quickly as possible, and we had to do lots of compromises, one of them that, yes, portlet support did not get implemented.
+
+==== Better late than never
+Another thing that we didn't get done was CDI support for instance. CDI support became available in Vaadin 12, so a couple of releases afterward.
+
+==== Version 14 or 15
+Portlet support is still pending right now. We have a pile of customers for that, which probably means that by Vaadin 14 (beginning of June 2019), we could have portlet support. Plans might change, but 14 or maybe 15 is what it looks like right now.
 
 ====
 _When you mention customers, how does it work to get certain features prioritized? Do they sponsor it? -- A.Mahdy_
 ====
 
+==== Sponsoring features
 It's case by case. Portlet support got sponsored, but generally, now and then customers have some specific feature that they can see on our list, but it's not on our top priority. But then they are eager to get it, so they sponsor the development of it.
 
 There is always a sponsoring option for any feature that makes sense as a whole.
@@ -80,6 +104,7 @@ There is always a sponsoring option for any feature that makes sense as a whole.
 _I am using vaadin-spring-boot-starter 13.0.0.beta1 but can't use the Select component (there is no Select component) which should be available for Vaadin 13 as announced. What am I missing? -- Marco_
 ====
 
+==== Available in 13.beta2+
 We had a bug in beta 1, and the Select component got included in two out of three places, and unfortunately the last critical place was missing. It is included in beta 2, which was out a week ago. So please update to beta 2, and you should have the Select component available there.
 
 == Change Theme Dynamically
@@ -88,9 +113,13 @@ We had a bug in beta 1, and the Select component got included in two out of thre
 _How to change Vaadin theme dynamically? The user has a combobox filled with values (Lumo & Material), and on selection, the application should change the theme. -- Kaustubh_
 ====
 
-In Vaadin 8, it's `UI.setTheme` so it should not be too complicated.
-In Vaadin 10 and newer, and because the way we use specific browser features, like style encapsulation and CSS properties, it comes with a side effect that themes are pre-loaded in a way that makes it difficult to change it on the fly.
+* In Vaadin 8, it's `UI.setTheme` so it should not be too complicated.
+* In Vaadin 10 and newer:
 
+==== Background
+Because of the way we use specific browser features, like style encapsulation and CSS properties, it comes with a side effect that themes are pre-loaded in a way that makes it difficult to change it on the fly.
+
+==== Make your custom theme based on Lumo
 When you use the Lumo theme, you can configure many things by setting different CSS variables, that can be done just by adding and removing CSS, and get the theme changed on the fly.
 
 Example, in your Vaadin application, apply a CSS style on the `<body>` element like:
@@ -105,4 +134,141 @@ It gets updated on the fly. So just changing a couple of variables make quite si
 
 There is an add-on for https://vaadin.com/directory/component/cssvariablesetter[injecting CSS variables] that you can use to achieve those changes programmatically from Java code.
 
+== Availability of Tree Component
 
+====
+_When will Tree component be available? -- Marco_
+====
+
+====
+_We can use TreeGrid component with only one column. -- A.Mahdy_
+====
+
+==== Background
+* Tree is on our list of components that you could use in Vaadin 8, but it's not available in Vaadin 10 or newer yet. We hope to get it there, but since there is some workaround through using a TreeGrid with only one column, it's not our highest priority.
+
+==== Priorities for version 14
+* There were plans to have it in version 13 or 14, and I can say for sure that 13 won't happen because it's already on beta, 14 also looks quite unlikely, because we prioritized to get the NPM support over getting more components.
+
+==== Wrong documentation
+* We have a ticket about updating documentation related to what features are going to be available in H1 2019.
+
+====
+_Would it be a drawback to use TreeGrid with one column to act as a Tree component? -- A.Mahdy_
+====
+
+* Keyboard navigation is slightly different.
+* It requires a little bit extra code, but not that much.
+* For most cases, TreeGrid with one column should be a quite good workaround.
+
+== Make default theme with smaller font
+
+====
+_Why the default theme font is so Big? Remember that Vaadin is for dev business desktop app on the web. More info always is better. --Eugenio_
+====
+
+==== Background
+* When you design the overall theme, you want it to look beautiful because that's what makes people interested.
+* There is a conflict between a beautiful and pleasing to the eye and being practical in applications that have lots of data.
+* We encourage developers to rethink how the application presents the data, to only show the relevant things.
+* We know that in many cases that is not practical.
+
+==== Easy to tweak the whole theme
+* As shown earlier, changing one variable in the Lumo theme can affect the whole application's look and feel.
+* Create custom Lumo variations for your application.
+
+====
+_Lumo changes apply on all built-in components, what about external add-ons? -- A.Mahdu_
+====
+
+* It does not pick modifications unless it uses Lumo as well.
+* You need to configure each add-on separately.
+
+==== Compact preset mode in Vaadin 13+
+Starting Vaadin 13, you can use a compact preset for Lumo, instead of you doing it yourself, we have made some thoughts into exactly the ratios between different things.
+
+[source,java]
+----
+@HtmlImport("frontend://bower_components/vaadin-lumo-styles/presets/compact.html")
+@Theme(Lumo.class)
+----
+
+==== Not limited to version 13
+You can copy the https://github.com/vaadin/vaadin-lumo-styles/blob/master/presets/compact.html[compact theme] to your existing project or an older version of Lumo.
+
+== Cookies are not getting loaded
+
+====
+_We have stored around 5-6 cookies for one app, and bootstrap failed to load the app. The tota size of cookies is around 4-5 kB. Any idea? -- Tadej_
+====
+
+* 4 kB is in most cases the maximum http://browsercookielimits.squawky.net/[allowed size] per cookie.
+* Not surprised that there are problems with an application that uses 4-5 kB of cookies.
+* Vaadin uses one only cookie, that is around 100 bytes.
+* Avoid storing many things in cookies.
+* Store things in the database and only store the key for that entry in the cookie.
+
+== Migration from Vaadin 7/8 to Vaadin 10+
+
+====
+_What about migrating apps from 7 to 12.0.+. -- David_
+====
+
+* Moving from 7 to 10 are two steps technically:
+** 7 to 8 where you change how Vaadin interacts with the data layer.
+*** https://vaadin.com/docs/v8/framework/migration/migrating-to-vaadin8.html[Documentation] covers what you need to do.
+*** You can use compatibility layer, so you don't have to update the data layer immediately, but rather step by step.
+** 8 to 10 where you change the actual components.
+*** https://vaadin.com/docs/v13/flow/migration/1-migrating-v8-v10.html[Documentation] covers many options.
+*** You can continue to use version 8, and it has support for many more years.
+*** We are going to still add small features to version 8, but it's not our main focus.
+* We have the https://vaadin.com/docs/mpr/Overview.html[Multiplatform Runtime tool] that allows you to run Vaadin 7 or 8 views, side by side with Vaadin 10+ views in the same application. (Note: it's a commercial tool).
+* One other option is to start writing a fresh new application if you have a lot of legacy code and you want to get rid of it.
+
+== Select vs. click events in Grid
+
+====
+_What is the difference between `itemClickListener` event and `selectListener` event in Grid? -- Jonte_
+====
+
+* They are mostly the same.
+* In the multi-select mode, clicking on checkboxes triggers both events.
+* Clicking individual row, highlights the row and fires `itemClick` event.
+* Navigating with keyboard across the rows trigger `select` event but no click event happens.
+
+====
+_In which even we can get the selected rows? -- A.Mahdy_
+====
+
+* It is always guaranteed to get the selected rows inside the select event.
+* There are few cases where selected rows are not immediately available in the click event.
+
+== Add custom CSS in a sprint-boot project
+
+====
+_How to add custom CSS in the spring-boot project? -- Kamrul_
+====
+
+The source code of the https://vaadin.com/start/latest/full-stack-spring[Full Stack App with Spring] under the https://vaadin.com/start/latest[Vaadin starters packs] shows how to use it.
+
+== Responsive design with java code
+
+====
+_How to make a responsive design with Java code? -- maticpetek_
+====
+
+You can make few if-conditions to adjust the component dimensions, locations, and appearances based on screen size and available space.
+
+====
+_Can we get screen and browser information from the Java code? -- A.Mahdy_
+====
+
+It's on the roadmap for Vaadin 14, right now there is no easy way to get it, but the information is available in the HTTP Header.
+
+== Get background-color from Grid
+
+====
+_How to get the applied `background-color` from a Row and a Cell of Vaadin TreeGrid/Grid? -- Helmer_
+====
+
+There is no API for that. The best approach is to keep track of modified row or cell on the server-side, instead of trying to get it from the client side.
