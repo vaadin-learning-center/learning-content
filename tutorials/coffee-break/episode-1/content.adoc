@@ -16,6 +16,23 @@ video::Dj9nd1_ZYsA[youtube]
 
 https://twitter.com/leifastrand[Leif] has been in product development for many years and has seen many things that can go wrong. As a product architect at Vaadin, he is now helping everyone else to prevent the mistakes that he has been part of making previously. He is helping out in everything around product development, like fixing challenging bugs, designing new features, and helping everyone else to develop the products.
 
+== Topics
+
+1. Worry About Backward Compatibility
+1. Run JavaEE and Spring Side by Side
+1. Use Heat Map on Any Given Map
+1. Portlet Support for Vaadin 10+
+1. Select Component in Vaadin 13
+1. Change Theme Dynamically
+1. Availability of Tree Component
+1. Make default theme with smaller font
+1. Cookies are not getting loaded
+1. Migration from Vaadin 7/8 to Vaadin 10+
+1. Select vs. click events in Grid
+1. Add custom CSS in a sprint-boot project
+1. Responsive design with java code
+1. Get background-color from Grid
+
 == Worry About Backward Compatibility
 
 ====
