@@ -81,8 +81,10 @@ public class GenericTextField<T> extends TextField {
 ----
 
 The above code follows a few other changes:
-3.1. `Content` class should be of type `T` instead of `String`.
-3.2. A converter must be provided to specify how to convert from `T` to the default type of the `Textfield` which is `String`. The converter can be specified in the constructor, and a default converter (in case `T` is `String`) can be applied.
+
+a. `Content` class should be of type `T` instead of `String`.
+
+b. A converter must be provided to specify how to convert from `T` to the default type of the `Textfield` which is `String`. The converter can be specified in the constructor, and a default converter (in case `T` is `String`) can be applied.
 
 This https://github.com/amahdy/FieldValidation/blob/master/GenericTextField.java[class] has a reference implementation that covers those cases, as well as generic use of converters.
 
