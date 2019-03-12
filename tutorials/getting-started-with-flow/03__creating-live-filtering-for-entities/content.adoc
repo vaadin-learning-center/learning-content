@@ -9,7 +9,7 @@
 
 All modern applications need search functionality and it also makes for a nice Vaadin development exercise. 
 
-In this part of the tutorial we add filtering functionality to the `Customer` listing we created in <<tutorial-get-started-second-part#,Listing Entities in a Grid>>.  
+In this part of the tutorial we add filtering functionality to the `Customer` listing we created in <<../02__listing-entities-in-a-grid/content.adoc,Listing Entities in a Grid>>.  
 
 . In `MainView.java` introduce a `TextField` component:
 
