@@ -6,7 +6,7 @@ I have learned more about domain-driven design since then and also try use it in
 
 You will not become an expert in domain-driven design by reading my article series, but I hope it will inspire you to read more about it elsewhere. I also highly encourage you to read the books by Evans and Vernon.
 
-Now let's get started with the first subject, namely strategic domain-driven design.
+Now let us get started with the first subject, namely strategic domain-driven design.
 
 == What is a Domain?
 
