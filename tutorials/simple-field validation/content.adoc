@@ -14,7 +14,7 @@ Using binder is practically useful for a proper way to manage your application d
 
 == Show me the code
 
-Coopy this Java class into your project and use it as following:
+Coopy this https://github.com/amahdy/FieldValidation/blob/master/ValidTextField.java[Java class] into your project and use it as following:
 
 [source,java]
 ----
@@ -84,7 +84,7 @@ The above code follows a few other changes:
 3.1. `Content` class should be of type `T` instead of `String`.
 3.2. A converter must be provided to specify how to convert from `T` to the default type of the `Textfield` which is `String`. The converter can be specified in the constructor, and a default converter (in case `T` is `String`) can be applied.
 
-This class has a reference implementation that covers those cases, as well as generic use of converters.
+This https://github.com/amahdy/FieldValidation/blob/master/GenericTextField.java[class] has a reference implementation that covers those cases, as well as generic use of converters.
 
 [source,java]
 ----
@@ -97,7 +97,7 @@ generic.addValidator(
   new IntegerRangeValidator("Not within range", 0, 3));
 ----
 
-There is also a simple class to use in case of type is `String`.
+There is also a https://github.com/amahdy/FieldValidation/blob/master/SimpleTextField.java[simple class] to use in case of type is `String`.
 
 [source,java]
 ----
