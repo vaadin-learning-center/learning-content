@@ -202,7 +202,7 @@ grid.setSizeFull();
 add(filterText, mainContent);
 ----
 
-. Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
+. Compile the project, by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
 + 
 image::form-in-app.png[From added to the application layout]
 
