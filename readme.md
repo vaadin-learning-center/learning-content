@@ -21,7 +21,13 @@ There is an automated contribution script `create.sh` that can create the branch
 
 To use the script, follow these instructions:
 
-1. Modify the `profile` file with your details, e.g.
+1. Copy the `profile` file to your home directory:
+
+```sh
+cp profile ~
+```
+
+2. Modify the `profile` file in your home directory with your details, e.g.:
 
 ```sh
 fullname="A.Mahdy Abdelaziz"
@@ -29,23 +35,23 @@ id=f484d2b8-7747-40c0-8a81-461808f32786
 github=amahdy
 ```
 
-2. Make `create.sh` executable
+3. Make `create.sh` executable
 
 ```sh
 $ chmod +x create.sh
 ```
 
-3. Run the script
+4. Run the script
 
 ```sh
 $ ./create.sh
 ```
 
-4. When asked for the new content name, enter a proper title for the content. It is used for the branch name, content title, and eventually the content URL on the website. So, make sure to provide a good title with proper format, e.g. `Intro to String Theory and Black Holes`.
+5. When asked for the new content name, enter a proper title for the content. It is used for the branch name, content title, and eventually the content URL on the website. So, make sure to provide a good title with proper format, e.g. `Intro to String Theory and Black Holes`.
 
-5. If everything is ok, `Code` opens and the file where you should start writing your content `content.adoc` gets highlighted. Please note that you still have to update the `topics` value in `article.properties` file.
+6. If everything is ok, `Code` opens and the file where you should start writing your content `content.adoc` gets highlighted. Please note that you still have to update the `topics` value in `article.properties` file.
 
-6. When you have done writing your content, push it to Github for review. You should be on the proper branch already.
+7. When you have done writing your content, push it to Github for review. You should be on the proper branch already.
 
 ## Definitions
 
