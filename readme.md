@@ -21,10 +21,10 @@ There is an automated contribution script `create.sh` that can create the branch
 
 To use the script, follow these instructions:
 
-1. Copy the `profile` file to your home directory:
+1. Create a new `profile` file based on the `profile.example` file:
 
 ```sh
-cp profile ~
+cp profile.example profile
 ```
 
 2. Modify the `profile` file in your home directory with your details, e.g.:
