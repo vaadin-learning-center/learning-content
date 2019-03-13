@@ -889,12 +889,91 @@ When the domain model is wired up, for example using a dependency injection fram
 
 == Factories
 
-To do
+The final static object that we are going to look like is the *factory*. Like the name suggests, factories are responsible for creating new aggregates. However, this does not mean that you need to create a new factory for every aggregate. In most cases, the aggregate root's constructor will be enough to set up the aggregate so that it is in a consistent state. You will typically need a separate factory in the following cases:
+
+* Business logic is involved in the creation of the aggregate
+* The structure and content of the aggregate may be very different depending on the input data
+* The input data is so extensive that the builder pattern (or something similar) is needed
+* The factory is translating from one bounded context to another
+
+A factory can be a static factory method on the aggregate root class or a separate factory class. The factory can interact with other factories, repositories and domain services but must never alter the state of the database (so no saving or deleting).
+
+=== Code Examples
+
+In this example, we are going to look at a factory that is translating between two bounded contexts. In the shipment context, the _customer_ is no longer referred to as a customer but as a _shipment recipient_. The customer ID is still stored so that we can relate the two concepts together later if needed.
+
+.ShipmentRecipientFactory.java
+[source,java]
+----
+public class ShipmentRecipientFactory {
+    private final PostOfficeRepository postOfficeRepository;
+    private final StreetAddressRepository streetAddressRepository; 
+
+    // Initializing constructor omitted
+
+    ShipmentRecipient createShipmentRecipient(Customer customer) {
+        var postOffice = postOfficeRepository.findByPostalCode(customer.postalCode());
+        var streetAddress = streetAddressRepository.findByPostOfficeAndName(postOffice, customer.streetAddress());
+        var recipient = new ShipmentRecipient(customer.fullName(), streetAddress);
+        recipient.associateWithCustomer(customer.id());
+        return recipient;
+    }
+}
+----
 
 == Modules
 
-To do
+It is almost time to move on to the next article but before we leave tactical domain driven design, there is one more concept we need to look at and that is *modules*. 
+
+Modules in DDD correspond to *packages* in Java and *namespaces* in C#. A module can correspond to a bounded context, but typically, a bounded context will have multiple modules.
+
+Classes that belong together should be grouped into the same module. However, you should not create modules based on the type of class but based on how the classes fit into the domain model from a business perspective. That is, you should *not* put all repositories into one module, all entities into another, etc. Rather, you should put all classes that relate to a particular aggregate or a particular business process into the same module. This makes it easier to navigate your code since _classes that belong together and work together also live together_.
+
+=== Module Example
+
+This is an example of a module structure that groups the classes by type. *Do not do this*:
+
+* foo.bar.domain.model.*services*
+    - `AuthenticationService`
+    - `PasswordEncoder`
+* foo.bar.domain.model.*repositories*
+    - `UserRepository`
+    - `RoleRepository`
+* foo.bar.domain.model.*entities*
+    - `User`
+    - `Role`
+* foo.bar.domain.model.*valueobjects*
+    - `UserId`
+    - `RoleId`
+    - `UserName`
+
+A better way is to group the classes by process and aggregate. *Do this instead:*
+
+* foo.bar.domain.model.*authentication*
+    - `AuthenticationService`
+* foo.bar.domain.model.*user*
+    - `User`
+    - `UserRepository`
+    - `UserId`
+    - `UserName`
+    - `PasswordEncoder`
+* foo.bar.domain.model.*role*
+    - `Role`
+    - `RoleRepository`
+    - `RoleId`
+
+== Why is Tactical Domain-Driven Design Important?
+
+Like I mentioned in the introduction to the first article in this series, I first ran into domain driven design while salvaging a project that was suffering from severe data inconsistency problems. Without any domain model or ubiquitous language we started to transform the existing data model into aggregates and the data access objects into repositories. Thanks to the constraints that these introduced into the software, we managed to get rid of the inconsistency problems and eventually the software could be deployed into production.
+
+This first encounter with tactical domain-driven design proved to me that you can benefit from it even if the project in all other aspects is not domain driven. My favorite DDD building block that I tend to use in all of the projects I participate in is the *value object*. It is easy to introduce and immediately makes the code easier to read and understand since it brings context to your attributes. The immutability also tends to make complex things simpler.
+
+I often also try to group data models into aggregates and repositories even if the data model is otherwise completely anemic (only getters and setters without any business logic). This helps in keeping the data consistent and avoids strange side effects and optimistic locking exceptions when the same entity is being updated through different mechanisms.
+
+Domain events are useful to decouple your code but this is a double-edged sword. If you rely too much on events, your code will become more difficult to understand and debug since it is not immediately clear what other operations a particular event will trigger or what events caused a particular operation to be triggered in the first place.
+
+Like other software design patterns, tactical domain-driven design offers solutions to a set of problems that you typically run into, especially when building enterprise software. The more tools you have at your disposal, the easier it will be for you to tackle the problems you inevitably run into in your career as a software developer.
 
 == Next: Domain-Driven Design and the Hexagonal Architecture
 
-In the next section, we are going to learn what the hexagonal architecture is and how it plays nicely together with domain-driven design.
+In the next article in this series, we are going to learn what the hexagonal architecture is, how it plays nicely together with domain-driven design and how the outside world can interact with the domain model in a controlled and extendable manner.
