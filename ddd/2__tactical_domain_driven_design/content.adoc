@@ -735,11 +735,157 @@ public class User implements IdentifiableDomainObject<UserId> {
 
 == Repositories
 
-To do
+We have now covered all the movable objects of the domain model and it is time to move on to the static ones. The first static object is the *repository*. A repository is a persistent container of aggregates. Any aggregate that is saved into a repository can be retrieved from there at a later time, even after a system restart.
+
+At the very least, a repository should have the following capabilities:
+
+* Capability to save an aggregate in its entirety in some kind of data storage
+* Capability to retrieve an aggregate in its entirety based on its ID
+* Capability to delete an aggregate in its entirety based on its ID
+
+In most cases, to be really usable, a repositiory also needs more advanced query methods.
+
+In practice, a repository is a domain-aware interface into an external data storage such as a relational database, a NoSQL database, a directory service or even a file system. Even though the actual storage is hidden behind the repository, its storage semantics will typically leak through and impose limits on what the repository should look like. Because of this, repositories are typically either *collection oriented* or *persistence oriented*.
+
+A collection oriented repository aims to mimic an in-memory collection of objects. Once an aggregate has been added to the collection, any changes made to it will be automatically persisted until the aggregate is removed from the repository. In other words, a collection oriented repository will have methods such as `add()` and `remove()` but no methods for saving.
+
+A persistence oriented repositiory, on the other hand, does not try to mimic a collection. Instead, it acts like a facade for an external persistence solution and contains methods such as `insert()`, `update()` and `delete()`. Any changes made to an aggregate will have to be explicitly saved to the repository through a call to an `update()` method.
+
+It is important to get the repository type right in the beginning of the project since they are semantically quite different. Typically, a persistence oriented repository is easier to implement and works with most existing persistence frameworks. A collection oriented repository is more difficult to implement unless the underlying persistence framework supports it out of the box.
+
+=== Code Examples
+
+This example demonstrates the differences between a collection oriented and a persistence oriented repository.
+
+.Collection oriented repository
+[source,java]
+----
+public interface OrderRepository {
+
+    Optional<Order> get(OrderId id);
+  
+    boolean contains(OrderID id);
+    
+    void add(Order order);
+    
+    void remove(Order order);
+  
+    Page<Order> search(OrderSpecification specification, int offset, int size);
+}
+
+
+// Would be used like this:
+
+public void doSomethingWithOrder(OrderId id) {
+    orderRepository.get(id).ifPresent(order -> order.doSomething());
+    // Changes will be automatically persisted.
+}
+----
+
+.Persistence oriented repository
+[source,java]
+----
+public interface OrderRepository {
+
+    Optional<Order> findById(OrderId id);
+
+    boolean exists(OrderId id);
+
+    Order save(Order order);
+
+    void delete(Order order);
+
+    Page<Order> findAll(OrderSpecification specification, int offset, int size);
+}
+
+
+// Would be used like this:
+
+public void doSomethingWithOrder(OrderId id) {
+    orderRepository.findById(id).ifPresent(order -> {
+        order.doSomething();
+        orderRepository.save(order);
+    });
+}
+----
+
+.A Note on CQRS
+****
+Repositories always save and retrieve complete aggregates. This means that they can be pretty slow, depending on how they have been implemented and the size of the object graphs that must be constructed for each aggregate. This can be problematic from a UX point of view and especially two use cases comes to mind. The first one is a small listing, where you want to show a list of aggregates but only using one or two attributes. Bringing up a complete object graph when you only need a couple of attribute values is a waste of time and computing resources and often leads to a sluggish user experience. Another case is when you need to combine data from multiple aggregates in order to show a single item in a list. This may lead to even worse performance.
+
+As long as the data sets and aggregates are small, the performance penalty may be acceptable but if the time comes where the performance is simply not acceptable there is a solution: Command Query Responsibility Segregation (CQRS).
+
+image:cqrs.png[Command Query Responsibility Segregation]
+
+CQRS is a pattern where you completely decouple the write (commands) and read (queries) operations from each other. Going into the details is outside the scope of this paper, but in terms of DDD, you would apply the pattern like this:
+
+* All user operations that alter the state of the system go through the repositories in the normal fashion.
+* All queries bypass the repositories and go straight to the underlying database, fetching only the data that is needed and nothing else.
+* If needed, you can even design separate query objects for every view in the user interface
+* The Data Transfer Objects (DTO) returned by the query objects have to include the aggregate IDs so that the correct aggregate can be retrieved from the repository when it is time to make changes to it.
+
+In many projects, you may end up using CQRS in some views and direct repository queries in others.
+****
 
 == Domain Services
 
-To do
+We have already mentioned that both value objects and entities can (and should) contain business logic. However, there are scenarios where a piece of logic simply does not fit into one particular value object or one particular entity. Putting business logic in the wrong place is a bad idea so we need another solution. Enter our second static object: the *domain service*.
+
+Domain services have the following characteristics:
+
+* They are stateless
+* They are highly cohesive (meaning they are specialized in doing one thing and one thing only)
+* They contain business logic that does not naturally fit elsewhere
+* They can interact with other domain services and to some extent with repositories
+* They can publish domain events
+
+In its simplest form, a domain service can be a utility class with a static method in it. More advanced domain services may be implemented as singletons that have other domain services and repositories injected into them.
+
+A domain service should not be confused with an *application service*. We are going to have a closer look at application services in the next article in this series but in short, an application service acts as the middle man between the isolated domain model and the rest of the world. The application service is responsible for handling transactions, ensuring system security, looking up the proper aggregates, invoking methods on them and saving the changes back to the database. Application services do not contain any business logic themselves.
+
+You can summarize the difference between application and domain services as follows: a domain service is only responsible for making business decisions whereas an application service is only responsible for orchestration (finding the correct objects and invoking the correct methods in the correct order). Becasue of this, a domain service should generally not invoke any repository methods that alter the state of the database - that is the responsibility of the application service.
+
+=== Code Examples
+
+In this first example, we are going to create a domain service that checks whether a certain monetary transaction is allowed to proceed or not. The implementation is greatly simplified but is clearly making a business decision based on some predefined business rules.
+
+In this case, since the business logic is so simple, you might have been able to add it directly to the `Account` class. However, as soon as more advanced business rules come into play it makes sense to move the decision making into its own class (especially if the rules change over time or depend on some external configuration). Another telltale sign that this logic may belong in a domain service is that it involves multiple aggregates (two accounts).
+
+.TransactionValidator.java
+[source,java]
+----
+public class TransactionValidator {
+
+    public boolean isValid(Money amount, Account from, Account to) {
+        if (!from.getCurrency().equals(amount.getCurrency())) {
+            return false;
+        }
+        if (!to.getCurrency().equals(amount.getCurrency())) {
+            return false;
+        }
+        if (from.getBalance().isLessThan(amount)) {
+            return false;
+        }
+        if (amount.isGreaterThan(someThreshold)) {
+            return false;
+        }
+        return true;
+    }
+}
+----
+
+In the second example, we are going to look at a domain service that has a special feature: its interface is part of the domain model but its implementation is not. This is a situation that may arise when you need information from the outside world in order to make a business decision inside your domain model, but you are not interested in where that information is coming from.
+
+.CurrencyExchangeService.java
+[source,java]
+----
+public interface CurrencyExchangeService {
+
+    Money convertToCurrency(Money currentAmount, Currency desiredCurrency);
+}
+----
+
+When the domain model is wired up, for example using a dependency injection framework, you can then inject the correct implementation of this interface. You could have one that invokes a local cache, another that invokes a remote web service, a third that is used for testing only and so on.
 
 == Factories
 
