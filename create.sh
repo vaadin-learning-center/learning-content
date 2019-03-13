@@ -12,8 +12,7 @@ echo "====================="
 echo "Please enter a name for the new content"
 echo "e.g. Hello World Tutorial"
 read name
-content=$(echo "$name" | tr '[:upper:]' '[:lower:]')
-content=$(echo "${content/ /-}")
+content=$(echo "$name" | tr '[:upper:]' '[:lower:]' | tr " " -)
 echo "Alright, creating content for $content.."
 
 #Create Git branch
