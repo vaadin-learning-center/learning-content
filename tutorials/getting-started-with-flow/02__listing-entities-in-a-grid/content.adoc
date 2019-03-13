@@ -92,7 +92,7 @@ TIP: As an alternative, you can use the `addColumn(ValueProvider)` method to add
 ...
 ----
 
-. Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.
+. Compile the project, by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.
 +
 image::grid.png[Grid with columns and rows]
 
