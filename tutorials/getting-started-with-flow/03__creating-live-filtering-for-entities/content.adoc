@@ -7,16 +7,18 @@
 :tags: Flow, Java
 :imagesdir: ./images
 
-Most applications need search functionality. Implementing this functionality is a good exercise for learning Vaadin. In this part of the tutorial, you'll add filtering functionality to the list of customers created in the previous step.
+Most applications need search functionality. Implementing search is also a good exercise for learning Vaadin Flow. 
 
-The following is a screenshot of the filter you'll implement:
+This part of the tutorial shows you how to add filtering functionality to the list of customers created in the previous step. We implement the filter in a text field above the grid, and add a clear button to clear the input.
 
 image::filter.png[Filter]
 
-== Using the TextField Component
+== Adding a TextField Component
 
-In the `MainView` class, introduce an instance variable of type `TextField` as follows:
+To add a `TextField` component: 
 
+. In the `MainView` class, introduce an instance variable of type `TextField` as follows:
++
 [source,java]
 ----
 ...
@@ -29,24 +31,25 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-Configure the text field to display a _placeholder_ and a _clear button_ by adding the following code at the beginning of the constructor:
-
+. Configure the text field to display a placeholder and a clear button, by adding the following code at the beginning of the constructor:
++
 [source,java]
 ----
 public MainView() {
 
-    filterText.setPlaceholder("Filter by name..."); <1>
-    filterText.setClearButtonVisible(true); <2>
+    filterText.setPlaceholder("Filter by name..."); 
+    filterText.setClearButtonVisible(true); 
 
     ...
 }
 ----
-<1> Shows the given string inside the field. When the user starts typing, the placeholder is automatically removed.
++
+* `setPlaceholder` shows the given string in the field. When the user starts typing, the placeholder is automatically removed.
 
-<2> Adds a _clear button_ displayed on the right-hand side of the text field when the user starts typing.
+* `setClearButtonVisible` adds a clear button (X) that displays on the right side of the text field. 
 
-Change the `add(grid)` line of code to include the `filterText` component as follows:
-
+. Change the `add(grid)` code line to include the `filterText` component as follows:
++
 [source,java]
 ----
 add(filterText, grid);
@@ -54,34 +57,37 @@ add(filterText, grid);
 
 == Filtering the Data
 
-To make the filter functional, add the following code at the right after the `filterText` configuration:
+To make the filter functional:
 
+. Add the following code right after the `filterText` configuration:
++
 [source,java]
 ----
 public MainView() {
 
     ...
-    filterText.setValueChangeMode(ValueChangeMode.EAGER); <1>
-    filterText.addValueChangeListener(e -> updateList()); <2>
+    filterText.setValueChangeMode(ValueChangeMode.EAGER); 
+    filterText.addValueChangeListener(e -> updateList()); 
 
     ...
 }
 ----
 
-<1> `ValueChangeMode.EAGER` ensures that change events are fired immediately when the user types.
+* `ValueChangeMode.EAGER` ensures that change events are fired immediately when the user types.
 
-<2> Adds a _value change listener_ to react to changes in the value of the text field.
+* `addValueChangeListener` adds a value change listener that reacts to changes in the value of the text field.
 
-The value change listener calls the `updateList()` method. However, this method doesn't use the value in the filter. To use it, change the line in the `updateList()` method to send the value to the service (back end) call:
-
+. The value change listener calls the `updateList()` method, but this method doesn't yet use the value in the filter. To configure it to use this value, change the line in the `updateList()` method to send the value to the service (backend) call:
++
 [source,java]
 ----
 public void updateList() {
     grid.setItems(service.findAll(filterText.getValue())); <1>
 }
 ----
-<1> `filterText.getValue()` returns the current string in the text field.
+* `filterText.getValue()` returns the current string in the text field.
 
+. Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. Check that the filter works as expected.
 
 For reference, here's the complete implementation of the `MainLayout` class at this point:
 
@@ -117,4 +123,3 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. Check that the filter works as expected.
