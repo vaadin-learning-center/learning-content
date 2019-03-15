@@ -8,15 +8,15 @@
 :linkattrs:
 :imagesdir: ./images
 
-Right now, our App is super secure. Too secure as you are not able to login at all. Time to add our first, form based, login views.
+Right now, our App is super secure. Too secure, in fact as you are not able to login at all. Time to add our first, form based, login views.
 
 Even if form based login views feel kind of old-school nowadays, they have several advantages:
 - nearly all security frameworks support them,
 - ability to run frontend and backend on separate nodes,
 - they are a well defined interface that allows us to change the underlying framework without (or with little) changes to the UI and
-- in general you do not have to touch as much security related code as you would have with other approaches (less code, less bugs).
+- in general you do not have to touch as much security related code as you would have to with other approaches (less code, less bugs).
 
-The big disadvantage is the need for a page reload during the login what breaks the UX in modern Single Page Applications.
+The big disadvantage is the need for a page reload during the login which breaks the UX in modern Single Page Applications.
 
 == Java-only 
 As promised we will start with implementing a Java-only login view. Yes, I know. We cannot avoid all JS but we reduced it as much as possible.
@@ -31,7 +31,7 @@ First of all, we have to add `iron-form` that allows us to use HTML forms with c
 </dependency>
 ----
 
-Second, we add a vertical layouted login view with all needed fields, forms and buttons:
+Second, we add a vertically layouted login view with all needed fields, forms and buttons:
 [source,java,linenums]
 ----
 @Route(value = LoginView.ROUTE)
@@ -71,7 +71,7 @@ public class LoginView extends VerticalLayout {
 <1> Tells Flow that we need iron forms for the frontend.
 <2> Adds a Vaadin text field for username and sets the form name attribute.
 <3> Same as above but for passwords using Vaadin password field.
-<4> Creates a Vaadin button and make it referencable by defining an `id`.
+<4> Creates a Vaadin button and makes it referencable by defining an `id`.
 <5> Yeah, I know. JS. But we somehow have to register the `click` event with the `submit()` method of the `iron-form`.
 <6> Adds a Vaadin form layout and adds all configured components.
 <7> Creates a native `form` element, defines `method` and `action` of the form and appends the Vaadin form layout.
@@ -81,7 +81,7 @@ public class LoginView extends VerticalLayout {
 
 
 == Polymer
-Now the same form implemented with the help of Polmer templates. As in the Java-only example the `iron-form` component is needed to allow HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
+Now the same form implemented with the help of Polymer templates. As in the Java-only example the `iron-form` component is needed to allow HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
 [source,xml]
 ----
 <dependency>
@@ -153,7 +153,7 @@ And finally the actual declaration of our login Polymer component:
     </script>
 </dom-module>
 ----
-<1> Declares the encapsulating `iron-form`, allows redirects and makes the form referencable.
+<1> Declares the encapsulating `iron-form`, allows redirects and makes the form referenceable.
 <2> Declares the actual HTML form and adds needed fields and button.
 <3> The button calls some interceptor to allow adding custom stuff...
 <4> Which in this case does some client side evaluation of the input before submitting the form
@@ -164,5 +164,5 @@ Try them by running `mvn spring-boot:run` and use the configured credentials use
 
 Congrats!
 
-PS: You may have noticed that the series stops abprubtly after this section. The main reason is that I have a very busy schedule but wanted to get out at least some content. On the other hand it is a good opportunity for you to discuss and priotize other topics in the comment section below. Maybe the next three sections I am suggesting aren't as important for you as I would expect. Maybe you want to make me write about other Spring Security related stuff. I don't know, tell me!
+PS: You may have noticed that the series stops abruptly after this section. The main reason is that I have a very busy schedule but wanted to get out at least some content. On the other hand it is a good opportunity for you to discuss and prioritize other topics in the comment section below. Maybe the next three sections I am suggesting aren't as important for you as I would expect. Maybe you want to make me write about other Spring Security related stuff. I don't know, tell me!
 
