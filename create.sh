@@ -26,8 +26,8 @@ touch "tutorials/$content/article.properties"
 touch "tutorials/$content/content.adoc"
 
 #Fill default data
-echo "title=$fullname" >> "tutorials/$content/article.properties"
-echo "author=$github" >> "tutorials/$content/article.properties"
+echo "title=$name" >> "tutorials/$content/article.properties"
+echo "author=$fullname" >> "tutorials/$content/article.properties"
 echo "author_id=$id" >> "tutorials/$content/article.properties"
 echo "topics=<check topics.json>" >> "tutorials/$content/article.properties"
 echo "#card_image=" >> "tutorials/$content/article.properties"
