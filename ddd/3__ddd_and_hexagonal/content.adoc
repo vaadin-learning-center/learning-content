@@ -1,0 +1,135 @@
+= Domain-Driven Design and the Hexagonal Architecture
+
+:title: Domain-Driven Design and the Hexagonal Architecture
+:author: Petter Holmström
+:description: Learn how to use the hexagonal architecture to turn your domain model into a complete application
+:tags: domain-driven design, ddd, java, hexagonal, architecture, vaadin
+:imagesdir: ./images
+
+TODO
+
+== Why Is It Called Hexagonal?
+
+The name _hexagonal architecture_ comes from the way this architecture is usually depicted:
+
+image:hexagonal.png[The hexagonal architecture]
+
+Using hexagonals leaves plentiy of space for _ports and adapters_, which is another name for this architecture that better explains what the central idea is. The architecture is also sometimes called the _onion architecture_ because of how it is layered. 
+
+.Hexagonal vs. Traditional Layers
+****
+TODO
+****
+
+== The Domain Model
+
+At the very core of the hexagonal architecture lies the domain model, implemented using the building blocks of tactical DDD that we covered in the previous article. This is where the so called business logic lives, where all the business decisions are made. This is also the most stable part of the software that hopefully will change the least (unless the business itself changes of course).
+
+However, the domain model alone does not provide any value if there is no way of interacting with it. To do that, we have to move up to the next layer in the "onion".
+
+== Application Services
+
+An application service acts as a facade through which clients will interact with the domain model. Application services have the following characteristics:
+
+* They are stateless
+* They enforce system security
+* They control the database transactions
+* They orchestrate business operations but do not make any business decisions (i.e. they do not contain any business logic)
+
+Let's have a closer look at what this actually means.
+
+=== Statelessness
+
+An application service does not maintain any internal state that can be changed by interacting with clients. All the information that is needed to perform an operation should be available as input parameters to the application service method. This will make the system simpler and easier to debug and scale.
+
+If you find yourself in a situation where you have to make multiple application service calls within the context of a single business process, you can model the business process in a class of its own and pass an instance of it as an input parameter to the applcation service method. The method would then do its magic and return an updated instance of the business process object that in turn can be used as input to other application service methods:
+
+.Business process as input argument
+[source,java]
+----
+public class MyBusinessProcess {
+    // Current process state
+}
+
+public interface MyApplicationService {
+
+    MyBusinessProcess performSomeStuff(MyBusinessProcess input);
+
+    MyBusinessProcess performSomeMoreStuff(MyBusinessProcess input);
+}
+----
+
+You could also make the business process object mutable and let the application service method change the state of the object directly. I personally do not prefer this approach since I believe it can lead to unwanted side effects, especially if the transaction ends up rolling back. This depends on how the application service is being called by the client and will return to this matter later in the section about ports and adapters.
+
+=== Security Enforcement
+
+The application service makes sure that the current user is allowed to perform the operation in question. Technically, you can do this manually at the top of each application service method or use something more sofisticated such as AOP. It does not matter how security is enforced as long as it happens in the application service layer and not inside the domain model. Now why is this important?
+
+When we talk about security in an application, we tend to put more emphasis on preventing unauthorized access than on permitting authorized access. Thus, any security check we add to the system will essentially make it harder to use. If we add these security checks to the domain model, we may find ourselves in a situation where we are unable to perform an important operation because we did not think of it when the security checks were added and now they stand in the way. By keeping the all security checks out of the domain model, we get a more flexible system since we can interact with the domain model in any way we want. The system will still be safe since all clients are required to go through an application service anyway. It is way easier to create a new application service than to change the domain model.
+
+==== Code Examples
+
+TODO
+
+=== Transaction Management
+
+Every application service method should be designed in such a way that it forms a single transaction of its own, regardless of whether the underlying data storage uses transactions or not. If an application service method succeeds, there is no way of undoing it except by explicitly invoking another application service that reverses the operation (if such a method even exists).
+
+If you want yourself in a situation where you would want to invoke multiple application service methods within the same transaction, you should check that the granularity of your application service is correct. Maybe some of the things your application service is doing should actually be in domain services instead? You may also need to consider redesigning your system to use eventual consistency instead of strong consistency (for more information about this, please check the previous article about tactical domain-driven design).
+
+Technically, you can either handle the transactions manually inside the application service method or you can use the declarative transactions that are offered by frameworks and platforms such as Spring and Java EE.
+
+==== Code Examples
+
+TODO
+
+=== Orchestration
+
+Getting the orchestration right is perhaps the most difficult part of designing a good application service. This is because you need to make sure you are not accidentally introducing business logic into the application service even though you think you are only doing orchestration. So what does orchestration mean in this context?
+
+By orchestration, I mean looking up and invoking the correct domain objects in the correct order, passing in the correct input parameters and returning the correct output. In its simplest form, an application service may look up an aggregate based on an ID, invoke a method on that aggregate, save it and return. However, in more complex cases, the method may have to look up multiple aggregates, interact with domain services, perform input validation and so on. If you find yourself writing long application service methods, you should ask yourself the following questions:
+
+* Is the method making a business decision or asking the domain model to make the decision?
+* Should some of the code be moved to domain event listeners?
+
+This being said, having some business logic ending up in an application service method is not the end of the world. It is still pretty close to the domain model and well encapsulated and should be pretty easy to refactor into the domain model at a later time. Don't waste too much precious time thinking about whether something should go into the domain model or into the application service.
+
+==== Code Examples
+
+TODO
+
+=== Domain Event Listeners
+
+In the previous article about tactical domain-driven design, we talked about domain events and domain event listeners. We did not, however, talk about where the domain event listeners fit into the overall system architecture. We recall from the previous article that a domain event listener should not be able to affect the outcome of the method that published the event in the first place. In practice, this means that a domain event listener should run inside its own transaction.
+
+Because of this, I consider domain event listeners to be a special kind of application service that is invoked not by a client but by a domain event. This also means that a domain event listener is an orchestrator that should not contain any business logic. Depending on what needs to happen when a certain domain event is published, you may have to create a separate domain service that decides what to do with it if there are more than one path forward.
+
+This being said, in the section about aggregates in the previous article, I mentioned that it may sometimes be justified to alter multiple aggregates within the same transaction even though this goes against the aggregate design guidelines. I also mentioned that this should preferably be made through domain events. In cases like this, the domain event listeners would have to participate in the current transaction and could thereby affect the outcome of the method that published the event, breaking the design guidelines for both domain events and application services. This is not the end of the world as long as you do it intentionally and are aware of the conequences you might face in the future. Sometimes you just have to be pragmatic.
+
+=== Input Validation
+
+TODO
+
+=== Entities, DTOs or DPOs?
+
+TODO
+
+=== Does the Size Matter?
+
+TODO
+
+== Ports and Adapters
+
+TODO
+
+== Dependency Injection
+
+TODO
+
+== Multiple Bounded Contexts
+
+TODO
+
+== Next: Domain-Driven Design and Spring Boot
+
+In the next section, we are going to learn how to use Spring Boot to build applications using domain-driven design and the hexagonal architecture.
