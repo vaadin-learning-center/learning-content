@@ -8,13 +8,13 @@
 :imagesdir: ./images
 :related_tutorials:
 
-Whether you are coming from an older version of Vaadin Framework, or you are new to Vaadin; There is a good chance that you want a simple validation on fields without using `Binder`.
+Whether you are coming from an older version of Vaadin Framework, or you are new to Vaadin, there is a good chance that you want to validate fields without using `Binder`.
 
-Using binder is practically useful for a proper way to manage your application data layer, but there are still those corner cases where you want a quick and straightforward one line validator. This tutorial shows you how to create a helper class to get the classical one line validation on a field. The example here uses `TextField`, but it should apply to any other field.
+Using binder is a useful way to manage your application data layer, but there are still cases where you want a quick and straightforward one-line validator. This tutorial shows you how to create a helper class to get the classical one line validation on a field. The example here uses `TextField`, but it should apply to any other field.
 
 == Show me the code
 
-Coopy this https://github.com/amahdy/FieldValidation/blob/master/ValidTextField.java[Java class] into your project and use it as following:
+Copy this https://github.com/amahdy/FieldValidation/blob/master/ValidTextField.java[Java class] into your project and use it as following:
 
 [source,java]
 ----
@@ -86,7 +86,7 @@ a. `Content` class should be of type `T` instead of `String`.
 
 b. A converter must be provided to specify how to convert from `T` to the default type of the `Textfield` which is `String`. The converter can be specified in the constructor, and a default converter (in case `T` is `String`) can be applied.
 
-This https://github.com/amahdy/FieldValidation/blob/master/GenericTextField.java[class] has a reference implementation that covers those cases, as well as generic use of converters.
+This https://github.com/amahdy/FieldValidation/blob/master/GenericTextField.java[class] has a reference implementation that covers those cases, as well as general use of converters.
 
 [source,java]
 ----
