@@ -102,8 +102,8 @@ public void setCustomer(Customer customer) {
 * `setBean` connects the values in the `customer` object to the corresponding input fields of the form. When the user changes the value of an input field, the value is set in the corresponding instance variable of the `customer` object.
 
 * When the `customer` is:
-** `null`, the form data is hidden. 
-** is not `null`, the form data is shown, and keyboard focus is placed on the *First name* input field to allow immediate typing.
+** `null`, the form is hidden. 
+** is not `null`, the form is shown, and keyboard focus is placed on the *First name* input field to allow immediate typing.
 
 == Implementing the Save and Delete Actions
 
