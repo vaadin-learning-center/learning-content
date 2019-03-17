@@ -10,11 +10,11 @@
 
 This part of the tutorial shows you how to connect the `CustomerForm` component (implemented in the previous step) to the application. 
 
-== Showing and Hiding the Form Data
+== Showing and Hiding the Form
 
-The `setCustomer(Customer)` method in the `CustomerForm` class hides the form data if the specified customer is `null`, and shows it if the customer is defined. 
+The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is `null`, and shows it if the customer is defined. 
 
-. Initially when no customer is selected in the Grid, the form should be hidden. Hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
+. Initially, when no customer is selected in the Grid, the form should be hidden. Hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
 +
 [source,java]
 ----
@@ -33,16 +33,15 @@ grid.asSingleSelect().addValueChangeListener(event ->
         form.setCustomer(grid.asSingleSelect().getValue())); 
 ----
 * `addValueChangeListener` adds a listener to the `Grid`. The `Grid` component supports multi and single-selection modes. This example uses the single-select mode through the `asSingleSelect()` method.
-
 * `setCustomer` sets the selected customer in the `CustomerForm`. This line also uses the single-select mode. 
-* The `getValue()` method returns the `Customer` in the selected row or `null` if there's no selection, effectively showing or hiding the form data accordingly.
+* The `getValue()` method returns the `Customer` in the selected row or `null` if there's no selection, effectively showing or hiding the form accordingly.
 
 . Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. 
 +
 The form is now "connected" to the `Grid`. 
 
 * When the user selects a row, the data is copied to the input fields, 
-* When the user deselects a row, no data displays in the form. 
+* When the user deselects a row, the form is hidden. 
 * The *Save* and the *Delete* buttons work.
 
 == Adding New Customers
