@@ -14,7 +14,7 @@ This part of the tutorial shows you how to connect the `CustomerForm` component 
 
 The `setCustomer(Customer)` method in the `CustomerForm` class hides the form data if the specified customer is `null`, and shows it if the customer is defined. 
 
-. When the `MainView` is built, form data should not be shown when no customer is selected in the `Grid`. Hide the form data by setting a `null` customer in the constructor of the `MainView` class as follows:
+. Initially when no customer is selected in the Grid, the form should be hidden. Hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
 +
 [source,java]
 ----
