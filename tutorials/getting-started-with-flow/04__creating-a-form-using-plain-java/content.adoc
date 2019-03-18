@@ -152,7 +152,7 @@ private void save() {
 
 * `updateList` updates the list of customers in the main view.
 
-* `setCustomer(null)` hides the form data.
+* `setCustomer(null)` hides the form.
 
 . Similarly, implement the delete action as follows:
 +
