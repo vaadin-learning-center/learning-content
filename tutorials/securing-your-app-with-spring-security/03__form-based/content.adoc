@@ -137,11 +137,6 @@ And finally the actual declaration of our login Polymer component:
           return 'sa-login-view';
         }
 
-        static get properties() {
-          return {
-          };
-        }
-
         login() { <!-- <4> -->
           if (!this.$.username.invalid && !this.$.password.invalid) {
             this.$.form.submit();
