@@ -14,12 +14,13 @@ Since Vaadin 10 you all know that we also support *Polymer templates* besides th
 After that we will take a look at *how to secure the router navigation* and how to work with roles for finer grained security. Last but not least we will introduce the addon *ILAY* that simplifies our task in securing the app and that allows us to not only enable whole views but also components depending on the logged in user.
 
 In sum we end up with:
+
 . Configuring Spring Security
 . Setting up a form-based login view (Java and Polymer based)
-. Hooking into the authentication flow and avoid reloading
-. Secure routing
-. Finer grained security with roles on view and component level
-. ILAY
+. Hooking into the authentication flow and avoid reloading (WIP)
+. Secure routing (WIP)
+. Finer grained security with roles on view and component level (WIP)
+. ILAY (WIP)
 
 Important to know is that *basic knowledge of Vaadin 10+ and Spring Security and Spring Boot is required for this tutorial*. We will _not_ discuss styling, production builds or other topics unrelated to security. It's the functionality we are focusing on.
 
