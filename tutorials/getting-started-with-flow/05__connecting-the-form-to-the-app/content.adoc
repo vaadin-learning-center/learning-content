@@ -3,17 +3,19 @@
 
 :title: Part 5 - Connecting the Form to the Application
 :author: Vaadin
-:description: Learn how to communicate between components in a Vaadin application
+:description: Learn how to communicate between components in a Vaadin Flow application
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:
 
-In this part of the tutorial, you'll learn how to connect the `CustomerForm` component (implemented in the previous step) to the application. This includes showing and hiding the form when a row is selected or deselected in the `Grid`, making the *Save* and *Delete* buttons work, and adding a _create new customer_ option.
+This part of the tutorial shows you how to connect the `CustomerForm` component (implemented in the previous step) to the application. 
 
 == Showing and Hiding the Form
 
-The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is null or shows it if the customer is not null. When the `MainView` is built, the form should be invisible since there's no customer selected in the `Grid` at that point. You can hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
+The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is `null`, and shows it if the customer is defined. 
 
+. Initially, when no customer is selected in the Grid, the form should be hidden. Hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
++
 [source,java]
 ----
 public MainView() {
@@ -23,68 +25,73 @@ public MainView() {
 }
 ----
 
-To detect when the user selects or deselects a row on the `Grid`, you need to implement a _value change listener_. Add the following at the end of the `MainView` constructor:
-
+. To detect when the user selects or deselects a row on the `Grid`, you need to implement a value change listener. Add the following at the end of the `MainView` constructor:
++
 [source,java]
 ----
-grid.asSingleSelect().addValueChangeListener(event -> <1>
-        form.setCustomer(grid.asSingleSelect().getValue())); <2>
+grid.asSingleSelect().addValueChangeListener(event -> 
+        form.setCustomer(grid.asSingleSelect().getValue())); 
 ----
-<1> Adds a listener to the `Grid`. The `Grid` component supports multi and single selection modes. This example uses the single select mode through the `asSingleSelect()` method.
+* `addValueChangeListener` adds a listener to the `Grid`. The `Grid` component supports multi and single-selection modes. This example uses the single-select mode through the `asSingleSelect()` method.
+* `setCustomer` sets the selected customer in the `CustomerForm`. This line also uses the single-select mode. 
+* The `getValue()` method returns the `Customer` in the selected row or `null` if there's no selection, effectively showing or hiding the form accordingly.
 
-<2> Sets the selected customer in the `CustomerForm`. This line also uses the single select mode. The `getValue()` method returns the `Customer` in the selected row or `null` if there's no selection, effectively showing or hiding the form accordingly.
+. Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. 
++
+The form is now "connected" to the `Grid`. 
 
-Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. When the user selects a row, the data is _copied_ to the input fields. The form is now "connected" to the `Grid`. Also check that when you deselect a row, the form is hidden. Moreover, the *Save* and the *Delete* buttons should now work as well.
+* When the user selects a row, the data is copied to the input fields, 
+* When the user deselects a row, the form is hidden. 
+* The *Save* and the *Delete* buttons work.
 
 == Adding New Customers
 
-Let's add the functionality to create new customers by adding a button above the `Grid` and next to the `filterText` component.
+To add the functionality to create new customers, we add a button above the `Grid`, next to the `filterText` component.
 
-Add a new `Button` with a click listener, by adding the following lines to the `MainView` constructor, right after the `filterText` configuration:
-
+. Add a new `Button` with a click listener, by adding the following code lines to the `MainView` constructor, directly after the `filterText` configuration:
++
 [source,java]
 ----
 Button addCustomerBtn = new Button("Add new customer");
 addCustomerBtn.addClickListener(e -> {
-    grid.asSingleSelect().clear(); <1>
-    form.setCustomer(new Customer()); <2>
+    grid.asSingleSelect().clear(); 
+    form.setCustomer(new Customer()); 
 });
 ----
-<1> Clears a possible previous selection from the `Grid`.
+* `clear` clears a possible previous selection from the `Grid`.
 
-<2> Instantiates a new customer object and passes it to the `CustomerForm` for editing.
+* `setCustomer` instantiates a new customer object and passes it to the `CustomerForm` for editing.
 
-To add the button beside the `filterText` component, you can use a `HorizontalLayout` that _wrapps_ both, the `filterText` and `addCustomerBtn` components. First, introduce a new layout right after the previous `addCustomerBtn` code:
-
+. To position the button beside the `filterText` component, we use a `HorizontalLayout` that wraps the `filterText` and `addCustomerBtn` components. Introduce the new layout directly after the previous `addCustomerBtn` code line, as follows:
++
 [source,java]
 ----
 HorizontalLayout toolbar = new HorizontalLayout(filterText,
     addCustomerBtn);
 ----
 
-Add the `toolbar` by replacing the `add(filterText, mainContent);` line with the following:
-
+. Add the `toolbar`, by replacing the `add(filterText, mainContent);` code line with the following:
++
 [source,java]
 ----
 add(toolbar, mainContent);
 ----
 
-Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
-
+. Compile the project, by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. 
+Users can now create customer records that are stored in the demo backend.
++
 image::finished-app.png[Finished app]
 
-Users can now create customer records that are stored in the demo backend.
-
-Congratulations! You have just created your first app with Vaadin.
+Congratulations! You have just created your first app with Vaadin Flow.
 
 == Next Steps
 
-After completing this tutorial, you might already have ideas on how to create new web UIs for your existing Java applications. Here there are a few resources that will help you to explore more advanced topics:
+Use your new knowledge to explore ideas on how to create new web UIs for your existing Java applications. Here are a few resources on more advanced topics:
 
 * https://vaadin.com/start#vaadin10[Vaadin app starters] - Explore the various starter packs.
 
-* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - Another Vaadin tutorial with Spring Boot and a Spring Data JPA backend that allows you to connect your application to a real SQL database.
+* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - Another Vaadin tutorial with Spring Boot and a Spring Data JPA backend that shows you how to connect your application to a real SQL database.
 
 * https://vaadin.com/tutorials[Vaadin tutorials] - Learn more about Vaadin and its integration with related technologies.
 
-* http://vaadin.com/directory[Directory] - Explore the many components and add-ons available for developing Vaadin applications.
+* http://vaadin.com/directory[Directory] - Explore the many components and add-ons available for developing Vaadin Flow applications.
