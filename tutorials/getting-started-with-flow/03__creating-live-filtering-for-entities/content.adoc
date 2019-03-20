@@ -82,7 +82,7 @@ public MainView() {
 [source,java]
 ----
 public void updateList() {
-    grid.setItems(service.findAll(filterText.getValue())); <1>
+    grid.setItems(service.findAll(filterText.getValue()));
 }
 ----
 * `filterText.getValue()` returns the current string in the text field.
