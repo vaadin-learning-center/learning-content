@@ -3,53 +3,52 @@
 
 :title: Part 1 - Setting up the Project
 :author: Vaadin
-:description: Learn how to get started with Java web development using Vaadin
+:description: Learn how to get started with Java web development using Vaadin Flow
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:
 
-In this tutorial, you'll learn how to create your first Java web application using https://vaadin.com/flow[Vaadin].
+This tutorial shows you how to create your first Java web application using https://vaadin.com/flow[Vaadin Flow].
 
-All you need is basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE^] such as https://en.wikipedia.org/wiki/IntelliJ_IDEA[IntelliJ IDEA], and the https://jdk.java.net[JDK] version 8 or later. You'll need 20 to 60 minutes to complete the whole tutorial, depending on your current experience.
+All you need is basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE^] such as https://en.wikipedia.org/wiki/IntelliJ_IDEA[IntelliJ IDEA], and the https://jdk.java.net[JDK] version 8 or later. The tutorial should take between 20 to 60 minutes to complete, depending on your experience.
 
 == Overview
 
-You'll build a simple application to manage data about customers. For simplicity, the application doesn't connect to a real database but uses an in-memory back end instead. The concepts you learn will help you to understand how to use a real-world back end using the persistence technology of your choice.
+We build a basic application to manage data about customers. To keep things simple, the application doesn't connect to a real database, but uses an in-memory backend instead. The concepts help you to understand how to use a real-world backend with the persistence technology of your choice.
 
-At the end of the tutorial, you'll get a web page with a table (called a _Grid_ in Vaadin) with filtering capabilities and functionality to add, delete and update customer data:
+The end result of the tutorial is a web page with a table (called a Grid in Vaadin Flow) that has filtering capabilities and the functionality to add, delete, and update customer data.
 
 image::finished-app.png[The finished web application]
 
-You can use the resulting application as a starting point for more experiments with Vaadin. For example, you could add new views, create a custom theme, use add-ons, and optimize for mobile.
+You can use the application as a starting point for more experiments with Vaadin Flow. For example, you could add new views, create a custom theme, use add-ons, and optimize for mobile.
 
-If you don't want to code the application from scratch, you can
-https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application^] and experiment with it.
+If you don't want to code from scratch, you can https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application^] and experiment with it.
 
 == Installing the Development Tools
 
 Make sure that you have the JDK version 8 or later installed and that it is up to date.
 
-TIP: Most *Linux* distributions can use package managers to install the JDK. *Windows* and *Mac* users can download the JDK from https://jdk.java.net[jdk.java.net].
+TIP: Most Linux distributions can use package managers to install the JDK. Windows and Mac users can download the JDK from https://jdk.java.net[jdk.java.net].
 
 This tutorial uses https://www.jetbrains.com/idea/[IntelliJ IDEA], but you can use any other Java IDE.
 
-If you prefer to use Eclipse or NetBeans, see the following resources:
+If you prefer Eclipse or NetBeans, see:
 
-* https://vaadin.com/tutorials/import-maven-project-eclipse
+* https://vaadin.com/tutorials/import-maven-project-eclipse[Importing a Maven project in Eclipse].
 
-* https://vaadin.com/tutorials/import-maven-project-netbeans
+* https://vaadin.com/tutorials/import-maven-project-netbeans[Importing a Maven Project in NetBeans].
 
 == Creating the Project
 
-The easiest way to create a new Vaadin project is by using the _Project Base starter_.
+The easiest way to create a new Vaadin Flow project is to use the *Project Base* starter.
 
-NOTE: A _starter_ is a ready-to-use project stub that includes configuration, dependencies, and example code.
+A starter is a ready-to-use project stub that includes configuration, dependencies, and example code.
 
-Follow these steps to generate a new Vaadin project:
+To generate a new Vaadin project:
 
 . Go to https://vaadin.com/start/latest/project-base.
 
-. Enter the following in the *Get Started* form:
+. In the *Get Started* form, enter:
 
 ** *Group ID*: `com.vaadin.example`.
 
@@ -57,66 +56,73 @@ Follow these steps to generate a new Vaadin project:
 
 . Click *Download* and extract the `webapp.zip` file. If the button is not active, you may need to log in.
 
-Import the project in IntelliJ IDEA by following these steps:
+To import the project in IntelliJ IDEA:
 
-. In IntelliJ IDEA, click the *Open* option in the _welcome window_ or select *File* > *Open*.
+. Click the *Open* option in the welcome window or select *File > Open*.
 
-. Select the `pom.xml` file that you can find inside the `webapp` directory.
+. Select the `pom.xml` file in the `webapp` directory.
 
 . Click *Open* and *Open as Project* when prompted.
 
 IntelliJ IDEA will download the required dependencies and build the project.
 
-NOTE: If this is your first Vaadin app, building the project might take a while, depending on the speed of your network, as libraries are downloaded. Maven caches them on your local file system. Creating your next Maven-based Vaadin project will be much faster.
+NOTE: If this is your first Vaadin app, building the project might take a while (depending on the speed of your network), because the libraries need to be downloaded. Maven caches them on your local file system and creating your next Maven-based Vaadin project will be much faster.
 
-=== The Generated Project Files
 
-Let's take a look at some of the generated files:
+=== Viewing the Generated Project Files
 
-* `webapp/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way Maven represents a software project. Don't worry if you don't have experience with Maven, most of the IDEs make it straightforward to use it.
+Take a look at some of the generated project files:
 
-* `webapp/src/main/java`: This directory contains the Java code organized in packages. There's only one package at this point: `com.vaadin.example`. Inside this package you'll find the `MainView.java` file–a Java class that implements the web user interface using Vaadin:
+* `webapp/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way Maven represents a software project. 
 
+* `webapp/src/main/java`: This directory contains the Java code organized in packages. At this point, there is only one package, `com.vaadin.example`, that contains `MainView`: a Java class that implements the web UI using Vaadin Flow:
++
 [source,java]
 ----
 /**
  * The main view contains a button and a click listener.
  */
-@Route("") <1>
-@PWA(name = "Project Base for Vaadin Flow", shortName = "Project Base") <2>
-public class MainView extends VerticalLayout { <3>
+@Route("") 
+@PWA(name = "Project Base for Vaadin Flow", shortName = "Project Base") 
+public class MainView extends VerticalLayout { 
 
     public MainView() {
-        Button button = new Button("Click me", <4>
-                event -> Notification.show("Clicked!")); <5>
-        add(button); <6>
+        Button button = new Button("Click me", 
+                event -> Notification.show("Clicked!")); 
+        add(button); 
     }
 }
 ----
-<1> Tells Vaadin to direct the root URL to this view. The URL parameter is optional and will be derived from the class name if not given.
++
+** The `@Route` annotation tells Vaadin to direct the root URL to this view. The URL parameter is optional and is derived from the class name, if not given.
 
-<2> Tells Vaadin to activate automatic https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps[PWA] features. This annotation is optional.
+** The `@PWA` annotation tells Vaadin to activate automatic https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps[PWA] features. This annotation is optional.
 
-<3> Makes this view a `VerticalLayout` which shows components vertically.
+** The view extends `VerticalLayout` which shows components vertically.
 
-<4> Creates a button with the text `Click me` on it.
+** The `MainView` constructor:
+*** Creates a button with the text *Click me* on it.
 
-<5> Adds a _click listener_ (using a Java lambda expression) that shows a notification when the user clicks the button.
+*** Adds a click listener (using a lambda expression) that shows a notification when the user clicks the button.
 
-<6> Adds the button to the `VerticalLayout`.
+*** Adds the button to the `VerticalLayout`.
 
 === Running the Application
 
-To run the application, click on the *Maven* view and look for the *jetty:run* _Maven goal_:
+To run the application:
 
+. Open the *Maven* view and locate *jetty:run* in *webapp > Plugins > jetty*.
+. Double-click *jetty:run* to build the app and deploy it to a Jetty server. 
++
 image::jetty-run.png[jetty:run Maven goal]
+. Once the server starts, open `http://localhost:8080` to see the application in the browser.
 
-Double-click *jetty:run* to build the app and deploy it to a Jetty server. Once the server starts, open `http://localhost:8080` to see the application in the browser.
 
 [NOTE]
-You can make changes to the code, and compile the project by selecting the *Build > Build Project* option in IntelliJ IDEA. The Jetty server picks up the changes and deploys them automatically within a few seconds. You can also reload the page to reflect the changes.
+You can make changes to the code and compile the project, by selecting *Build > Build Project* in IntelliJ IDEA. The Jetty server picks up the changes and deploys them automatically within a few seconds. You can also reload the page to reflect the changes.
+
 
 [TIP]
-To make the deployment cycle smoother, many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) or similar to allow smooth hot-code replacement.
+To make the deployment cycle smoother, many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) or similar, to allow smooth hot-code replacement.
 
-If you want to use _break points_ in your code, start the server in _debug mode_. You can do this by right-clicking the *jetty:run* option and selecting *Debug 'webapp [jetty:run]'* option.
+If you want to use break points in your code, start the server in debug mode by right-clicking *jetty:run* and selecting *Debug 'webapp [jetty:run]'*.

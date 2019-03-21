@@ -8,30 +8,30 @@
 :imagesdir: ./images
 :linkattrs:
 
-In this part of the tutorial you'll learn how to implement a reusable form to edit data:
+This part of the tutorial shows you how to implement a reusable form to edit data.
 
 image::form.png[Form]
 
+So far, all UI coding has been in one class, `MainView`. However, you can also use object oriented composition to create reusable UI components. A customer form is a perfect candidate to demonstrate using reusable UI components in Vaadin Flow.
+
 == Adding Input Fields and Buttons
 
-So far, you have been coding the UI in one class: `MainView`. However, you can also use Object Oriented composition and create reusable UI components with Vaadin. A _customer form_ sounds like a perfect candidate for a reusable UI component.
+. Start by creating a new class in IntelliJ IDEA:
 
-Start by creating a new class in IntelliJ IDEA:
+** Right-click the *com.vaadin.example* package and select *New > Java Class*.
 
-. Right-click on the *com.vaadin.example* package and select *New > Java Class*.
+** In the *Name* field, type `CustomerForm`, and click *OK*.
 
-. In the *Name* field, type `CustomerForm`, and click *OK*.
-
-To make this class a Vaadin UI component, you need to extend an existing one. Extend `FormLayout` as follows:
-
+. To make this class a Vaadin UI component, you need to extend an existing component. Extend the `FormLayout` component as follows:
++
 [source,java]
 ----
 public class CustomerForm extends FormLayout {
 }
 ----
 
-The form needs an _input field_ for each editable property in the `Customer` class. There are different kinds of fields in Vaadin for editing different kinds of values. In this example, we’ll use the `TextField`, `ComboBox`, and `DatePicker` components. Define the following instance variables in the `CustomerForm` class:
-
+. The form needs an input field for each editable property in the `Customer` class. Vaadin Flow provides different kinds of fields for editing different kinds of values. We use the `TextField`, `ComboBox`, and `DatePicker` components. Define the following instance variables in the `CustomerForm` class:
++
 [source,java]
 ----
 private TextField firstName = new TextField("First name");
@@ -40,36 +40,36 @@ private ComboBox<CustomerStatus> status = new ComboBox<>("Status");
 private DatePicker birthDate = new DatePicker("Birthdate");
 ----
 
-The form also needs two buttons for _saving_ and _deleting_ `Customer` instances. Add them to the `CustomerForm` class as follows:
-
+. The form also needs two buttons to save and delete `Customer` instances. Add the buttons to the `CustomerForm` class as follows:
++
 [source,java]
 ----
 private Button save = new Button("Save");
 private Button delete = new Button("Delete");
 ----
 
-With the components in place, you can set further configurations and add them to the form in a constructor. Add the following constructor to the `CustomerForm` class:
-
+. With the components in place, you can set further configurations and add them to the form in a constructor. Add the following constructor to the `CustomerForm` class:
++
 [source,java]
 ----
 public CustomerForm() {
-    status.setItems(CustomerStatus.values()); <1>
+    status.setItems(CustomerStatus.values()); 
 
     HorizontalLayout buttons = new HorizontalLayout(save, delete);
-    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY); <2>
+    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY); 
     add(firstName, lastName, status, birthDate, buttons);
 }
 ----
-<1> Adds all the enum values as options to the `ComboBox`.
+* `status.setItems` adds all the enum values as options to the `ComboBox`.
 
-<2> Makes the save button prominent by decorating it with a style name.
+* `addThemeVariants` makes the save button prominent by decorating it with a style name.
 
 == Showing and Hiding the Form
 
-The applications requires to show the form with the corresponding data from a specific `Customer` instance, or completely hide the form.
+It should be possible to show the corresponding data from a specific `Customer` instance in the form, and to hide the form when necessary. 
 
-Showing the form requires _connecting_ the properties of a given `Customer` instance to the input fields in the form, something called _data binding_. You can do this by using the `Binder` helper class. Add the following instance variable to the `CustomerForm` class and initialize it in the constructor:
-
+. To display specific customer data in the form, you need to connect the properties of a given `Customer` instance to the input fields in the form. This is known as data binding, and Vaadin Flow provides the `Binder` helper class for this purpose. To bind the data, add the following instance variable to the `CustomerForm` class and initialize it in the constructor as follows:
++
 [source,java]
 ----
 private Binder<Customer> binder = new Binder<>(Customer.class);
@@ -81,33 +81,34 @@ public CustomerForm() {
 }
 ----
 
-NOTE: The `bindInstanceFields(this)` method processes all the instance variables that are input fields (like `TextField` and `ComboBox`, for example) and _maps_ them to the Java properties in the `Customer` class, matching by name. For example, `Customer::firstName` is mapped to the `CustomerForm::firstName` input field. You can override this by using the `@PropertyId` annotation in the `CustomerForm` 's input fields to explicitly declare the corresponding `Customer` 's instance variables.
+* The `bindInstanceFields(this)` method processes all the instance variables that are input fields (for example, `TextField` and `ComboBox`) and maps them (matching by name) to the Java properties in the `Customer` class. For example, `Customer::firstName` is mapped to the `CustomerForm::firstName` input field. 
+* You can override automatic mapping using the `@PropertyId` annotation in the `CustomerForm` input fields to explicitly declare the corresponding `Customer` instance variables.
 
-You can implement the actual logic to show or hide the form in a single public method of the `CustomerForm` class as follows:
-
+. You can implement the logic to show or hide the form in a single public method. To do so, add the following code to `CustomerForm`:
++
 [source,java]
 ----
 public void setCustomer(Customer customer) {
-    binder.setBean(customer); <1>
+    binder.setBean(customer); 
 
-    if (customer == null) { <2>
+    if (customer == null) { 
         setVisible(false);
-    } else { <3>
+    } else { 
         setVisible(true);
         firstName.focus();
     }
 }
 ----
-<1> Connects the values in the `customer` object with the corresponding input fields of the form. When the user changes the value of an input field, the value is set in the corresponding instance variable of the `customer` object.
+* `setBean` connects the values in the `customer` object to the corresponding input fields of the form. When the user changes the value of an input field, the value is set in the corresponding instance variable of the `customer` object.
 
-<2> When the `customer` is null, hide the form.
-
-<2> When the `customer` is not null, show the form and make the *First name* input field keyboard-focused to allow typing on it immediately.
+* When the `customer` is:
+** `null`, the form is hidden. 
+** is not `null`, the form is shown, and keyboard focus is placed on the *First name* input field to allow immediate typing.
 
 == Implementing the Save and Delete Actions
 
-Since the save and the delete actions require updating the list of customers in the `MainView` class, you'll need a reference to this class. You can receive it in the constructor as follows:
-
+. To ensure the save and the delete actions update the list of customers in the `MainView` class, we need to add a reference to this class. You can receive it in the constructor as follows:
++
 [source,java]
 ----
 private MainView mainView;
@@ -119,15 +120,15 @@ public CustomerForm(MainView mainView) {
 }
 ----
 
-Additionally, the save and the delete actions need the `CustomerService`. Add it to the `CustomerForm` class as follows:
-
+. The save and the delete actions also need to reference the `CustomerService` class. Add a reference in the `CustomerForm` class as follows:
++
 [source,java]
 ----
 private CustomerService service = CustomerService.getInstance();
 ----
 
-With the `service` and `mainView` variables in place, you can implement the save action in the following way:
-
+. With the `service` and `mainView` variables in place, implement the save action as follows:
++
 [source,java]
 ----
 public CustomerForm(MainView mainView) {
@@ -139,22 +140,22 @@ public CustomerForm(MainView mainView) {
 ...
 
 private void save() {
-    Customer customer = binder.getBean(); <1>
-    service.save(customer); <2>
-    mainView.updateList(); <3>
-    setCustomer(null); <4>
+    Customer customer = binder.getBean(); 
+    service.save(customer); 
+    mainView.updateList(); 
+    setCustomer(null); 
 }
 ----
-<1> Gets the `customer` instance that was bound to the input fields of the form.
+* `getBean` gets the `customer` instance that was bound to the input fields of the form.
 
-<2> Performs the save action in the backend.
+* `service.save(customer)` performs the save action in the backend.
 
-<3> Updates the list of customers in the main view.
+* `updateList` updates the list of customers in the main view.
 
-<4> Hides this form.
+* `setCustomer(null)` hides the form.
 
-Similarly, you can implement the delete action as follows:
-
+. Similarly, implement the delete action as follows:
++
 [source,java]
 ----
 public CustomerForm(MainView mainView) {
@@ -172,12 +173,13 @@ private void delete() {
 }
 ----
 
-NOTE: For a truly re-usable form component in a real-life project, you should introduce an interface to avoid coupling with the `MainView` class. Alternatively, you could use an event system, like CDI events, to completely decouple the components. For simplicity, we left this out of the scope of this tutorial.
+[NOTE] 
+In a real-world project, you should introduce an interface to avoid coupling with the `MainView` class. Alternatively, you could use an event system, like CDI events, to completely decouple the components. To keep things simple, we left this out of the scope of this tutorial.
 
 == Adding the Form to the Main View
 
-Let's add the form to the main view. Start by adding the form as an instance variable in the `MainView` class:
-
+. To add the form to the main view, add the form as an instance variable in the `MainView` class:
++
 [source, java]
 ----
 public class MainView extends VerticalLayout {
@@ -189,8 +191,8 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-To display the form to the right of the `Grid` in the `MainView` class, you can introduce a `HorizontalLayout` to _wrap_ the `grid` and the `customerForm` components. Replace the `add(filterText, grid)` line of code with the following:
-
+. To display the form to the right of the `Grid`, in the `MainView` class introduce a `HorizontalLayout` to wrap the `grid` and the `customerForm` components. Replace the `add(filterText, grid)` line of code with the following:
++
 [source,java]
 ----
 HorizontalLayout mainContent = new HorizontalLayout(grid, form);
@@ -200,8 +202,9 @@ grid.setSizeFull();
 add(filterText, mainContent);
 ----
 
-Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
-
+. Compile the project, by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
++ 
 image::form-in-app.png[From added to the application layout]
 
-WARNING: The *Save* and *Delete* buttons don't work at this point, but you'll fix that in the next part of the tutorial.
+[NOTE]
+The *Save* and *Delete* buttons don't work at this point, we'll add this in the next part of the tutorial.

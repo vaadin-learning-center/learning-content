@@ -3,36 +3,39 @@
 
 :title: Part 2 - Listing Entities in a Grid
 :author: Vaadin
-:description: Learn how to show data in tabular form using a Grid component
+:description: Learn how to show data in tabular form using a Grid component in Vaadin Flow
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:
 
-In this part of the tutorial, you'll learn how to display data in a `Grid` component.
+This part of the tutorial shows you how to display data in a `Grid` component.
 
 == Adding the Domain Objects
 
-Before getting into actual web development with Vaadin, we need to add the necessary _domain objects_ and a _dummy back end_.
+Before getting into actual web development with Vaadin Flow, we need to add the necessary domain objects and a dummy backend.
 
 Copy or download the following three Java classes from GitHub and add them to your project:
 
-* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/CustomerStatus.java[`CustomerStatus.java`^]: This is a simple enum type.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/CustomerStatus.java[`CustomerStatus.java`^]: This is a simple enum type.
 
-* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/Customer.java[`Customer.java`^]: This this is the main domain object– a basic _Java bean_ that encapsulates data about a customer.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/Customer.java[`Customer.java`^]: This this is the main domain object, a basic Java bean that encapsulates data about a customer.
 
-* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/starter/skeleton/backend/CustomerService.java[`CustomerService.java`^]: This is a simple service class that you can use to get and save `Customer` instances. Think of this class as the entry point to a dummy database.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/CustomerService.java[`CustomerService.java`^]: This is a simple service class that you can use to get and save `Customer` instances. Think of this class as the entry point to a dummy database.
 
 [TIP]
-A fast way to copy classes in IntelliJ IDEA is to use the clipboard. In the browser, select the content of the file and choose *Edit > Copy*. In IntelliJ IDEA, right-click `com.vaadin.example` in the *Project*` view and select the *Paste* option. IntelliJ IDEA is smart enough to create a properly-named Java file automatically.
+A fast way to copy classes in IntelliJ IDEA is to use the clipboard. In the browser, select the content of the file and choose *Edit > Copy*. In IntelliJ IDEA, right-click `com.vaadin.example` in the *Project* view and select *Paste*. IntelliJ IDEA is smart enough to create a properly-named Java file automatically.
 
-NOTE: The actual implementation of these classes is not relevant for this tutorial, but feel free to explore them. In a real-world application, you would most likely have something similar but implemented with JPA and EJB, or Spring-managed beans, for example.
+[NOTE]
+The actual implementation of these classes is not relevant for this tutorial, but feel free to explore them. In a real-world application, you would most likely have something similar, but implemented with JPA and EJB, or Spring-managed beans, for example.
 
 == Showing Data in a Grid
 
-When building user interfaces (UI) for data-centric applications, you frequently start by listing data from a backend. Vaadin offers several components and ways to do this. This tutorial uses the `Grid` component to present data in a tabular fashion. The data comes from the _dummy backend_ you added in the previous section.
+When building UIs for data-centric applications, you frequently start by listing data from a backend. Vaadin offers several components and ways to do this. This tutorial uses the `Grid` component to present data in a table. The data comes from the dummy backend you added in the previous section.
 
-In the `MainView` class, add a reference to the `CustomerService` and introduce an instance variable of type `Grid` as follows:
+To show the data in a Grid component:
 
+. In the `MainView` class, add a reference to the `CustomerService` class and introduce an instance variable of type `Grid` as follows:
++
 [source, java]
 ----
 ...
@@ -46,34 +49,34 @@ public class MainView extends VerticalLayout {
     }
 }
 ----
-
++
 [TIP]
-You can fix the compilation errors shown in red using the kbd:[Alt+Enter] shortcut (kbd:[Option+Enter] on Mac). Position the cursor right after the error in red (for example `Grid`) and use the shortcut. Make sure you choose the correct class from the `com.vaadin` package.
+You can fix the compilation errors shown in red using the [Alt+Enter] (Windows) or [Option+Enter] (Mac) shortcut. Position the cursor right after the error in red (for example `Grid`) and then use the shortcut. Make sure to choose the correct class from the `com.vaadin` package.
 
-The `Grid` component uses columns and rows to show data. Let's start by configuring the columns. Replace the constructor of the `MainView` class with the following:
-
+. The `Grid` component uses columns and rows to show data. Configure the columns by replacing the constructor of the `MainView` class with :
++
 [source,java]
 ----
 ...
     public MainView() {
-        grid.setColumns("firstName", "lastName", "status"); <1>
+        grid.setColumns("firstName", "lastName", "status"); 
 
-        add(grid); <2>
+        add(grid); 
 
-        setSizeFull(); <3>
+        setSizeFull(); 
     }
 ...
 ----
-<1> Configures the `Grid` to show the `firstName`, `lastName`, and `status` properties of the `Customer` class.
+* `setColumns` configures the `Grid` to show the `firstName`, `lastName`, and `status` properties of the `Customer` class.
 
-<2> Adds the `Grid` to the `VerticalLayout`.
+* `add(grid)` adds the `Grid` to the `VerticalLayout`.
 
-<3> Sets the height and width of the `VerticalLayout` to 100% to use all the space available in the browser.
+* `setSizeFull` sets the height and width of the `VerticalLayout` to 100%, i.e. to use all the space available in the browser.
++
+TIP: As an alternative, you can use the `addColumn(ValueProvider)` method to add columns in a type-safe manner. For example, to add a column for the `firstName` property, call `grid.addColumn(Customer::getFirstName)`.
 
-TIP: You can alternatively use the `addColumn(ValueProvider)` method to add columns in a type-safe manner. For example, to add a column for the `firstName` property, call `grid.addColumn(Customer::getFirstName)`.
-
-At this point, the `Grid` columns are ready but there are no rows yet. To add them, use the `setItems(Customer...)` method. Since you have to refresh the rows later in this tutorial, it makes sense to create a method for this and call it from the constructor as follows:
-
+. At this point, the `Grid` columns are ready, but there are no rows yet. To add rows, use the `setItems(Customer...)` method. Since you will need to refresh the rows later in the tutorial, it makes sense to create a method for this now. Create the method and call it from the constructor as follows:
++
 [source,java]
 ----
 ...
@@ -89,6 +92,7 @@ At this point, the `Grid` columns are ready but there are no rows yet. To add th
 ...
 ----
 
-Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes:
-
+. Compile the project, by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.
++
 image::grid.png[Grid with columns and rows]
+
