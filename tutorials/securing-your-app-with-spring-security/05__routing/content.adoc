@@ -7,3 +7,4 @@
 :linkattrs:
 :imagesdir: ./images
 :placeholder:
+:hidden:

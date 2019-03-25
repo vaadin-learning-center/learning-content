@@ -3,15 +3,17 @@
 :author: Paul Römer
 :type: text
 :tags: Spring, Spring Boot
-:description: Detailed explanation to setup Spring Security for Vaadin applications
+:description: How to add the Spring Security dependency and redirect unauthenticated users to a login page. 
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin
 :linkattrs:
 :imagesdir: ./images
 
-After discussing the goals and setting up the project base we will finally start with the actual work!
+After discussing the goals and setting up the project base, we can finally start with the actual work!
 
 == Enable Spring Security
 First, we have to add the needed Spring Security dependencies to our POM:
+
+.`*pom.xml*`
 [source,xml]
 ----
 <dependency>
@@ -26,6 +28,8 @@ First, we have to add the needed Spring Security dependencies to our POM:
 ----
 
 Second, we will add a Vaadin aware Spring Security configuration via the `SecurityConfiguration` class that uses some helpers you can check in the sources.
+
+.`*SecurityConfiguration.java*`
 [source,java,linenums]
 ----
 /**
@@ -33,29 +37,29 @@ Second, we will add a Vaadin aware Spring Security configuration via the `Securi
  */
 @Override
 protected void configure(HttpSecurity http) throws Exception {
-	// Not using Spring CSRF here to be able to use plain HTML for the login page
-	http.csrf().disable() // <1>
+    // Not using Spring CSRF here to be able to use plain HTML for the login page
+    http.csrf().disable() // <1>
 
-			// Register our CustomRequestCache that saves unauthorized access attempts, so
-			// the user is redirected after login.
-			.requestCache().requestCache(new CustomRequestCache()) // <2>
+            // Register our CustomRequestCache that saves unauthorized access attempts, so
+            // the user is redirected after login.
+            .requestCache().requestCache(new CustomRequestCache()) // <2>
 
-			// Restrict access to our application.
-			.and().authorizeRequests()
+            // Restrict access to our application.
+            .and().authorizeRequests()
 
-			// Allow all flow internal requests.
-			.requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll() // <3>
+            // Allow all flow internal requests.
+            .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll() // <3>
 
-			// Allow all requests by logged in users.
-			.anyRequest().authenticated() // <4>
+            // Allow all requests by logged in users.
+            .anyRequest().authenticated() // <4>
 
-			// Configure the login page.
-			.and().formLogin().loginPage(LOGIN_URL).permitAll() // <5>
-			.loginProcessingUrl(LOGIN_PROCESSING_URL) // <6>
-			.failureUrl(LOGIN_FAILURE_URL)
+            // Configure the login page.
+            .and().formLogin().loginPage(LOGIN_URL).permitAll() // <5>
+            .loginProcessingUrl(LOGIN_PROCESSING_URL) // <6>
+            .failureUrl(LOGIN_FAILURE_URL)
 
-			// Configure logout
-			.and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+            // Configure logout
+            .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
 }
 ----
 <1> Vaadin has built-in Cross-Site Request Forgery already.
@@ -66,6 +70,8 @@ protected void configure(HttpSecurity http) throws Exception {
 <6> Configure the login URL Spring Security is expecting POST requests to (form submit).
 
 Next, we have to make sure that resources Vaadin needs are bypassed and not affected by our security configuration above:
+
+.`*SecurityConfiguration.java*`
 [source,java,linenums]
 ----
 /**
@@ -73,29 +79,29 @@ Next, we have to make sure that resources Vaadin needs are bypassed and not affe
  */
 @Override
 public void configure(WebSecurity web) throws Exception {
-	web.ignoring().antMatchers(
-			// Vaadin Flow static resources // <1>
-			"/VAADIN/**",
+    web.ignoring().antMatchers(
+            // Vaadin Flow static resources // <1>
+            "/VAADIN/**",
 
-			// the standard favicon URI
-			"/favicon.ico",
+            // the standard favicon URI
+            "/favicon.ico",
 
-			// the robots exclusion standard
-			"/robots.txt",
+            // the robots exclusion standard
+            "/robots.txt",
 
-			// web application manifest // <2>
-			"/manifest.webmanifest",
-			"/sw.js",
-			"/offline-page.html",
+            // web application manifest // <2>
+            "/manifest.webmanifest",
+            "/sw.js",
+            "/offline-page.html",
 
-			// (development mode) static resources // <3>
-			"/frontend/**",
+            // (development mode) static resources // <3>
+            "/frontend/**",
 
-			// (development mode) webjars // <4>
-			"/webjars/**",
+            // (development mode) webjars // <4>
+            "/webjars/**",
 
-			// (production mode) static resources // <5>
-			"/frontend-es5/**", "/frontend-es6/**");
+            // (production mode) static resources // <5>
+            "/frontend-es5/**", "/frontend-es6/**");
 }
 ----
 <1> Mandatory.
