@@ -1,0 +1,63 @@
+= Introduction to using Spring Security in Vaadin applications
+:title: Introduction to using Spring Security in Vaadin applications
+:author: Paul Römer
+:type: text
+:tags: Spring, Spring Boot, Security
+:description: Learn how to secure a Vaadin application with Spring Security. This first part of the tutorial covers project setup and the goals of the tutorial series.
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin
+:linkattrs:
+:imagesdir: ./images
+
+We get many questions in the forum about *how to use Vaadin 10+ with Spring Security*. We heard you, and we will help you. However, let's start with the definition of "use," first:
+
+Since Vaadin 10, Vaadin supports *client-side templates* in addition to the *Java-only approach*. That means we have to discuss two different types of client-side implementations. We can use as much Spring Security as possible by submitting a form to the configured endpoint or a little less by hooking into Spring Security's authentication flow. Both have pros and cons we will elaborate.
+
+After that, we will take a look at *how to secure the router navigation* and how to work with roles for more fine-grained security. Last but not least, we will introduce the addon *ILAY* that simplifies our task in securing the app and that allows us to not only enable entire views, but also components depending on the logged in user.
+
+In sum we end up with:
+
+. Configuring Spring Security
+. Setting up a form-based login view (Java and Polymer based)
+. Hooking into the authentication flow and avoid reloading (WIP)
+. Secure routing (WIP)
+. Finer grained security with roles on view and component level (WIP)
+. ILAY (WIP)
+
+*Basic knowledge of Vaadin 10+, Spring Security, and Spring Boot is required for this tutorial*. We will _not_ discuss styling, production builds or other topics unrelated to security.
+
+== Get the base Vaadin + Spring starter
+We are using https://vaadin.com/start/latest/project-base-spring as our starting point. At the time of writing the starter is using Vaadin 12.0.4 with Spring Boot 2.1.0.RELEASE.
+
+```
+.
+├── LICENSE.md
+├── pom.xml
+├── README.md
+├── src
+│   └── main
+│       ├── java
+│       │   └── org
+│       │       └── vaadin
+│       │           └── paul
+│       │               └── spring
+│       │                   ├── Application.java
+│       │                   ├── MainView.java
+│       │                   └── MessageBean.java
+│       └── resources
+│           ├── application.properties
+│           ├── banner.txt
+│           └── META-INF
+│               └── resources
+│                   ├── frontend
+│                   │   ├── src
+│                   │   │   └── README
+│                   │   └── styles
+│                   │       └── README
+│                   └── icons
+│                       └── icon.png
+```
+The project setup is very minimalistic: a single Maven module, no styles, no Polymer templates (prepared folder structure), the typical SpringBoot `Application` class and a main view. Because this starter showcases Spring, it includes a message bean that is injected and used in the `MainView`. It is not relevant for this tutorial.
+
+Now, run `mvn spring-boot:run` to build and start the web application.
+
+Congrats!

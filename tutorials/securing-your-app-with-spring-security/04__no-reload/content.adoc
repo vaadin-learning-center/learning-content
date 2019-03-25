@@ -1,0 +1,10 @@
+:title: Customize Spring Security to allow reload free login views
+:author: Paul Römer
+:type: text
+:tags: Spring, Spring Boot
+:description: Adds a specialized Spring Security and Vaadin configuration to allow handling the whole authentication in the view itself.
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/master
+:linkattrs:
+:imagesdir: ./images
+:placeholder:
+:hidden:
