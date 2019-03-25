@@ -16,11 +16,11 @@ Before getting into actual web development with Vaadin Flow, we need to add the 
 
 Copy or download the following three Java classes from GitHub and add them to your project:
 
-* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/CustomerStatus.java[`CustomerStatus.java`^]: This is a simple enum type.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/CustomerStatus.java[CustomerStatus.java^]: This is a simple enum type.
 
-* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/Customer.java[`Customer.java`^]: This this is the main domain object, a basic Java bean that encapsulates data about a customer.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/Customer.java[Customer.java^]: This this is the main domain object, a basic Java bean that encapsulates data about a customer.
 
-* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/CustomerService.java[`CustomerService.java`^]: This is a simple service class that you can use to get and save `Customer` instances. Think of this class as the entry point to a dummy database.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/CustomerService.java[CustomerService.java^]: This is a simple service class that you can use to get and save `Customer` instances. Think of this class as the entry point to a dummy database.
 
 [TIP]
 A fast way to copy classes in IntelliJ IDEA is to use the clipboard. In the browser, select the content of the file and choose *Edit > Copy*. In IntelliJ IDEA, right-click `com.vaadin.example` in the *Project* view and select *Paste*. IntelliJ IDEA is smart enough to create a properly-named Java file automatically.
