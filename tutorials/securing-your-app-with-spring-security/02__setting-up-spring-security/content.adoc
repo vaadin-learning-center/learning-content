@@ -1,0 +1,113 @@
+= Setting up Spring Security for Vaadin applications
+:title: Setting up Spring Security for Vaadin applications
+:author: Paul Römer
+:type: text
+:tags: Spring, Spring Boot
+:description: How to add the Spring Security dependency and redirect unauthenticated users to a login page. 
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin
+:linkattrs:
+:imagesdir: ./images
+
+After discussing the goals and setting up the project base, we can finally start with the actual work!
+
+== Enable Spring Security
+First, we have to add the needed Spring Security dependencies to our POM:
+
+.`*pom.xml*`
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+</dependency>
+----
+
+Second, we will add a Vaadin aware Spring Security configuration via the `SecurityConfiguration` class that uses some helpers you can check in the sources.
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+/**
+ * Require login to access internal pages and configure login form.
+ */
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    // Not using Spring CSRF here to be able to use plain HTML for the login page
+    http.csrf().disable() // <1>
+
+            // Register our CustomRequestCache that saves unauthorized access attempts, so
+            // the user is redirected after login.
+            .requestCache().requestCache(new CustomRequestCache()) // <2>
+
+            // Restrict access to our application.
+            .and().authorizeRequests()
+
+            // Allow all flow internal requests.
+            .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll() // <3>
+
+            // Allow all requests by logged in users.
+            .anyRequest().authenticated() // <4>
+
+            // Configure the login page.
+            .and().formLogin().loginPage(LOGIN_URL).permitAll() // <5>
+            .loginProcessingUrl(LOGIN_PROCESSING_URL) // <6>
+            .failureUrl(LOGIN_FAILURE_URL)
+
+            // Configure logout
+            .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+}
+----
+<1> Vaadin has built-in Cross-Site Request Forgery already.
+<2> We add a customized request cache to filter out framework internal request. Check `CustomRequestCache` implementation for details.
+<3> Permits a set of Vaadin related request types (check `SecurityUtils` for details).
+<4> Force authentication for all views.
+<5> Configure the URL to the login page for redirects and permit access to everyone.
+<6> Configure the login URL Spring Security is expecting POST requests to (form submit).
+
+Next, we have to make sure that resources Vaadin needs are bypassed and not affected by our security configuration above:
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+/**
+ * Allows access to static resources, bypassing Spring security.
+ */
+@Override
+public void configure(WebSecurity web) throws Exception {
+    web.ignoring().antMatchers(
+            // Vaadin Flow static resources // <1>
+            "/VAADIN/**",
+
+            // the standard favicon URI
+            "/favicon.ico",
+
+            // the robots exclusion standard
+            "/robots.txt",
+
+            // web application manifest // <2>
+            "/manifest.webmanifest",
+            "/sw.js",
+            "/offline-page.html",
+
+            // (development mode) static resources // <3>
+            "/frontend/**",
+
+            // (development mode) webjars // <4>
+            "/webjars/**",
+
+            // (production mode) static resources // <5>
+            "/frontend-es5/**", "/frontend-es6/**");
+}
+----
+<1> Mandatory.
+<2> Needed only when developing a Progressive Web Application.
+<3> and <4> Allows access to frontend resources in development mode.
+<5> Grants access to all bundled resources. This is important for your login view (if a Polymer template needs to be accessed) or for every other public page.
+
+Once again, run `mvn spring-boot:run` to build and start the web application and notice the redirection to /login. So far, so good.
+
