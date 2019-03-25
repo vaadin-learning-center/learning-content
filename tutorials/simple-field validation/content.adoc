@@ -1,0 +1,168 @@
+= Simple Field Validation
+
+:type: text
+:tags: Data entry, Flow, Validation
+:description: <put detailed description here>
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+Whether you are coming from an older version of Vaadin Framework, or you are new to Vaadin, there is a good chance that you want to validate fields without using `Binder`.
+
+Using binder is a useful way to manage your application data layer, but there are still cases where you want a quick and straightforward one-line validator. This tutorial shows you how to create a helper class to get the classical one line validation on a field. The example here uses `TextField`, but it should apply to any other field.
+
+== Show me the code
+
+[source,java]
+----
+public class ValidTextField extends TextField {
+
+  class Content {
+    String content;
+    public String getContent() {
+      return content;
+    }
+    public void setContent(String content) {
+      this.content = content;
+    }
+  }
+
+  private Content content = new Content();
+  private Binder<Content> binder = new Binder<>();
+  private List<Validator<String>> validators = new ArrayList<>();
+
+  public ValidTextField() {
+    binder.setBean(content);
+  }
+
+  public void addValidator(
+    SerializablePredicate<String> predicate,
+    String errorMessage) {
+      addValidator(Validator.from(predicate, errorMessage));
+  }
+
+  public void addValidator(Validator<String> validator) {
+    validators.add(validator);
+    build();
+  }
+
+  private void build() {
+    BindingBuilder<Content, String> builder =
+      binder.forField(this);
+
+    for(Validator<String> v: validators) {
+      builder.withValidator(v);
+    }
+
+    builder.bind(
+      Content::getContent, Content::setContent);
+  }
+}
+----
+
+You can also find https://github.com/amahdy/FieldValidation/blob/master/ValidTextField.java[the source code on github]. Add the class into your project and use it as following:
+
+[source,java]
+----
+ValidTextField valid = new ValidTextField();
+valid.addValidator(
+  new StringLengthValidator("Wrong length", 1, 10));
+valid.addValidator(
+  s -> s.equals("Vaadin"), "Not Vaadin!");
+----
+
+In case you want to have the same functionality for a different field, change the class to extend the desired field instead of `TextField`.
+
+== How it works
+
+The trick used in this helper class is to include an elementary POJO class `Content`, and built-in binder to do the data binding behind the scene.
+
+The constructor assigns the default bean to the binder `binder.setBean(content);`, and what we need in the `addValidator` is to include the new validator:
+
+[source,java]
+----
+binder.forField(this)
+  .withValidator(v)
+  .bind(Content::getContent, Content::setContent);
+----
+
+The code above would work perfectly if we have only one validator assigned. However, since we expect more than one, and we can not add new validators after the `bind` statement, the second trick is to keep track of all the requested validators and re-assign them whenever we call the `addValidator` method. To do that, we keep a member variable `private List<Validator<String>> validators` that holds all requested validators, and we iterate over them to make sure all provided validators apply on the field:
+
+[source,java]
+----
+public void addValidator(Validator<String> validator) {
+  validators.add(validator);
+  build();
+}
+
+private void build() {
+  BindingBuilder<Content, String> builder =
+    binder.forField(this);
+
+  for(Validator<String> v: validators) {
+    builder.withValidator(v);
+  }
+
+  builder.bind(
+    Content::getContent, Content::setContent);
+}
+----
+
+== Going advanced
+
+As stated earlier, simple validation should be used in straightforward cases. However, there is always room to make it a bit more generic.
+
+For example, the earlier examples assumed that the `TextField` always has a `String` value. However, this is not always the case. We can solve this by:
+
+1. Create a `TextFieldType` class that extends `ValidTextField`, and perform the conversion between the desired `Type` and `String` in the `TextFieldType`.
+
+2. Change `ValidTextField` to extends a custom `TextFieldType` and change the code to support `Type` instead of `String`.
+
+3. Use generics as a parameter to our custom implementation:
+
+[source]
+----
+public class GenericTextField<T> extends TextField {
+}
+----
+
+The above code follows a few other changes:
+
+a. `Content` class should be of type `T` instead of `String`.
+
+b. A converter must be provided to specify how to convert from `T` to the default type of the `Textfield` which is `String`. The converter can be specified in the constructor, and a default converter (in case `T` is `String`) can be applied.
+
+This https://github.com/amahdy/FieldValidation/blob/master/GenericTextField.java[class] has a reference implementation that covers those cases, as well as general use of converters.
+
+[source,java]
+----
+GenericTextField<Integer> generic = new GenericTextField<>(
+    Integer::valueOf,
+    i -> i==null? "0" : String.valueOf(i) ,
+    "Can't convert between String and Integer"
+);
+generic.addValidator(
+  new IntegerRangeValidator("Not within range", 0, 3));
+----
+
+There is also a https://github.com/amahdy/FieldValidation/blob/master/SimpleTextField.java[simple class] to use in case of type is `String`.
+
+[source,java]
+----
+SimpleTextField simple = new SimpleTextField();
+simple.addValidator(
+  new StringLengthValidator("Min 3 chars required", 3));
+----
+
+== Next steps
+
+The `GenericTextField` has a more generalized way to deal with different sort of field values, and it also comes with a similar approach to add converters inline. However, there are a few limitations:
+
+1. Unlike validators, converters are tricky because they need to execute in a specific order, and they need to be applied only once because they may involve changes in the data model. The current demo does not cover those complex cases.
+
+2. The demo here uses `TextField` all the time. The demo is not generalized to any `AbstractField`, but for now, you can change the superclass to a different field.
+
+3. Remove validators or converters is not covered since I couldn't find a proper use case.
+
+Let's discuss those items in the comments section below and enhance those reference implementations based on the discussion.
