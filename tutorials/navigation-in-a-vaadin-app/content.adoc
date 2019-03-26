@@ -1,0 +1,284 @@
+= Navigation in a Vaadin App
+
+:type: text
+:tags: Navigation, Router, Flow
+:description: Setup navigation in a Vaadin app and a few tips
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+Vaadin Flow comes with a powerful Router to easily navigate between views and manage browser URIs. This tutorial will summarise all the important features you can do with the Router, such as setup different routes, error fallback pages, manage parameters, and some other tips.
+
+The https://vaadin.com/start/latest/project-base[starter app] comes with a `MainView` that has `@Route("")`, which means that the root of your website is served by `MainView`. Run your application and try to point to a different route, such as `/test`, you get the built-in 404 (Page not found) error page if you are running in the development mode, and you get a list of available routes.
+
+== Handle error pages
+The first step in this tutorial, we are creating a custom 404 page for our visitors. To do that, create a new class `NotFoundView.java` as following:
+
+[source,java]
+----
+public class NotFoundView extends Div
+  implements HasErrorParameter<NotFoundException> {
+
+  private Label error = new Label();
+
+  public NotFoundView() {
+    add(error);
+  }
+
+  @Override
+  public int setErrorParameter(
+    BeforeEnterEvent event,
+    ErrorParameter<NotFoundException> parameter) {
+
+    error.setText("Can not find URL: " + event.getLocation().getPath());
+    return HttpServletResponse.SC_NOT_FOUND;
+  }
+}
+----
+
+The class above handles the `NotFoundException` during navigation; it adds a `Label` and updates its text with information about the wrong path using `event.getLocation().getPath()`.
+
+== Encapsulate the navigation
+A common practice is to include the error message within the default website layout. To do so, create a new class `MainLayout.java` as following:
+
+[source,java]
+----
+public class MainLayout
+  extends VerticalLayout implements RouterLayout {
+
+  public MainLayout() {
+    add(new Html("<h1>Vaadin Router Tutorial Inc.</h1>"));
+  }
+}
+----
+
+The class defines the default website outer layout, with a fixed header, and it should be used as a parent to all our views.
+Now in the `NotFoundView`, we add the annotation `@ParentLayout(MainLayout.class)` to specify the parent layout, and in the `MainView` we update the `@Route` annotation to specify the parent layout as follows:
+
+[source,java]
+----
+@Route(value = "", layout = MainLayout.class)
+----
+
+We now get a unified experience on all views and error pages.
+
+== Add login view
+So far we have only one view `MainView` that opens from the root URL. Let's create one more view `LoginView.java` as following:
+
+[source,java]
+----
+@Route(value = "login", layout = MainLayout.class)
+public class LoginView extends LoginForm {
+
+  public static String username = "";
+
+  public LoginView() {
+    addLoginListener(evt -> {
+      LoginView.username = evt.getUsername();
+      UI.getCurrent().navigate("");
+    });
+  }
+}
+----
+
+A simple login form, located under the `login` URL path, and has a static `username` value to store the Username. _Note that this is not a reference implementation for proper authentication._
+
+We also need to check if the login triggers before navigation to the `MainView`, we do that by updating the `MainLayout` class as following:
+
+[source,java]
+----
+public class MainLayout
+  extends VerticalLayout implements RouterLayout, BeforeEnterObserver {
+
+  @Override
+  public void beforeEnter(BeforeEnterEvent event) {
+    if(!event.getLocation().getPath().equals("login")
+      && LoginView.username.equals("")) {
+      event.forwardTo("login");
+    }
+  }
+
+  public MainLayout() {
+    add(new Html("<h1>Vaadin Router Tutorial Inc.</h1>"));
+  }
+}
+----
+
+Implementing `BeforeEnterObserver` to be able to check in `beforeEnter` whether to navigate to the login view, or continue normal event. For instance, here is a simple `MainView`:
+
+[source,java]
+----
+@Route(value = "", layout = MainLayout.class)
+public class MainView extends Div  {
+
+  public MainView() {
+    add(new Html("<h4>Welcome <i>" + LoginView.username + "</i>!</h4>"));
+  }
+}
+----
+
+Check the https://vaadin.com/docs/flow/routing/tutorial-routing-lifecycle.html[documentation] to learn more about navigation lifecycle, forward, and reroute events.
+
+== Redirect to the previous path
+The previous login mechanism always returns to `MainView` after login. You can, however, preserve the previously requested URL and redirect back to it after login. To do that, let's first create a new view `FruityView.java`:
+
+[source,java]
+----
+@Route(value = "fruity", layout = MainLayout.class)
+public class FruityView extends Div {
+
+  public FruityView() {
+    add(new Html("<h3>Select your favorite fruit:</h3>"));
+    RadioButtonGroup<String> group = new RadioButtonGroup<>();
+    group.setItems("Apple", "Banana", "Watermelon");
+    add(group);
+  }
+}
+----
+
+Trying to navigate to `/fruity` is always redirecting to the login screen first, and after login, we lose the previous path. We fix this by sending hidden parameters during redirect. First, in `MainLayout` we send the original path as a parameter in the forward:
+
+[source,java]
+----
+event.forwardTo("login", event.getLocation().getPath());
+----
+
+And we make a few upgrades the the `LoginView` to handle parameters:
+
+[source,java]
+----
+@Route(value = "login", layout = MainLayout.class)
+public class LoginView extends LoginForm implements HasUrlParameter<String> {
+
+  public static String username = "";
+  private String parameter = "";
+
+  @Override
+  public void setParameter(BeforeEvent event, String parameter) {
+    this.parameter = parameter;
+  }
+
+  public LoginView() {
+    addLoginListener(evt -> {
+      LoginView.username = evt.getUsername();
+      UI.getCurrent().navigate(parameter);
+    });
+  }
+}
+----
+
+The modifications are: implementing `HasUrlParameter` and storing the parameter received from `setParameter` locally, and then use it as a parameter for redirection after login `UI.getCurrent().navigate(parameter);`.
+
+== Add navigation menu
+We can create as many views as we want, and specify their URL path within the `@Route("path")` annotation, but how to navigate between those views? So far we have the `MainView` and `FruityView`, and we want the navigation menu to appear only after being logged in. At this point, some restructuring is needed. The idea is to create a nested layout to be used only by the views that appear after logging in. So we create a new layout class `InternalLayout.java` that extends `MainLayout` and has some tabs:
+
+[source,java]
+----
+public class InternalLayout extends MainLayout {
+  public InternalLayout() {
+    Tabs tabs = new Tabs();
+    Tab welcomeTab = new Tab("Welcome");
+    Tab fruityTab = new Tab("Fruity");
+    tabs.add(welcomeTab, fruityTab);
+    add(tabs);
+  }
+}
+----
+
+Moreover, we update all the internal views to have it as their layout class:
+
+[source,java]
+----
+@Route(value = "", layout = InternalLayout.class)
+
+...
+
+@Route(value = "fruity", layout = InternalLayout.class)
+----
+
+To trigger the routing from `Tabs`, we make a small modification inside `InternalLayout` to use `RouterLink`:
+
+[source,java]
+----
+  public InternalLayout() {
+    Tabs tabs = new Tabs();
+    tabs.add(
+      new Tab(new RouterLink("Welcome", MainView.class))
+      , new Tab(new RouterLink("Fruity", FruityView.class)));
+    add(tabs);
+  }
+----
+
+== Add alias to URL
+Sometime, users land at different URLs that are slightly different in spelling, or some views fit under multiple names. We can fix this using alias, here is an example for `FruityView`:
+
+[source,java]
+----
+@Route(value = "fruity", layout = InternalLayout.class)
+@RouteAlias(value = "fruit", layout = InternalLayout.class)
+@RouteAlias(value = "fruits", layout = InternalLayout.class)
+@RouteAlias(value = "apple", layout = InternalLayout.class)
+public class FruityView extends Div {
+...
+}
+----
+
+Navigating to `/apple` is acting exactly as `/fruity`.
+
+== URL parameters
+We can also explicitly add and read URL parameters throughout the navigation. Let's change `FruityView` as following:
+
+[source,java]
+----
+public class FruityView extends Div implements HasUrlParameter<String> {
+
+  @Override
+  public void setParameter(BeforeEvent event
+    , @OptionalParameter String parameter) {
+    if(parameter!=null) {
+      add(new Html("<h4><i>" + parameter + "</i> is a nice selection! Try again.</h4>"));
+    }
+  }
+
+  public FruityView() {
+    add(new Html("<h3>Select your favorite fruit:</h3>"));
+
+    RadioButtonGroup<String> group = new RadioButtonGroup<>();    
+    group.setItems("Apple", "Banana", "Watermelon");
+    group.addValueChangeListener(evt -> {
+      UI.getCurrent().navigate("fruity/" + evt.getValue());
+    });
+    add(group);
+  }
+}
+----
+
+The modification here is implementing `HasUrlParameter` of type `String`, and in `setParameter` method, we track if a parameter has been received and print a text based on it.
+The parameter is passed upong radio button change:
+
+[source,java]
+----
+group.addValueChangeListener(evt -> {
+  UI.getCurrent().navigate("fruity/" + evt.getValue());
+});
+----
+
+It forms a URL similar to `fruity/Banana`, and we can read the selection as explained earlier.
+
+== Extended URL path
+The path of the URL can have longer path, for example we can setup a view for `fruity/Watermelon`:
+
+[source,java]
+----
+@Route(value = "fruity/Watermelon", layout = InternalLayout.class)
+public class WatermelonView extends Div {
+
+  public WatermelonView() {
+    add(new Html("<h3>Nice choice! Watermelon is my favorite too!</h3>"));
+    add(new Html("<i>-- Yours, Web Robot.</i>"));
+  }
+}
+----
+
+Now you notice that it overrides the selection action in `FruityView`, if you click on `Watermelon` option, you get redirected to our new view. That's because `fruity/Watermelon` is now registered as part of the router paths and no longer considered as a parameter to `fruity`.
