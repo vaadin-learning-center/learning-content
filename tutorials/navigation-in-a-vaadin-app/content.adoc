@@ -3,7 +3,7 @@
 :type: text
 :tags: Navigation, Router, Flow
 :description: Setup navigation in a Vaadin app and a few tips
-:repo:
+:repo: https://github.com/vaadin-learning-center/navigation-tutorial
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
