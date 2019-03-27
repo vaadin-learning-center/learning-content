@@ -302,12 +302,12 @@ type information into the code itself.
 
 Checking the implementation of a Flow-Button itself, it shows that the Button is
 based on a set of Mixins. Every property is defined with a single interface.
-taking this as base, the fluent API can be composed in the same way.
+taking this as a base, the fluent API can be composed in the same way.
 For every interface, a corresponding interface with the fluent API elements is created.
 The composition of the interfaces will lead to the final implementation of the
 Builder, of a ButtonBuilder for example.
 
-As example we will have a look at the interface *HasSize* from Flow.
+As an example we will have a look at the interface *HasSize* from Flow.
 You can see that the interface *HasSize* is extending the interface *HasElement*.
 
 [source,java]
@@ -316,8 +316,8 @@ public interface HasSize extends HasElement
 ----
 
 Following the fluent API interface for the property *HasSize* is listed.
-And in this case again,
-the interface *HasSizeMixin* is extending in the same way the interface *HasElementMixin*.
+Also, in this case again,
+the interface *HasSizeMixin* is extending, in the same way, the interface *HasElementMixin*.
 
 [source,java]
 ----
@@ -344,7 +344,7 @@ public interface HasSizeMixin<R extends HasSizeMixin, T extends HasSize>
 
 All methods from the original interface *HasSize* got a corresponding fluent
 one defined in the interface *HasSizeMixin*.
-Doing this for the complete hierarchy, the last layer will bring us the
+Working along towards the complete hierarchy of inheritance, the last step will bring us the
 interfaces for the components like Button or Combobox.
 
 [source,java]
@@ -404,8 +404,8 @@ public class ButtonBuilder
 }
 ----
 
-Finally we can use this Builder with all the button-specific methods to create an instance
-inside our Vaadin webapp.
+Finally, we can use this Builder with all the button-specific methods to create an instance
+inside our Vaadin web app.
 
 [source,java]
 ----
@@ -438,7 +438,4 @@ To configure the instance, use this on as input for the Builder.
 
 Now we have all together that is needed for a fluent API for Flow.
 If you want to try it by yourself, get one of our starters you can find https://vaadin.com/start/latest[here] and
-add the dependency for the fluent api from our https://vaadin.com/directory/component/rapidpm-vaadin-fluent-component-api[directory].
-
-
-
+add the dependency for the fluent API from our https://vaadin.com/directory/component/rapidpm-vaadin-fluent-component-api[directory].
