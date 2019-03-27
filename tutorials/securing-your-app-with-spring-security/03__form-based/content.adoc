@@ -18,7 +18,10 @@ Even if form based login views feel kind of old-school nowadays, they have sever
 
 The big disadvantage is the need for a page reload during the login which breaks the UX in modern Single Page Applications.
 
-== Alternative 1: Java-only 
+[TIP]
+With Vaadin 13 we introduce a dedicated login component boiling down the needed code to less than 7 lines. Check alternative 3 below.
+
+== Alternative 1: Java-only
 As promised we will start with implementing a Java-only login view. Yes, I know. We cannot avoid all JavaScript, but we reduced it as much as possible.
 
 First of all, we have to add `iron-form` that allows us to use HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
@@ -155,11 +158,65 @@ And finally the actual declaration of our login Polymer component:
 <3> The button calls some interceptor to allow adding custom stuff...
 <4> Which in this case does some client side evaluation of the input before submitting the form
 
-Both approaches will create a straightforward login form allowing users to enter their credentials and to use the button to log in to the application.
+== Alternative 3: Java-only with LoginForm or LoginOverlay component
+With the release of Vaadin 13 we now provide an extremly simplified way to get a login form via dedicated login components: The `LoginOverlay` component is a full-featured login dialog whereby `LoginForm` can be integrated wherever you need it. For details check the https://vaadin.com/components/vaadin-login[documentation, router-link=true].
+
+Using them boils down the whole `LoginView` to
+
+[source,java,linenums]
+----
+@Tag("sa-login-view")
+@Route(value = LoginView.ROUTE)
+@PageTitle("Login")
+public class LoginView extends VerticalLayout {
+        public static final String ROUTE = "login";
+
+        private LoginOverlay login = new LoginOverlay(); // <1>
+
+        public LoginView(){
+            login.setAction("login"); // <2>
+            login.setOpened(true); // <3>
+            login.setTitle("Spring Secured Vaadin");
+            login.setDescription("Login Overlay Example");
+            getElement().appendChild(login.getElement()); // <4>
+        }
+}
+----
+<1> Gets the dialog.
+<2> Sets the action aka the endpoint Spring Security is expecting the form data at.
+<3> Opens the dialog immediately. Depending on your application behavior you can defer opening the dialog until some user interaction.
+<4> Adds the form to the view.
+
+[source,java,linenums]
+----
+@Tag("sa-login-view")
+@Route(value = LoginView.ROUTE)
+@PageTitle("Login")
+public class LoginView extends VerticalLayout {
+    public static final String ROUTE = "login";
+
+    private LoginForm login = new LoginForm(); // <1>
+
+    public LoginView(){
+            login.setAction("login"); // <2>
+            getElement().appendChild(login.getElement()); // <3>
+    }
+}
+----
+<1> Gets the form.
+<2> Sets the action aka the endpoint Spring Security is expecting the form data at.
+<3> Adds the form to the view.
+
+Nice!
+
+In sum, all presented approaches will create a straightforward login form allowing users to enter their credentials and to use a button to log in to the application in one or the other way.
 
 Try them by running `mvn spring-boot:run` and use the configured credentials user/password. When successful, you will get redirected, and the main view of the Vaadin + Spring starter shows up.
 
 Congrats!
+
+[NOTE]
+Check out the linked repository for implementation details. Each approach got its dedicated branch so you will find the code fitting your needs quite easily.
 
 PS: You may have noticed that the series stops abruptly after this section. The main reason is that I have a hectic schedule but wanted to get out at least some content. On the other hand, it is an excellent opportunity for you to discuss and prioritize other topics in the comment section below. Maybe the next three sections I am suggesting aren't as crucial for you as I would expect. Maybe you want to make me write about other Spring Security related stuff. I don't know, tell me!
 
