@@ -3,6 +3,7 @@
 
 :title: Part 1 - How to use Vaadin Flow
 :author: Vaadin
+:description: Learn how to get create Java web apps with Vaadin Flow
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:

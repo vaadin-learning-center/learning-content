@@ -13,7 +13,7 @@ TUTORIALS_ROOT="tutorials"
 MANDATORY_ARTICLE_PROPERTIES = ["title", "author", "topics"]
 MANDATORY_SECTION_PROPERTIES = ["title", "author"]
 
-with open('tutorials/allowed_tags.lst') as allowedTagsFile:
+with open('tutorials/allowed_tags.lst', encoding="utf-8") as allowedTagsFile:
   ALLOWED_TAGS = [line.rstrip('\n') for line in allowedTagsFile]
 
 # global error log to be returned as CI results
@@ -70,7 +70,7 @@ def check_article_or_section(folder, mandatoryProps):
 		if not prop in props:
 			log_error("Error: Missing mandatory property '" + prop + "' in " + folder)
 
-	with open(TUTORIALS_ROOT + "/topics.json", "r") as read_file:
+	with open(TUTORIALS_ROOT + "/topics.json", "r", encoding="utf-8") as read_file:
 		allowedTopics = [t["id"] for t in json.load(read_file)]
 		try:
 			topics = [x.strip() for x in props["topics"].split(',')]
@@ -142,7 +142,7 @@ def load_asciidoc_attributes(adocFile):
 # Returns properties found in Java properties file
 def load_properties(propsFile):
 	result = {}
-	possibleAttributes = [ line for line in open(propsFile) if ":" in line or "=" in line]
+	possibleAttributes = [ line for line in open(propsFile, encoding="utf-8") if ":" in line or "=" in line]
 	for attr in possibleAttributes:
 		m = re.search("^(.*)[:|=](.*)$", attr)
 		if m:

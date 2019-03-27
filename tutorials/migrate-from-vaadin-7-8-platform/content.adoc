@@ -9,37 +9,41 @@
 :linkattrs:
 :imagesdir: images
 
-This article shows how to migrate from a Vaadin 7 application to the new Vaadin platform through an example application. The application displays a list of persons with their names, phone numbers, and email addresses in a grid and a corresponding form the data can be changed.
+This article shows how to migrate from a Vaadin 7 application to the new Vaadin platform through an example application. The application displays a list of persons with their names, phone numbers, and email addresses in a `Grid` and includes a form to change the data.
 
 The code for this example is available on GitHub, and the subsequent steps can be done in parallel.
 
 == 1. Update your pom XML
 
-In the beginning, we need to make some minimal changes in the pom.xml to get the new framework dependencies, remove unnecessary plugins and adjust the configuration. An important step is updating the version number to the latest release of the Vaadin platform and adding vaadin-core as a dependency to your project. The latest version of the Vaadin platform, as well as the current LTS version, can be found on vaadin.com. Afterward, we need to remove deprecated entities like:
+To start, we need to make some minimal changes in the `pom.xml` file to get the new framework dependencies, remove any unnecessary plugins, and adjust the build configuration. An important step is to update the version number to the latest release of the Vaadin platform and add `vaadin-core` as a dependency in your project. The latest version of the Vaadin platform, as well as the current Long Term Support version (LTS), can be found at https://vaadin.com/[vaadin.com]. We also need to remove deprecated entities such as:
 
-* vaadin-server, vaadin-push, vaadin-client-compiled, vaadin-themes,
-* plugins (maven-clean, vaadin-maven, maven-war) and
-* the maven-profile for vaadin-prerelease.
+* Dependencies: `vaadin-server`, `vaadin-push`, `vaadin-client-compiled`, `vaadin-themes`
+* Plugins: `maven-clean`, `vaadin-maven`, `maven-war`
+* Maven profiles: `vaadin-prerelease`
 
-Since there were changes in the Vaadin maven plugin, it is necessary to add the tag `*failOnMissingWebXml*` as a property to the header and set its value to `*false*`. As the name suggests, this configuration makes sure your application is starting without a web.xml file and is implicitly set in the maven war plugin. This configuration won’t be necessary if we start the application with spring-boot.
+It is necessary to add the `failOnMissingWebXml` property to the header and set its value to `false`. As the name suggests, this configuration makes sure your application starts without a `web.xml` file. This configuration is not necessary if we were  packaging the application as a JAR (for example, when using Spring Boot).
 
-Optional we could also update the version number for _eclipse-jetty-plugin_ and the _servlet-api_.
+We also need to update the version for the _eclipse-jetty-plugin_ plugin and the _servlet-api_ dependency.
 
 == 2. Change the existing code and start using Vaadin platform components
 
-=== a. UI-class is not mandatory anymore
-In the next step, we go into the code. The UI class is not necessary for Vaadin platform applications anymore and can be removed from your project. This UI class was instantiated for each browser tab and used to initialize the first call of the application, managing the navigator and optional servlet configuration.
+=== a. UI implementation not mandatory anymore
 
-In Vaadin platform applications most of the configurations need to be done via Servlet Init Listeners (either web servlet or vaadin servlet listeners). In an application with a Spring Context, you could use application property files to configure your application.
+An implementation of the `UI` class is not necessary for Vaadin platform applications anymore and can be removed from your project. This `UI` implementation was instantiated for each browser tab and used to initialize the first call to the application, managing the navigator, and configuring servlets.
 
-You can find information about this topic here:
+In Vaadin platform applications most of the configurations can be done via _Servlet Init Listeners_ (either web servlet listeners or Vaadin servlet listeners). In a Spring application, you can use application property files to configure it.
 
-https://vaadin.com/docs/v10/flow/advanced/tutorial-flow-runtime-configuration.html
+You can find more information about this topic using the following links:
 
-https://vaadin.com/docs/v10/flow/migration/3-general-differences.html
+* https://vaadin.com/docs/v10/flow/advanced/tutorial-flow-runtime-configuration.html
+
+* https://vaadin.com/docs/v10/flow/migration/3-general-differences.html
 
 === b. Navigation and Routing
-In Vaadin platform the distinction between a component and a view has become obsolete so you could use any component in your application as an entry point. To make them available via an URL fragment, you annotate the component you want to navigate to with `*@Route*` and add the URL fragment in brackets behind of the annotation. If the value for Route is empty, this class becomes your default entry point and is displayed after calling your application server. Also, the navigator-concept has become obsolete as the views and components are registered automatically.
+
+In the Vaadin platform, the distinction between a component and a view has become obsolete so you can use any component in your application as an entry point. To make a component available via a URL, you annotate the component with `@Route` and specify the URL fragment using its `value` element. If the value is empty, this class becomes your default entry point and is displayed after requesting the root context from your application server. Also, the concept of navigator has become obsolete as the views and components are discovered and registered automatically.
+
+Here's an example:
 
 .`*Vaadin 7*`
 [source,java]
@@ -59,13 +63,13 @@ public class ListView extends HorizontalLayout {
 }
 ----
 
-The class names in the code snippets were taken from the previous Vaadin 7 application to show the same components in the new Vaadin platform context.
+In Vaadin Flow, there are individual interfaces that can be used to execute logic after entering a view, before leaving a view, add components in the _main layout_, and manage given URL parameters. A detailed description and many more features can be found in the following link:
 
-In Vaadin flow, several interfaces are provided to implement that execute methods executed after entering or before leaving the view, to set components into a context of the main layout or manage given parameter in the URL. A detailed description and many more features can be found here:
-https://vaadin.com/docs/v10/flow/routing/tutorial-routing-annotation.html
+* https://vaadin.com/docs/v10/flow/routing/tutorial-routing-annotation.html
 
-=== c. Swap the imports of the components
-The previous *imports* from Vaadin 7 (`*com.vaadin.ui.**`) aren’t available anymore and can be deleted. Right now you need to replace the deprecated Vaadin 7 components with the new Vaadin platform components. The names of the components haven’t changed that much in Vaadin platform, so in most cases, you can easily replace the old imports with the new ones.
+=== c. Fix imports
+
+The previous _imports_ from Vaadin 7 (`com.vaadin.ui.*`) aren’t available anymore and can be deleted. Right now you need to replace the deprecated Vaadin 7 components with the new Vaadin platform components. The names of the components haven’t changed that much in the Vaadin platform, so in most cases, you can easily replace the old imports with the new ones:
 
 .`*Vaadin 7*`
 [source,java]
@@ -78,8 +82,10 @@ import com.vaadin.ui.Grid;
 ----
 import com.vaadin.flow.component.grid.Grid;
 ----
+
 === d. Adjust your code to the new API
-Vaadin introduced small changes to the Component API which need to be applied when migrating from Vaadin 7 to Vaadin platform. For example, adding components to a layout isn’t done by addComponent(s) anymore instead you would use the method `*add(component, ...)*` and pass the components as a parameter.
+
+The Vaadin platform introduced small changes in the Component API which need to be applied when migrating from Vaadin 7 to Vaadin platform. For example, adding components to a layout isn’t done with the `addComponent(s)` method anymore. Instead, you have to use the `add(component, ...)` method and pass the components as parameters:
 
 .`*Vaadin 7*`
 [source,java]
@@ -94,7 +100,10 @@ add(personGrid, personForm);
 ----
 
 ==== e. Use generics to type components
-Since Vaadin 8 you can use generics to bind beans directly to several components and make their usage typesafe. This makes the interaction with components more efficient (e.g., less casting in listeners) and less error-prone (e.g., property names are not mandatory).
+
+Starting with Vaadin 8, you can use generics to bind beans directly to several UI components and make their usage typesafe. This makes the interaction with components more efficient (e.g., less casting in listeners) and less error-prone (e.g., property names are not mandatory).
+
+Here's an example:
 
 .`*Vaadin 7*`
 [source,java]
@@ -117,27 +126,30 @@ personGrid.addSelectionListener(selectionEvent -> {
 });
 ----
 
-=== f. Refactor Data-Binding according to new DataModel API
-The data modeling has been mostly retained from Vaadin 8, and due to the reason the API has completely changed compared to Vaadin 7 let’s make short recap how data are bound to the UI in Vaadin 7 in the first instance.
+=== f. Refactor Data-Binding according to the new API
 
-In Vaadin 7 data sources are not directly bound to UI-components to avoid extra implementation work (data communication, etc.) and any other conflicts (data type mismatch). To decouple the data source and component, we have a _property_ between the bean attribute and the field on the UI. This property has a type and contains a value. All changes from the UI are buffered in the property and can be read or set to the backend via a simple Java API.
+The data model in the new Vaadin platform has been mostly retained from Vaadin 8 but is completely different than in Vaadin 7. Let’s make a short recap on how data is bound to the UI in Vaadin 7.
+
+In Vaadin 7 data sources are not directly bound to UI components to avoid extra implementation work (data communication, etc.) and any other conflicts (data type mismatch). To decouple the data source from the component, we have a _Property_ between the bean attribute and the field in the UI. This property has a type and contains a value. All changes from the UI are buffered in the property and can be read or set to the backend via a simple Java API:
+
 [.text-center]
 *Bean-Attribute ←→ Property ←→ Field*
 
-To convert values between the component and the bean and validate the user input according to the requested format, you need to attach Converters and Validators directly to the field. The field value is available through a property, and value changes are propagated via several listeners.
+To convert values between the component and the bean and to validate the user input according to the requested format, you need to attach Converters and Validators directly to the field. The field value is available through a property, and value changes are propagated via listeners.
 
-A list of properties can be encapsulated into an item, and a list of items are bound to a container, which can be used in a Grid, Combobox, etc. With item, you can bind a bean to a FieldGroup on a form and a collection of beans to list many items in a component (like a grid).
+A list of properties can be encapsulated in an `Item`, and a list of items can be encapsulated in a `Container`, which in turn can be used in a `Grid` or `ComboBox`, for example. With an `Item`, you can bind a bean to a form using the `FieldGroup` class:
+
 [.text-center]
 *List of beans ←→ Container ←→ Item ←→ Properties ←→ UI Component*
 
-More information about properties and data provider can be found here:
-https://vaadin.com/docs/v7/framework/datamodel/datamodel-properties.html
-and here
-https://vaadin.com/docs/v7/framework/datamodel/datamodel-container.html.
+You can find more information about properties and data providers in the following links:
 
-The Databinding API was simplified in Vaadin 8 and the same can also be used in Vaadin platform. The concept of properties, containers, and FieldGroups have been removed, and bean attributes can directly bind to the UI component via a new element called binder. Since Vaadin 8, converters and validators are attached to the binder and not the fields anymore.
+* https://vaadin.com/docs/v7/framework/datamodel/datamodel-properties.html
+* https://vaadin.com/docs/v7/framework/datamodel/datamodel-container.html.
 
-Here are the necessary steps to change a simple read and update view from the Vaadin 7 binding APIs to those of Vaadin platform:
+The data binding API was simplified in Vaadin 8 and the same can be also used with the new Vaadin platform. The concept of properties, containers, and field groups have been removed, and bean attributes can directly be bound to UI components via a new class called `Binder`. Since Vaadin 8, converters and validators are attached to the `Binder` and not the fields anymore.
+
+Here are the necessary steps to change a simple read and update view from the Vaadin 7 data binding API to the new Vaadin platform API:
 
 [cols="2*", options="header,footer"]
 |=======================
@@ -167,7 +179,7 @@ Here are the necessary steps to change a simple read and update view from the Va
 |`binder.clear();`|`binder.readBean(new Person());`
 |=======================
 
-In Vaadin platform, you use a `DataProvider` for binding a list of beans to the UI component. In the example, the default DataProvider of the grid component is used, which is an in-memory DataProvider.
+With the Vaadin platform, you use a `DataProvider` for binding a list of beans to the UI component. In the example, the default `DataProvider` of the `Grid` component is used, which is an in-memory `DataProvider`.
 
 [options="header,footer"]
 |=======================
@@ -192,8 +204,8 @@ In Vaadin platform, you use a `DataProvider` for binding a list of beans to the 
 |`grid.addSelectionListener(...);`
 |=======================
 
-The code to the given examples can be found here: https://github.com/SebastianKuehnau/VaadinComparison
+The example code can be found here: https://github.com/SebastianKuehnau/VaadinComparison
 
-This article shows you the first practical steps to migrate your vaadin application from version 7 to Vaadin platform. Other topics you need to take into consideration when switching to the new Vaadin platform are theming, API of components, usage of MPR (Multi-Platform Runtime) and integration of web components.
+This article explained the first practical steps to migrate your Vaadin application from version 7 to the new Vaadin platform. Other topics you need to take into consideration when switching to the new Vaadin platform are theming, API of components, usage of MPR (Multi-Platform Runtime) and integration of web components.
 
-More information about migrations with Vaadin can be found in the documentation (https://vaadin.com/docs/v10/flow/migration/1-migrating-v8-v10.html).
+More information about the migration of Vaadin applications can be found in the documentation at https://vaadin.com/docs/v10/flow/migration/1-migrating-v8-v10.html.

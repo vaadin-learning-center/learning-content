@@ -1,0 +1,178 @@
+= High availability
+
+:title: High availability
+:tags: Microservices, Java
+:author: Alejandro Duarte
+:description: This part explains how to increase service availability, what a load balancer is, how to replicate session state between Java web applications and how to implement sticky sessions in Vaadin applications that use Spring Session.
+:repo: https://github.com/alejandro-du/vaadin-microservices-demo
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+One of the objectives of microservices is to allow independent deployment and scaling of functionality. We already learned how to create a UI composition in the previous part of this tutorial. In this part, we’ll learn how to replicate stateful web applications to help supporting high availability, a quality that aims to increase the time an application is available. Although high availability is generally achieved by redundancy, monitoring, and failover, in this chapter we’ll focus on redundancy at the service level.
+
+== Why do we need this?
+
+_Stateless applications_ don’t save client data used in one request for use in a later request. _Stateful applications_, on the other hand, do. Most business web applications are stateful, and this is typically realized by using the _HTTP session_ in the server. This simplifies the development process. For example, in the case of a shopping cart, the items can be stored in the server side (inside the HTTP session). An alternative to this is to keep the data in the client side, but this doesn’t allow multiple browser tabs sharing the shopping cart data. Also, the state wouldn't be preserved when a tab is closed, unless some unreliable workarounds are used with https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage[Local Storage].
+
+Merely replicating a stateful web application would make every replica have its own HTTP session. This is not an issue if all requests for a user session are sent to the same replica during a _conversation_ or _complete interaction_ with the web application. However, in case of a failure in the replica, or when requests are not all sent to the same replica, the state is lost. This is illustrated in the following figure:
+
+image::multiple-sessions.png[Multiple sessions]
+
+The previous figure shows three consecutive requests, each one directed to a different replica (or instance) by a load balancer, resulting in three different states of the application to external viewers. For example, changes to the HTTP session won’t be visible during the second and third requests.
+
+== How does it work?
+
+The problem can be solved by externalizing the HTTP session as depicted in the following figure:
+
+image::externalized-session.png[Externalized session]
+
+Each replica uses an external HTTP session, allowing them to share the state. When a replica goes down, new requests are directed to the remaining replicas, making the unavailability of the failing replica unnoticeable to the user.
+
+Depending on the technologies used, the externalized session can also be replicated to avoid having a single point of failure in the system. However, the replication would happen after avery request, which might be expensive depending on the infrastructure and mechanisms used.
+
+== Externalizing the HTTP session with Spring Session
+
+Most Java web servers offer high-availability features that include session replication. For example, https://tomcat.apache.org/tomcat-9.0-doc/cluster-howto.html[Tomcat] and https://docs.jboss.org/author/display/WFLY10/High+Availability+Guide[Wildfly] documentation explain how to configure session replication with these servers.
+
+=== Session replication and sticky sessions
+
+In this tutorial, we’ll explore how to achieve session replication at the application level using https://projects.spring.io/spring-session/[Spring Session], which provides an API that allows replacing the standard HTTP session with an external database. Spring Session includes integration with Redis, JDBC, MongoDB, GemFire, and Hazelcast. To minimize the amount of configuration required, we’ll use Hazelcast with embedded clients in the web application as shown in the following figure:
+
+image::session-replication.png[Session replication]
+
+Notice how the requests are directed to the same replica during a _conversation_ (in practice, during the lifespan of the HTTP session). This technique is known as _sticky sessions_. The performance can be highly improved in stateful web applications, and in applications that store and read data from the HTTP session on every request, by using this technique.
+
+NOTE: Although the strategy used in the example application replicates the HTTP session with every instance in the cluster, this is not recommended when you increase the number of instances. Always use alternative http://tandraschko.blogspot.fi/2013/09/session-replication-clustering-failover.html[strategies], such as _buddy replication_ (replicating the session only with a _neighbor_), or Tomcat’s Memcached session manager, according to your specific network topology, architecture, and requirements.
+
+In order to use Spring Session with Hazelcast, add the following dependency to the `pom.xml` file of your web application:
+
+[source,xml]
+----
+<dependency>
+   <groupId>org.springframework.session</groupId>
+   <artifactId>spring-session-hazelcast</artifactId>
+</dependency>
+----
+
+To activate Spring Session with Hazelcast, annotate the Spring Boot application class with `@EnableHazelcastHttpSession`:
+
+[source,java]
+----
+...
+@EnableHazelcastHttpSession
+public class AdminApplication {
+   ...
+}
+----
+
+You also need to define and configure a bean of type `HazelcastInstance`:
+
+[source,java]
+----
+@Bean
+public HazelcastInstance hazelcastInstance(
+        @Value("${hazelcast.max.no.heartbeat.seconds:60}") String hazelcastHeartbeat) {
+
+    MapAttributeConfig attributeConfig =
+            new MapAttributeConfig().setName(HazelcastSessionRepository.PRINCIPAL_NAME_ATTRIBUTE)
+                    .setExtractor(PrincipalNameExtractor.class.getName());
+
+    Config config = new Config();
+    config.setProperty("hazelcast.max.no.heartbeat.seconds", hazelcastHeartbeat)
+            .getMapConfig(HazelcastSessionRepository.DEFAULT_SESSION_MAP_NAME)
+            .addMapAttributeConfig(attributeConfig)
+            .addMapIndexConfig(new MapIndexConfig(HazelcastSessionRepository.PRINCIPAL_NAME_ATTRIBUTE, false));
+    config.getGroupConfig().setName("admin");
+
+    return Hazelcast.newHazelcastInstance(config);
+}
+----
+
+This code configures a Hazelcast instance running in the same JVM as the web application. Since there are three different web applications (`admin-application`, `news-application`, and `website-application`), and we want to replicate the session only with instances of the same application, we need to set a name for the cluster group.
+
+We are also configuring the heartbeat interval Hazelcast uses to check the connection status between the instances in the cluster. We are using an interval of 6 seconds, suitable for demo purposes, likely not a good configuration for production environments, since this significantly increases the traffic in the network. The default value of 60 seconds is probably a better option for production environments. You can see a more detailed explanation of the required configuration in the https://docs.spring.io/spring-session/docs/2.0.1.RELEASE/reference/html5/#httpsession-hazelcast[Spring Session documentation site].
+
+Vaadin uses the `VaadinSession` class to store everything related to the UI. A `VaadinSession` instance is stored in the HTTP session at the beginning of a request. After this, the state stored in the `VaadinSession` instance can change but this is not propagated to the underlying implementation in Spring Session. In order to solve this problem, you have set the `VaadinSession` instance at the end of the request, something achievable by overriding the `SpringVaadinServletService.requestEnd` method:
+
+[source,java]
+----
+private SpringVaadinServletService buildSpringVaadinServletService(SpringServlet servlet,
+        DeploymentConfiguration deploymentConfiguration, ApplicationContext applicationContext) {
+
+    return new SpringVaadinServletService(servlet, deploymentConfiguration, applicationContext) {
+        @Override
+        public void requestEnd(VaadinRequest request, VaadinResponse response, VaadinSession session) {
+            if (session != null) {
+                try {
+                    session.lock();
+                    writeToHttpSession(request.getWrappedSession(), session);
+                } finally {
+                    session.unlock();
+                }
+            }
+            super.requestEnd(request, response, session);
+        }
+    };
+}
+----
+
+In order to set this custom implementation of the `SpringVaadinServletService` class, you have to override the `createServletService` of the `SpringServlet` class:
+
+[source,java]
+----
+private SpringServlet buildSpringServlet(ApplicationContext applicationContext) {
+    return new SpringServlet(applicationContext) {
+        @Override
+        protected VaadinServletService createServletService(DeploymentConfiguration deploymentConfiguration) throws
+                ServiceException {
+            SpringVaadinServletService service =
+                    buildSpringVaadinServletService(this, deploymentConfiguration, applicationContext);
+            service.init();
+            return service;
+        }
+    };
+}
+----
+
+=== Non-serializable classes
+
+Another problem you might face is with classes that are not serializable and that you cannot change. For example, Feign Clients include non-serializable instances in their implementations. This is a problem if you have references to a Feign-based bean in your UI implementation which is the case of the `admin-application` and the `news-application`. You can solve this by adding a utility class that exposes the problematic service beans through static methods:
+
+[source,java]
+----
+@Service
+public class Services {
+
+    public static CompanyService getCompanyService() {
+        return getApplicationContext().getBean(CompanyService.class);
+    }
+
+    public static ApplicationContext getApplicationContext() {
+        ServletContext servletContext = SpringServlet.getCurrent().getServletContext();
+        return WebApplicationContextUtils.getWebApplicationContext(servletContext);
+    }
+
+}
+----
+
+Instead of directly injecting beans of type `CompanyService`, you should call the methods in the service class through the static method as follows:
+
+[source,java]
+----
+Services.getCompanyService().findAll()
+----
+
+=== Sticky sessions
+
+In the previous part of this tutorial, we introduced a `proxy-server` that included a load balancer provided by https://github.com/Netflix/zuul[Zuul]. By default, Zuul uses a round-robin strategy to forward requests to the available instances. The example application includes an implementation of a _sticky sessions rule_ for Zuul that you can activate using the `ribbon.NFLoadBalancerRuleClassName` property. This is configurable per application. For example, to enable sticky sessions in the `admin-application` you can add the following line to the `proxy-server.yml` configuration file:
+
+[source, yaml]
+----
+admin-application.ribbon.NFLoadBalancerRuleClassName: com.example.StickySessionRule
+----
+
+It is recommended to use sticky sessions when possible and decrease the number of nodes replicating the HTTP session in stateful applications.
+
+== What's next?
+
+In the next part of this tutorial, we’ll discuss a key topic in microservices: Monitoring and health checking.

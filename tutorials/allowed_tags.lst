@@ -8,13 +8,16 @@ CSS
 Data entry
 Deploy
 Eclipse
+Embed
 Flow
 Fluent API
 I18N
 IntelliJ IDEA
 Internationalisation
+Jar
 Java
 JavaScript
+Jetty
 jUnit5
 JVM
 Kotlin
@@ -23,6 +26,7 @@ Layout
 LitElement
 Maven
 Meecrowave
+Microservices
 Migration
 Mutation Testing
 Navigation
@@ -44,6 +48,7 @@ State management
 Swarm
 Standard
 Templating
+Testbench
 TomEE
 Testbench
 Thorntail
