@@ -287,8 +287,22 @@ The adapter implements a domain service interface. Like in the previous example,
 
 == Multiple Bounded Contexts
 
-TODO
+So far we have only look at what the hexagonal architecture looks like when applied to a single bounded context. But what happens when you have multiple bounded contexts that need to communicate with each other?
+
+If the contexts are running on separate systems and communicating over a network, you can do something like this: Create a REST API for the upstream system and a REST client adapter for the downstream system:
+
+image:distributed.png[Two bounded contexts running on separate nodes]
+
+The mapping between the different contexts would take place in the downstream system's adapter.
+
+If the contexts are running as modules inside a single monolithing system, you can still use a similar architecture except you can leave the port out:
+
+image:monolith.png[Two bounded contexts inside the same monolith]
+
+Since both contexts are running inside the same virtual machine, we only need one adapter that interacts with both contexts directly. The adapter implements an interface of the downstream context and invokes application services of the upstream context. Any context mapping takes place inside the adapter.
+
+
 
 == Next: Domain-Driven Design and Spring Boot
 
-In the next section, we are going to learn how to use Spring Boot to build applications using domain-driven design and the hexagonal architecture.
+In the next and final article in this series, we are going to learn how to use Spring Boot to build applications using domain-driven design and the hexagonal architecture.
