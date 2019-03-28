@@ -1,0 +1,67 @@
+= Deploy to Google Cloud
+
+:title: Deploy to Google Cloud
+:authors: amahdy
+:type: text
+:tags: Backend, Cloud, Deploy, Flow, Java
+:description: Learn how to deploy Java app to Google cloud
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials: cloud-deployment/kubernetes
+
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Google Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Google cloud as a potential host platform for your applications.
+
+To get started, open https://console.cloud.google.com/[Google Cloud console], and log in using a Google account, then set up account information, you will be greeted by a screen similar to this:
+
+image::cloud-console.png[Cloud Console]
+
+== Create a project
+
+From the top menu, click on *Select a project* then *New Project*.
+
+image::new-project.png[New Project]
+
+In the following screen, give it a project name then click *Create*.
+
+Once everything is ready, you will be greeted with a screen similar to this:
+
+image::project-created.png[Project Created]
+
+== Using Cloud Shell
+
+To keep things simple, and without downloading any scripts, we will be using the browser-based cloud console. To activate it click on the console icon on the top-right corner of the page then click on *Start Cloud Shell*:
+
+image::online-console.png[Online Console]
+
+After few moments, the console will pop up at the bottom of your project dashboard and ready to use:
+
+image::online-shell.png[Online Shell]
+
+You can treat the cloud shell as a remote shell, and we can start by cloning the source code repository and package it locally:
+
+[source]
+----
+$ git clone https://github.com/vaadin/beverage-starter-flow
+$ cd beverage-starter-flow/
+$ mvn package
+----
+
+== Run the application
+
+We can run the application using the built-in Jetty server
+
+[source]
+----
+$ mvn jetty:run
+----
+
+And preview using the *Web preview* icon on the console’s top-right corner, then click *Preview on port 8080*:
+
+image::online-preview.png[Online Preview]
+
+At this point, you can preview how the application is performing on Google cloud, share the session with other https://cloud.google.com/iam/[project collaborators], you can also set up an https://cloud.google.com/storage/docs/object-change-notification[Object Change Notification] to update the local repository automatically once a specific branch gets updated.
+
+A following excellent step would be, to https://vaadin.com/tutorials/cloud-deployment/kubernetes[deploy your Java application on a Kubernetes container] for actual production.
+
+Learn more about https://cloud.google.com/java/[Java on Google cloud] and this interesting https://codelabs.developers.google.com/codelabs/cloud-springboot-cloudshell/index.html[codelab] on how to start a spring boot application from scratch on the platform.

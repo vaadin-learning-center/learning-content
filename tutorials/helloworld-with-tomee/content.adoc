@@ -1,0 +1,102 @@
+= HelloWorld - with Apache meecrowave - Ramp up in a second
+
+:type: text, video
+:tags: Apache, TomEE, Flow, Java
+:description: How to start a Vaadin Flow project with Apache meecrowave in a second
+:repo: https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave
+:linkattrs:
+:imagesdir: ./images
+
+
+A nano project to start a Vaadin project running in a Jakarta EE 8 Container, based on Apache TomEE.
+
+== Target of this project
+
+The target of this project is a minimal rampup time for a first hello world.
+Why we need one more HelloWorld? Well, the answer is quite easy.
+If you have to try something out, or you want to make a small POC to present something,
+there is no time and budget to create a demo project.
+You don't want to copy paste all small things together.
+Here you will get a HelloWorld-Project that will give you all in a second.
+
+Clone the repo and start editing the class `VaadinApp`.
+Nothing more. 
+
+== Used Servlet container?
+Here we are using the Jakarta EE 8 server **TomEE** as Servlet-Container.
+http://tomee.apache.org/[http://tomee.apache.org/]
+If you want to use Vaadin together with CDI, have a look at the CDI starter. This is 
+using TomEE together with the CDI AddOn. 
+You can find the starter at https://vaadin.com/start/latest/project-base-cdi[https://vaadin.com/start/latest/project-base-cdi]
+
+== The UI itself
+
+The UI itself contains not so many elements. There is only a button you can click.
+For every click, the counter will be increased.
+The component will be registered under the root-path, based on the Annotation `@Route("")`
+For more information's about the routing itself have a look at
+https://vaadin.com/docs/flow/routing/tutorial-routing-annotation.html[https://vaadin.com/docs/flow/routing/tutorial-routing-annotation.html]
+
+[source,java]
+----
+@Route("")
+public class VaadinApp extends Composite<Div> {
+
+  private final Button         btnClickMe   = new Button("click me");
+  private final Span           lbClickCount = new Span("0");
+  private final VerticalLayout layout       = new VerticalLayout(btnClickMe, lbClickCount);
+
+  private int clickcount = 0;
+
+  public VaadinApp() {
+    btnClickMe.addClickListener(event -> lbClickCount.setText(valueOf(++clickcount)));
+    //set the main Component
+    System.out.println("setting now the main ui content..");
+    getContent().add(layout);
+
+  }
+}
+----
+
+== Maven dependencies
+To use this together with a Jakarta EE 8 Container you should add
+first the corresponding specifications, or better interfaces. For this
+the following dependency were added to this project. Make sure you will add it with the scope
+**provided**. The container will have its own version provided during runtime.
+
+[source,xml]
+----
+      <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>8.0</version>
+        <scope>provided</scope>
+      </dependency>
+----
+
+The definition about the used container is provided via maven plugin.
+
+[source,xml]
+----
+      <plugin>
+        <groupId>org.apache.tomee.maven</groupId>
+        <artifactId>tomee-maven-plugin</artifactId>
+        <version>${tomee.version}</version>
+        <configuration>
+          <tomeeClassifier>webprofile</tomeeClassifier>
+          <context>ROOT</context>
+        </configuration>
+      </plugin>
+----
+
+== How to start it
+With this plugin the demo could be started.
+Try the following maven command inside the folder that was created from git during the clone process.
+
+```mvn clean install tomee:run ```
+
+After the demo was build from scratch, maven got all dependencies from maven central and Apache TomEE was started,
+you are able to try the webapp on http://localhost:8080/[http://localhost:8080/]
+
+
+Happy Coding.

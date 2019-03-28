@@ -1,0 +1,55 @@
+= Deploy to Kubernetes on Google Cloud
+
+:title: Deploy to Kubernetes on Google Cloud
+:authors: amahdy
+:type: text
+:tags: Backend, Cloud, Deploy, Kubernetes, Java
+:description: Learn how to deploy Java app to Kubernetes
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials: cloud-deployment/google
+
+This tutorial teaches you how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Kubernetes on Google Cloud Platform. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your applications.
+
+Following the link:/tutorials/cloud-deployment/google/[previous tutorial] about deploying to Google cloud, in this tutorial we will see how to deploy it on Google Kubernetes Engine.
+
+First, enable the https://console.cloud.google.com/apis/api/containerregistry.googleapis.com[Container Registery] API on your project.
+
+From the Cloud Shell, use this command to packaging the application as a Docker container. We will use Jib to create the container image and push it to the Container Registry.
+
+[source]
+----
+$ mvn com.google.cloud.tools:jib-maven-plugin:build \
+-Dimage=gcr.io/$GOOGLE_CLOUD_PROJECT/vaadin-demo:v1
+----
+
+image::package-docker.png[Package Docker]
+
+The next step is to create a new Kubernetes Cluster to deploy the image in. From the left menu, select *Kubernetes Engine* then chose *Clusters*.
+
+image::create-cluster.png[Create Cluster]
+
+Selecting *Deploy container* will create a simple cluster and deploy the application in one step.
+
+image::deploy-container.png[Deploy Container]
+
+From *Container* section, click on *Select Google Container Registry image* and it should show the picture that was pushed to the Container Registry.
+
+image::select-image.png[Select Image]
+
+You can give the application a new name, and select the cluster zone then click *Deploy*.
+
+image::creating-cluster.png[Creating Cluster]
+
+When the application is fully deployed, we can do further actions such as roll updates, scale it, or enable autoscale. We can also expose it externally to be able to preview it remotely. To do that, go to the *Actions* menu and select *Expose*.
+
+image::expose-app.png[Expose App]
+
+You can keep the default port mapping with port 80, click *Done*, and under *Service type* select *Load balancer* to create a new load balancer and expose the application externally.
+
+image::load-balancer.png[Load Balancer]
+
+Google Cloud Platform will give you a static IP that points to your application, you can use it to preview the app from anywhere outside the platform. It will take some time though for the IP to propagate and becomes visible.
+
+image::external-ip.png[External IP]

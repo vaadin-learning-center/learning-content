@@ -1,0 +1,125 @@
+[[flow.tutorial.filtering]]
+= Creating Live Filtering for Entities
+
+:title: Part 3 - Creating Live Filtering for Entities
+:author: Vaadin
+:description: Learn how to filter data in a Grid with Vaadin Flow
+:tags: Flow, Java
+:imagesdir: ./images
+
+Most applications need search functionality. Implementing search is also a good exercise for learning Vaadin Flow. 
+
+This part of the tutorial shows you how to add filtering functionality to the list of customers created in the previous step. We implement the filter in a text field above the grid, and add a clear button to clear the input.
+
+image::filter.png[Filter]
+
+== Adding a TextField Component
+
+To add a `TextField` component: 
+
+. In the `MainView` class, introduce an instance variable of type `TextField` as follows:
++
+[source,java]
+----
+...
+public class MainView extends VerticalLayout {
+
+    ...
+    private TextField filterText = new TextField();
+
+    ...
+}
+----
+
+. Configure the text field to display a placeholder and a clear button, by adding the following code at the beginning of the constructor:
++
+[source,java]
+----
+public MainView() {
+
+    filterText.setPlaceholder("Filter by name..."); 
+    filterText.setClearButtonVisible(true); 
+
+    ...
+}
+----
++
+* `setPlaceholder` shows the given string in the field. When the user starts typing, the placeholder is automatically removed.
+
+* `setClearButtonVisible` adds a clear button (X) that displays on the right side of the text field. 
+
+. Change the `add(grid)` code line to include the `filterText` component as follows:
++
+[source,java]
+----
+add(filterText, grid);
+----
+
+== Filtering the Data
+
+To make the filter functional:
+
+. Add the following code right after the `filterText` configuration:
++
+[source,java]
+----
+public MainView() {
+
+    ...
+    filterText.setValueChangeMode(ValueChangeMode.EAGER); 
+    filterText.addValueChangeListener(e -> updateList()); 
+
+    ...
+}
+----
+
+* `ValueChangeMode.EAGER` ensures that change events are fired immediately when the user types.
+
+* `addValueChangeListener` adds a value change listener that reacts to changes in the value of the text field.
+
+. The value change listener calls the `updateList()` method, but this method doesn't yet use the value in the filter. To configure it to use this value, change the line in the `updateList()` method to send the value to the service (backend) call:
++
+[source,java]
+----
+public void updateList() {
+    grid.setItems(service.findAll(filterText.getValue()));
+}
+----
+* `filterText.getValue()` returns the current string in the text field.
+
+. Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. Check that the filter works as expected.
+
+For reference, here's the complete implementation of the `MainLayout` class at this point:
+
+[source,java]
+----
+@Route("")
+@PWA(name = "Project Base for Vaadin Flow", shortName = "Project Base")
+public class MainView extends VerticalLayout {
+
+    private CustomerService service = CustomerService.getInstance();
+    private Grid<Customer> grid = new Grid<>(Customer.class);
+    private TextField filterText = new TextField();
+
+    public MainView() {
+        filterText.setPlaceholder("Filter by name...");
+        filterText.setClearButtonVisible(true);
+        filterText.setValueChangeMode(ValueChangeMode.EAGER);
+        filterText.addValueChangeListener(e -> updateList());
+
+        grid.setColumns("firstName", "lastName", "status");
+
+        add(filterText, grid);
+
+        setSizeFull();
+
+        updateList();
+    }
+
+    public void updateList() {
+        grid.setItems(service.findAll(filterText.getValue()));
+    }
+
+}
+----
+
