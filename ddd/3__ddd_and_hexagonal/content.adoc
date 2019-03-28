@@ -106,11 +106,21 @@ Because of this, I consider domain event listeners to be a special kind of appli
 
 This being said, in the section about aggregates in the previous article, I mentioned that it may sometimes be justified to alter multiple aggregates within the same transaction even though this goes against the aggregate design guidelines. I also mentioned that this should preferably be made through domain events. In cases like this, the domain event listeners would have to participate in the current transaction and could thereby affect the outcome of the method that published the event, breaking the design guidelines for both domain events and application services. This is not the end of the world as long as you do it intentionally and are aware of the conequences you might face in the future. Sometimes you just have to be pragmatic.
 
-=== Input Validation
-
-TODO
-
 === Entities, DTOs or DPOs?
+
+One important decision when designing application services is to decide what data to consume (method parameters) and what data to return. You have three alternatives:
+
+1. Use the entities and value objects directly from the domain model.
+2. Use separate Data Transfer Objects (DTOs).
+3. Use Domain Payload Objects (DPOs) that are a combination of the two above.
+
+Each alternative has its own pros and cons, so let's have a closer look at each.
+
+In the first alternative, your application services return entire aggregates (or parts thereof). The client can do whatever it wants with them and when it is time to save changes, the aggregates (or parts thereof) are passed back to the application service as parameters. This alternative works best when the domain model is anemic (i.e. it only contains data and no business logic) and the aggregates are small and stable (as in unlikely to change much in the near future).  It also works if the client will be accessing the system through REST or SOAP and the aggregates can easily be serialized into JSON or XML and back. The advantages with this approach is that you can use the classes that you already have and there is no need to convert between domain objects and DTOs. The disadvantage is that it...
+
+In the second alternative, your application services consume and return data transfer objects. The DTOs can correspond to entities in the domain model, but more often you want them to be specifically designed for a specific application service or even a specific application service method. The application service is then responsible for moving data back and forth between the DTOs and the domain objects. This alternative works best when the domain model is very rich in business logic, the aggregates are complex 
+
+=== Input Validation
 
 TODO
 
