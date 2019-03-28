@@ -1,9 +1,11 @@
 = Tactical Domain-Driven Design
 
 :title: Tactical Domain-Driven Design
-:author: Petter Holmström
-:description: Learn about the building blocks of tactical domain-driven design and how you can use them to design and implement a rich domain model for your project.
+:type: text
 :tags: domain-driven design, ddd, java
+:description: Learn about the building blocks of tactical domain-driven design and how you can use them to design and implement a rich domain model for your project.
+:repo:
+:linkattrs:
 :imagesdir: ./images
 
 In this article, we are going to learn about tactical domain-driven design. Tactical DDD is a set of design patterns and building blocks that you can use to design domain-driven systems. Even for projects that are not domain-driven, you can benefit from using some of the tactical DDD patterns.

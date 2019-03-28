@@ -1,9 +1,11 @@
 = Strategic Domain-Driven Design
 
 :title: Strategic Domain-Driven Design
-:author: Petter Holmström
-:description: Learn what strategic domain-driven design is how you can benefit from it in your project.
+:type: text
 :tags: domain-driven design, ddd
+:description: Learn what strategic domain-driven design is how you can benefit from it in your project.
+:repo:
+:linkattrs:
 :imagesdir: ./images
 
 *Domain-Driven Design* (DDD) has been around since *Eric Evans* published his book about the subject in 2003. I myself came into contact with DDD some years ago when I joined a project that suffered from data consistency problems. Duplicates showed up in the database, some information was not saved at all, and you could run into optimistic locking errors anywhere and anytime. We managed to solve this by using the building blocks of tactical domain-driven design.
