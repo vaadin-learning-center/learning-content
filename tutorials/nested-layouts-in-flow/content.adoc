@@ -1,0 +1,273 @@
+= Nested Layouts in Flow
+
+:type: text, video
+:tags: Layout, Flow, Navigation, Java
+:description: How to use Layouts in Flow
+:repo: https://github.com/vaadin-learning-center/flow-layout-nested-layouts
+:linkattrs:
+:imagesdir: ./images
+
+In this part we will have a look at the layout mechanism itself and how you could
+build more complex layouts structures.
+
+== Download base project
+As "Hello World" basic project the `flow-helloworld-maven-meecrowave`
+from the learning center is used.
+You are able to find the latest version
+here: https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave[https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave]
+
+== The challenge
+How to define elements in your application that are needed everywhere
+like a MenuBar?
+
+=== Preparations for this tutorial
+First we are creating a view Views that we want to
+extend with some generic elements like a menubar.
+
+For this two classes are additionally created in this project.
+The names of this classes are `ViewA` and `ViewB`.
+In total we have three classes that are representing a View now.
+
+The classes are all extending the class `Composite<Div>` and the root element inside the Composite is
+a neutral div itself. If you want to read more about this, have a look at
+the documentation at
+
+https://vaadin.com/docs/flow/creating-components/tutorial-component-composite.html [https://vaadin.com/docs/flow/creating-components/tutorial-component-composite.html]
+
+Every View class will get an annotation `Route` for an individual path.
+For example the class `ViewA` will get a path called `ViewA`. To access this view you have to go
+to http://localhost:8080/ViewA[http://localhost:8080/ViewA]
+
+The same for the class called `ViewB`, the path will be `ViewB`
+
+.`*views/ViewA.java*`
+[source,java]
+----
+@Route(value = "ViewA")
+public class ViewA extends Composite<Div> {
+
+  public ViewA() {
+    getContent().add(new Span("ViewA"));
+  }
+}
+----
+
+The class itself will do nothing exciting. It will only write the view name itself on screen.
+For sure the navigation between the views is not very comfortable for the user.
+We need a menu bar, containing all links to all accessible views.
+
+
+=== The menu bar
+A good place for a menu bar is inside a layout, based on the idea that a layout is the generic structure of the
+ui. The menu bar itself contains only three elements for this example.
+
+
+.`*views/LayoutWithMenuBar.java*`
+[source,java]
+----
+  private final HorizontalLayout menuBar = new HorizontalLayout(
+      new RouterLink("ViewA" , ViewA.class) ,
+      new RouterLink("ViewB" , ViewB.class) ,
+      new RouterLink("Home" , VaadinApp.class)
+  );
+----
+
+But what is the right place for this peace of code? Having in mind, that this will be used
+all the time. For this wa are creating a class with the name `LayoutWithMenuBar`.
+This is again a Composite of Type Div. Inside this class the needed menu structure will be created.
+
+.`*views/LayoutWithMenuBar.java*`
+[source,java]
+----
+public class LayoutWithMenuBar extends Composite<Div> {
+
+  private final Div content = new Div();
+
+  private final HorizontalLayout menuBar = new HorizontalLayout(
+      new RouterLink("ViewA" , ViewA.class) ,
+      new RouterLink("ViewB" , ViewB.class) ,
+      new RouterLink("Home" , VaadinApp.class)
+  );
+
+  private final VerticalLayout root = new VerticalLayout(menuBar, content);
+
+  public LayoutWithMenuBar() {
+    getContent().add(root);
+  }
+}
+----
+
+Important is the holder for the part that should be wrapped. Here it is of type
+`Div` and called `content`. But how to make a Layout out of this? Who will set the content and
+how this should be done?
+
+For this Vaadin/Flow will give you the interface `RouterLayout` to implement.
+The important method to override is `public void showRouterLayoutContent(HasElement hasElement)`
+
+This method will be invoked by the framework and will get the Element that should be wrapped.
+The logic to implement is easy, because it should only set the
+actual content and must make sure the old one is removed.
+
+
+.`*layout/LayoutWithMenuBar.java*`
+[source,java]
+----
+public class LayoutWithMenuBar extends Composite<Div> implements RouterLayout{
+
+  //.. removed some lines for readibility
+
+  @Override
+  public void showRouterLayoutContent(HasElement hasElement) {
+    System.out.println("showRouterLayoutContent - LayoutWithMenuBar");
+    Objects.requireNonNull(hasElement);
+    Objects.requireNonNull(hasElement.getElement());
+    content.removeAll();
+    content.getElement().appendChild(hasElement.getElement());
+  }
+}
+----
+
+But how to use this Layout now? The connection between the View and the Layout
+is done by the annotation called `@Route(value = "ViewA", layout = LayoutWithMenuBar.class)`
+The attribute `layout` must be set with the class of the layout itself.
+
+=== How to nest layouts?
+Now we are able to use the layout we are created.
+But having in mind, that a complex layout will be build up from different parts, we need a way to build a
+composition of layout-elements. Each layout element should be independent in an ideal world.
+
+To show this we want to add two messages on the screen. One on the top, one at the bottom.
+This itself is easy done. We are creating a class with the name `MainLayout` and doing the same we have done before.
+We are building a generic layout and there is no hint that there will be a menu bar.
+
+
+.`*layout/MainLayout.java*`
+[source,java]
+----
+public class MainLayout extends Composite<Div> implements RouterLayout , HasLogger {
+
+  //Component to delegate content through.
+  private Div content = new Div();
+
+  private final VerticalLayout layout = new VerticalLayout(
+      new Span("from MainLayout top") ,
+      content ,
+      new Span("from MainLayout bottom")
+  );
+
+  public MainLayout() {
+    getContent().add(layout);
+  }
+
+  @Override
+  public void showRouterLayoutContent(HasElement hasElement) {
+    System.out.println("showRouterLayoutContent - MainLayout");
+    Objects.requireNonNull(hasElement);
+    Objects.requireNonNull(hasElement.getElement());
+    content.removeAll();
+    content.getElement().appendChild(hasElement.getElement());
+  }
+}
+----
+
+But how we could nest them? The key is the Annotation called `@ParentLayout(value = MainLayout.class)`
+Here we are able to define who is the wrapper around myself. This annotation must be used
+at the child Layout, here `LayoutWithMenuBar` Now the framework is able to create the
+hierarchy of layout instances. That´s it.
+
+== All together
+Finally we will have a look the hole thing itself.
+The View will be annotated with the latest child of the layout hierarchy, here `LayoutWithMenuBar`
+
+
+.`*views/MainLayout.java*`
+[source,java]
+----
+@Route(value = "ViewA", layout = LayoutWithMenuBar.class)
+public class ViewA extends Composite<Div> {
+
+  public ViewA() {
+    getContent().add(new Span("ViewA"));
+  }
+}
+----
+
+The class `LayoutWithMenuBar` will be connected with the `MainLayout` via the annotation `ParentLayout`
+
+.`*layout/LayoutWithMenuBar.java*`
+[source,java]
+----
+@ParentLayout(value = MainLayout.class)
+public class LayoutWithMenuBar extends Composite<Div> implements RouterLayout , HasLogger {
+
+  private final Div content = new Div();
+
+  private final HorizontalLayout menuBar = new HorizontalLayout(
+      new RouterLink("ViewA" , ViewA.class) ,
+      new RouterLink("ViewB" , ViewB.class) ,
+      new RouterLink("Home" , VaadinApp.class)
+  );
+
+  private final VerticalLayout root = new VerticalLayout(menuBar, content);
+
+  public LayoutWithMenuBar() {
+    getContent().add(root);
+  }
+
+  @Override
+  public void showRouterLayoutContent(HasElement hasElement) {
+    System.out.println("showRouterLayoutContent - LayoutWithMenuBar");
+    Objects.requireNonNull(hasElement);
+    Objects.requireNonNull(hasElement.getElement());
+    content.removeAll();
+    content.getElement().appendChild(hasElement.getElement());
+  }
+}
+----
+
+The class `MainLayout` is the parent of the application layout and the place where you can define the Theme
+that should be used by the app.
+
+.`*layout/MainLayout.java*`
+[source,java]
+----
+@Theme(value = Lumo.class, variant = Lumo.LIGHT)
+public class MainLayout extends Composite<Div> implements RouterLayout , HasLogger {
+
+  //Component to delegate content through.
+  private Div content = new Div();
+
+  private final VerticalLayout layout = new VerticalLayout(
+      new Span("from MainLayout top") ,
+      content ,
+      new Span("from MainLayout bottom")
+  );
+
+  public MainLayout() {
+    getContent().add(layout);
+  }
+
+  @Override
+  public void showRouterLayoutContent(HasElement hasElement) {
+    System.out.println("showRouterLayoutContent - MainLayout");
+    Objects.requireNonNull(hasElement);
+    Objects.requireNonNull(hasElement.getElement());
+    content.removeAll();
+    content.getElement().appendChild(hasElement.getElement());
+  }
+}
+----
+
+
+== Finally
+Finally we have all things together we need to build a complete layout
+based on composition of independent layout implementations.
+The only thing that will bind all of them together is the annotation `ParentLayout`
+
+
+
+The complete code of this tutorial you can get from here:
+
+https://github.com/vaadin-learning-center/flow-layout-nested-layouts[https://github.com/vaadin-learning-center/flow-layout-nested-layouts]
+
+

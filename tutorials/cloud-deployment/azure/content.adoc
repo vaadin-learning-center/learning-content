@@ -1,0 +1,72 @@
+= Deploy to Azure Cloud
+
+:title: Deploy to Azure Cloud
+:authors: amahdy
+:type: text
+:tags: Backend, Cloud, Deploy, Java
+:description: Learn how to deploy Java app to Azure cloud
+:repo:
+:linkattrs:
+:imagesdir: ./images
+
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Azure Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Azure cloud as a potential host platform for your applications.
+
+To get started, https://signup.azure.com[sign up] for a free Microsoft Azure account then open https://portal.azure.com[the portal].
+
+image::portal.png[Azure Portal]
+
+With Microsoft Azure, you can run your application on either a Windows or Linux OS. In this tutorial, we will be using Linux. To start, from the left menu click on *Create a resource*, select *Web*, then select *Web App*.
+
+image::app-new.png[New App]
+
+Fill the new application details and make sure to select *Tomcat 9.0 (JRE 8)* as a runtime.
+
+image::app-details.png[App Details]
+
+When the new application is ready, open the new resource to start deploying the application in it.
+
+There is a direct way, using FTP access, but in this tutorial, we will be using a little bit more elegant way, which is connecting with a Git repository.
+
+First of all, we need to create a new "build" repository for our project, that has a simple structre as following: `<respositroy-name>/webapps/project-file.war`. Here is https://github.com/amahdy/vaadin-demo-deployed[an example git repo] with the needed structure.
+
+We can use a local git repository that Azure will configure automatically for us, to do that, select *Deployment Center* from the left menu, then select *Local Git*.
+
+image::localgit-select.png[Local Git]
+
+In the next screen, select *Kudu build server* for the build system. This is a compelling and generic build system that will automatically update and restart the server whenever there is a change in the Git repository.
+
+image::localgit-build.png[Kudu Build]
+
+When everything is ready, you should get a summary similar to this, and you confirm by clicking *Finish*.
+
+image::localgit-summary.png[Summary Finish]
+
+After the repository is ready, you can manually synchronize your builds with it in the specific structure described above. Credentials for the new Git repository can be managed from the main deployment center page.
+
+image::localgit-credentials.png[Git Credentials]
+
+As explained earlier, FTP can be used to achieve the same results, but also some existing services can make the process more comfortable such as Azure Repos, Github, and Bitbucket. In the next few screens, I will show you easy to connect to your existing Github repo.
+
+From the *Deployment Center*, this time select *Github* instead of *Local Git*.
+
+image::git-select.png[Select Github]
+
+In the next step select *Kudu build server* as well, and then you will be asked to choose the Github repository to synchronize.
+
+image::git-configure.png[Configure Github]
+
+And again you will get a confirmation summary.
+
+image::git-finish.png[Summary Github]
+
+After each push to the repository, Azure with synchronizing it. But you can force synchronize the repository especially after linking it for the first time.
+
+image::git-sync.png[Sync Github]
+
+A successful synchronization will trigger a server restart. Otherwise, you can also force the server to restart to see updates.
+
+image::git-restart.png[Restart Github]
+
+The provided URL will preview the applications running on the server, but since we are using Tomcat, you may need to https://tomcat.apache.org/tomcat-8.0-doc/config/context.html[change the configurations] for the *ROOT* app. For now, appending the name of the war file to the URL will help us preview the final deployment.
+
+image::final-app.png[Final App]

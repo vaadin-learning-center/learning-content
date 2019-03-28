@@ -1,0 +1,133 @@
+= Migrating Java enterprise apps to Kotlin
+
+:title: Migrating Java enterprise apps to Kotlin
+:type: text, image
+:tags: Kotlin, JVM, Migration, Flow
+:description: Learn how to migrate Java enterprise applications to Kotlin
+:repo: https://github.com/mvysny/beverage-buddy-vok
+:linkattrs:
+:imagesdir: ./images
+
+
+image::modern-chart.png[Modern Chart]
+
+
+Kotlin managed to show a https://trends.google.com/trends/explore?date=today%205-y&q=%2Fm%2F0_lcrx4,%2Fm%2F010sd4y3,%2Fm%2F0n50hxv,%2Fm%2F09gbxjr[substantial presence] in the community, as well as steady growth compared to other modern programming languages.
+
+This tutorial is not going to be yet another Kotlin 101, it's not exclusive for Android developers, and it's not an opinionated post comparing, e.g. Kotlin and Java. It is merely describing my experience converting an app to Kotlin, and here are the main highlighted topics:
+
+1. link:#by-book[Migration by the book]
+2. link:#by-practice[Migration in practice]
+3. link:#kotlin-vaadin[Kotlin for Vaadin developers]
+4. link:#kotlin-testing[Testing the front-end]
+5. link:#final-thoughts[Final thoughts about Kotlin]
+
+[[by-book]]
+== 1. Migration by the book
+
+image::migration-chart.png[Migration Chart]
+
+This picture summarizes the common migration path that anyone should at least try before the migration journey. It starts by getting an overview about the language and how it works, then followed by a strong suggestion to try https://try.kotlinlang.org/#/Kotlin%20Koans/Introduction/Hello,%20world!/Task.kt[Koans], which is an online interactive IDE that guides you step by step into writing some Kotlin code and converting Java code into Kotlin. 
+
+Finally, you get the promise that with a keyboard shortcut in IntelliJ, you can go through the Java files one by one and convert them. Unfortunately, the conversion tool is not 100% reliable. Sometimes it produces classes that won't compile. Luckily, the compiler errors are often easy to fix.
+
+[[by-practice]]
+== 2. Migration in practice
+
+Let's apply this in practice on https://vaadin.com/start/v10-simple-ui[an example project], after setting up the project to work as a Java web project:
+
+=== Attempt 1:
+
+I've decided to try to convert the first Java file that exists in the root folder of the `ui` package: https://github.com/vaadin/beverage-starter-flow/blob/master/src/main/java/com/vaadin/starter/beveragebuddy/ui/MainLayout.java[`MainLayout.java`]. You can do that using the keyboard shortcuts, or from the main menu: "Code > Convert Java File to Kotlin File". The class is correctly converted, but there are two compilation errors marked in the file by the IDE: the ".java" part of the source code is underlined red. This happens because Kotlin is not configured.
+
+Usually, when using IntelliJ, you will get a notification bar asking you to fix the configuration "Kotlin not configured." If the notification doesn't show up, you can tell IntelliJ to configure Kotlin by selecting: "Tools > Kotlin > Configure Kotlin in Project" from the main menu. If you use another type of editor, you can manually https://kotlinlang.org/docs/reference/using-maven.html[configure Kotlin for Maven] or use similar resources if using a different dependency management system.
+
+After resolving dependencies, and although error messages disappear in IntelliJ, trying to Maven-compile the project will still result in compiler errors. Namely, the Java compiler will complain that it can't find the `MainLayout` class. This happens because IntelliJ, while configuring its own internal build system correctly, https://youtrack.jetbrains.com/issue/KT-15776[configures Maven incorrectly]. In this state, Maven will run the Kotlin compiler *after* the Java compiler, and therefore Java compiler can not find the `MainLayout` class (since it hasn't been produced by the Kotlin compiler yet).
+
+We need to re-configure the Maven build steps a bit. The https://kotlinlang.org/docs/reference/using-maven.html[Using Maven] documentation shows a correct Maven configuration in the "Compiling Kotlin and Java sources" chapter. Just take the configuration of the `maven-compiler-plugin` plugin from the "Using Maven" documentation and apply it to your project's `pom.xml`. Now Maven will be able to compile the project correctly, and you will be able to run the project using the `mvn clean package jetty:run` command.
+
+*This is a critical step*. Having the Kotlin compiler configured correctly, and working is a prerequisite for any further work. Failing to configure the Kotlin compiler will result in Maven builds not working, IDE autocompletion not working, and the IDE may become very slow. There is no point in doing any serious development in this kind of state.
+
+=== Attempt 2:
+
+What would be the next file to convert? I've decided to try the first package `common` and the first file in it https://github.com/vaadin/beverage-starter-flow/blob/master/src/main/java/com/vaadin/starter/beveragebuddy/ui/common/AbstractEditorDialog.java[`AbstractEditorDialog.java`], and here we start to see that *, not all Java files can be converted in a snap*. For instance, we see a smart-cast-impossible https://stackoverflow.com/questions/44595529/smart-cast-to-type-is-impossible-because-variable-is-a-mutable-property-tha[issue] that can be fixed by adding the `!!` operator. Similarly, picking other Java class such as https://github.com/vaadin/beverage-starter-flow/blob/master/src/main/java/com/vaadin/starter/beveragebuddy/ui/views/reviewslist/ReviewsList.java[`views/reviewslist/ReviewsList.java`] and converting it, we will run into a different issue, like https://youtrack.jetbrains.com/issue/KT-12794[repeatable annotations] and https://stackoverflow.com/questions/43737785/kotlin-interface-does-not-have-constructors[SAM conversion]. SAM-related issues can be fixed by adding missing imports, by placing the cursor over the missing classes, pressing kbd:[Ctrl+Enter] (kbd:[Option+Enter] for Mac) and select "Import". Repeatable annotations can be fixed by using the repeatable container:
+
+[source,kotlin]
+----
+@Encode.Container(value = [
+// Comma separated annotations here without `@`.
+])
+----
+
+The conclusion after this attempt is that *some implementations are still missing in Kotlin* and some workarounds might still be needed, and you may experience a few bugs in the code conversion automation.
+
+Now the project compiles, but it fails to run properly, with:
+
+[source]
+----
+Caused by: com.vaadin.flow.templatemodel.InvalidTemplateModelException: Element type '? extends org.vaadin.martin.backend.Review' is not a valid Bean type. Used in class 'ReviewsModel' with property named 'reviews' with list type 'java.util.List<? extends org.vaadin.martin.backend.Review>'.
+    at com.vaadin.flow.templatemodel.BeanModelType.getListModelType(BeanModelType.java:271)
+    at com.vaadin.flow.templatemodel.BeanModelType.getModelType(BeanModelType.java:177)
+----
+
+The problem here is that in Kotlin, `List` is defined as `List<out E>`. That makes, e.g. `List<Any>` automatically assignable from `List<String>` (which is good), but it also makes Kotlin compiler emit wildcard list types such as `List<? extends Review>` everywhere. And Vaadin Flow hates that since it must know the exact type of interface, to correctly generate a Proxy for that.
+The solution here is to force Kotlin compiler to emit `List<Review>`, simply by annotating the `setReviews` function using the `@JvmSuppressWildcards` annotation:
+
+[source,kotlin]
+----
+   @JvmSuppressWildcards
+   fun setReviews(reviews: List<Review>)
+----
+
+=== Attempt 3:
+
+Perhaps it would be a good idea to migrate the classes with fewer dependencies first, such as Data Model Entities from the backend. So I started with https://github.com/vaadin/beverage-starter-flow/blob/master/src/main/java/com/vaadin/starter/beveragebuddy/backend/Category.java[`Category.java`] and https://github.com/vaadin/beverage-starter-flow/blob/master/src/main/java/com/vaadin/starter/beveragebuddy/backend/Review.java[`Review.java`], and here is an interesting fact: *If you convert `Review.java` before `Category.java`, you will run into code errors, while converting in the opposite sequence will compile smoothly and run as it should*.
+
+The reason is that in the prior case, Kotlin converter won't emit the `!!` operator, while in the latter case it does. The dependency could be fine, except on how it's https://github.com/vaadin/beverage-starter-flow/blob/4fb8c67cc9a184f8a68059140035de64b124d3b8/src/main/java/com/vaadin/starter/beveragebuddy/backend/Review.java#L68[defined in the code] and assigned `null` which requires a workaround to get a similar approach in Kotlin.
+But the conclusion from this attempt is that correct structure and *order of the migration steps do make a difference*.
+
+=== Conclusion:
+
+So what exactly is wrong with those previous attempts? *They lack a perfect migration strategy*. Some migration steps yield minor issues; sometimes converting classes in a different order may give different results.
+
+After some research and many attempts, I came up with this essential summary for a successful migration:
+
+==== a. Start with migration on the go
+
+It is certain that migrating a full enterprise application comes with time and resources cost. One approach could be, *migrate on demand*. With the power of interoperability of Kotlin with Java, it's effortless to write "new code" in Kotlin while keeping the old code untouched. Nevertheless, when a Java class raises a bug and needs to be changed, or a new feature to be added there, then you can also convert it on the spot. This is great since it allows you to migrate the project one class at a time. You just have to be prepared to fix any outstanding minor issues when the converter tool leaves something out. But that can be done rather quickly, so you are never forced to suspend development for weeks until the project compiles again.
+
+Most projects will run without any issues when using Java and Kotlin at the same time, but it is essential to have an appropriate project configuration and make sure it compiles as mentioned in "Attempt 1" above.
+
+==== b. Refactor the project architecture
+
+.[.small]#_Image credit and more about clean architecture: https://www.codingblocks.net/podcast/clean-architecture-make-your-architecture-scream_#
+image::project-architecture.png[Project Architecture]
+
+While it's not mandatory, it definitely will help when you refactor your project and *put it in a good structure for migration*. It will remove the hassle of tracking dependencies and being required to perform many changes at the same time to fix the code.
+
+==== c. Seek alternative libraries.
+
+With the rise and popularity of Kotlin, there is an increased chance to find more libraries migrated fully to Kotlin. It will be a lot better to use them whenever available. And when it comes to Vaadin, luckily we have a 100% community project that provides Vaadin on Kotlin. More about that in the next section.
+
+[[kotlin-vaadin]]
+== 3. Kotlin for Vaadin developers
+
+Kotlin from day one was built to have first-class interoperability with Java and other JVM languages. If your front-end is written entirely separately from the backend, there is a big chance that you can smoothly migrate the front end without worrying too much about the backend.
+Luckily, this has been made even easier with https://twitter.com/MartinVysny[Martin]'s contribution to the http://www.vaadinonkotlin.eu/[Vaadin on Kotlin] project.
+He wrote https://vaadin.com/blog/vaadin-kotlin[an article] about it some time ago, as well as a refreshed blog http://mavi.logdown.com/posts/3217554[for Vaadin 10]. Nevertheless, the internet has much more materials such as https://blog.philipphauer.de/kotlin-practice-spring-boot-vaadin/[Philipp's tutorial] on integrating the giants: Spring boot, Vaadin, and Kotlin.
+
+[[kotlin-testing]]
+== 4. Testing the front-end
+
+Martin's contribution was not on the VoK project only, he also created the https://github.com/mvysny/karibu-testing[Karibu browserless testing library] that works smoothly with Vaadin. The exciting part about it is that you can use the simplified Kotlin syntax for testing Java-based Vaadin projects.
+
+[[final-thoughts]]
+== 5. Final Thoughts about Kotlin
+
+Kotlin is an exciting new programming language, built from day one to solve many programming challenges. But before getting too involved with Kotlin, it's worth validating whether Kotlin will work best for your project, or not. Christophe wrote an https://sites.google.com/a/athaydes.com/renato-athaydes/posts/kotlinshiddencosts-benchmarks[article] that benchmarks and shows that in certain situations, Kotlin might not be the language to pick.
+ 
+
+At this point, how much of the https://github.com/vaadin/beverage-starter-flow[beverage buddy] project were you able to migrate? 
+https://github.com/mvysny/beverage-buddy-vok[Check out the final project after being migrated to Kotlin] for additional references.
+
+__This article is co-authored by https://twitter.com/MartinVysny[Martin] and validated by https://twitter.com/oluwasayo_[Sayo].__

@@ -1,16 +1,18 @@
 = Strategic Domain-Driven Design
 
 :title: Strategic Domain-Driven Design
-:author: Petter Holmström
-:description: Learn what strategic domain-driven design is how you can benefit from it in your project.
+:type: text
 :tags: domain-driven design, ddd
+:description: Learn what strategic domain-driven design is how you can benefit from it in your project.
+:repo:
+:linkattrs:
 :imagesdir: ./images
 
-*Domain-Driven Design* (DDD) has been around since *Eric Evans* published his book about the subject in 2003. I myself came into contact with DDD some years ago when I joined a project that suffered from data consistency problems. Duplicates showed up in the database, some information was not saved at all and you could run into optimistic locking errors anywhere and anytime. We managed to solve this by using the building blocks of tactical domain-driven design.
+*Domain-Driven Design* (DDD) has been around since *Eric Evans* published his book about the subject in 2003. I myself came into contact with DDD some years ago when I joined a project that suffered from data consistency problems. Duplicates showed up in the database, some information was not saved at all, and you could run into optimistic locking errors anywhere and anytime. We managed to solve this by using the building blocks of tactical domain-driven design.
 
-I have learned more about domain-driven design since then and also try use it in my projects wherever appropriate. However, during the past years when I have talked to other developers many of them have heard about the term domain-driven design but they do not know what it actually means. In this article series, I am going to give a brief introduction to domain-driven design as I see and understand it. The content is very much based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon*. However, I have tried to explain everything in my own words and also inject my own thoughts, opinions and experiences.
+I have learned more about domain-driven design since then and also to try to use it in my projects wherever appropriate. However, during the past years when I have talked to other developers, many of them have heard about the term domain-driven design, but they do not know what it means. In this article series, I am going to give a brief introduction to domain-driven design as I see and understand it. The content is very much based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon*. However, I have tried to explain everything in my own words and also inject my own thoughts, opinions, and experiences.
 
-You will not become an expert in domain-driven design by reading my article series, but I hope it will inspire you to read more about it elsewhere. I also highly encourage you to read the books by Evans and Vernon.
+You will not become an expert in domain-driven design by reading my article series, but I hope it inspires you to read more about it elsewhere. I also highly encourage you to read the books by Evans and Vernon.
 
 Now let us get started with the first subject, namely strategic domain-driven design.
 
@@ -29,31 +31,31 @@ In the case of domain-driven design, it is the second part of the definition tha
 
 === Subdomains
 
-The domain concept is very broad and abstract. To make it more concrete and tangiable, it makes sense to split it up into smaller parts called _subdomains_. Finding these subdomains is not always an easy thing to do and if you get them wrong you can run into trouble down the road when the pieces in your puzzle all of a sudden do not fit well together.
+The domain concept is very broad and abstract. To make it more concrete and tangible, it makes sense to split it up into smaller parts called _subdomains_. Finding these subdomains is not always an easy thing to do, and if you get them wrong, you can run into trouble down the road when the pieces in your puzzle all of a sudden do not fit well together.
 
-Before you go looking for subdomains you should think about the subdomain categories. All subdomains can be divided into three categories:
+Before you go looking for subdomains, you should think about the subdomain categories. All subdomains can be divided into three categories:
 
 1. Core domains
 2. Supporting subdomains
 3. Generic subdomains
 
-No only will these categories help you to find your subdomains, they will also help you to prioritize your development efforts.
+Not only will these categories help you to find your subdomains, they will also help you to prioritize your development efforts.
 
 A *core domain* is what makes an organization special and different from other organizations. An organization cannot succeed (or even exist) without being exceptionally good in their core domain. Because the core domain is so important, it should receive the highest priority, the biggest effort and the best developers. For smaller domains you may only identify a single core domain, larger domains may have more than one. You should be prepared to implement the features of the core domain from scratch.
 
 A *supporting subdomain* is a subdomain that is necessary for the organization to succeed, but it does not fall into the core domain category. It is not generic either because it still requires some level of specialization for the organization in question. You may be able to start with an existing solution and tweak it or extend it to your specific needs.
 
-A *generic subdomain* is a subdomain that does not contain anything special to the organization, but is still needed for the overall solution to work. You can save a lot of time and work by trying to use off-the-shelf software for your generic subdomains. A typical example would be user identity management.
+A *generic subdomain* is a subdomain that does not contain anything special to the organization but is still needed for the overall solution to work. You can save a lot of time and work by trying to use off-the-shelf software for your generic subdomains. A typical example would be user identity management.
 
 It is worth noting that the same subdomain can fall into different categories depending on what the organization does. For a company that specializes in identity management, identity management is a core domain. However, for a company that specializes in customer relations management, identity management is a generic subdomain.
 
-Finally it is worth pointing out that all subdomains are important to the overall solution regardless of which category they fall in. They do, however, require different amounts of effort and may also have different requirements of quality and completeness.
+Finally, it is worth pointing out that all subdomains are important to the overall solution regardless of the category in which they fall. They do, however, require different amounts of effort and may also have different requirements of quality and completeness.
 
 ==== Example
 
 Let's say we are building an EMR (Electronic Medical Records) system for smaller clinics. We have identified the following subdomains:
 
-1. *Patient Records* for managing patient medical records (person information, medical history, etc).
+1. *Patient Records* for managing patient medical records (personal information, medical history, etc.).
 2. *Lab* for ordering lab tests and managing test results.
 3. *Scheduling* for scheduling appointments.
 4. *File Archive* for storing and managing files that are attached to the patient records (such as different documents, X-ray pictures, scanned paper documents).
@@ -63,7 +65,7 @@ Now, how would we classify these subdomains? The most obvious ones are *file arc
 
 image::subdomains.png[Example subdomains]
 
-Since we are building an EMR system, it is pretty safe to assume that *patient records* is a core domain. If we are going to take the market by making a system that will make all the clinics work more efficiently through clever and innovative scheduling, then *scheduling* is probably also a core domain. Otherwise, it is a supporting subdomain, maybe built on top of some existing scheduling engine. The same reasoning can be applied to the *lab* subdomain: if a significant part of our business case is a seamless integration between patient records and the lab, then lab is most likely a core domain. Otherwise, it is a supporting subdomain.
+Since we are building an EMR system, it is pretty safe to assume that *patient records* is a core domain. If we are going to take the market by making a system that makes all the clinics work more efficiently through clever and innovative scheduling, then *scheduling* is probably also a core domain. Otherwise, it is a supporting subdomain, maybe built on top of some existing scheduling engine. The same reasoning can be applied to the *lab* subdomain: if a significant part of our business case is a seamless integration between patient records and the lab, then lab is most likely a core domain. Otherwise, it is a supporting subdomain.
 
 == From Problems to Solutions
 
@@ -73,27 +75,27 @@ The solution space concentrates on _how_ the problems in the problem space are g
 
 == The Ubiquitous Language
 
-To be able to create software for a domain, you need a way of describing the domain. Having a relational data model or something similar is not enough. You need to be able to not only describe things and their relations but also the dynamics such as events, processes, business invariants, how things change over time, and so on. You need to be able to discuss and reason about the domain with both your fellow developers and also the domain experts. What you need is a _ubiquitous language_.
+To be able to create software for a domain, you need a way of describing the domain. Having a relational data model or something similar is not enough. You need to be able to describe not only things and their relations but also the dynamics such as events, processes, business invariants, how things change over time, and so on. You need to be able to discuss and reason about the domain with both your fellow developers and also the domain experts. What you need is a _ubiquitous language_.
 
-The ubiquitous language is a language that is consistently used by both domain experts and developers to describe and discuss the domain. Apart from the code itself, this language is the most important deliverable of a domain driven design process. A big part of the language is domain terminology already being used by domain experts, but you may also need to invent new concepts and processes in cooperation with the domain experts. Because of this, *active particpation* from the domain experts is absolutely essential for domain driven design to succeed. If the customer is not intereted in putting in the time and effort to teach your their domain and help you create a ubiquitous language, you should either try to convince the customer to change their mind or pick another design method.
+The ubiquitous language is a language that is consistently used by both domain experts and developers to describe and discuss the domain. Apart from the code itself, this language is the most important deliverable of a domain-driven design process. A big part of the language is domain terminology already being used by domain experts, but you may also need to invent new concepts and processes in cooperation with the domain experts. Because of this, *active participation* from the domain experts is absolutely essential for domain driven design to succeed. If the customer is not interested in putting in the time and effort to teach your their domain and help you create a ubiquitous language, you should either try to convince the customer to change their mind or pick another design method.
 
-You can document the ubiquitous language in various ways. A good starting point is to create a glossary of terms. Business processes can be described graphically using e.g. swimlane diagrams and flow charts. UML can be used to describe the relationship between things and state diagrams to describe how state changes as differnet things move through different processes. The subdomains are also a part of the ubiquitous language and you may even need to define different "dialects" of the language for different subdomains. This embodiment of the ubiquitous language is the *domain model* and it will eventually be transformed into working code. In other words, the domain model is _not_ the same as a data model or a UML class diagram.
+You can document the ubiquitous language in various ways. A good starting point is to create a glossary of terms. Business processes can be described graphically using e.g. swimlane diagrams and flow charts. UML can be used to describe the relationship between things and state diagrams to describe how state changes as different things move through different processes. The subdomains are also a part of the ubiquitous language, and you may even need to define different "dialects" of the language for different subdomains. This embodiment of the ubiquitous language is the *domain model*, and it will eventually be transformed into working code. In other words, the domain model is _not_ the same as a data model or a UML class diagram.
 
-The ubiquitous language has a nice feature and that is that it tells you whether you are on the right track or not. If you can easily explain a business concept or process using the language, it means you are on the right track. If you, on the other hand, find your self struggeling to explain something, you are most likely missing something from the language and thereby also from your domain model. When this happens you should grab a domain expert and go looking for the missing pieces. You may even stumble upon a revelation that turns your existing model completely upside-down and results in a far superiour domain model than you had before.
+The ubiquitous language has a nice feature, and that is that it tells you whether you are on the right track or not. If you can easily explain a business concept or process using the language, it means you are on the right track. If you, on the other hand, find your self struggling to explain something, you are most likely missing something from the language and thereby also from your domain model. When this happens, you should grab a domain expert and go looking for the missing pieces. You may even stumble upon a revelation that turns your existing model completely upside-down and results in a far superior domain model than the one you had before.
 
 == Introducing Bounded Contexts
 
-In a perfect world, there would be only one ubiquitous language and one model that would explain everything about a single domain. Unfortunately this is not the case, save for very small and simple domains. Business processes may overlap or even conflict. The same word may mean different things or different words may mean the same thing in different contexts. There may be (and often are) more than one way to solve a problem in the problem space, depending on how you view it.
+In a perfect world, there would be only one ubiquitous language and one model that would explain everything about a single domain. Unfortunately, this is not the case, save for very small and simple domains. Business processes may overlap or even conflict. The same word may mean different things or different words may mean the same thing in different contexts. There may be (and often are) more than one way to solve a problem in the problem space, depending on how you view it.
 
 Instead of trying to find the Big Unified Model, we choose to accept the facts and instead introduce something called *bounded contexts*. A bounded context is a distinct part of the domain in which *a particular subset or dialect of the ubiquitous language is consistent at all times*. In other words, we are applying divide and conquer and splitting the domain model up into smaller, more or less independent models with clearly defined boundaries. Every bounded context has its own name and this name is a part of the ubiquitous language.
 
 There is not necessarily a one-to-one mapping between bounded contexts and subdomains. Since a bounded context belongs to the solution space and a subdomain to the problem space, you should think about the bounded context as one alternative solution among many possible solutions. Thus a single subdomain can contain multiple bounded contexts. You may also find yourself in a situation where a single bounded context spans multiple subdomains. There is no rule against this, but it is an indication that you may need to rethink your subdomains or context boundaries.
 
-Personally I like to think about bounded contexts as separate systems (e.g. separate executable JARs or deployable WARs in the Java world). A perfect real-world exampe of this is _micro-services_, where each micro-service can be considered its own bounded context. However, this does not mean you have to implement all your bounded contexts as micro-services. A bounded context could also be a separate subsystem inside a single monolithic system.
+Personally, I like to think about bounded contexts as separate systems (e.g. separate executable JARs or deployable WARs in the Java world). A perfect real-world example of this is _micro-services_, where each micro-service can be considered its own bounded context. However, this does not mean you have to implement all your bounded contexts as micro-services. A bounded context could also be a separate subsystem inside a single monolithic system.
 
 === Example
 
-Let's revisit the EMR system in the previous example and more specifically the *patient records* core domain. What kind of bounded contexts could we find there? Now I am no expert on health care software so I will just make up some, but hopefully you will get the idea.
+Let's revisit the EMR system in the previous example and more specifically the *patient records* core domain. What kind of bounded contexts could we find there? Now I am no expert on health care software so I will just make up some, but hopefully, you will get the idea.
 
 The system supports services for both doctor appointments and physiotherapy. In addition, there is a separate onboarding process for new patients where they are interviewed, photographed and given an initial assessment. This leads to the following bounded contexts within the core domain:
 
@@ -104,17 +106,17 @@ image::contexts.png[Example bounded contexts]
 3. *Medical Exams* used by doctors when examining and treating the patient.
 4. *Physiotherapy* used by physiotherapists when examining and treating the patient.
 
-In a very simple system you probably would squeeze everything into a single context, but this EMR is more advanced and provides streamlined and optimized features for each type of service that is provided. However, we are still within the same core subdomain.
+In a very simple system, you probably would squeeze everything into a single context, but this EMR is more advanced and provides streamlined and optimized features for each type of service that is provided. However, we are still within the same core subdomain.
 
 == Relationships Between Contexts
 
-In a non-trivial system, very few (if any) bounded contexts are completely independent. Most contexts will have some kind of relationship with other contexts. Identifying these relationships is of importance not only techncially (how will the systems technically communitate with each other) but also to how they are developed (how will the teams that develop the systems communicate with each other).
+In a non-trivial system, very few (if any) bounded contexts are completely independent. Most contexts will have some kind of relationship with other contexts. Identifying these relationships is of importance not only technically (how will the systems technically communitate with each other) but also to how they are developed (how will the teams that develop the systems communicate with each other).
 
-The simples way to identify relationships between bounded contexts is to classify the contexts as *upstream contexts* and *downstream contexts*. Think of the contexts as cities next to a river. The cities upstream dump stuff into the river, which reaches the cities downstream. Some of the stuff is essential to the downstream cities and so they retrieve it from the river. Other stuff is harmful and can do direct damage to the downstream cities ("sh*t rolls downhill").
+The simplest way to identify relationships between bounded contexts is to classify the contexts as *upstream contexts* and *downstream contexts*. Think of the contexts as cities next to a river. The cities upstream dump stuff into the river, which reaches the cities downstream. Some of the stuff is essential to the downstream cities, and so they retrieve it from the river. Other stuff is harmful and can do direct damage to the downstream cities ("sh*t rolls downhill").
 
-Being upstream or downstream has its pros and cons. An upstream context does not depend on any other contexts, which in a way makes it free to evolve in any direction. However, the consequences of any changes may be severe in downstream contexts and this may in turn impose restrictions on the upstream context. A downstream context is restricted by its dependency on an upstream context, but does not need to worry about breaking other contexts further downstream, which in a way gives the developers of the downstream context freer hands than the developers of the upstream context.
+Being upstream or downstream has its pros and cons. An upstream context does not depend on any other contexts, which in a way makes it free to evolve in any direction. However, the consequences of any changes may be severe in downstream contexts and this may, in turn, impose restrictions on the upstream context. A downstream context is restricted by its dependency on an upstream context but does not need to worry about breaking other contexts further downstream, which in a way gives the developers of the downstream context freer hands than the developers of the upstream context.
 
-You can describe the relatioships graphically by using a dependency diagram where arrows point from the downstream contexts to the upstream contexts, or by using the U and D roles.
+You can describe the relationships graphically by using a dependency diagram where arrows point from the downstream contexts to the upstream contexts, or by using the U and D roles.
 
 image::context_relationships.png[Different ways of documenting context relationships graphically]
 
@@ -125,9 +127,9 @@ Finally keep in mind that a context can be both an upstream context and a downst
 Once we know what our contexts are and how they are related, we have to decide how to integrate them. This involves several important questions:
 
 1. Where are the context boundaries?
-2. How are the contexts going to communicate tehnically?
+2. How are the contexts going to communicate technically?
 3. How are we going to map between the contexts' domain models (i.e. how are we translating from one ubiquitous language to another)?
-4. How are we going to guard against unwanted or problematic changes occuring upstream?
+4. How are we going to guard against unwanted or problematic changes occurring upstream?
 5. How are we going to avoid causing trouble for downstream contexts?
 
 The answers to these questions will be compiled into a *context map*. The context map can be documented graphically like this:
@@ -138,15 +140,15 @@ To make it easier to create the context map, there are a set of ready-made integ
 
 === Partnership
 
-The teams of both contexts cooperate. The interfaces - whatever they are - evolve so that they accommodate the development needs of both contexts. Interdependent features are properly planned and scheduled so that they cause as little harm as possibe to both teams.
+The teams of both contexts cooperate. The interfaces - whatever they are - evolve so that they accommodate the development needs of both contexts. Interdependent features are properly planned and scheduled so that they cause as little harm as possible to both teams.
 
 === Shared Kernel
 
-Both contexts share a common code base which is the kernel. The kernel can be modified by any of the teams, but not without consulting the other team first. To make sure no unintended side effects are introduced, continous integration (with automatic testing) is required. To keep things as simple as possible, the shared kernel should be kept as small as possible. If a lot of model code ends up in the shared kernel, it may be a sign that the contexts should in fact be merged into one big context.
+Both contexts share a common code base which is the kernel. The kernel can be modified by any of the teams, but not without consulting the other team first. To make sure no unintended side effects are introduced, continuous integration (with automatic testing) is required. To keep things as simple as possible, the shared kernel should be kept as small as possible. If a lot of model code ends up in the shared kernel, it may be a sign that the contexts should, in fact, be merged into one big context.
 
 === Customer-Supplier
 
-The contexts are in an upstream-downstream relationship and this relationship is formalized such that the upstream team is the *supplier* and the downstream team is the *customer*. Thus, even though both teams can work more or less independently on their systems, the upstream team (supplier) is required to take the downstream team's (customer) needs into account.
+The contexts are in an upstream-downstream relationship, and this relationship is formalized such that the upstream team is the *supplier* and the downstream team is the *customer*. Thus, even though both teams can work more or less independently on their systems, the upstream team (supplier) is required to take the downstream team's (customer) needs into account.
 
 === Conformist
 
@@ -154,7 +156,7 @@ The contexts are in an upstream-downstream relationship. However, the upstream t
 
 === Anticorruption Layer
 
-The contexts are in an upstream-downstream relationship and the upstream team does not care about the downstream team's needs. However, instead of conforming to the upstream model, the downstream team decides to create an abstraction layer that protects the downstream context from changes in the upstream context. This anticorruption layer lets the downstream team work with a domain model that suits their needs the most, while still integrating with the upstream context. When the upstream context changes, the anticorruption layer must also change, but the rest of the downstream context can remain unchanged. It may be a good idea to combine this strategy with continuous integration where automatic tests are used to detect changes in the upstream interface.
+The contexts are in an upstream-downstream relationship and the upstream team does not care about the downstream team's needs. However, instead of conforming to the upstream model, the downstream team decides to create an abstraction layer that protects the downstream context from changes in the upstream context. This anticorruption layer lets the downstream teamwork with a domain model that suits their needs the most, while still integrating with the upstream context. When the upstream context changes, the anticorruption layer must also change, but the rest of the downstream context can remain unchanged. It may be a good idea to combine this strategy with continuous integration where automated tests are used to detect changes in the upstream interface.
 
 === Open Host Service
 
@@ -176,16 +178,16 @@ This integration pattern is special in that it does not perform any integration 
 
 I believe strategic domain-driven design was originally meant for larger projects but I think you can benefit from it also in smaller projects - even if you end up not using any other parts of DDD in the project.
 
-For me personally, the major take-aways from strategic domain-driven design are the following:
+For me personally, the major takeaways from strategic domain-driven design are the following:
 
-1. It introduces boundaries. Scope creep is a constant factor in all of my hobby projects. Eventually they become more exhaustive than fun to work on or completely unrealistic to finish alone. When working on customer projects, I have to work hard not to cause technical scope creep by overthinking or overengineering things. Boundaries - wherever they are - help me to divide the project into smaller parts and focus on the right ones at the right time.
+1. It introduces boundaries. Scope creep is a constant factor in all of my hobby projects. Eventually, they become more exhaustive than fun to work on or completely unrealistic to finish alone. When working on customer projects, I have to work hard not to cause technical scope creep by overthinking or overengineering things. Boundaries - wherever they are - help me to divide the project into smaller parts and focus on the right ones at the right time.
 
 2. It does not require me to find a super-model that works in all cases. It recognizes that in the real world, there are often many smaller models in more or less clearly defined contexts. Instead of breaking these models, it embraces them.
 
-3. It helps you to think about the value your system is going to bring and where you should put the most of your efforts to get the biggest value. I have personal experience from projects where properly identifying and then concentrating on the core domain would have made a huge difference. Unfortunately I had not yet heard about strategic DDD and both time and money was wasted.
+3. It helps you to think about the value your system is going to bring and where you should put the most of your efforts to get the biggest value. I have personal experience from projects where properly identifying and then concentrating on the core domain would have made a huge difference. Unfortunately, I had not yet heard about strategic DDD and both time and money were wasted.
 
-I also know myself good enough to identify a risk with this approach: finding subdomains and bounded contexts for the sake of finding subdomains and bounded contexts. When I learn something new that I like, I very much want to try it out in the real world. That may sometimes mean I go looking for things that are not there. My suggestion here is to always start with *one core domain* and *one bounded context*. I you do the domain modeling carefully, additional subdomains and bounded contexts will eventually reveal themselves if they exist.
+I also know myself good enough to identify risks with this approach: finding subdomains and bounded contexts for the sake of finding subdomains and bounded contexts. When I learn something new that I like, I very much want to try it out in the real world. That may sometimes mean I go looking for things that are not there. My suggestion here is to always start with *one core domain* and *one bounded context*. I do the domain modeling carefully, additional subdomains and bounded contexts will eventually reveal themselves if they exist.
 
 == Next: Tactical Domain-Driven Design
 
-In the next article in this series, we are going to look at tactical domain-driven design. You will learn about the building blocks you can use to transform your bounded contexts into implementable designs. These building blocks will also aid you in creating the domain model and the ubiquitous langauge.
+In the next article in this series, we are going to look at tactical domain-driven design. You will learn about the building blocks you can use to transform your bounded contexts into implementable designs. These building blocks will also aid you in creating the domain model and the ubiquitous language.

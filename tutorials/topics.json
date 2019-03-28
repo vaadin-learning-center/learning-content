@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ui-development",
+    "title": "UI Development",
+    "description": "Any UI related tutorials that don't fit the more specific topics",
+    "icon": "vc-icons:ux-consulting-layout"
+  },
+  {
+    "id": "backend",
+    "title": "Backend",
+    "description": "Any backend only related tutorials",
+    "icon": "vc-icons:ux-consulting-system"
+  },
+  {
+    "id": "integration",
+    "title": "Integration",
+    "description": "",
+    "icon": "vc-icons:commits2"
+  },
+  {
+    "id": "best-practices",
+    "title": "Best practices",
+    "description": "",
+    "icon": "vc-icons:ux-consulting-review"
+  },
+  {
+    "id": "security",
+    "title": "Security",
+    "description": "",
+    "icon": "vc-icons:ux-consulting-system"
+  },
+  {
+    "id": "test-and-performance",
+    "title": "Testing and performance",
+    "description": "",
+    "icon": "vc-product-icons:testbench-small"
+  },
+  {
+    "id": "deployment",
+    "title": "Deployment",
+    "description": "",
+    "icon": "vc-icons:consulting-turn-key"
+  },
+  {
+    "id": "migration",
+    "title": "Migration",
+    "description": "",
+    "icon": "vc-icons:consulting-migration"
+  },
+  {
+    "id": "howtos",
+    "title": "Howtos",
+    "description": "",
+    "icon": "vc-icons:ux-consulting-review"
+  },
+  {
+    "id": "internationalization",
+    "title": "Internationalization [i18n]",
+    "description": "All about internationalization",
+    "icon": "vc-icons:checklist"
+  }
+]

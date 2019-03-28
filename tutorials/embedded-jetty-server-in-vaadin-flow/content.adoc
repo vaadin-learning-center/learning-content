@@ -1,0 +1,169 @@
+= Embedded Jetty Server in Vaadin Flow
+
+:tags: Flow, Deploy, Java
+:author: A.Mahdy Abdelaziz
+:description: Learn how to embed Jetty server into a Vaadin Flow application. 
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+:repo: https://github.com/amahdy/vaadin-flow-light
+
+This tutorial will teach you how to embed a Jetty server into your Vaadin Flow application. If you want to get started directly, you can download this https://github.com/alejandro-du/embedded-jetty-demo[demo] and use it directly. In this tutorial we will go over the steps in details to deploy your existing Vaadin application with a Jetty server embedded into the Jar file. Not to confuse this with Spring Boot, we will not use Spring, but the build will produce a Jar file instead of a War.
+
+In this tutorial, I will use the https://vaadin.com/start/latest/simple-ui[simple app] as a reference. Your application should be more or less similar.
+
+First make sure that the application deploys and works with no errors, using traditional methods such as `mvn jetty:run`.
+
+== Create the main class
+
+We will need a runner class with the main method, so let's start by creating a class `App.java` with the following content:
+
+[source,java]
+----
+public class App {
+  public static void main(String[] args) throws Exception {
+
+  }
+}
+----
+
+== Update pom.xml
+
+Few changes are needed in the `pom.xml` file as follows:
+
+=== Packaging
+
+Change the packaging from `war` to `jar`:
+
+[source,xml]
+----
+<packaging>jar</packaging>
+----
+
+=== Dependencies
+
+In the `<dependencies>` add the Jetty server as a dependency as well as other needed Jetty dependencies:
+
+[source,xml]
+----
+<dependency>
+  <groupId>org.eclipse.jetty</groupId>
+  <artifactId>jetty-continuation</artifactId>
+  <version>${jetty.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.eclipse.jetty</groupId>
+  <artifactId>jetty-server</artifactId>
+  <version>${jetty.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.eclipse.jetty.websocket</groupId>
+  <artifactId>websocket-server</artifactId>
+  <version>${jetty.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.eclipse.jetty.websocket</groupId>
+  <artifactId>javax-websocket-server-impl</artifactId>
+  <version>${jetty.version}</version>
+</dependency>
+----
+
+=== Build plugins
+
+In the `<plugins>` section of the `<build>`, remove the `jetty-maven-plugin` if it exists, and replace it with the `maven-assembly-plugin`:
+
+[source,xml]
+----
+<plugin>
+  <artifactId>maven-assembly-plugin</artifactId>
+  <configuration>
+    <archive>
+      <manifest>
+        <mainClass>org.vaadin.flow.light.App</mainClass>
+      </manifest>
+    </archive>
+    <descriptorRefs>
+      <descriptorRef>jar-with-dependencies</descriptorRef>
+    </descriptorRefs>
+  </configuration>
+  <executions>
+    <execution>
+      <id>make-assembly</id> 
+      <phase>package</phase>
+      <goals>
+        <goal>single</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+----
+
+This plugin will build the final Jar file with all dependencies included so that we won't need classpath or any external libraries.
+
+NOTE: Notice the value of `mainClass`, this is the full path of the main class file created earlier that will be responsible for running the Jar file.
+
+=== Build resources
+
+We also need to define the resources directory to expose them to the front-end. In the `<build>` section add:
+
+[source,xml]
+----
+<resources>
+  <resource>
+    <directory>src/main</directory>
+    <filtering>true</filtering>
+  </resource>
+</resources>
+----
+
+Where `src/main` is the location of the `webapp` folder that has the front-end resources.
+
+== Server configruation
+
+Now let's write some Java code responsible about running the server in the `App.java`. In the `main` method, define the web root URI pointing to the `webapp` folder.
+
+[source,java]
+----
+URL webRootLocation = App.class.getResource("/webapp/");
+URI webRootUri = webRootLocation.toURI();
+----
+
+As explained in the *Build resources* section, the above code means that `webapp` is located under `src/main`.
+
+Followed by some boilerplate code responsible about defining the web app context, the server, and actually starting it:
+
+[source,java]
+----
+WebAppContext context = new WebAppContext();
+context.setBaseResource(Resource.newResource(webRootUri));
+context.setContextPath("/");
+context.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*");
+context.setConfigurationDiscovered(true);
+context.setConfigurations(new Configuration[]{
+  new AnnotationConfiguration(),
+  new WebInfConfiguration(),
+  new WebXmlConfiguration(),
+  new MetaInfConfiguration()
+});
+context.getServletContext().setExtendedListenerTypes(true);
+context.addEventListener(new ServletContextListeners());
+
+Server server = new Server(8080);
+server.setHandler(context);
+server.start();
+server.join();
+----
+
+The highlights from the previous code are `context.setContextPath("/");` which should be changed to the context from which your which to serve your web application, and the server port of your choice `Server server = new Server(8080);`. They can be taken as parameters during initialization as well.
+
+== Running the application
+
+A fresh `mvn clean package` should produce two Jar files in the `target` folder. The file with everything embedded ends with `<app-name>-jar-with-dependencies.jar`. Let's run this file and test our work so far:
+
+[source,bash]
+----
+java -jar target/vaadin-flow-light-1.0-SNAPSHOT-jar-with-dependencies.jar 
+----
+
+== Optimization
+
+Embedding everything under one Jar file can be useful in many cases, but sometimes we need to optimize and remove unneeded dependencies that might make the final file big. In this tutorial I've provided the minimal dependencies needed to get the application to work, so feel free to remove from `pom.xml` file any dependency or profile that you don't think you will need in the application. Here is a https://github.com/amahdy/vaadin-flow-light[demo light version] of Vaadin Flow as explained in this tutorial. Also, https://github.com/amahdy/vaadin-light[older version] is available for Vaadin 7 and 8.

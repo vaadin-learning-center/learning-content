@@ -1,30 +1,32 @@
 = Tactical Domain-Driven Design
 
 :title: Tactical Domain-Driven Design
-:author: Petter Holmström
-:description: Learn about the building blocks of tactical domain-driven design and how you can use them to design and implement a rich domain model for your project.
+:type: text
 :tags: domain-driven design, ddd, java
+:description: Learn about the building blocks of tactical domain-driven design and how you can use them to design and implement a rich domain model for your project.
+:repo:
+:linkattrs:
 :imagesdir: ./images
 
-In this article we are going to learn about tactical domain-driven design. Tactical DDD is a set of design patterns and building blocks that you can use to design domain-driven systems. Even for projects that are not domain-driven, you can benefit from using some of the tactical DDD patterns.
+In this article, we are going to learn about tactical domain-driven design. Tactical DDD is a set of design patterns and building blocks that you can use to design domain-driven systems. Even for projects that are not domain-driven, you can benefit from using some of the tactical DDD patterns.
 
 Compared to strategic domain-driven design, tactical design is much more hands-on and closer to the actual code. Strategic design deals with abstract wholes whereas tactical design deals with classes and modules. The purpose of tactical design is to refine the domain model to a stage where it can be converted into working code.
 
-Design is an iterative process and so it makes sense to combine strategic and tactical design. You start with strategic design, followed by tactical design. The biggest domain model design relevations and breakthroughs will likely happen during tactical design and this in turn can affect the strategic design and so you repeat the process.
+Design is an iterative process and so it makes sense to combine strategic and tactical design. You start with strategic design, followed by tactical design. The biggest domain model design revelations and breakthroughs will likely happen during tactical design and this, in turn, can affect the strategic design and so you repeat the process.
 
-Again, the content is very much based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon* and I highly recommend you to read both of them. Like in the previous article, I have chosen to explain as much as possible in my own words, injecting my own ideas, thoughts and experiences where appropriate.
+Again, the content is very much based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon* and I highly recommend you to read both of them. Like in the previous article, I have chosen to explain as much as possible in my own words, injecting my own ideas, thoughts, and experiences where appropriate.
 
-With this short introduction, it is time to bring out the tactical DDD toolbox and have a look at what is in side.
+With this short introduction, it is time to bring out the tactical DDD toolbox and have a look at what is inside.
 
 == Value Objects
 
-One of the most important concepts in tactical DDD is the *value object*. This is also the DDD building block that I use the most in non-DDD projects and I hope that after reading this, you will too.
+One of the most important concepts in tactical DDD is the *value object*. This is also the DDD building block that I use the most in non-DDD projects, and I hope that after reading this, you will too.
 
-A value object is an object whose value is of importance. This means that two value objects with the exact same value can be considered the same value object and are thus interchangable. For this reason, value objects should always be made _immutable_. Instead of changing the state of the value object, you replace it with a new instance. For complex value objects, consider using the _builder_ or _essence_ pattern.
+A value object is an object whose value is of importance. This means that two value objects with the exact same value can be considered the same value object and are thus interchangeable. For this reason, value objects should always be made _immutable_. Instead of changing the state of the value object, you replace it with a new instance. For complex value objects, consider using the _builder_ or _essence_ pattern.
 
-Value objects are not only containers of data - they can also contain business logic. The fact that the value objects are also immutable makes the business operations both thread-safe and side-effect free. This is one of the reasons I like value objects so much and why you should try to model as many of your domain concepts as possible as value objects. Also try to make the value objects as small and as coherent as possible - this makes them easier to maintain and reuse.
+Value objects are not only containers of data - they can also contain business logic. The fact that the value objects are also immutable makes the business operations both thread-safe and side-effect free. This is one of the reasons I like value objects so much and why you should try to model as many of your domain concepts as possible as value objects. Also, try to make the value objects as small and as coherent as possible - this makes them easier to maintain and reuse.
 
-A good starting point for making value objects is to take all single-value properties that actually have a business meaning and wrapping them as value objects. For example:
+A good starting point for making value objects is to take all single-value properties that have a business meaning and wrapping them as value objects. For example:
 
 * Instead of using a `BigDecimal` for monetary values, use a `Money` value object that wraps a `BigDecimal`. If you are dealing with more than one currency, you may want to create a `Currency` value object as well and make your `Money` object wrap a `BigDecimal`-`Currency` pair.
 * Instead of using strings for phone numbers and e-mail addresses, use `PhoneNumber` and `EmailAddress` value objects that wrap strings.
@@ -144,32 +146,32 @@ public class StreetAddress implements Serializable, Comparable<StreetAddress> {
 
 == Entities
 
-The second important concept in tactical DDD and the sibling to value objects is the *entity*. An entity is an object whose _identity_ is of importance. To be able to determine the identity of an entity, every entity has a unique _ID_ that is assigned when the entity is created and remains unchainged througout the lifespan of the entity.
+The second important concept in tactical DDD and the sibling to value objects is the *entity*. An entity is an object whose _identity_ is of importance. To be able to determine the identity of an entity, every entity has a unique _ID_ that is assigned when the entity is created and remains unchanged throughout the lifespan of the entity.
 
 Two entities of the same type and with the same ID are considered the same entity even if all other properties differ. Likewise, two entities of the same type and with the same properties but different IDs are considered different entities, just like two individuals with the same name are not considered the same.
 
-As opposed to value objects, entities are mutable. However, that does not mean you should create setter methods for every property. Try to model all state altering operations as verbs that correspond to business operations. A setter will only tell you what property you are changing but not why. For example: let's say you have an `EmploymentContract` entity and it has an `endDate` property. Employment contracts may end because they were only temporary to begin with, because of an internal transfer from one company branch to another, because the employee resigned or because the employer fired the employee. In all of these cases, the `endDate` is altered but for very different reasons. In addition, there may be other actions that needs to be taken depending on why the contract was ended. A `terminateContract(reason, finalDay)` method already tells alot more than just a `setEndDate(finalDay)` method.
+As opposed to value objects, entities are mutable. However, that does not mean you should create setter methods for every property. Try to model all state altering operations as verbs that correspond to business operations. A setter will only tell you what property you are changing but not why. For example: let's say you have an `EmploymentContract` entity and it has an `endDate` property. Employment contracts may end because they were only temporary, to begin with, because of an internal transfer from one company branch to another, because the employee resigned or because the employer fired the employee. In all of these cases, the `endDate` is altered but for very different reasons. In addition, there may be other actions that needs to be taken depending on why the contract was ended. A `terminateContract(reason, finalDay)` method already tells a lot more than just a `setEndDate(finalDay)` method.
 
 That said, setters still have their place in DDD. In the above example, there could be a private `setEndDate(..)` method that makes sure the end date is after the start date before setting it. This setter would be used by the other entity methods but not exposed to the outside world. For master- and reference data and for properties that describe an entity without altering its business state, it makes more sense to use setters than to try to tweak the operations into verbs. A method called `setDescription(..)` is arguably more readable than `describe(..)`.
 
-I am going to illustrate this with yet another example. Let us say you have a `Person` entity that represents, well, a person. The person has a `firstName` and a `lastName` property. Now, if this was just a simple address book, you would let the user change this information as needed and you could use the setters `setFirstName(..)` and `setLastName(..)`. However, if you are building an official government register of citizens, changing a name is more involved. You would could end up with something like `changeName(firstName, lastName, reason, effectiveAsOfDate)`. Again, context is everything.
+I am going to illustrate this with yet another example. Let us say you have a `Person` entity that represents, well, a person. The person has a `firstName` and a `lastName` property. Now, if this was just a simple address book, you would let the user change this information as needed and you could use the setters `setFirstName(..)` and `setLastName(..)`. However, if you are building an official government register of citizens, changing a name is more involved. You could end up with something like `changeName(firstName, lastName, reason, effectiveAsOfDate)`. Again, context is everything.
 
 .A Note on Getters
 ****
-Getter methods where introduced into Java as a part of the JavaBean specification. This specification was not present in the first version of Java, which is why you can find some methods that does not conform to it in the standard Java API (for example: `String.length()` as opposed to `String.getLength()`).
+Getter methods where introduced into Java as a part of the JavaBean specification. This specification was not present in the first version of Java, which is why you can find some methods that do not conform to it in the standard Java API (for example `String.length()` as opposed to `String.getLength()`).
 
 For me personally, I would like to see support for real properties in Java. Even though they could be using getters and setters behind the scenes, I would like to access a property value in the same way as if it was just an ordinary field: `mycontact.phoneNumber`. We cannot do that in Java yet, but we can get pretty close by leaving out the `get` suffix from our getters. In my opinion, this makes the code more fluent, especially if you need to go deeper into an object hierarchy to fetch something: `mycontact.address().streetNumber()`.
 
-However, there is also a downside of getting rid of the getters and that is tooling support. All Java IDEs and many libraries rely on the JavaBean standard which means you may end up manually writing code that could have been auto-generated for you and adding annotations that could have been avoided by sticking to the conventions.
+However, there is also a downside of getting rid of the getters, and that is tooling support. All Java IDEs and many libraries rely on the JavaBean standard which means you may end up manually writing code that could have been auto-generated for you and adding annotations that could have been avoided by sticking to the conventions.
 ****
 
 === Entity or Value Object?
 
-Knowing whether to model something as a value object or as an entity is not always easy. The exact same real-world concept can be modeled as an entity in one context and as a value object in another. Let us take the street address as an example.
+Is not always easy to know whether to model something as a value object or as an entity. The exact same real-world concept can be modeled as an entity in one context and as a value object in another. Let us take the street address as an example.
 
 If you are building an invoice system, the street address is just something you print on the invoice. It does not matter what object instance is used as long as the text on the invoice is correct. In this case, the street address is a value object.
 
-If you are building a system for a public utility, you need to know exactly what gas line or what electricity line goes into a given apartment. In this case, the street address is an entity and it may even be split up into smaller entities like building or appartment. 
+If you are building a system for a public utility, you need to know exactly what gas line or what electricity line goes into a given apartment. In this case, the street address is an entity and it may even be split up into smaller entities like building or apartment. 
 
 Value objects are easier to work with because they are immutable and small. Therefore, you should aim for a design with few entities and many value objects.
 
@@ -240,30 +242,30 @@ We have now come to a point where it is appropriate to address the question abou
 image::crud.png[Example of a CRUD user interface]
 
 * The main view consists of a grid, maybe with filtering and sorting, where you can look for entities (*retrieve*).
-* In the main view, there is a button for creating new entities. Clicking the button will bring up an empty form and when the form has been submitted, the new entity shows up in the grid (*create*).
-* In the main view, there is a button for editing the selected entity. Clicking the button will bring up a form containing the entity data and when the form has been submitted, the entity has been updated with the new information (*update*).
-* In the main view, there is a button for deleting the selected entity. Clicking the button will delete the entity from the grid (*delete*).
+* In the main view, there is a button for creating new entities. Clicking the button brings up an empty form and when the form is submitted, the new entity shows up in the grid (*create*).
+* In the main view, there is a button for editing the selected entity. Clicking the button brings up a form containing the entity data. When the form is submitted, the entity is updated with the new information (*update*).
+* In the main view, there is a button for deleting the selected entity. Clicking the button deletes the entity from the grid (*delete*).
 
-This pattern certainly has its place, but should _be the exception rather than the norm_ in a domain-driven application. The reason is the following: A CRUD application is only about structuring, displaying and editing data. It normally does not support the underlying business process. When a user enters something into the system, changes something or removes something, there is a business reason behind that decision. Maybe the change is happening as a part of a larger business process? In a CRUD system, the reason for a change is lost and the business process is in the head of the user.
+This pattern certainly has its place but should _be the exception rather than the norm_ in a domain-driven application. The reason is the following: A CRUD application is only about structuring, displaying and editing data. It normally does not support the underlying business process. When a user enters something into the system, changes something or removes something, there is a business reason behind that decision. Maybe the change is happening as a part of a larger business process? In a CRUD system, the reason for a change is lost and the business process is in the head of the user.
 
-A true domain-driven user interface will be based on actions that are themselves part of the ubiquitous language (and thereby the domain model) and the business processes are built into the system as opposed to in the heads of the users. This in turn leads to a more robust, but arguably less flexible system than a pure CRUD application. I am going to illustrate this difference with a caricatural example:
+A true domain-driven user interface will be based on actions that are themselves part of the ubiquitous language (and thereby the domain model) and the business processes are built into the system as opposed to in the heads of the users. This, in turn, leads to a more robust, but arguably less flexible system than a pure CRUD application. I am going to illustrate this difference with a caricatural example:
 
 Company A has a domain-driven system for managing employees whereas Company B has a CRUD-driven approach. An employee quits in both companies. The following happens:
 
 * Company A:
   - The manager looks up the employee's record in the system.
   - The manager selects the 'Terminate Employment Contract' action.
-  - The system asks for termination date and reason.
+  - The system asks for the termination date and reason.
   - The manager enters the needed information and clicks 'Terminate Contract'.
-  - The system automatically updates the employee records, revoces the employee's user credentials and electronic office key and sends a notification to the payroll system.
+  - The system automatically updates the employee records, revokes the employee's user credentials and electronic office key and sends a notification to the payroll system.
  * Company B:
   - The manager looks up the employee's record in the system.
   - The manager puts a check in the 'Contract terminated' checkbox and enters the termination date, then clicks 'Save'.
-  - The manager logs into the user management system, looks up the user's account, puts a check in the 'Disabled' check box and clicks 'Save'.
+  - The manager logs into the user management system, looks up the user's account, puts a check in the 'Disabled' checkbox and clicks 'Save'.
   - The manager logs into the office key management system, looks up the user's key, puts a check in the 'Disabled' check box and clicks 'Save'.
   - The manager sends an e-mail to the payroll department notifying them that the employee has quit.
 
-The key takeaways are the following: Not all applications are suitable for domain-driven design and a domain-driven application not only has a domain-driven backend but also a domain-driven user interface.
+The key takeaways are the following: Not all applications are suitable for domain-driven design, and a domain-driven application has not only a domain-driven backend but also a domain-driven user interface.
 
 ****
 
@@ -284,7 +286,7 @@ In addition, there are two important restrictions concerning aggregates:
 
 image:aggregate_references.png[Example of allowed and prohibited references between aggregates]
 
-This means that whenever you design an entity, you have to decide what kind of entity you are going to make: will the entity act as an aggregate root, or will it be what I call a _local entity_ that lives inside an aggregate and under the supervision of an aggregate root? Since local entities cannot be referenced from outside the aggregate, it is enough that their IDs are unique within the aggregate (they have _local identity_), whereas aggregate roots must have globally unique IDs (they have _global identity_). However, the importance of this semantic difference varies depending on how you choose to store the aggregate. In a relational database, it makes the most sense to use the same primary key generation mechanism for all entities. On the other hand, if the entire aggregate is saved as a single document in a document database, it makes more sense to use true local IDs for the local entities.
+This means that whenever you design an entity, you have to decide what kind of entity you are going to make: will the entity act as an aggregate root, or will it be what I call a _local entity_ that lives inside an aggregate and under the supervision of an aggregate root? Since local entities cannot be referenced from outside the aggregate, it is enough that their IDs are unique within the aggregate (they have a _local identity_), whereas aggregate roots must have globally unique IDs (they have a _global identity_). However, the importance of this semantic difference varies depending on how you choose to store the aggregate. In a relational database, it makes the most sense to use the same primary key generation mechanism for all entities. On the other hand, if the entire aggregate is saved as a single document in a document database, it makes more sense to use true local IDs for the local entities.
 
 So how do you know if an entity is an aggregate root or not? First of all, the fact that there is a parent-child (or master-detail) relationship between two entities does not automatically turn the parent into an aggregate root and the child into a local entity. More information is needed before that decision can be made. Here is how I do it:
 
@@ -301,11 +303,11 @@ Once you know you are creating an aggregate root, how do you make it enforce the
 Technically an aggregate root can enforce business invariants in different ways:
 
 * All state-altering operations are performed through the aggregate root.
-* State-altering operations on local entities is allowed, but they notify the aggregate root whenever they change.
+* State-altering operations on local entities are allowed, but they notify the aggregate root whenever they change.
 
 In some cases, for example in the example with the invoice total, the invariant could be enforced by having the aggregate root dynamically compute the total every time it is requested.
 
-I personally design my aggregates so that invariants are enforced immediately and all the time. Arguably you could achieve the same end result by introducing strict data validation that is performed before the aggregate is saved (the Java EE way). At the end of the day this is a matter of personal taste.
+I personally design my aggregates so that invariants are enforced immediately and all the time. Arguably you could achieve the same end result by introducing strict data validation that is performed before the aggregate is saved (the Java EE way). At the end of the day, this is a matter of personal taste.
 
 === Aggregate Design Guidelines
 
@@ -313,7 +315,7 @@ When designing aggregates, there are certain guidelines to follow. I choose to c
 
 ==== Guideline 1: Keep your aggregates small
 
-Aggregates are always retireved and stored as a whole. The less data you have to read and write, the better your system will perform. For the same reason you should avoid unbounded one-to-many associations (collections) since these can grow large over time.
+Aggregates are always retrieved and stored as a whole. The less data you have to read and write, the better your system will perform. For the same reason, you should avoid unbounded one-to-many associations (collections) since these can grow large over time.
 
 Having a small aggregate also makes it easier for the aggregate root to enforce the business invariants, even more so if you prefer to use value objects (immutable) instead of local entities (mutable) in your aggregates.
 
@@ -323,7 +325,7 @@ Instead of referencing another aggregate directly, create a value object that wr
 
 image:reference_by_id.png[Refer to other aggregate roots by ID]
 
-You may need to break this guideline if you really need to access the data of the other aggregate and there is no better way of solving the problem. You could rely on the persistence framework's lazy loading capabilities but in my experience they tend to cause more problems than they solve. An approach that requires more coding but is more explicit is to pass in the repository (more about those later) as a method parameter:
+You may need to break this guideline if you really need to access the data of the other aggregate and there is no better way of solving the problem. You could rely on the persistence framework's lazy loading capabilities, but in my experience, they tend to cause more problems than they solve. An approach that requires more coding but is more explicit is to pass in the repository (more about those later) as a method parameter:
 
 [source,java]
 ----
@@ -350,7 +352,7 @@ Try to design your operations so that you only make changes to one aggregate ins
 
 image:aggregate_transaction.png[Modifying two aggregates in separate transactions]
 
-However, this comes with a cost of added complexity. You need to set up an infrasturcture for reliably handling domain events. Especially in a monolithic application where you can dispatch domain events synchronously within the same thread and transaction, the added complexity is in my opinion rarely motivated. A good compromise in my opinion is to still rely on domain events for making changes to other aggregates, but to do it inside the same transaction:
+However, this comes with a cost of added complexity. You need to set up an infrastructure for reliably handling domain events. Especially in a monolithic application where you can dispatch domain events synchronously within the same thread and transaction, the added complexity is in my opinion rarely motivated. A good compromise, in my opinion, is to still rely on domain events for making changes to other aggregates, but to do it inside the same transaction:
 
 image:aggregate_shared_transaction.png[Modifying two aggregates in a single transaction]
 
@@ -362,15 +364,15 @@ We will discuss more about this later when we cover domain events.
 
 A key feature of aggregates is to enforce business invariants and ensure data consistency at all times. This is all in vain if the aggregate ends up being corrupted because of conflicting data storage updates. Therefore, you should use optimistic locking to prevent data loss when saving aggregates.
 
-The reason optimistic locking is prefered to pessimistic locking is that it is easy to implement yourself if the persistence framework does not support it out of the box and it is easy to distribute and scale.
+The reason optimistic locking is preferred to pessimistic locking is that it is easy to implement yourself if the persistence framework does not support it out of the box and it is easy to distribute and scale.
 
 Sticking to the first guideline will also help in this matter since small aggregates (and thus small transactions) reduce the risk of conflicts as well.
 
 === Aggregates, Invariants, UI Binding and Validation
 
-Some of you are probably now woundering how aggregates and enforcing business invariants work together with user interfaces and more specifically form binding. If invariants are to be enforced at all times and an aggregate must be in a consistent state at all times, what do you do while the user is filling out the forms? Furthermore, if there are no setters, how do you bind the form fields to your aggregates?
+Some of you are probably now wondering how aggregates and enforcing business invariants work together with user interfaces and more specifically form binding. If invariants are to be enforced at all times and an aggregate must be in a consistent state at all times, what do you do while the user is filling out the forms? Furthermore, if there are no setters, how do you bind the form fields to your aggregates?
 
-There are multiple way of dealing with this one. The simplest solution is to defer invariant enforcement until the aggregate is saved, add setters for all properties and bind the entities to the form directly. I personally do not like this approach since I believe it is more data-driven than domain-driven. The risk is high that the entities degrade into anemic holders of data with the business logic ending up in a service layer (or worse, in the UI).
+There are multiple ways of dealing with this one. The simplest solution is to defer invariant enforcement until the aggregate is saved, add setters for all properties and bind the entities to the form directly. I personally do not like this approach since I believe it is more data-driven than domain-driven. The risk is high that the entities degrade into anemic holders of data with the business logic ending up in a service layer (or worse, in the UI).
 
 Instead, I prefer two other approaches. The first one is to model the forms and their contents into their own domain model concepts. In the real world, if you apply for something, you often have to fill in an application form and submit it. The application is then processed and once all the necessary information has been supplied and you meet the rules, the application is granted and you get whatever it was you applied for. You can mimic this process in the domain model. For example, if you have a `Membership` aggregate root, you could also have a `MembershipApplication` aggregate root that is used to collect all the information needed to create a `Membership`. The application object could then be used as input when creating the membership object.
 
@@ -532,28 +534,28 @@ public class OrderItem extends LocalEntity<Long> { // ID type passed in as gener
 
 == Domain Events
 
-So far we have only looked at the "things" in the domain model. However, these can only be used to describe the static state that the model is in at any given moment. In many business models you also need to be able to describe things that happen and change the state of the model. For this, you can use *domain events*.
+So far we have only looked at the "things" in the domain model. However, these can only be used to describe the static state that the model is in at any given moment. In many business models, you also need to be able to describe things that happen and change the state of the model. For this, you can use *domain events*.
 
 Domain events were not included in Evans' book about domain driven-design. They have been added to the toolbox later and are  included in Vernon's book.
 
-A domain event is anything that happens in the domain model that may be of interest to other parts of the system. Domain events can be coarse grained (e.g. a specific aggregate root is created or a process is started) or finegrained (e.g. a particular attribute of a particular aggregate root is changed).
+A domain event is anything that happens in the domain model that may be of interest to other parts of the system. Domain events can be coarse-grained (e.g. a specific aggregate root is created or a process is started) or fine-grained (e.g. a particular attribute of a particular aggregate root is changed).
 
 Domain events typically have the following characteristics:
 
 * They are immutable (after all, you can't change the past).
 * They have a timestamp when the event in question occurred.
-* They _may_ have a unique ID that helps to distinquish one event from another. This depends on the type of event and how the events are distributed.
+* They _may_ have a unique ID that helps to distinguish one event from another. This depends on the type of event and how the events are distributed.
 * They are published by aggregate roots or domain services (more about those later).
 
 Once a domain event has been published, it can be received by one or more _domain event listeners_ that in turn may trigger additional processing and new domain events, etc. The publisher is not aware of what happens with the event, nor should the listener be able to affect the publisher (in other words, publishing domain events should be side-effect free from the point of view of the publisher). Because of this, it is recommended that *domain event listeners do not run inside the same transaction that published the event*.
 
-From a design point of view, the biggest advantage with domain events is that they make the system extendable. You can add as many domain event listeners as you need to trigger new business logic without having to change the existing code. This natrually assumes the correct events are published in the first place. Some events you may be aware of up front, but others will reveal themselves further down the road. You could of course try to guess what types of events will be needed and add them to your model, but then you also risk clogging the system with domain events that are not used anywhere. A better approach is to make it as easy as possible to publish domain events and then add the missing events when you relize you need them.
+From a design point of view, the biggest advantage of domain events is that they make the system extendable. You can add as many domain event listeners as you need to trigger new business logic without having to change the existing code. This naturally assumes the correct events are published in the first place. Some events you may be aware of upfront, but others will reveal themselves further down the road. You could, of course, try to guess what types of events will be needed and add them to your model, but then you also risk clogging the system with domain events that are not used anywhere. A better approach is to make it as easy as possible to publish domain events and then add the missing events when you realize you need them.
 
 .A Note on Event Sourcing
 ****
-Event sourcing is a design pattern wher the state of a system is persisted as an ordered log of events. Each even alter the state of the system and the current state can be calculated at any time by replaying the event log from start to finish. This pattern is especially useful in applications such as financial ledgers or medical records where the history is just as important (or even more important) than the current state.
+Event sourcing is a design pattern where the state of a system is persisted as an ordered log of events. Each even alter the state of the system and the current state can be calculated at any time by replaying the event log from start to finish. This pattern is especially useful in applications such as financial ledgers or medical records where the history is just as important (or even more important) than the current state.
 
-In my experience, most parts of a typicall business system will not require event sourcing, but some parts do. Forcing the entire system to use event sourcing as a persistence model would in my opinion be overkill. However, I have found that domain events can be used to implement event sourcing where needed. In practice, this means that every operation that changes the state of the model will also publish a domain event that is stored in some event log. How to technically do this is outside the scope of this paper.
+In my experience, most parts of a typical business system will not require event sourcing, but some parts do. Forcing the entire system to use event sourcing as a persistence model would, in my opinion, be overkill. However, I have found that domain events can be used to implement event sourcing where needed. In practice, this means that every operation that changes the state of the model will also publish a domain event that is stored in some event log. How to technically do this is outside the scope of this paper.
 ****
 
 === Distributing Domain Events
@@ -562,13 +564,13 @@ Domain events are only usable if you have a reliable way of distributing them to
 
 Vernon presents two different ways of distributing events that work both remotely and locally. I encourage you to read his book for the details but I am going to give a short summary of the options here.
 
-==== Distribution Through a Messege Queue
+==== Distribution Through a Message Queue
 
 This solution requires an external messaging solution (MQ) such as AMQP or JMS. The solution needs to support the publish-subscribe model and guaranteed delivery. When a domain event is published, the producer sends it to the MQ. The domain event listeners subscribe to the MQ and will be notified immediately.
 
 image:domain_event_mq.png[Domain event distribution through an MQ]
 
-The advantages with this model is that it is fast, pretty easy to implement and relies on existing tried and true messaging solutions. The disadvantages are that you have to set up and maintain the MQ solution and there is no way to receive past events if a new consumer subscribes.
+The advantages of this model are that it is fast, pretty easy to implement, and relies on existing tried and true messaging solutions. The disadvantages are that you have to set up and maintain the MQ solution and there is no way to receive past events if a new consumer subscribes.
 
 ==== Distribution Through an Event Log
 
@@ -576,13 +578,13 @@ This solution requires no additional components but requires some coding. When a
 
 image:domain_event_log.png[Domain event distribution through an event log]
 
-The advantages with this model is that it does not require any additional components and it includes a complete event history that can be replayed for new event listeners. The disadvantage is that it requires some work to implement and the delay between an event being published and received by a listener is at most the polling interval.
+The advantages of this model are that it does not require any additional components, and it includes a complete event history that can be replayed for new event listeners. The disadvantage is that it requires some work to implement and the delay between an event being published and received by a listener is at most the polling interval.
 
 .A Note on Eventual Consistency
 ****
 Data consistency is always a challenge in distributed systems or where multiple data storages take part in the same logical transaction. Advanced application servers support distributed transactions that can be used to solve this problem, but they require specialized software and can be complex to configure and maintain. If _strong consistency_ is an absolute requirement, you have no choice but to use distributed transactions but in many cases, it may turn out that strong consistency actually is not that important from a business perspective. We are only used to thinking in terms of strong consistency from the times where we had a single application talking with a single database within a single ACID transaction.
 
-The alternative to strong consistency is _eventual consistency_. This means that the data in the application will eventually become consistent, but there will be times when not all parts of the system are in sync with each other and _that is perfectly fine_. Designing an application for eventual consistency requires a different way of thinking but will in turn result in a system that is more resilient and more scalable than a system that requires strong consistency only.
+The alternative to strong consistency is _eventual consistency_. This means that the data in the application will eventually become consistent, but there will be times when not all parts of the system are in sync with each other and _that is perfectly fine_. Designing an application for eventual consistency requires a different way of thinking but will, in turn, result in a system that is more resilient and more scalable than a system that requires strong consistency only.
 
 In a domain-driven system, domain events are an excellent way of achieving eventual consistency. Any system or module that needs to update itself when something happens in another module or system can subscribe to the domain events coming from that system:
 
@@ -590,7 +592,7 @@ image:eventual_consistency.png[Eventual consistency through domain events]
 
 In the example above, any changes made to System A will _eventually_ be propagated to systems B, C and D through the domain events. Each system will use its own local transaction for actually updating the data store. Depending on the event distribution mechanism and the load of the systems, the propagation time can range from less than a second (all systems are running in the same network and events are immediately pushed to subscribers) to several hours or even days (some of the systems are offline and only connect to the network occasionally to download all the domain events that have occurred since the last check-in).
 
-In order to successfully implement eventual consistency, you have to have a reliable system for distributing domain events that works even if some of the subscribers are not currently online when an event is first published. You also need to design both your business logic and your user interface around the assumption that any piece of data can be outdated for a while at any time. You also need to draw up constraints on how long data can be inconsistent. You may be surprised to find that some pieces of data can stay inconsistent for days, whereas other pieces of data must be updated within seconds or even less.
+In order to successfully implement eventual consistency, you have to have a reliable system for distributing domain events that work even if some of the subscribers are not currently online when an event is first published. You also need to design both your business logic and your user interface around the assumption that any piece of data can be outdated for a while at any time. You also need to draw up constraints on how long data can be inconsistent. You may be surprised to find that some pieces of data can stay inconsistent for days, whereas other pieces of data must be updated within seconds or even less.
 ****
 
 === Code Examples
@@ -651,7 +653,7 @@ public class InvoiceCreator {
 
 Before we carry on, I want to introduce you to _movable_ and _static_ objects. These are not real DDD terms but something I use myself when I think about the different parts of the domain model. In my world, a movable object is any object of which there can be more than one instance and that can be passed around between different parts of the application. Value objects, entities and domain events are all movable objects.
 
-A static object, on the other hand, is a singleton (or a pooled resource) that always sits in one place and is invoked by other parts of the application but is rarely passed around (except when being injected into other static objects). Repositories, domain services and factories are all static objects. 
+A static object, on the other hand, is a singleton (or a pooled resource) that always sits in one place and is invoked by other parts of the application but is rarely passed around (except when being injected into other static objects). Repositories, domain services, and factories are all static objects. 
 
 This difference is important because it dictates what kind of relationships you can have between the objects. Static objects can hold references to other static objects and to movable objects.
 
@@ -662,19 +664,19 @@ Movable objects can hold references to other movable objects. However, a movable
 When you work with domain-driven code, there will be times where you run into cases where a class does not really fit into the value object, entity or domain event mold. In my experience, this typically happens in the following cases:
 
 * Any information from an external system (= another bounded context). The information is immutable from your point of view, but it has a global ID that is used to uniquely identify it.
-* Type data that is used to describe other entities (Vaughn Vernon calls these objects *standard types*). These objects have global IDs and may even be mutable to some extent, but for all practical purposes of the application itself they are immutable.
+* Type data that is used to describe other entities (Vaughn Vernon calls these objects *standard types*). These objects have global IDs and may even be mutable to some extent, but for all practical purposes of the application itself, they are immutable.
 * Framework/infrastructure-level entities that are used to e.g. store audit entries or domain events in the database. They may or may not have global IDs and may or may not be mutable, depending on the use case.
 
 The way I deal with these cases is to use a hierarchy of base classes and interfaces that starts with something called a `DomainObject`. A domain object is any movable object that somehow relates to the domain model. If an object is purely a value object or not purely an entity, I can declare it a domain object, explain in the JavaDocs what it does and why, and carry on.
 
 image:domain_objects.png[Hierarchy of base classes and interfaces for different domain objects]
 
-I like to use interfaces at the top of the hierarchy since you can combine them in anyway you like and even have `enums` implement them. Some of the interfaces are marker interfaces without any methods that are only used to indicate what role the implementing class plays in the domain model. In the diagram above, the classes and interfaces are the following:
+I like to use interfaces at the top of the hierarchy since you can combine them in any way you like and even have `enums` implement them. Some of the interfaces are marker interfaces without any methods that are only used to indicate what role the implementing class plays in the domain model. In the diagram above, the classes and interfaces are the following:
 
 * `DomainObject` - top-level marker interface for all domain objects.
 * `DomainEvent` - interface for all domain events. This typically contains some metadata about the event, such as the date and time of the event, but it may be a marker interface as well.
-* `ValueObject` - marker interface for all value objects. Implementations of this interface are required to be immutable and implement `equals()` and `hashCode()`. Unfortunately there is no way of enforcing this from the interface level, even though that would be nice.
-* `IdentifiableDomainObject` - interface for all domain objects that can be uniquily identified in some context. I often design this as a generic interface with the ID type as a generic parameter.
+* `ValueObject` - marker interface for all value objects. Implementations of this interface are required to be immutable and implement `equals()` and `hashCode()`. Unfortunately, there is no way of enforcing this from the interface level, even though that would be nice.
+* `IdentifiableDomainObject` - interface for all domain objects that can be uniquely identified in some context. I often design this as a generic interface with the ID type as a generic parameter.
 * `StandardType` - marker interface for standard types.
 * `Entity` - abstract base class for entities. I often include a field for the ID and implement `equals()` and `hashCode()` accordingly. I might also add optimistic locking information to this class, depending on the persistence framework.
 * `LocalEntity` - abstract base class for local entities. If I use local identity for the local entities, this class will contain code for managing that. Otherwise, it may just be an empty marker class.
@@ -707,7 +709,7 @@ public class User extends AggregateRoot<UserId> {
 }
 ----
 
-Inside the employee management context, we only need the user ID and name. The user will be uniquly identified by the ID but the name is shown in the UI. We obiously cannot change any user information so the user information is immutable. The code looks like this:
+Inside the employee management context, we only need the user ID and name. The user will be uniquely identified by the ID but the name is shown in the UI. We obviously cannot change any user information so the user information is immutable. The code looks like this:
 
 .User.java (employee management)
 [source,java]
@@ -749,21 +751,21 @@ At the very least, a repository should have the following capabilities:
 * Capability to retrieve an aggregate in its entirety based on its ID
 * Capability to delete an aggregate in its entirety based on its ID
 
-In most cases, to be really usable, a repositiory also needs more advanced query methods.
+In most cases, to be really usable, a repository also needs more advanced query methods.
 
-In practice, a repository is a domain-aware interface into an external data storage such as a relational database, a NoSQL database, a directory service or even a file system. Even though the actual storage is hidden behind the repository, its storage semantics will typically leak through and impose limits on what the repository should look like. Because of this, repositories are typically either *collection oriented* or *persistence oriented*.
+In practice, a repository is a domain-aware interface into an external data storage such as a relational database, a NoSQL database, a directory service or even a file system. Even though the actual storage is hidden behind the repository, its storage semantics will typically leak through and impose limits on what the repository should look like. Because of this, repositories are typically either *collection-oriented* or *persistence-oriented*.
 
 A collection oriented repository aims to mimic an in-memory collection of objects. Once an aggregate has been added to the collection, any changes made to it will be automatically persisted until the aggregate is removed from the repository. In other words, a collection oriented repository will have methods such as `add()` and `remove()` but no methods for saving.
 
-A persistence oriented repositiory, on the other hand, does not try to mimic a collection. Instead, it acts like a facade for an external persistence solution and contains methods such as `insert()`, `update()` and `delete()`. Any changes made to an aggregate will have to be explicitly saved to the repository through a call to an `update()` method.
+A persistence oriented repository, on the other hand, does not try to mimic a collection. Instead, it acts as a facade for an external persistence solution and contains methods such as `insert()`, `update()` and `delete()`. Any changes made to an aggregate will have to be explicitly saved to the repository through a call to an `update()` method.
 
-It is important to get the repository type right in the beginning of the project since they are semantically quite different. Typically, a persistence oriented repository is easier to implement and works with most existing persistence frameworks. A collection oriented repository is more difficult to implement unless the underlying persistence framework supports it out of the box.
+It is important to get the repository type right at the beginning of the project since they are semantically quite different. Typically, a persistence oriented repository is easier to implement and works with most existing persistence frameworks. A collection oriented repository is more difficult to implement unless the underlying persistence framework supports it out of the box.
 
 === Code Examples
 
 This example demonstrates the differences between a collection oriented and a persistence oriented repository.
 
-.Collection oriented repository
+.Collection-oriented repository
 [source,java]
 ----
 public interface OrderRepository {
@@ -817,7 +819,7 @@ public void doSomethingWithOrder(OrderId id) {
 
 .A Note on CQRS
 ****
-Repositories always save and retrieve complete aggregates. This means that they can be pretty slow, depending on how they have been implemented and the size of the object graphs that must be constructed for each aggregate. This can be problematic from a UX point of view and especially two use cases comes to mind. The first one is a small listing, where you want to show a list of aggregates but only using one or two attributes. Bringing up a complete object graph when you only need a couple of attribute values is a waste of time and computing resources and often leads to a sluggish user experience. Another case is when you need to combine data from multiple aggregates in order to show a single item in a list. This may lead to even worse performance.
+Repositories always save and retrieve complete aggregates. This means that they can be pretty slow, depending on how they have been implemented and the size of the object graphs that must be constructed for each aggregate. This can be problematic from a UX point of view and especially two use cases come to mind. The first one is a small listing, where you want to show a list of aggregates but only using one or two attributes. Bringing up a complete object graph when you only need a couple of attribute values is a waste of time and computing resources and often leads to a sluggish user experience. Another case is when you need to combine data from multiple aggregates in order to show a single item in a list. This may lead to even worse performance.
 
 As long as the data sets and aggregates are small, the performance penalty may be acceptable but if the time comes where the performance is simply not acceptable there is a solution: Command Query Responsibility Segregation (CQRS).
 
@@ -895,7 +897,7 @@ When the domain model is wired up, for example using a dependency injection fram
 
 == Factories
 
-The final static object that we are going to look like is the *factory*. Like the name suggests, factories are responsible for creating new aggregates. However, this does not mean that you need to create a new factory for every aggregate. In most cases, the aggregate root's constructor will be enough to set up the aggregate so that it is in a consistent state. You will typically need a separate factory in the following cases:
+The final static object that we are going to look like is the *factory*. As the name suggests, factories are responsible for creating new aggregates. However, this does not mean that you need to create a new factory for every aggregate. In most cases, the aggregate root's constructor will be enough to set up the aggregate so that it is in a consistent state. You will typically need a separate factory in the following cases:
 
 * Business logic is involved in the creation of the aggregate
 * The structure and content of the aggregate may be very different depending on the input data
@@ -970,13 +972,13 @@ A better way is to group the classes by process and aggregate. *Do this instead:
 
 == Why is Tactical Domain-Driven Design Important?
 
-Like I mentioned in the introduction to the first article in this series, I first ran into domain driven design while salvaging a project that was suffering from severe data inconsistency problems. Without any domain model or ubiquitous language we started to transform the existing data model into aggregates and the data access objects into repositories. Thanks to the constraints that these introduced into the software, we managed to get rid of the inconsistency problems and eventually the software could be deployed into production.
+Like I mentioned in the introduction to the first article in this series, I first ran into domain driven design while salvaging a project that was suffering from severe data inconsistency problems. Without any domain model or ubiquitous language, we started to transform the existing data model into aggregates and the data access objects into repositories. Thanks to the constraints that these introduced into the software, we managed to get rid of the inconsistency problems and eventually the software could be deployed into production.
 
 This first encounter with tactical domain-driven design proved to me that you can benefit from it even if the project in all other aspects is not domain driven. My favorite DDD building block that I tend to use in all of the projects I participate in is the *value object*. It is easy to introduce and immediately makes the code easier to read and understand since it brings context to your attributes. The immutability also tends to make complex things simpler.
 
 I often also try to group data models into aggregates and repositories even if the data model is otherwise completely anemic (only getters and setters without any business logic). This helps in keeping the data consistent and avoids strange side effects and optimistic locking exceptions when the same entity is being updated through different mechanisms.
 
-Domain events are useful to decouple your code but this is a double-edged sword. If you rely too much on events, your code will become more difficult to understand and debug since it is not immediately clear what other operations a particular event will trigger or what events caused a particular operation to be triggered in the first place.
+Domain events are useful to decouple your code, but this is a double-edged sword. If you rely too much on events, your code will become more difficult to understand and debug since it is not immediately clear what other operations a particular event will trigger or what events caused a particular operation to be triggered in the first place.
 
 Like other software design patterns, tactical domain-driven design offers solutions to a set of problems that you typically run into, especially when building enterprise software. The more tools you have at your disposal, the easier it will be for you to tackle the problems you inevitably run into in your career as a software developer.
 

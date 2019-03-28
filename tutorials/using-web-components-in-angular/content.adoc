@@ -1,0 +1,201 @@
+= How to use Web Components in Angular
+
+:type: text, video
+:tags: Web Components, Angular, JavaScript
+:description: Learn how to include and use Web Components in Angular
+:repo: https://github.com/vaadin-learning-center/using-web-components-in-angular
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials: using-web-components,using-web-components-in-react,using-web-components-in-vue
+
+This tutorial teaches you how to use and interact with web components in an Angular application. We'll build a small UI that adds people to a data grid. 
+
+image::completed-app.png[The completed app: A form with two text fields for name and an add button for adding people to a data grid.]
+
+== The base application
+
+video::Wd2Ja2q7AAA[youtube]
+
+We are using the https://cli.angular.io/[Angular CLI^] to generate a new project. 
+
+[source]
+----
+$ ng new webcomponents
+$ cd webcomponents
+----
+
+== Install components
+
+The first step in using web components is installing them. In this case, we install `vaadin-text-field`, `vaadin-button`, and `vaadin-grid` from the link:/components/browse[Vaadin component set]. 
+
+[source]
+$ npm install --save @vaadin/vaadin-text-field @vaadin/vaadin-button @vaadin/vaadin-grid
+
+Web Components are most often distributed as JavaScript. Add the following option to the root `tsconfig.json`:
+
+.`*tsconfig.json*`
+[source,json]
+----
+{
+  compilerOptions: {
+    "allowJs": true
+  }
+}
+----
+
+== Enable custom elements
+By default, Angular assumes that all custom HTML elements are Angular components and throws errors when encountering non-angular components. You can enable custom elements by adding the `CUSTOM_ELEMENTS_SCHEMA` to the application module. At the same time, import the `ReactiveFormsModule` that we use for creating the form. 
+
+.`*src/app/app.module.ts*`
+[source,diff]
+----
+import { BrowserModule } from '@angular/platform-browser';
+-import { NgModule } from '@angular/core';
++import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
++ import { ReactiveFormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+-  imports: [BrowserModule],
++  imports: [BrowserModule, ReactiveFormsModule],
++  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+----
+
+== Add polyfills for older browsers
+Although most modern browsers ship with built-in support for Web Components, there are still users out there with older browsers. If you want to make your app available to them as well, you want to include _polyfills_ that emulate the functionality in browsers without native support.
+
+The https://github.com/webcomponents/webcomponentsjs[webcomponents.js^] polyfill comes with a loader script that can be used to load only the polyfills a particular browser needs. It loads the polyfills dynamically, so it cannot be imported directly as a JS dependency that gets built by Webpack. Instead, you need to copy over the dependencies and include the loader in your index file. The library also includes an ES5 compatibility script in case you transpile your app into ES5.
+
+[source]
+$ npm install --save-dev @webcomponents/webcomponentsjs
+
+=== Copy polyfills
+You need to copy over the polyfills to load them. You can do this by adding them to the assets array in `angular.json`.
+
+.`*angular.json*`
+[source,diff]
+----
+"assets": [
+"src/favicon.ico",
+"src/assets",
++{
++  "glob": "**/*.js",
++  "input": +"node_modules/@webcomponents/webcomponentsjs",
++  "output": "webcomponents/"
++}
+----
+
+=== Load polyfills
+Then, include the loader and an optional import for the ES5 compatibility script in the `<head>` section of `index.html`.
+
+.`*src/index.html*`
+[source,html]
+----
+<script src="webcomponents/webcomponents-loader.js"></script>
+<script>
+  if (!window.customElements{document.write('<!--');}
+</script>
+<scripsrc="webcomponents/custom-elements-es5-apter.js"></script>
+<!-- ! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
+----
+
+Verify that you can run the application with 
+
+[source]
+$ ng serve
+
+== Building the application
+You are now ready to use web components. Begin by importing the components in `app.component.ts`. At the same time, import `FormGroup` and `FormControl` for building the form.
+
+.`*src/app/app.component.ts*`
+[source,typescript]
+----
+import '@vaadin/vaadin-button';
+import '@vaadin/vaadin-grid';
+import '@vaadin/vaadin-text-field';
+import { FormGroup, FormControl } from '@angular/forms';
+----
+
+The form and grid bind to a `Person` object. Create a definition for it. You can either to it in a separate file and import it, or inline it in the app component file.
+
+.`*src/app/app.component.ts*`
+[source,typescript]
+----
+class Person {
+  constructor(public firstName: string, public lastName: string) {}
+}
+----
+
+
+Finally, replace the component implementation with the following:
+
+.`*src/app/app.component.ts*`
+[source,typescript]
+----
+export class AppComponent {
+  people: Person[] = []; <1>
+
+  form = new FormGroup({ <2>
+    firstName: new FormControl(''),
+    lastName: new FormControl('')
+  });
+
+  addPerson() { <3>
+    this.people = [
+      ...this.people,
+      new Person(this.form.value.firstName, this.form.value.lastName)
+    ];
+    this.form.reset();
+  }
+}
+----
+<1> Our component state is an array of people that should be listed in the grid
+<2> A reactive FormGroup with controls for `firstName` and `lastName`
+<3> When submitting the form, create a new array containing a Person object with the information in the form, then reset the form. 
+
+== Defining the view HTML
+Replace the contents of the component HTML file with the following: 
+
+.`*src/app/app.component.html*`
+[source,html]
+----
+<form [formGroup]="form" (ngSubmit)="addPerson()"> <1>
+  <vaadin-text-field
+    label="First Name"
+    formControlName="firstName"
+    ngDefaultControl> <2>
+  </vaadin-text-field>
+  <vaadin-text-field
+    label="Last Name"
+    formControlName="lastName"
+    ngDefaultControl>
+  </vaadin-text-field>
+  <vaadin-button (click)="addPerson()"> Add </vaadin-button>
+</form>
+
+<vaadin-grid [items]="people"> <3>
+  <vaadin-grid-column path="firstName" header="First name">
+  </vaadin-grid-column>
+  <vaadin-grid-column path="lastName" header="Last name"> </vaadin-grid-column>
+</vaadin-grid>
+----
+<1> Bind the `formGroup` to the one we defined in the component, submit to the `addPerson` method.
+<2> In addition to `formControlName`, add `ngDefaultControl`.
+<3> Bind the people array to the `items` property on the grid.
+
+The only difference to a standard Angular form is the use of `ngDefaultControl` on the fields to tell Angular to treat the custom fields as standard text inputs. 
+
+TIP: `ngDefaultControl` only works for text inputs. There is a library called https://github.com/hotforfeature/origami[Origami^] that provides more comprehensive support for binding custom elements as form inputs in Angular. 
+
+If you run the application now with `ng serve`, you should have a working application using web components. 
+
+== Conclusion
+Once you have installed polyfills for older browsers, you can use Web Components interchangeably with Angular components. For the most part, you would use Web Components as leaf node components, and Angular for views and other composite components. 
+
+You can read more about web component framework compatibility on https://custom-elements-everywhere.com/[custom-elements-everywhere.com^].
