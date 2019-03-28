@@ -79,7 +79,7 @@ Including the component registers them in the browser's CustomElements registry 
 
 == Writing a template with lit-html 
 
-https://polymer.github.io/lit-html[lit-html^] uses JavaScript template strings as it's format. That means you can use plain JavaScript in your templates. Also, it adds helpers for setting properties, boolean attributes and for listening to events.
+https://lit-html.polymer-project.org/[lit-html^] uses JavaScript template strings as it's format. That means you can use plain JavaScript in your templates. Also, it adds helpers for setting properties, boolean attributes and for listening to events.
 
 |============================================
 |`value="${}"`  | Set an attribute (string)

@@ -372,7 +372,7 @@ The advantages of Redux are more apparent when your application grows, and sever
 
 Our example application is too small to show off the benefits of Redux properly. However, it is small enough to make it easy to understand the basics of using Redux. 
 
-TIP: Read more about splitting up reducers and handling larger applications in the https://polymer.github.io/pwa-starter-kit/redux-and-state-management/[PWA Starter Kit^] documentation.
+TIP: Read more about splitting up reducers and handling larger applications in the https://pwa-starter-kit.polymer-project.org/redux-and-state-management[PWA Starter Kit^] documentation.
 
 
 https://github.com/vaadin-learning-center/lit-element-tutorial-state-management-with-redux[Source code for this tutorial, role="cta"]
