@@ -408,7 +408,99 @@ The most complex case of content validation would be to verify an entire aggrega
 
 ==== Code Examples
 
-TODO
+Here we are going to look at three different ways of handling validation. In the first case, we will look at performing format validation inside the constructor of a value object (a phone number). In the second case, we will look at an entity that has validation built-in so that it is not possible to put the object into an inconsistent state in the first place. In the third and last case, we will look at the same entity but implemented using JSR-303 validation. That makes it possible to put the object into an inconsistent state, but not to save it to the database as such.
+
+.Value Object with Format Validation
+[source,java]
+----
+public class PhoneNumber implements ValueObject {
+    private final String phoneNumber;
+
+    public PhoneNumber(String phoneNumber) {
+        Objects.requireNonNull(phoneNumber, "phoneNumber must not be null"); // <1>
+        var sb = new StringBuilder();
+        char ch;
+        for (int i = 0; i < phoneNumber.length(); ++i) {
+            ch = phoneNumber.charAt(i);
+            if (Character.isDigit(ch)) { // <2>
+                sb.append(ch);
+            } else if (!Character.isWhitespace(ch) && ch != '(' && ch != ')' && ch != '-' && ch != '.') { // <3>
+                throw new IllegalArgument(phoneNumber + " is not valid");
+            }
+        }
+        if (sb.length() == 0) { // <4>
+            throw new IllegalArgumentException("phoneNumber must not be empty");
+        }
+        this.phoneNumber = sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return phoneNumber;
+    }
+
+    // Equals and hashCode omitted
+}
+----
+<1> First we check that the input value is not null.
+<2> We include only digits in the final phone number that we actually store. For international phone numbers we should support a '+' sign as the first character as well, but we'll leave that as an exercise to the reader.
+<3> We allow, but ignore, whitespace and certain special charaters that people often use in phone numbers.
+<4> Finally, when all the cleaning is done, we check that the phone number is not empty.
+
+.Entity with Built-in Validation
+[source,java]
+----
+public class Customer implements Entity {
+
+    // Fields omitted
+
+    public Customer(CustomerNo customerNo, String name, PostalAddress address) {
+        setCustomerNo(customerNo); // <1>
+        setName(name);
+        setPostalAddress(address);
+    }
+
+    public setCustomerNo(CustomerNo customerNo) {
+        this.customerNo = Objects.requireNonNull(customerNo, "customerNo must not be null");
+    }
+
+    public setName(String name) {
+        Objects.requireNonNull(nanme, "name must not be null");
+        if (name.length() < 1 || name.length > 50) { // <2>
+            throw new IllegalArgumentException("Name must be between 1 and 50 characters");
+        }
+        this.name = name;
+    }
+
+    public setAddress(PostalAddress address) {
+        this.address = Objects.requireNonNull(address, "address must not be null");
+    }
+}
+----
+<1> We invoke the setters from the constructor in order to perform the validation implemented in the setter methods. There is a small risk in invoking overridable methods from a constructor in case a subclass decides to override any of them. In this case it would be better to mark the setter methods as final but some persistence frameworks may have a problem with that. You just have to know what you are doing.
+<2> Here we check the length of a string. The lower limit is a business requirement, since every customer must have a name. The upper level is a database requirement since the database in this case has a schema that only allows it to store strings of 50 characters. By adding the validation here already you can avoid annoying SQL errors at a later stage when you try to insert too long strings into the database.
+
+.Entity with JSR-303 Validation
+[source,java]
+----
+public class Customer implements Entity {
+
+    @NotNull <1>
+    private CustomerNo customerNo;
+
+    @NotBlank <2>
+    @Size(max = 50) <3>
+    private String name;
+
+    @NotNull
+    private PostalAddress address;
+
+    // Setters omitted
+}
+----
+<1> This annotation ensures that the customer number cannot be null when the entity is saved.
+<2> This annotation ensures that the name cannot be empty or null when the entity is saved.
+<3> This annotation ensures that the name cannot be longer than 50 characters when the entity is saved.
 
 === Does the Size Matter?
 
@@ -424,7 +516,58 @@ Finally I just want to mention command based application services. In this case,
 
 ==== Code Examples
 
-TODO
+I'm not going to give you an example of what a God-class looks like because that would take up too much space. Besides, I think most developers who has been in the profession for a while has seen their fair share of such classes. Instead we are going to look an an example of what a command based application service could look like. The code has not been tested and should be treated more as pseudo-code than actual Java code.
+
+.Command Based Application Services
+[source,java]
+----
+public interface Command<R> { // <1>
+}
+
+public interface CommandHandler<C extends Command<R>, R> { // <2>
+
+    R handleCommand(C command);
+}
+
+public class CommandGateway { // <3>
+
+    // Fields omitted
+
+    public <C extends Command<R>, R> R handleCommand(C command) {
+        var handler = commandHandlers.findHandlerFor(command)
+            .orElseThrow(() -> new IllegalStateException("No command handler found"));
+        return handler.handleCommand(command);
+    }
+}
+
+public class CreateCustomerCommand implements Command<Customer> { // <4>
+    private final String name;
+    private final PostalAddress address;
+    private final PhoneNumber phone;
+    private final EmailAddress email;
+
+    // Constructor and getters omitted
+}
+
+public class CreateCustomerCommandHandler implements CommandHandler<CreateCustomerCommand, Customer> { // <5>
+
+    @Override
+    @Transactional
+    public Customer handleCommand(CreateCustomerCommand command) {
+        var customer = new Customer();
+        customer.setName(command.getName());
+        customer.setAddress(command.getAddress());
+        customer.setPhone(command.getPhone());
+        customer.setEmail(command.getEmail());
+        return customerRepository.save(customer);
+    }
+}
+----
+<1> The `Command` interface is just a marker interface that also indicate the result (output) of the command. If the command has no output, the result can be `Void`.
+<2> The `CommandHandler` interface is implemented by a class that knows how to handle (perform) a particular command and return the result.
+<3> Clients interact with a `CommandGateway` to avoid having to lookup individual command handlers. The gateway knows about all available command handlers and how to find the correct on based on any given command. The code for looking up handlers is not included in the example since it depends on the underlying meachnism for registering handlers.
+<4> Every command implements the `Command` interface and includes all the necessary information to perform the command. I like to make my commands immutable with built-in validation but you can also make them mutable and use JSR-303 validation.
+<5> Every command has its own handler that performs the command and returns the result.
 
 == Ports and Adapters
 
