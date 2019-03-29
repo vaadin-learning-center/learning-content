@@ -58,5 +58,11 @@
     "title": "Internationalization [i18n]",
     "description": "All about internationalization",
     "icon": "vc-icons:checklist"
+  },
+  {
+    "id": "ddd",
+    "title": "Domain-Driven Design",
+    "description": "All about domain-driven design",
+    "icon": ""
   }
 ]
