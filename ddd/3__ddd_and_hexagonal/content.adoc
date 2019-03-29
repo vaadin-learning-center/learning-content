@@ -6,7 +6,11 @@
 :tags: domain-driven design, ddd, java, hexagonal, architecture, vaadin
 :imagesdir: ./images
 
-TODO
+In the two previous articles we learned about strategic and tactical domain-driven design. Now it is time to learn how to turn a domain model into working software - more specifically, how to do it using the hexagonal architecture. 
+
+The previous two articles were pretty generic even though the code examples where written in Java. Even though a lot of the theory in this article can also be applied in other environment and languages as well, I have explicitly written it with Java and Vaadin in mind.
+
+Again, the content is based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon* and I highly recommend you to read both of them. However, even though I presented my own thoughts, ideas and experiences in the previous articles as well, this one is even more strongly colored by what I myself think and believe. That said, it was the books of Evans and Vernon that got me started with DDD in the first place and I'd like to think that what I'm writing here is not too far from what you will find in the books.
 
 == Why Is It Called Hexagonal?
 
@@ -16,15 +20,17 @@ image:hexagonal.png[The hexagonal architecture]
 
 Using hexagonals leaves plentiy of space for _ports and adapters_, which is another name for this architecture that better explains what the central idea is. The architecture is also sometimes called the _onion architecture_ because of how it is layered. 
 
+In the following, we are going to have a closer look at the "onion". We are going to start with the core - the domain model - and then work ourselves out, one layer at the time, until we reach the ports and the systems and clients interacting with them.
+
 .Hexagonal vs. Traditional Layers
 ****
-TODO
-image:layers.png[The traditional layered architecture]
-****
+Once we dig deeper into the hexagonal architecture you will find that it has several resemblances to the more traditional layered architecture. Indeed, you can think of the hexagonal architecture as an evolution of the layered architecture. However, there are some differences especially with regards to how a system interacts with the outside world. To better understand these differences, let's start with a recap of the layered architecture:
 
-.Hexagonal vs. Entity-Control-Boundary
-****
-If you have heard of the *Entity-Control-Boundary* pattern before, you will find the hexagonal architecture familiar. You can think of your aggregates as *entities*, domain services, factories and repositories as *controllers* and the application services as *boundaries*.
+image:layers.png[The traditional layered architecture]
+
+The principle is that the system is built up of layers stacked on top of each other. A higher layer can interact with a lower layer _but not the other way around_. Typically, in a domain-driven layered architecture, you would have the UI layer at the top. This layer in turn interacts with an application service layer, which interacts with the domain model that lives in a domain layer. At the bottom we have an infrastructure layer that communicates with external systems such as a database.
+
+In the hexagonal system, you will find that the application layer and the domain layer are still pretty much the same. However, the UI layer and the infrastructure layer are treated in a very different way. Keep reading to find out how.
 ****
 
 == The Domain Model
@@ -43,6 +49,11 @@ An application service acts as a facade through which clients will interact with
 * They orchestrate business operations but do not make any business decisions (i.e. they do not contain any business logic)
 
 Let's have a closer look at what this actually means.
+
+.Hexagonal vs. Entity-Control-Boundary
+****
+If you have heard of the *Entity-Control-Boundary* pattern before, you will find the hexagonal architecture familiar. You can think of your aggregates as *entities*, domain services, factories and repositories as *controllers* and the application services as *boundaries*.
+****
 
 === Statelessness
 
@@ -300,8 +311,6 @@ If the contexts are running as modules inside a single monolithing system, you c
 image:monolith.png[Two bounded contexts inside the same monolith]
 
 Since both contexts are running inside the same virtual machine, we only need one adapter that interacts with both contexts directly. The adapter implements an interface of the downstream context and invokes application services of the upstream context. Any context mapping takes place inside the adapter.
-
-
 
 == Next: Domain-Driven Design and Spring Boot
 
