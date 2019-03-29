@@ -61,7 +61,7 @@ An application service does not maintain any internal state that can be changed 
 
 If you find yourself in a situation where you have to make multiple application service calls within the context of a single business process, you can model the business process in a class of its own and pass an instance of it as an input parameter to the applcation service method. The method would then do its magic and return an updated instance of the business process object that in turn can be used as input to other application service methods:
 
-.Business process as input argument
+.Business Process as Input Argument
 [source,java]
 ----
 public class MyBusinessProcess {
@@ -78,6 +78,8 @@ public interface MyApplicationService {
 
 You could also make the business process object mutable and let the application service method change the state of the object directly. I personally do not prefer this approach since I believe it can lead to unwanted side effects, especially if the transaction ends up rolling back. This depends on how the application service is being called by the client and will return to this matter later in the section about ports and adapters.
 
+For tips on how to implement more complex and long-running business processes, I encourage you to read Vernon's book.
+
 === Security Enforcement
 
 The application service makes sure that the current user is allowed to perform the operation in question. Technically, you can do this manually at the top of each application service method or use something more sofisticated such as AOP. It does not matter how security is enforced as long as it happens in the application service layer and not inside the domain model. Now why is this important?
@@ -86,7 +88,55 @@ When we talk about security in an application, we tend to put more emphasis on p
 
 ==== Code Examples
 
-TODO
+Here are two Java-examples of what security enforcement in an application service could look like. The code has not been tested and should be treated more as pseudo-code than actual Java code.
+
+.Declarative Security Enforcement
+[source,java]
+----
+@Service
+class MyApplicationService {
+
+    @Secured("ROLE_BUSINESS_PROCESSOR") // <1>
+    public MyBusinessProcess performSomeStuff(MyBusinessProcess input) {
+        var customer = customerRepository.findById(input.getCustomerId()) // <2>
+            .orElseThrow( () -> new CustomerNotFoundException(input.getCustomerId()));
+        var someResult = myDomainService.performABusinessOperation(customer); // <3>
+        customer = customerRepository.save(customer);
+        return input.updateMyBusinessProcessWithResult(someResult); // <4>
+    }
+}
+----
+<1> The annotation instructs the framework to only allow authenticated users with the role `ROLE_BUSINESS_PROCESSOR` to invoke the method.
+<2> The application service looks up an aggregate root from a repository in the domain model.
+<3> The application service passes the aggregate root to a domain service in the domain model, storing the result (whatever it is).
+<4> The application serivce uses the result of the domain service to update the business process object and returns it so that it can be passed to other application service methods participating in the same longrunning process.
+
+.Manual Security Enforcement
+[source,java]
+----
+@Service
+class MyApplicationService {
+
+    public MyBusinessProcess performSomeStuff(MyBusinessProcess input) {
+        // We assume SecurityContext is a thread-local class that contains information
+        // about the current user.
+        if (!SecurityContext.isLoggedOn()) { // <1>
+            throw new AuthenticationException("No user logged on");
+        }
+        if (!SecurityContext.holdsRole("ROLE_BUSINESS_PROCESSOR")) { // <2>
+            throw new AccessDeniedException("Insufficient privileges");
+        }
+
+        var customer = customerRepository.findById(input.getCustomerId())
+            .orElseThrow( () -> new CustomerNotFoundException(input.getCustomerId()));
+        var someResult = myDomainService.performABusinessOperation(customer);
+        customer = customerRepository.save(customer);
+        return input.updateMyBusinessProcessWithResult(someResult);
+    }
+}
+----
+<1> In a real application, you would probably create helper methods that throw the exception if a user is not logged on. I have only included a more verbose version in this example to show what needs to be checked.
+<2> As in the previous case, only users with the role `ROLE_BUSINESS_PROCESSOR` are allowed to invoke the method.
 
 === Transaction Management
 
@@ -98,7 +148,50 @@ Technically, you can either handle the transactions manually inside the applicat
 
 ==== Code Examples
 
-TODO
+Here are two Java-examples of what transaction management in an application service could look like. The code has not been tested and should be treated more as pseudo-code than actual Java code.
+
+.Declarative Transaction Management
+[source,java]
+----
+@Service
+class UserAdministrationService {
+
+    @Transactional // <1>
+    public void resetPassword(UserId userId) {
+        var user = userRepository.findByUserId(userId); // <2>
+        user.resetPassword(); // <3>
+        userRepository.save(user);
+    }
+}
+----
+<1> The framework will make sure the entire method runs inside a single transaction. If an exception is thrown, the transaction is rolled back. Otherwise, it is committed when the method returns.
+<2> The application service calls a repository in the domain model to find the `User` aggregate root.
+<3> The application service invokes a business method on the `User` aggregate root.
+
+.Manual Transaction Management
+[source,java]
+----
+@Service
+class UserAdministrationService {
+
+    @Transactional
+    public void resetPassword(UserId userId) {
+        var tx = transactionManager.begin(); // <1>
+        try {
+            var user = userRepository.findByUserId(userId);
+            user.resetPassword();
+            userRepository.save(user);
+            tx.commit(); // <2>
+        } catch (RuntimeException ex) {
+            tx.rollback(); // <3>
+            throw ex;
+        }
+    }
+}
+----
+<1> The transaction manager has been injected into the application service so that the service method can start a new transaction explicitly.
+<2> If everything works, the transaction is committed after the password has been reset.
+<3> If an error occurs, the transaction is rolled back and the exception is rethrown.
 
 === Orchestration
 
@@ -113,7 +206,33 @@ This being said, having some business logic ending up in an application service 
 
 ==== Code Examples
 
-TODO
+Here is a Java-example of what a typical orchestration could look like. The code has not been tested and should be treated more as pseudo-code than actual Java code.
+
+.Orchestration Involving Multiple Domain Objects
+[source,java]
+----
+@Service
+class CustomerRegistrationService {
+
+    @Transactional // <1>
+    @PermitAll // <2>
+    public Customer registerNewCustomer(CustomerRegistrationRequest request) {
+        var violations = validator.validate(request); // <3>
+        if (violations.size() > 0) {
+            throw new InvalidCustomerRegistrationRequest(violations);
+        }
+        customerDuplicateLocator.checkForDuplicates(request); // <4>
+        var customer = customerFactory.createNewCustomer(request); // <5>
+        return customerRepository.save(customer); // <6>
+    }
+}
+----
+<1> The application service method runs inside a transaction.
+<2> The application serivce method can be accessed by any user.
+<3> We invoke a JSR-303 validator to check that the incoming registration request contains all the necessary information. If the request is invalid, we throw an exception that will be reported back to the user.
+<4> We invoke a domain service that will check if there already is a customer in the database with the same information. If that is the case, the domain service will throw an exception (not shown here) that will be propagated back to the user.
+<5> We invoke a domain factory that will create a new `Customer` aggregate with information from the registration request object.
+<6> We invoke a domain repository to save the customer and returns the newly created and saved customer aggregate root.
 
 === Domain Event Listeners
 
@@ -187,7 +306,74 @@ The disadvantages are:
 
 ==== Code Examples
 
-TODO
+Here are two Java examples of using DTOs and DPOs, respectively. The DTO example demonstrates a use case where it makes  sense to use a DTO than return the entity directly: Only a fraction of the entity attributes are actually needed and we need to include information that does not exist in the entity. The DPO example demonstrates a use case where it makes sense to use a DPO: We need to include many different aggregates that are related to each other in some way.
+
+The code has not been tested and should be treated more as pseudo-code than actual Java code.
+
+.Data Transfer Object Example
+[source,java]
+----
+public class CustomerListEntryDTO { // <1>
+    private CustomerId id;
+    private String name;
+    private LocalDate lastInvoiceDate;
+
+    // Getters and setters omitted
+}
+
+@Service
+public class CustomerListingService {
+    
+    @Transactional 
+    public List<CustomerListEntryDTO> getCustomerList() {
+        var customers = customerRepository.findAll(); // <2>
+        var dtos = new ArrayList<CustomerListEntryDTO>();
+        for (var customer : customers) {
+            var lastInvoiceDate = invoiceService.findLastInvoiceDate(customer.getId()); // <3>
+            dto = new CustomerListEntryDTO(); // <4>
+            dto.setId(customer.getId());
+            dto.setName(customer.getName());
+            dto.setLastInvoiceDate(lastInvoiceDate);
+            dtos.add(dto);
+        }
+        return dto;
+    }
+}
+----
+<1> The Data Transfer Object is just a data structure without any business logic. This particular DTO is designed to be used in a user interface list view that only needs to show the customer name and last invoice date.
+<2> We look up all the customer aggregates from the database. In a real-world application, this would be a paginated query that only returns a subset of the customers.
+<3> The last invoice date is not stored in the customer entity so we have to invoke a domain service to look it up for us.
+<4> We create the DTO instance and populate it with data.
+
+.Domain Payload Object Example
+[source,java]
+----
+public class CustomerInvoiceMonthlySummaryDPO { // <1>
+    private Customer customer;
+    private YearMonth month;
+    private Collection<Invoice> invoices;
+
+    // Getters and setters omitted
+}
+
+@Service
+public class CustomerInvoiceSummaryService {
+
+    public CustomerInvoiceMontlySummaryDPO getMonthlySummary(CustomerId customerId, YearMonth month) {
+        var customer = customerRepository.findById(customerId); // <2>
+        var invoices = invoiceRepository.findByYearMonth(customerId, month); // <3>
+        var dpo = new CustomerInvoiceMonthlySummaryDPO(); // <4>
+        dpo.setCustomer(customer);
+        dpo.setMonth(month);
+        dpo.setInvoices(invoices);
+        return dpo;
+    }
+}
+----
+<1> The Domain Payload Object is a data structure without any business logic that contains both domain objects (in this case entities) and additional information (in this case the year and month).
+<2> We fetch the customer's aggregate root from the repository.
+<3> We fetch the customer's invoices for the specified year and month.
+<4> We create the DPO instance and populate it with data.
 
 === Input Validation
 
