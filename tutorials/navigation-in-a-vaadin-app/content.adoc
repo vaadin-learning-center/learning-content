@@ -82,7 +82,7 @@ public class LoginView extends LoginForm {
 }
 ----
 
-A simple login form, located under the `login` URL path, and has a static `username` value to store the Username. _Note that this is not a reference implementation for proper authentication._
+A simple login form, located under the `/login` URL path, and has a static `username` value to store the Username. _Note that this is not a reference implementation for proper authentication._
 
 We also need to check if the login triggers before navigation to the `MainView`, we do that by updating the `MainLayout` class as following:
 
@@ -255,7 +255,7 @@ public class FruityView extends Div implements HasUrlParameter<String> {
 ----
 
 The modification here is implementing `HasUrlParameter` of type `String`, and in `setParameter` method, we track if a parameter has been received and print a text based on it.
-The parameter is passed upong radio button change:
+The parameter is passed upon radio button change:
 
 [source,java]
 ----
