@@ -7,7 +7,7 @@
 :repo: https://github.com/amahdy/payment-request-flow
 :linkattrs:
 :imagesdir: ./images
-:related_tutorials: web-components-in-flow
+:related_tutorials: web-component-for-vaadin-flow
 
 == Intro
 
