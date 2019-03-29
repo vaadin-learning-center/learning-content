@@ -2,7 +2,7 @@
 
 :title: Strategic Domain-Driven Design
 :type: text
-:tags: domain-driven design, backend
+:tags: Domain-Driven Design, Backend
 :description: Learn what strategic domain-driven design is how you can benefit from it in your project.
 :repo:
 :linkattrs:
