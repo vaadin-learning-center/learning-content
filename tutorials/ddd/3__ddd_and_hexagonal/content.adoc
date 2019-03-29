@@ -1,9 +1,12 @@
 = Domain-Driven Design and the Hexagonal Architecture
 
 :title: Domain-Driven Design and the Hexagonal Architecture
+:type: text
 :author: Petter Holmström
+:tags: Domain-Driven Design, Java, Backend, Architecture, Vaadin 8, Flow
 :description: Learn how to use the hexagonal architecture to turn your domain model into a complete application
-:tags: domain-driven design, ddd, java, hexagonal, architecture, vaadin
+:repo:
+:linkattrs:
 :imagesdir: ./images
 
 In the two previous articles we learned about strategic and tactical domain-driven design. Now it is time to learn how to turn a domain model into working software - more specifically, how to do it using the hexagonal architecture. 
@@ -458,7 +461,7 @@ In the second example, we are going to look at a different type of adapter, name
 
 image:vaadin_adapter.png[A Vaadin adapter and HTTP port]
 
-Again, the port is HTTP so we need a servlet to implement the port. In this case, the servlet is the `VaadinServlet` so we don't need to implement it ourselves. Now we just need an adapter for translating incoming user actions into application service method calls and the output into HTML that can be rendered in the browser. This adapter is the Vaadin UI. Thinking of the user interface as just another port/adapter into the system is an excellent way of keeping business logic outside of the user interface.
+Again, the port is HTTP so we need a servlet to implement the port. In this case, the servlet is the `VaadinServlet` so we don't need to implement it ourselves (this is the case regardless of whether you are using Vaadin 8 or Flow). Now we just need an adapter for translating incoming user actions into application service method calls and the output into HTML that can be rendered in the browser. This adapter is the Vaadin UI. Thinking of the user interface as just another port/adapter into the system is an excellent way of keeping business logic outside of the user interface.
 
 === Example 3: Communicating with a Relational Database
 
