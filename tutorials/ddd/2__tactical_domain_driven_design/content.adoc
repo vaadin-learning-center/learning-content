@@ -2,7 +2,7 @@
 
 :title: Tactical Domain-Driven Design
 :type: text
-:author Petter Holmström
+:author: Petter Holmström
 :tags: Domain-Driven Design, Java, Backend
 :description: Learn about the building blocks of tactical domain-driven design and how you can use them to design and implement a rich domain model for your project.
 :repo:
