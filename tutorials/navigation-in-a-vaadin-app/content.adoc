@@ -224,7 +224,7 @@ public class FruityView extends Div {
 }
 ----
 
-Navigating to `/apple` is acting exactly as `/fruity`.
+Navigating to `/apple`, `/fruits`, or `/fruit` is acting exactly as `/fruity`.
 
 == URL parameters
 We can also explicitly add and read URL parameters throughout the navigation. Let's change `FruityView` as following:
