@@ -159,7 +159,7 @@ And finally the actual declaration of our login Polymer component:
 <4> Which in this case does some client side evaluation of the input before submitting the form
 
 == Alternative 3: Java-only with LoginForm or LoginOverlay component
-With the release of Vaadin 13 we now provide an extremly simplified way to get a login form via dedicated login components: The `LoginOverlay` component is a full-featured login dialog whereby `LoginForm` can be integrated wherever you need it. For details check the https://vaadin.com/components/vaadin-login[documentation, router-link=true].
+With the release of Vaadin 13 we now provide an extremely simplified way to get a login form via dedicated login components: The `LoginOverlay` component is a full-featured login dialog whereby `LoginForm` can be integrated wherever you need it. For details check the https://vaadin.com/components/vaadin-login[documentation, router-link=true].
 
 Using them boils down the whole `LoginView` to
 
