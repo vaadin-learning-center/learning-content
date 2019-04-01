@@ -1,8 +1,8 @@
-= Fluent Component API For Flow
+= Creating a fluent Component API For Flow
 
-:type: text, video
-:tags: Layout, Flow, API, Java, Fluent API
-:description: How to create a fluent API for Vaadin Flow components.
+:type: text
+:tags: Flow, API, Java, Fluent API
+:description: Learn how to create a fluent API for Vaadin Flow components.
 :repo: https://github.com/vaadin-learning-center/flow-api-fluent
 :linkattrs:
 :imagesdir: ./images
@@ -13,6 +13,8 @@ for Vaadin Flow.
 == For the impatient reader
 > This tutorial uses the  `flow-helloworld-maven-meecrowave` starter as a base.
 > You can find the latest tutorial version https://vaadin.com/tutorials/helloworld-with-meecrowave[here].
+
+This tutorial shows you how to build a fluent API from scratch. If you just want to use the fluent API, you can find an addon in the link:/directory/component/rapidpm-vaadin-fluent-component-api[directory].
 
 == Why do we need a fluent API?
 
@@ -437,5 +439,5 @@ To configure the instance, use this on as input for the Builder.
 ----
 
 Now we have all together that is needed for a fluent API for Flow.
-If you want to try it by yourself, get one of our starters you can find https://vaadin.com/start/latest[here] and
-add the dependency for the fluent API from our https://vaadin.com/directory/component/rapidpm-vaadin-fluent-component-api[directory].
+If you want to try it by yourself, get one of our starters you can find link:/start/latest[here] and
+add the dependency for the fluent API from our link:/directory/component/rapidpm-vaadin-fluent-component-api[directory].
