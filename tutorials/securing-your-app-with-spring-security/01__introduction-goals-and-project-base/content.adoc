@@ -10,7 +10,7 @@
 
 
 [TIP]
-The sources of all explained approaches can be found at https://github.com/vaadin-learning-center/spring-secured-vaadin. Just check the available branches.
+All code examples can be found at https://github.com/vaadin-learning-center/spring-secured-vaadin. Just check the available branches.
 
 We get many questions in the forum about *how to use Vaadin 10+ with Spring Security*. We heard you, and we will help you. However, let's start with the definition of "use," first:
 
