@@ -1,0 +1,443 @@
+= Creating a fluent Component API For Flow
+
+:type: text
+:tags: Flow, API, Java, Fluent API
+:description: Learn how to create a fluent API for Vaadin Flow components.
+:repo: https://github.com/vaadin-learning-center/flow-api-fluent
+:linkattrs:
+:imagesdir: ./images
+
+In this tutorial, we explore possibilities how to create a fluent API
+for Vaadin Flow.
+
+== For the impatient reader
+> This tutorial uses the  `flow-helloworld-maven-meecrowave` starter as a base.
+> You can find the latest tutorial version https://vaadin.com/tutorials/helloworld-with-meecrowave[here].
+
+This tutorial shows you how to build a fluent API from scratch. If you just want to use the fluent API, you can find an addon in the link:/directory/component/rapidpm-vaadin-fluent-component-api[directory].
+
+== Why do we need a fluent API?
+
+If you are using Vaadin, mostly your code looks like the following.
+Let's assume you want to create a `PasswordField`.
+For this, you often start with the instantiation of the class.
+
+The PasswordField is created as an attribute, or 
+alternatively as a field inside the initialization block, most often in the constructor.
+
+[source,java]
+----
+    final PasswordField password = new PasswordField();
+    password.setPlaceholder("password");
+    password.setId("pf-password-id");
+    password.setValueChangeMode(ValueChangeMode.EAGER);
+    password.setVisible(true);
+    password.setRequired(true);
+----
+
+If it is only like this, it looks ok so far. However, if the attribute is in a more global context, let's say as a class attribute,
+you have to maintain at least two places. First, the place where
+the attribute is defined and second the place where you are initializing the attribute itself.
+
+[source,java]
+----
+    final PasswordField password = new PasswordField();
+
+    public MyClass(){
+      password.setPlaceholder("password");
+      password.setId("pf-password-id");
+      password.setValueChangeMode(ValueChangeMode.EAGER);
+      password.setVisible(true);
+      password.setRequired(true);      
+    }
+----
+
+=== Inner non static blocks
+
+If you want to hold the definition of the attribute and
+the initializing near together, you could think about using
+inner nonstatic blocks. At the first view, it looks
+nice. Both things are near together. Would this
+solution be refactoring safe? Well, if inner non-static
+blocks are used, the developer must know at what time
+each block and the constructor is called.
+Order matters here and the IDE is mostly not able to support you
+during refactorings.
+
+[source,java]
+----
+    final PasswordField password = new PasswordField();
+
+    {
+      password.setPlaceholder("password");
+      password.setId("pf-password-id");
+      password.setValueChangeMode(ValueChangeMode.EAGER);
+      password.setVisible(true);
+      password.setRequired(true);      
+    }
+----
+
+=== Anonymous inner classes
+
+One other way is the usage of the *double curly braces* pattern.
+If you are searching for more information's about this
+you are finding many descriptions that this is an anti-pattern.
+Have in mind that most posts are from the year 2014/2015.
+The main points are,
+1. A lot of anonymous classes are created
+2. A reference is held between holding class and anonymous class
+
+Both arguments are not as bad as it looks.
+Other languages like Kotlin and Scala are creating many
+classes, and the even the implementation of an ActionListener
+is mostly an anonymous class as well. So this is something,
+the GC can handle quite well. To get a few information's about it,
+use the following flags and enjoy reading the GC Logs. 
+
+* *-XX:-TraceClassLoading* Trace loading of classes.
+* *-XX:-TraceClassLoadingPreorder* Trace all classes loaded in order referenced (not loaded).
+* *-XX:-TraceClassResolution* Trace constant pool resolutions.
+* *-XX:-TraceClassUnloading* Trace unloading of classes.
+* *-XX:-TraceLoaderConstraints* Trace recording of loader constraints.
+
+The little bit more biting fact is the reference itself.
+As long as you are not sharing references across the application,
+this is never a more significant challenge for the GC. So, have in mind.
+Don't share the references, hold them inside your _View_.
+
+If you are using this, your code looks like the following.
+
+[source,java]
+----
+    final PasswordField password = new PasswordField() {{
+      setPlaceholder("password");
+      setId("pf-password-id");
+      setValueChangeMode(ValueChangeMode.EAGER);
+      setVisible(true);
+      setRequired(true);      
+    }}
+----
+
+Now, the creation of the instance and the initializing is near together.
+The IDE can support you as well. However, this may not be what you want to do.
+What could be the next solution?
+
+=== Optional or something similar
+
+Since Java8 we have the class Optional, and we could use this
+to hold the definition and the initializing near together.
+You can somehow use the method *ifPresent*.
+This usage of the Optional would not create anonymous classes and no reference you need to track.
+
+[source,java]
+----
+    final PasswordField password = Optional.of(new PasswordField())
+     .map( pf -> {
+             pf.setPlaceholder("password");
+             pf.setId("pf-password-id");
+             pf.setValueChangeMode(ValueChangeMode.EAGER);
+             pf.setVisible(true);
+             pf.setRequired(true);
+     })
+     .get();
+----
+
+== Fluent API
+
+Finally, we are at the point to have a view on the
+fluent API for Vaadin. There are at least two different ways you can add
+the fluent API into the Vaadin Components.
+The object-oriented style would be the way to extend the components themselves.
+This construction would lead to a parallel class hierarchy. For sure, you can downcast
+every time to the original class, but the main thing is:
+the fluent API is part of the component itself.
+
+My point of view is different. I don't want to have this
+as part of the component itself. Moreover, I don't want to
+create a parallel class hierarchy. I prefer a solution that
+can be used in new and in old projects at the same time.
+Also, I don't want to force the developer every time to use this.
+
+One big thing is, how you can deal with the existing code.
+If there is an existing component, and I want to invoke a few methods,
+I can not or do not want to create a new instance.
+The fluent API should be usable for pre-initialized objects as well.
+
+=== The generic solution for building a fluent API
+
+First, we have a look at the generic version of the fluent API.
+To do so is essential because this is the fall back if the fluent API is missing a method
+alternatively, you want to use the fluent API for your self-written components without
+writing a corresponding fluent API.
+
+The Vaadin platform itself brings a few nice things that we can use.
+For example, the data binding uses a functional interface called
+`Setter<T, V>`. 
+
+[source,java]
+----
+@FunctionalInterface
+public interface Setter<BEAN, FIELDVALUE> extends BiConsumer<BEAN, FIELDVALUE>, Serializable {
+  void accept(BEAN var1, FIELDVALUE var2);
+}
+----
+
+With this, the attribute value can be set.
+The usage looks like this:
+
+[source,java]
+----
+Setter<PasswordField, String> setter = new Setter<PasswordField, String>() {
+  @Override
+  public void accept(PasswordField passwordField, String value) {
+    passwordField.setId(value);
+  }
+};
+setter.accept(password, "id" );
+----
+
+
+This code we can be refactored to some more compact code now.
+First, we are transforming the anonymous inner class into a lambda construct.
+
+[source,java]
+----
+Setter<PasswordField, String> setter 
+    = (Setter<PasswordField, String>) (passwordField, value) -> passwordField.setId(value);
+setter.accept(password, "id" );
+----
+
+We can remove the type declaration and use more generic names for the parameters.
+
+[source,java]
+----
+Setter<PasswordField, String> setter
+ = (bean, value) -> bean.setId(value);
+ setter.accept(password, "id" );
+----
+
+Now we can convert the Lambda construct into the usage of a method reference.
+
+[source,java]
+----
+    Setter<PasswordField, String> setter 
+        = Component::setId;
+    setter.accept(password, "id" );
+----
+
+The code is quite compact now. The next step is the abstraction of the
+definition of what to do from the usage itself.
+The definition, what to do, we can write as a function. For this we
+define an interface called `ComponentMixin<T extends Component>`.
+The instance of the component is held inside an `Optional`.
+However, we are not defining an attribute. We are only defining the way how to get it.
+Now we can declare how to set an attribute plus the return value generically on the instance itself.
+
+[source,java]
+----
+public interface ComponentMixin<T extends Component> {
+
+  Optional<T> component();
+
+  default <V> ComponentMixin<T> set(Setter<T, V> target, V value) {
+    component().ifPresent(c -> target.accept(c, value));
+    return this;
+  }
+}
+----
+
+On the other side, we need the place to hold the instance of the component itself.
+This is done inside the class called `ComponentHolder<T extends Component>`
+
+[source,java]
+----
+public class ComponentHolder<T extends Component> {
+
+  private Optional<T> component;
+
+  public ComponentHolder(Optional<T> component) {
+    this.component = component;
+  }
+
+  public ComponentHolder(Supplier<T> supplier) {
+    this.component = ofNullable(supplier.get());
+  }
+
+  public Optional<T> component() {
+    return component;
+  }
+}
+----
+
+With this way to write the code, we have now divided the stateful and the stateless part.
+The combination of the two is called `ComponentBuilder`.
+
+[source,java]
+----
+public class ComponentBuilder
+    extends ComponentHolder<Component>
+    implements ComponentMixin {
+
+  public ComponentBuilder(Optional<Component> component) {
+    super(component);
+  }
+
+  public ComponentBuilder(Supplier<Component> supplier) {
+    super(supplier);
+  }
+}
+----
+
+Now it is time to create the basic UI to show how we can use a
+generic ComponentBuilder. The example shows how to create an instance of a `PasswordField`. 
+
+[source,java]
+----
+  private final PasswordField password = (PasswordField) new ComponentBuilder(PasswordField::new)
+      .setId("pf-password-id")
+      .set((Setter<PasswordField, String>) PasswordField::setPlaceholder, "password")
+      .build();
+----
+
+As you could see clearly, this is not nice because we have to put too much
+type information into the code itself.
+
+Checking the implementation of a Flow-Button itself, it shows that the Button is
+based on a set of Mixins. Every property is defined with a single interface.
+taking this as a base, the fluent API can be composed in the same way.
+For every interface, a corresponding interface with the fluent API elements is created.
+The composition of the interfaces will lead to the final implementation of the
+Builder, of a ButtonBuilder for example.
+
+As an example we will have a look at the interface *HasSize* from Flow.
+You can see that the interface *HasSize* is extending the interface *HasElement*.
+
+[source,java]
+----
+public interface HasSize extends HasElement
+----
+
+Following the fluent API interface for the property *HasSize* is listed.
+Also, in this case again,
+the interface *HasSizeMixin* is extending, in the same way, the interface *HasElementMixin*.
+
+[source,java]
+----
+public interface HasSizeMixin<R extends HasSizeMixin, T extends HasSize>
+    extends HasElementMixin<R, T> {
+
+  default R setWidth(String width) {
+    return invoke(c -> c.setWidth(width));
+  }
+
+  default R setHeight(String height) {
+    return invoke(c -> c.setHeight(height));
+  }
+
+  default R setSizeFull() {
+    return invoke(HasSize::setSizeFull);
+  }
+
+  default R setSizeUndefined() {
+    return invoke(HasSize::setSizeUndefined);
+  }
+}
+----
+
+All methods from the original interface *HasSize* got a corresponding fluent
+one defined in the interface *HasSizeMixin*.
+Working along towards the complete hierarchy of inheritance, the last step will bring us the
+interfaces for the components like Button or Combobox.
+
+[source,java]
+----
+public interface ButtonMixin
+    extends
+    ComponentMixin<ButtonMixin, Button>,
+    FocusableMixin<ButtonMixin, Button>,
+    ClickNotifierMixin<ButtonMixin, Button>,
+    HasStyleMixin<ButtonMixin, Button>,
+    HasEnabledMixin<ButtonMixin, Button>,
+    HasSizeMixin<ButtonMixin, Button>,
+    HasTextMixin<ButtonMixin, Button> {
+
+  default ButtonMixin setText(String text) {
+    return invoke(c -> c.setText(text));
+  }
+
+  default ButtonMixin setIcon(Component icon) {
+    return invoke(c -> c.setIcon(icon));
+  }
+
+  default ButtonMixin setIconAfterText(boolean iconAfterText) {
+    return invoke(c -> c.setIconAfterText(iconAfterText));
+  }
+
+  default ButtonMixin setAutofocus(boolean autofocus) {
+    return invoke(c -> c.setAutofocus(autofocus));
+  }
+
+  default ButtonMixin click() {
+    return invoke(Button::click);
+  }
+}
+----
+
+The final builder for the component *Button* looks
+like the following and is called *ButtonBuilder*
+
+[source,java]
+----
+public class ButtonBuilder
+    extends ComponentHolder<Button>
+    implements ButtonMixin {
+
+  public ButtonBuilder(Result<Button> component) {
+    super(component);
+  }
+
+  public ButtonBuilder(Supplier<Button> supplier) {
+    super(supplier);
+  }
+
+  public ButtonBuilder(Button component) {
+    super(component);
+  }
+}
+----
+
+Finally, we can use this Builder with all the button-specific methods to create an instance
+inside our Vaadin web app.
+
+[source,java]
+----
+  final Button btnCancel = new ButtonBuilder(Button::new)
+      .setId(BTN_CANCEL_ID)
+      .addClickListener(e -> clearFields())
+      .setText(getTranslation(BTN_CANCEL_CAPTION))
+      .setVisible(true)
+      .build();
+----
+
+If you have an instance already, you can use this one as well.
+Working with typed composites is giving  you an already created instance of
+the type of class that is used inside the declaration.
+The demo app uses a `Composite<HorizontalLayout>` as its base.
+The method *getContent()* gives you precisely this instance.
+To configure the instance, use this on as input for the Builder.
+
+[source,java]
+----
+  public LoginView() {
+    new HorizontalLayoutBuilder(ofNullable(getContent()))
+        .setDefaultVerticalComponentAlignment(Alignment.CENTER)
+        .setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER)
+        .setSizeFull()
+        .component()
+        .ifPresent(l -> l.add(layout));
+  }
+----
+
+Now we have all together that is needed for a fluent API for Flow.
+If you want to try it by yourself, get one of our starters you can find link:/start/latest[here] and
+add the dependency for the fluent API from our link:/directory/component/rapidpm-vaadin-fluent-component-api[directory].
