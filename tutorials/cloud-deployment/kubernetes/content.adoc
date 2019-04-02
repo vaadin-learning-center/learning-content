@@ -1,6 +1,6 @@
-= Deploy to Kubernetes
+= Deploy to Kubernetes on Google Cloud
 
-:title: Deploy to Kubernetes
+:title: Deploy to Kubernetes on Google Cloud
 :authors: amahdy
 :type: text
 :tags: Backend, Cloud, Deploy, Kubernetes, Java
@@ -10,7 +10,7 @@
 :imagesdir: ./images
 :related_tutorials: cloud-deployment/google
 
-This tutorial teaches you how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Kubernetes. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your applications.
+This tutorial teaches you how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Kubernetes on Google Cloud Platform. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your applications.
 
 Following the link:/tutorials/cloud-deployment/google/[previous tutorial] about deploying to Google cloud, in this tutorial we will see how to deploy it on Google Kubernetes Engine.
 

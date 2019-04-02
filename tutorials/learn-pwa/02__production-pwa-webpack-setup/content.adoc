@@ -8,7 +8,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
-In the link:/tutorials/turn-website-into-a-pwa[previous tutorial], the focus was on learning the basic principles of how Progressive Web Apps work. Some of the issues we identified with the application were:
+In the link:/tutorials/learn-pwa/turn-website-into-a-pwa[previous tutorial], the focus was on learning the basic principles of how Progressive Web Apps work. Some of the issues we identified with the application were:
 
 * We need to remember to update a timestamp in the ServiceWorker any time we update static resources
 * Our initial caching can easily fail if network errors cause a single file to fail

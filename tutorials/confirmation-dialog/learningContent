@@ -1,0 +1,44 @@
+confirmDialogArticle
+Most UIs require the user to submit some kind of action for example saving or changing data.
+Triggering these actions by accident however is usually unwanted.
+A commonly used solution to this problem are confirmation dialogs which ask the
+user to confirm their actions before triggering them.
+This article gives a brief introduction into confirmation dialogs,
+what they should and should not contain, typical use cases as well as an example
+implementation using the Vaadin 12 framework.
+
+A confirmation dialog is simple dialog, that asks the user to confirm an action.
+They are usually used in situations where triggering an action prematurely would
+lead to a diminished user experience or execute an irreversible application functionality.
+Typical examples are actions that result in additional work for the enduser when
+triggered by accident like logging out of the application or storing wrong/incomplete user data.
+In order to avoid annoying the user confirmation dialogs should not be overused.
+Therefor actions that are easily reversible dont require confirmation dialogs.
+A good example for this would be actions that trigger navigation events.
+
+Confirmation dialogs usually consist of the same three parts as most other dialogs.
+A header section, a content sections and a footer section. The header contains
+the title of the dialog and most often a button to close the dialog.
+The content section typically contains the confirmation question. This can be a simple
+"Are you sure?" or contain more specifics about the action in question. This section
+sometimes also contains a summary of the data related to the action. The footer part
+contains two buttons, one to confirm and one to cancel the action.
+These are some examples of confirmation dialogs:
+          EXAMPLES EXAMPLES EXAMPLES
+
+Every dialog implemented with the vaadin 10+ framework should extend the Dialog class.
+This creates and overlay and handles all the other dialog behavior.For more
+information visit DIALOG URL.
+Due to the simplicity of confirmation dialogs they are highly reusable and should be
+implemented as such. Only three things change for different confirmation dialogs:
+1. The title
+2. The confirmation question
+3. The action that gets triggered once the confirm button is pressed.
+
+The title and the confirmation questions are labels inside some container component.
+By setting the texts of these labels the title and confirmation question can be altered.
+The desired values can either be passed by using the constructor or by setting them directly.
+All buttons of a conformation dialog close the dialog itself, since a decision
+has been made at that point and the dialog is no longer needed. The confirm button
+also needs to trigger the confirmed action which is why this action needs to be passed.
+In this implementation its passed as a click listner which is attached to the confirm button.
