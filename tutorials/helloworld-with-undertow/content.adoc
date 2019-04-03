@@ -1,44 +1,42 @@
-= HelloWorld - with RedHat Undertow - Ramp up in a second
+=  Ramp up in a second with RedHat Undertow
 
 :type: text, video
 :tags: RedHat, Undertow, Flow, Java
-:description: How to start a Vaadin Flow project with RedHat Undertow in a second
+:description: Learn how quickly set up a Vaadin Flow Java project with RedHat Undertow
 :repo: https://github.com/vaadin-learning-center/flow-helloworld-maven-undertow
 :linkattrs:
 :imagesdir: ./images
 
 
-A nano project to start a Vaadin project. Perfect for Micro-UIs packed as fat jar in a docker image.
-This will be used in some of the tutorial implementations.
+This is a  nano project starter for Vaadin projects. It's perfect for micro UIs packed as a fat jar in a docker image.
+The base project will be used in some of the tutorial implementations as well.
 
 == Target of this project
 
 The target of this project is a minimal ramp-up time for a first hello world.
 Why we need one more HelloWorld? Well, the answer is quite easy.
-If you have to try something out, or you want to make a small POC present something,
-there is no time and budget to create a demo project.
+If you have to try something out, or you want to make a small POC present something, there is no time and budget to create a demo project.
 You don't want to copy paste all small things together.
-Here you will get a HelloWorld-Project that will give you all in a second.
+Here you will get a HelloWorld-project that will give you everything you need quickly.
 
-Clone the repo and start editing the class `VaadinApp` or `CoreUIService`.
+https://github.com/vaadin-learning-center/flow-helloworld-maven-undertow[Clone the repo] and start editing the class `VaadinApp` or `CoreUIService`.
 Nothing more. 
 
 == How does it work?
 
-This project will not use any additional maven plugin or technology.
+This project does not use any additional maven plugins or technologies.
 
-Here we are using the plain *undertow* as Servlet-Container.
+Here we are using the plain *undertow* as the Servlet container.
 https://github.com/undertow-io/undertow[https://github.com/undertow-io/undertow]
 
-But let's start from the beginning.
+However, let's start from the beginning.
 
-== Start the Servlet-Container (Java)
+== Start the Servlet container (Java)
 
-The class `CoreUIService` will ramp up the Container.
+The `CoreUIService` class ramps up the Container.
 
-Here all the basic stuff is done. The start will init. a ServletContainer at port `8080`.
-The WebApp will be deployed as `ROOT.war`. The following code will show how to ramp up an Undertow
-from scratch.
+Here all the basic stuff is done. The start will initializing a ServletContainer at port `8080`.
+The WebApp will be deployed as `ROOT.war`. The following code will show how to ramp up an Undertow from scratch.
 
 [source,java]
 ----
@@ -85,7 +83,7 @@ from scratch.
   }
 ----
 
-One important and Vaadin specific part of this code are listed below.
+One crucial and Vaadin specific part of this code is listed below.
 
 [source,java]
 ----
@@ -96,7 +94,7 @@ If you are using the core Undertow, the default ResourceManager is a dummy imple
 This will to a few **404** if Vaadin Flow will try to load resources that are part of
 a jar. To get this solved, we need to implement our own **ResourceManager**.
 
-The **VaadinFlowResourceManager** is able to handle the Vaadin specific resources and webjars.
+The **VaadinFlowResourceManager** can handle the Vaadin specific resources and webjars.
 
 [source,java]
 ----
@@ -122,13 +120,13 @@ The **VaadinFlowResourceManager** is able to handle the Vaadin specific resource
   }
 ----
 
-After this, you can start the app invoking the main-method.
+After this, you can start the app invoking the main method.
 
 == The UI itself
 
-The UI itself contains not so many elements. There is only a button you can click.
+The UI itself doesn't contain many elements. There is only a button you can click.
 For every click, the counter will be increased.
-The component will be registered under the root-path, based on the Annotation `@Route("")`
+The component will be registered under the root path, based on the Annotation `@Route("")`
 For more pieces of information about the routing itself have a look at
 https://vaadin.com/docs/flow/routing/tutorial-routing-annotation.html[https://vaadin.com/docs/flow/routing/tutorial-routing-annotation.html]
 
