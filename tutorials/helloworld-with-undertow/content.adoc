@@ -50,7 +50,7 @@ from scratch.
                   .setContextPath("/")
                   .setDeploymentName("ROOT.war")
                   .setDefaultEncoding("UTF-8")
-                  .setResourceManager(new VaadinFlowResourceManager(classLoader))
+                  .setResourceManager(new ClassPathResourceManager(classLoader, "META-INF/resources/"))
                   .addServletContainerInitializer(
                       new ServletContainerInitializerInfo(RouteRegistryInitializer.class ,
                                                           setOfRouteAnnotatedClasses())
@@ -89,14 +89,18 @@ One important and Vaadin specific part of this code are listed below.
 
 [source,java]
 ----
-.setResourceManager(new VaadinFlowResourceManager(classLoader))
+.setResourceManager(new new ClassPathResourceManager(classLoader, "META-INF/resources/"))
 ----
 
 If you are using the core Undertow, the default ResourceManager is a dummy implementation.
 This will to a few **404** if Vaadin Flow will try to load resources that are part of
-a jar. To get this solved, we need to implement our own **ResourceManager**.
+a jar. To get this solved, we need to declare a prefix for the **ClassPathResourceManager**
+The prefix is **"META-INF/resources/"**. This path is not needed for ServletContainer
+that are implementing and actively using the Servlet Spec 4. You will find in chapter 4.6
+the definition of this folder.
 
-The **VaadinFlowResourceManager** is able to handle the Vaadin specific resources and webjars.
+But if you need your own paths included, you can implement the interface ResourceManager.
+As a sample you will find an implementation below. (or in the class **VaadinFlowResourceManager**)
 
 [source,java]
 ----
