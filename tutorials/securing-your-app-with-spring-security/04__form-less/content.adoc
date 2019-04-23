@@ -1,0 +1,149 @@
+:title: Customize Spring Security to allow reload free login dialogs
+:author: Paul Römer
+:type: text
+:tags: Spring, Spring Boot
+:description: Adds a specialized Spring Security and Vaadin configuration to allow handling the whole authentication without submitting a form.
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/formless
+:linkattrs:
+:imagesdir: ./images
+:placeholder:
+:hidden:
+
+After discussing different ways of creating login forms and POSTing their data to Spring Security's endpoint, now, we will explain how to get authenticated without page reloads. This approach will force us to dig a little deeper into the login flow the framework provides by triggering the authentication step manually and taking care of success and error handling.
+
+[NOTE]
+This is more of a personal note but I want to state out that I do not like this approach that much because the benefit you get does not justify the additional effort you need. In the end it is about avoiding the break in the UX by avoiding a page reload in those rare cases when users are not logged in already (like with remember me cookies). Additionally, this will only work for your very own login with credentials. If you want to use SSO providers - what should always be preferred nowadays - you will not be able to avoid redirects at all...
+
+Like with the form-based examples we will keep the requirements low: Users need to be authenticated to access any page and will be routed to the login view if not authenticated.
+
+We have to extend the security configuration to get access to the authentication manager bean and the request cache:
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+@Bean
+@Override
+public AuthenticationManager authenticationManagerBean() throws Exception { // <1>
+    return super.authenticationManagerBean();
+}
+
+@Bean
+public CustomRequestCache requestCache() { // <2>
+     return new CustomRequestCache();
+}
+
+/**
+ * Require login to access internal pages and configure login form.
+ */
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    // Not using Spring CSRF here to be able to use plain HTML for the login page
+    http.csrf().disable()
+
+            // Register our CustomRequestCache that saves unauthorized access attempts, so
+            // the user is redirected after login.
+            .requestCache().requestCache(new CustomRequestCache())
+
+            // Restrict access to our application.
+            .and().authorizeRequests()
+
+            // Allow all flow internal requests.
+            .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
+
+            // Allow all requests by logged in users.
+            .anyRequest().authenticated()
+
+            // Configure the login page.
+            .and().formLogin().loginPage("/" + LoginView.ROUTE).permitAll() // <3>
+
+            // Configure logout
+            .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+}
+----
+<1> Since SpringBoot 2 the authentication manager bean has to be exposed manually.
+<2> We also have to expose the custom request cache to access it in our login view.
+<3> We keep the form login semi-activate even if we do not use it. But Spring Security will take care of the redirects.
+
+The custom request cache we are using extends the `HttpSessionRequestCache` that internally stores the saved request as a `DefaultSavedRequest` in the session. That is why it is save to cast the returned `SavedRequest`. Besides the helper method simplifies access to the saved request object by using Vaadin's request and response abstraction.
+.`*CustomRequestCache.java*`
+[source,java,linenums]
+----
+@Bean
+@Override
+public DefaultSavedRequest getSavedRequest() {
+    return (DefaultSavedRequest)getRequest(VaadinServletRequest.getCurrent().getHttpServletRequest(), VaadinServletResponse.getCurrent().getHttpServletResponse());
+}
+----
+
+Finally, we will put everything together in the login view itself:
+.`*LoginView.java*`
+[source,java,linenums]
+----
+@Tag("sa-login-view")
+@Route(value = LoginView.ROUTE)
+@PageTitle("Login")
+public class LoginView extends VerticalLayout {
+    public static final String ROUTE = "login";
+
+    private LoginOverlay login = new LoginOverlay(); // <1>
+
+    @Autowired
+    public LoginView(AuthenticationManager authenticationManager, // <2>
+                     CustomRequestCache requestCache) {
+        // configures login dialog and adds it to the main view
+        login.setOpened(true);
+        login.setTitle("Spring Secured Vaadin");
+        login.setDescription("Login Overlay Example");
+
+        add(login);
+
+        login.addLoginListener(e -> { // <3>
+            try {
+                // try to authenticate with given credentials
+                final Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(e.getUsername(), e.getPassword())); // <4>
+
+                // if authentication was successful we will update the security context and redirect to the page requested first
+                SecurityContextHolder.getContext().setAuthentication(authentication); // <5>
+                login.close(); // <6>
+                UI.getCurrent().navigate(resolveRedirectUrl(requestCache)); // <7>
+
+            } catch (AuthenticationException ex) { // <8>
+                // something went wrong
+                login.setError(true);
+            }
+        });
+    }
+
+    /**
+     * Uses the custom request cache to resolve the correct redirect URL.
+     *
+     * @param requestCache
+     * @return
+     */
+    private String resolveRedirectUrl(CustomRequestCache requestCache) {
+        final DefaultSavedRequest savedRequest = requestCache.getSavedRequest(); // <9>
+        if(savedRequest != null) { // <10>
+            final String requestURI = savedRequest.getRequestURI();
+            if (requestURI != null && requestURI.length() > 0 && !requestURI.contains(ROUTE)) {
+                return requestURI.startsWith("/") ? requestURI.substring(1) : requestURI; // <11>
+            }
+        }
+
+        return "";
+    }
+}
+----
+<1> Let's use the awesome login dialog component Vaadin provides.
+<2> Inject needed beans.
+<3> The component allows registering a login listener that gives access to the provided username and password.
+<4> Starts the authentication process by creating an authentication request object and let the manager do the rest. If successful we get a fully configured authentication object.
+<5> We have to register the authentication object in the security context manually to make Spring Security aware of it.
+<6> If the authentication was successful we must not forget to close the dialog. Otherwise you will not see much of your views.
+<7> Resolve the redirect URL and route to the location.
+<8> In cases the authentication failed, we will inform the user about it via this dialog feature. It is always a good practice to give as less information as possible.
+<9> Here we use our custom request cache to get the saved redirect URL.
+<10> As the request is only saved in exceptional cases (user is not logged in) by Spring Security, we make sure we do not run into a NPE here.
+<11> Some mangling to satisfy `Ui.navigate()` that expects relative links without a leading slash.
+
+That's it. Now run `mvn spring-boot:run` and open localhost:8080. You will be redirected to the login view, should able to provide the credentials and be redirected to the root.
