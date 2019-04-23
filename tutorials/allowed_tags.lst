@@ -1,6 +1,7 @@
 Angular
 Apache
 Architecture
+API
 Backend
 Cloud
 Code splitting
@@ -11,6 +12,7 @@ Domain-Driven Design
 Eclipse
 Embed
 Flow
+Fluent API
 I18N
 IntelliJ IDEA
 Internationalisation
@@ -51,7 +53,9 @@ Standard
 Templating
 Testbench
 TomEE
+Testbench
 Thorntail
+Undertow
 Vaadin 7
 Vaadin 8
 Validation
