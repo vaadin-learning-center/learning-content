@@ -9,11 +9,11 @@
 :linkattrs:
 :imagesdir: ./images
 
-In the two previous articles we learned about strategic and tactical domain-driven design. Now it is time to learn how to turn a domain model into working software - more specifically, how to do it using the hexagonal architecture. 
+In the two previous articles, we learned about strategic and tactical domain-driven design. Now it is time to learn how to turn a domain model into working software - more specifically, how to do it using the hexagonal architecture. 
 
-The previous two articles were pretty generic even though the code examples where written in Java. Even though a lot of the theory in this article can also be applied in other environment and languages as well, I have explicitly written it with Java and Vaadin in mind.
+The previous two articles were pretty generic even though the code examples were written in Java. Although a lot of the theory in this article can also be applied in other environment and languages as well, I have explicitly written it with Java and Vaadin in mind.
 
-Again, the content is based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon* and I highly recommend you to read both of them. However, even though I presented my own thoughts, ideas and experiences in the previous articles as well, this one is even more strongly colored by what I myself think and believe. That said, it was the books of Evans and Vernon that got me started with DDD in the first place and I'd like to think that what I'm writing here is not too far from what you will find in the books.
+Again, the content is based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon* and I highly recommend you to read both of them. However, even though I presented my own thoughts, ideas and experiences in the previous articles as well, this one is even more strongly colored by what I think and believe. That said, it was the books of Evans and Vernon that got me started with DDD in the first place and I'd like to think that what I'm writing here is not too far from what you will find in the books.
 
 == Why Is It Called Hexagonal?
 
@@ -21,7 +21,7 @@ The name _hexagonal architecture_ comes from the way this architecture is usuall
 
 image:hexagonal.png[The hexagonal architecture]
 
-Using hexagonals leaves plentiy of space for _ports and adapters_, which is another name for this architecture that better explains what the central idea is. The architecture is also sometimes called the _onion architecture_ because of how it is layered. 
+Using hexagons leaves plenty of space for _ports and adapters_, which is another name for this architecture that better explains what the central idea is. The architecture is also sometimes called the _onion architecture_ because of how it is layered.
 
 In the following, we are going to have a closer look at the "onion". We are going to start with the core - the domain model - and then work ourselves out, one layer at the time, until we reach the ports and the systems and clients interacting with them.
 
@@ -31,16 +31,16 @@ Once we dig deeper into the hexagonal architecture you will find that it has sev
 
 image:layers.png[The traditional layered architecture]
 
-The principle is that the system is built up of layers stacked on top of each other. A higher layer can interact with a lower layer _but not the other way around_. Typically, in a domain-driven layered architecture, you would have the UI layer at the top. This layer in turn interacts with an application service layer, which interacts with the domain model that lives in a domain layer. At the bottom we have an infrastructure layer that communicates with external systems such as a database.
+The principle is that the system is built up of layers stacked on top of each other. A higher layer can interact with a lower layer _but not the other way around_. Typically, in a domain-driven layered architecture, you would have the UI layer at the top. This layer, in turn, interacts with an application service layer, which interacts with the domain model that lives in a domain layer. At the bottom, we have an infrastructure layer that communicates with external systems such as a database.
 
 In the hexagonal system, you will find that the application layer and the domain layer are still pretty much the same. However, the UI layer and the infrastructure layer are treated in a very different way. Keep reading to find out how.
 ****
 
 == The Domain Model
 
-At the very core of the hexagonal architecture lies the domain model, implemented using the building blocks of tactical DDD that we covered in the previous article. This is where the so called business logic lives, where all the business decisions are made. This is also the most stable part of the software that hopefully will change the least (unless the business itself changes of course).
+At the very core of the hexagonal architecture lies the domain model, implemented using the building blocks of tactical DDD that we covered in the previous article. This is where the so-called business logic lives, where all the business decisions are made. This is also the most stable part of the software that hopefully will change the least (unless the business itself changes of course).
 
-The domain model has been the subject of the previous two articles in this series so we are not going to cover it anymore here. However, the domain model alone does not provide any value if there is no way of interacting with it. To do that, we have to move up to the next layer in the "onion".
+The domain model has been the subject of the previous two articles in this series, so we are not going to cover it anymore here. However, the domain model alone does not provide any value if there is no way of interacting with it. To do that, we have to move up to the next layer in the "onion".
 
 == Application Services
 
@@ -49,9 +49,9 @@ An application service acts as a facade through which clients will interact with
 * They are stateless
 * They enforce system security
 * They control the database transactions
-* They orchestrate business operations but do not make any business decisions (i.e. they do not contain any business logic)
+* They orchestrate business operations but do not make any business decisions (i.e., they do not contain any business logic)
 
-Let's have a closer look at what this actually means.
+Let's have a closer look at what this means.
 
 .Hexagonal vs. Entity-Control-Boundary
 ****
@@ -62,7 +62,7 @@ If you have heard of the *Entity-Control-Boundary* pattern before, you will find
 
 An application service does not maintain any internal state that can be changed by interacting with clients. All the information that is needed to perform an operation should be available as input parameters to the application service method. This will make the system simpler and easier to debug and scale.
 
-If you find yourself in a situation where you have to make multiple application service calls within the context of a single business process, you can model the business process in a class of its own and pass an instance of it as an input parameter to the applcation service method. The method would then do its magic and return an updated instance of the business process object that in turn can be used as input to other application service methods:
+If you find yourself in a situation where you have to make multiple application service calls within the context of a single business process, you can model the business process in a class of its own and pass an instance of it as an input parameter to the application service method. The method would then do its magic and return an updated instance of the business process object that in turn can be used as input to other application service methods:
 
 .Business Process as Input Argument
 [source,java]
@@ -85,7 +85,7 @@ For tips on how to implement more complex and long-running business processes, I
 
 === Security Enforcement
 
-The application service makes sure that the current user is allowed to perform the operation in question. Technically, you can do this manually at the top of each application service method or use something more sofisticated such as AOP. It does not matter how security is enforced as long as it happens in the application service layer and not inside the domain model. Now why is this important?
+The application service makes sure that the current user is allowed to perform the operation in question. Technically, you can do this manually at the top of each application service method or use something more sophisticated such as AOP. It does not matter how security is enforced as long as it happens in the application service layer and not inside the domain model. Now, why is this important?
 
 When we talk about security in an application, we tend to put more emphasis on preventing unauthorized access than on permitting authorized access. Thus, any security check we add to the system will essentially make it harder to use. If we add these security checks to the domain model, we may find ourselves in a situation where we are unable to perform an important operation because we did not think of it when the security checks were added and now they stand in the way. By keeping the all security checks out of the domain model, we get a more flexible system since we can interact with the domain model in any way we want. The system will still be safe since all clients are required to go through an application service anyway. It is way easier to create a new application service than to change the domain model.
 
@@ -112,7 +112,7 @@ class MyApplicationService {
 <1> The annotation instructs the framework to only allow authenticated users with the role `ROLE_BUSINESS_PROCESSOR` to invoke the method.
 <2> The application service looks up an aggregate root from a repository in the domain model.
 <3> The application service passes the aggregate root to a domain service in the domain model, storing the result (whatever it is).
-<4> The application serivce uses the result of the domain service to update the business process object and returns it so that it can be passed to other application service methods participating in the same longrunning process.
+<4> The application service uses the result of the domain service to update the business process object and returns it so that it can be passed to other application service methods participating in the same longrunning process.
 
 .Manual Security Enforcement
 [source,java]
@@ -231,7 +231,7 @@ class CustomerRegistrationService {
 }
 ----
 <1> The application service method runs inside a transaction.
-<2> The application serivce method can be accessed by any user.
+<2> The application service method can be accessed by any user.
 <3> We invoke a JSR-303 validator to check that the incoming registration request contains all the necessary information. If the request is invalid, we throw an exception that will be reported back to the user.
 <4> We invoke a domain service that will check if there already is a customer in the database with the same information. If that is the case, the domain service will throw an exception (not shown here) that will be propagated back to the user.
 <5> We invoke a domain factory that will create a new `Customer` aggregate with information from the registration request object.
@@ -241,9 +241,9 @@ class CustomerRegistrationService {
 
 In the previous article about tactical domain-driven design, we talked about domain events and domain event listeners. We did not, however, talk about where the domain event listeners fit into the overall system architecture. We recall from the previous article that a domain event listener should not be able to affect the outcome of the method that published the event in the first place. In practice, this means that a domain event listener should run inside its own transaction.
 
-Because of this, I consider domain event listeners to be a special kind of application service that is invoked not by a client but by a domain event. This also means that a domain event listener is an orchestrator that should not contain any business logic. Depending on what needs to happen when a certain domain event is published, you may have to create a separate domain service that decides what to do with it if there are more than one path forward.
+Because of this, I consider domain event listeners to be a special kind of application service that is invoked not by a client but by a domain event. This also means that a domain event listener is an orchestrator that should not contain any business logic. Depending on what needs to happen when a certain domain event is published, you may have to create a separate domain service that decides what to do with it if there is more than one path forward.
 
-This being said, in the section about aggregates in the previous article, I mentioned that it may sometimes be justified to alter multiple aggregates within the same transaction even though this goes against the aggregate design guidelines. I also mentioned that this should preferably be made through domain events. In cases like this, the domain event listeners would have to participate in the current transaction and could thereby affect the outcome of the method that published the event, breaking the design guidelines for both domain events and application services. This is not the end of the world as long as you do it intentionally and are aware of the conequences you might face in the future. Sometimes you just have to be pragmatic.
+This being said, in the section about aggregates in the previous article, I mentioned that it may sometimes be justified to alter multiple aggregates within the same transaction even though this goes against the aggregate design guidelines. I also mentioned that this should preferably be made through domain events. In cases like this, the domain event listeners would have to participate in the current transaction and could thereby affect the outcome of the method that published the event, breaking the design guidelines for both domain events and application services. This is not the end of the world as long as you do it intentionally and are aware of the consequences you might face in the future. Sometimes you just have to be pragmatic.
 
 === Input and Output
 
@@ -263,7 +263,7 @@ This alternative works best when the domain model is anemic (i.e. it only contai
 
 It also works if the client will be accessing the system through REST or SOAP and the aggregates can easily be serialized into JSON or XML and back. In this case, clients will not actually be interacting directly with your aggregates but with a JSON or XML representation of the aggregate that may be implemented in a completely different language. From the client's perspective, the aggregates are just DTOs.
 
-The advantages with this alternative are:
+The advantages of this alternative are:
 
 * You can use the classes that you already have
 * There is no need to convert between domain objects and DTOs.
@@ -281,7 +281,7 @@ In the second alternative, the application services consume and return data tran
 
 This alternative works best when the domain model is very rich in business logic, the aggregates are complex or when the domain model is expected to change a lot while keeping the client API as stable as possible.
 
-The advantages with this alternative are:
+The advantages of this alternative are:
 
 * The clients are decoupled from the domain model, making it easier to evolve it without having to change the clients.
 * Only the data that is actually needed is being passed between the clients and the application services, improving performance (especially if the client and the application service are communicating over a network in a distributed environment).
@@ -299,7 +299,7 @@ In the third alternative, application services consume and return domain payload
 
 This alternative works best in cases where the domain model is anemic, the aggregates are small and stable and you want to implement an operation that involves multiple different aggregates. Personally, I would say I use DPOs more often as output objects than as input objects.
 
-The advantages with this alternative are:
+The advantages of this alternative are:
 
 * You do not need to create DTO classes for everything. When passing a domain object directly to the client is good enough, you do it. When you need a custom DTO, you create one. When you need both, you use both.
 
@@ -309,7 +309,7 @@ The disadvantages are:
 
 ==== Code Examples
 
-Here are two Java examples of using DTOs and DPOs, respectively. The DTO example demonstrates a use case where it makes  sense to use a DTO than return the entity directly: Only a fraction of the entity attributes are actually needed and we need to include information that does not exist in the entity. The DPO example demonstrates a use case where it makes sense to use a DPO: We need to include many different aggregates that are related to each other in some way.
+Here are two Java examples of using DTOs and DPOs, respectively. The DTO example demonstrates a use case where it makes  sense to use a DTO than return the entity directly: Only a fraction of the entity attributes are needed and we need to include information that does not exist in the entity. The DPO example demonstrates a use case where it makes sense to use a DPO: We need to include many different aggregates that are related to each other in some way.
 
 The code has not been tested and should be treated more as pseudo-code than actual Java code.
 
@@ -384,7 +384,7 @@ As we have mentioned previously, an aggregate must always be in a consistent sta
 
 From a user experience perspective, the user interface should include validation so that the user is not even able to perform an operation if the data is invalid. However, relying simply on user interface validation is _not good enough_ in a hexagonal system. The reason for this is that the user interface is but one of potentially many ports into the system. It does not help that the user interface is validating data properly if a REST endpoint lets any garbage through to the domain model.
 
-When thinking about input validation there are actually two distinct kinds of validation: format validation and content validation. When we are validating the format, we check that certain values of certain types conform to certain rules. E.g. a social security number is expected to be in a specific pattern. When we are validating the content, we already have a wellformed piece of data and are interested in checking that that data makes sense. E.g. we may want to check that a well-formed social security number actually corresponds to a real person. You can implement these validations in different ways so lets have a closer look.
+When thinking about input validation there are actually two distinct kinds of validation: format validation and content validation. When we are validating the format, we check that certain values of certain types conform to certain rules. E.g. a social security number is expected to be in a specific pattern. When we are validating the content, we already have a well-formed piece of data and are interested in checking that that data makes sense. E.g. we may want to check that a well-formed social security number actually corresponds to a real person. You can implement these validations in different ways so let's have a closer look.
 
 ==== Format Validation
 
@@ -392,7 +392,7 @@ If you are using a lot of value objects in your domain model (I tend to do that 
 
 Now when the value objects are valid, how do we validate the entities that use them? There are two options available for Java developers.
 
-The first option is to add the validation into your constructors, factories and setter methods. The idea here is that it should not even be possible to put an aggregate into an inconsistent state: all required fields must be populated in the constructor, any setters of required fields will not accept null parameters, other setters will not accept values of an incorrect format or length, etc. I personally tend to use this approach when I'm working with domain models that are very rich in business logic. It makes the domain model very robust, but also practically forces you to use DTOs bewteen clients and application services since it is more or less impossible to properly bind to a UI.
+The first option is to add the validation into your constructors, factories and setter methods. The idea here is that it should not even be possible to put an aggregate into an inconsistent state: all required fields must be populated in the constructor, any setters of required fields will not accept null parameters, other setters will not accept values of an incorrect format or length, etc. I personally tend to use this approach when I'm working with domain models that are very rich in business logic. It makes the domain model very robust, but also practically forces you to use DTOs between clients and application services since it is more or less impossible to properly bind to a UI.
 
 The second option is to use Java Bean Validation (JSR-303). Put annotations on all of the fields and make sure your application service runs the aggregate through the `Validator` before doing anything else with it. I personally tend to use this approach when I'm working with domain models that are anemic. Even though the aggregate itself does not prevent anybody from putting it into an inconsistent state, you can safely assume that all aggregates that have either been retrieved from a repository or have passed validation are consistent.
 
@@ -404,7 +404,7 @@ The simplest case of content validation is to make sure that two or more interde
 
 A more complex case of content validation would be to check that a certain value exists (or does not exist) in a lookup list somewhere. This is very much the responsibility of the application service. Before allowing any business or persistence operations to continue, the application service should perform the lookup and throw an exception if needed. This is not something you want to put into your entities since the entities are movable domain objects whereas the objects needed for the lookup are typically static (see the previous article about tactical DDD for more information about movable and static objects).
 
-The most complex case of content validation would be to verify an entire aggregate against a set of business rules. In this case the responsibility is split between the domain model and the application service. A domain service would be responsible for performing the validation itself, but the application service would be responsible for invoking the domain service.
+The most complex case of content validation would be to verify an entire aggregate against a set of business rules. In this case, the responsibility is split between the domain model and the application service. A domain service would be responsible for performing the validation itself, but the application service would be responsible for invoking the domain service.
 
 ==== Code Examples
 
@@ -442,9 +442,9 @@ public class PhoneNumber implements ValueObject {
     // Equals and hashCode omitted
 }
 ----
-<1> First we check that the input value is not null.
-<2> We include only digits in the final phone number that we actually store. For international phone numbers we should support a '+' sign as the first character as well, but we'll leave that as an exercise to the reader.
-<3> We allow, but ignore, whitespace and certain special charaters that people often use in phone numbers.
+<1> First, we check that the input value is not null.
+<2> We include only digits in the final phone number that we actually store. For international phone numbers, we should support a '+' sign as the first character as well, but we'll leave that as an exercise to the reader.
+<3> We allow, but ignore, whitespace and certain special characters that people often use in phone numbers.
 <4> Finally, when all the cleaning is done, we check that the phone number is not empty.
 
 .Entity with Built-in Validation
@@ -477,8 +477,8 @@ public class Customer implements Entity {
     }
 }
 ----
-<1> We invoke the setters from the constructor in order to perform the validation implemented in the setter methods. There is a small risk in invoking overridable methods from a constructor in case a subclass decides to override any of them. In this case it would be better to mark the setter methods as final but some persistence frameworks may have a problem with that. You just have to know what you are doing.
-<2> Here we check the length of a string. The lower limit is a business requirement, since every customer must have a name. The upper level is a database requirement since the database in this case has a schema that only allows it to store strings of 50 characters. By adding the validation here already you can avoid annoying SQL errors at a later stage when you try to insert too long strings into the database.
+<1> We invoke the setters from the constructor in order to perform the validation implemented in the setter methods. There is a small risk in invoking overridable methods from a constructor in case a subclass decides to override any of them. In this case, it would be better to mark the setter methods as final but some persistence frameworks may have a problem with that. You just have to know what you are doing.
+<2> Here we check the length of a string. The lower limit is a business requirement since every customer must have a name. The upper level is a database requirement since the database, in this case, has a schema that only allows it to store strings of 50 characters. By adding the validation here already, you can avoid annoying SQL errors at a later stage when you try to insert too long strings into the database.
 
 .Entity with JSR-303 Validation
 [source,java]
@@ -506,17 +506,17 @@ public class Customer implements Entity {
 
 Before we leave the subject of application services, there is one more thing I want to briefly mention. As with all facades, there is an ever-present risk of the application services growing into huge god classes that know too much and do too much. These types of classes are often hard to read and maintain simply because they are so large.
 
-So how do you keep the application services small? The first step is of course to split a service that is growing too big into smaller services. However, there is a risk in this as well. I have seen situations where two services where so similar that developers did not know what the difference was between them, nor which method should go into which service. The result was that service methods were scattered over two separate service classes, and sometimes even implemented twice - once in each service - but by different developers.
+So how do you keep the application services small? The first step is of course to split a service that is growing too big into smaller services. However, there is a risk in this as well. I have seen situations were two services where so similar that developers did not know what the difference was between them, nor which method should go into which service. The result was that service methods were scattered over two separate service classes, and sometimes even implemented twice - once in each service - but by different developers.
 
-When I design application services I try to make them as coherent as possible. In CRUD applications, this could mean one application service per aggregate. In more domain-driven applications, this could mean one application service per business process or even separate services for specific use cases or user interface views.
+When I design application services, I try to make them as coherent as possible. In CRUD applications, this could mean one application service per aggregate. In more domain-driven applications, this could mean one application service per business process or even separate services for specific use cases or user interface views.
 
-Naming is a very good guideline when designing application services. Try to name your application services according to what they do as opposed to which aggregates they concern. E.g. `EmployeeCrudService`  or `EmploymentContractTerminationService` are fare better names than `EmployeeService` which could mean anything.
+Naming is a very good guideline when designing application services. Try to name your application services according to what they do as opposed to which aggregates they concern. E.g. `EmployeeCrudService`  or `EmploymentContractTerminationService` are far better names than `EmployeeService` which could mean anything.
 
-Finally I just want to mention command based application services. In this case, you model each application service model as a command object with a corresponding command handler. This means that every application service contains exactly one method that handles exactly one command. You can use polymorphism to create specialized commands or command handlers. This approach results in a large number of small classes and is useful especially in applications whose user interfaces are inherently command-driven or where clients interact with application services through some kind of messaging mechanism such as a message queue (MQ) or enterprise service bus (ESB).
+Finally, I just want to mention command based application services. In this case, you model each application service model as a command object with a corresponding command handler. This means that every application service contains exactly one method that handles exactly one command. You can use polymorphism to create specialized commands or command handlers. This approach results in a large number of small classes and is useful especially in applications whose user interfaces are inherently command-driven or where clients interact with application services through some kind of messaging mechanism such as a message queue (MQ) or enterprise service bus (ESB).
 
 ==== Code Examples
 
-I'm not going to give you an example of what a God-class looks like because that would take up too much space. Besides, I think most developers who has been in the profession for a while has seen their fair share of such classes. Instead we are going to look an an example of what a command based application service could look like. The code has not been tested and should be treated more as pseudo-code than actual Java code.
+I'm not going to give you an example of what a God-class looks like because that would take up too much space. Besides, I think most developers who have been in the profession for a while have seen their fair share of such classes. Instead, we are going to look at an example of what a command based application service could look like. The code has not been tested and should be treated more as pseudo-code than actual Java code.
 
 .Command Based Application Services
 [source,java]
@@ -563,23 +563,23 @@ public class CreateCustomerCommandHandler implements CommandHandler<CreateCustom
     }
 }
 ----
-<1> The `Command` interface is just a marker interface that also indicate the result (output) of the command. If the command has no output, the result can be `Void`.
+<1> The `Command` interface is just a marker interface that also indicates the result (output) of the command. If the command has no output, the result can be `Void`.
 <2> The `CommandHandler` interface is implemented by a class that knows how to handle (perform) a particular command and return the result.
-<3> Clients interact with a `CommandGateway` to avoid having to lookup individual command handlers. The gateway knows about all available command handlers and how to find the correct on based on any given command. The code for looking up handlers is not included in the example since it depends on the underlying meachnism for registering handlers.
-<4> Every command implements the `Command` interface and includes all the necessary information to perform the command. I like to make my commands immutable with built-in validation but you can also make them mutable and use JSR-303 validation.
+<3> Clients interact with a `CommandGateway` to avoid having to lookup individual command handlers. The gateway knows about all available command handlers and how to find the correct one based on any given command. The code for looking up handlers is not included in the example since it depends on the underlying mechanism for registering handlers.
+<4> Every command implements the `Command` interface and includes all the necessary information to perform the command. I like to make my commands immutable with built-in validation, but you can also make them mutable and use JSR-303 validation.
 <5> Every command has its own handler that performs the command and returns the result.
 
 == Ports and Adapters
 
 So far we have discussed the domain model and the application services that surround and interact with it. However, these application services are completely useless if there is no way for clients to invoke them and that is where ports and adapters enter the picture.
 
-A port is an interface between the system and the outside world that has been especially designed for a particular type of protocol. Ports are not only used to allow outside clients access to the system but also to allow the system to access external systems.
+A port is an interface between the system and the outside world that has been specially designed for a particular type of protocol. Ports are not only used to allow outside clients access to the system but also to allow the system to access external systems.
 
 Because ports can be designed for many different protocols, you have to pair them with adapters that know how to translate between the protocol and the application services and domain model.
 
 You typically have a one-to-one mapping between ports and adapters but nothing prevents you from using the same adapter with different ports. You could, for instance, make your REST API available both using an HTTP port and a RabbitMQ port.
 
-You can add as many ports and adapters as you like to a system and also remove obsolete ports and adapters that are no longer in use. This is one of the core strenghts of the hexagonal architecture - it is extendable and flexible.
+You can add as many ports and adapters as you like to a system and also remove obsolete ports and adapters that are no longer in use. This is one of the core strengths of the hexagonal architecture - it is extendable and flexible.
 
 This may all sound like a good idea but what are ports and adapters in practice? Let's have a look!
 
@@ -596,7 +596,7 @@ The port is HTTP so we need a servlet to implement the port. The REST controller
 3. Construct a response as either raw XML/JSON or as a POJO that will be serialized by the framework, and
 4. Return the response to the client.
 
-The clients, regardless of whether they are client-side web applications running in a browser or other systems running on their own servers, are not a part of this particular hexagonal system. The system also does not have to care about who the clients are as long as they comform to the protocol that the port and adapter supports.
+The clients, regardless of whether they are client-side web applications running in a browser or other systems running on their own servers, are not a part of this particular hexagonal system. The system also does not have to care about who the clients are as long as they conform to the protocol that the port and adapter supports.
 
 === Example 2: A Server-Side Vaadin UI
 
@@ -604,7 +604,7 @@ In the second example, we are going to look at a different type of adapter, name
 
 image:vaadin_adapter.png[A Vaadin adapter and HTTP port]
 
-Again, the port is HTTP so we need a servlet to implement the port. In this case, the servlet is the `VaadinServlet` so we don't need to implement it ourselves (this is the case regardless of whether you are using Vaadin 8 or Flow). Now we just need an adapter for translating incoming user actions into application service method calls and the output into HTML that can be rendered in the browser. This adapter is the Vaadin UI. Thinking of the user interface as just another port/adapter into the system is an excellent way of keeping business logic outside of the user interface.
+Again, the port is HTTP so we need a servlet to implement the port. In this case, the servlet is the `VaadinServlet`, so we don't need to implement it ourselves (this is the case regardless of whether you are using Vaadin 8 or Flow). Now we just need an adapter for translating incoming user actions into application service method calls and the output into HTML that can be rendered in the browser. This adapter is the Vaadin UI. Thinking of the user interface as just another port/adapter into the system is an excellent way of keeping business logic outside of the user interface.
 
 === Example 3: Communicating with a Relational Database
 
@@ -614,9 +614,9 @@ image:jdbc_adapter.png[A repository adapter and JDBC port]
 
 This time, the port is JDBC and it is implemented by a JDBC driver (such as for H2, MySQL or PostgreSQL). The adapter is a set of implementations of the repository interfaces declared in the domain model. The adapter would also have to plug into the application service layer's transaction management API. You could interact with the JDBC drivers directly, but most Java applications would probably use a framework such as JPA or JOOQ. This framework would also be considered a part of the adapter.
 
-In this case, the adapter is not invoking the application service. Instead, the application service is actually invoking the adapter, but through interfaces defined by the application service or domain model. For this to work properly, you need to use some kind of dependency injection so that the correct instances of the adapter classes are injected into the application services.
+In this case, the adapter is not invoking the application service. Instead, the application service is invoking the adapter, but through interfaces defined by the application service or domain model. For this to work properly, you need to use some kind of dependency injection so that the correct instances of the adapter classes are injected into the application services.
 
-This is a use case that is perfectly OK in a hexagonal architecture, but would not have been permitted in a traditional layered architecture. The reason for this is that we would have a lower layer (the "infrastructure layer") depending on a higher layer (the "domain layer" and the "application layer").
+This is a use case that is perfectly OK in a hexagonal architecture but would not have been permitted in a traditional layered architecture. The reason for this is that we would have a lower layer (the "infrastructure layer") depending on a higher layer (the "domain layer" and the "application layer").
 
 === Example 4: Communicating with an External System over REST
 
@@ -638,7 +638,7 @@ image:distributed.png[Two bounded contexts running on separate nodes]
 
 The mapping between the different contexts would take place in the downstream system's adapter.
 
-If the contexts are running as modules inside a single monolithing system, you can still use a similar architecture except you can leave the port out:
+If the contexts are running as modules inside a single monolithic system, you can still use a similar architecture except you can leave the port out:
 
 image:monolith.png[Two bounded contexts inside the same monolith]
 
