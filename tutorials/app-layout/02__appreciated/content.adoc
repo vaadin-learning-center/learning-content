@@ -143,6 +143,9 @@ The definition of a menu is not yet recognizable here and has previously been hi
  }
 ----
 
+
+image::screen.png[]
+
 Again, there is a corresponding builder for the menu on the left.
 The class name is *LeftAppMenuBuilder*.
 Here is the first use in which we want to create a semantic equivalent to the example from the last blog only the method *add* relevant.
