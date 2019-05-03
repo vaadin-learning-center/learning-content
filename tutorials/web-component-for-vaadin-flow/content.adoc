@@ -302,7 +302,7 @@ image::payment-done.png[Payment Success]
 
 === Publish to Vaadin Directory
 
-A good idea to publish your work to the https://vaadin.com/director[Vaadin Directory] to get feedback from the community and potential contributions from other users. Accessing the https://vaadin.com/directory/my-components?uploadNewComponent=[publish new component] page gives pretty much all the information needed to proceed. We have done the first three steps already, and we are few maven commands away from having the add-on ready and published.
+A good idea to publish your work to the https://vaadin.com/directory[Vaadin Directory] to get feedback from the community and potential contributions from other users. Accessing the https://vaadin.com/directory/my-components?uploadNewComponent=[publish new component] page gives pretty much all the information needed to proceed. We have done the first three steps already, and we are few maven commands away from having the add-on ready and published.
 
 image::upload-addon.png[Upload Addon]
 
