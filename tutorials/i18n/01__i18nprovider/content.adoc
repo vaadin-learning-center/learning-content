@@ -1,4 +1,4 @@
-=Internationalization in Vaadin Flow
+= Internationalization in Vaadin Flow
 
 :title: Internationalization in Vaadin Flow
 :type: text
