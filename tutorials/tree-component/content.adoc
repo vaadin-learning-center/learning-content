@@ -28,8 +28,10 @@ Exactly, it's as simple as https://github.com/amahdy/vaadin-tree/blob/master/Tre
 
 == How it works
 
-The trick is to force the developer to provide a value provider in the constructor, which is the member of the generic bean `T` that is taken as a column. We don't need to set a column header nor a caption since this is not a usual use case for a `Tree` component.
-We set the provided value provider as the first and only column, and make it hierarchical.
+In a typical `Grid`, we define each column by a specific value provider. In our case with `Tree` and only one column, we ask the developer to pass the value provider of that single column in the constructor, and it has to be one of the members of the generic bean `T` that is getting used in the class declaration.
+
+We don't need to set a column header nor a caption since this is not a general use case for a `Tree` component.
+We set the given value provider as the first and only column, and make it hierarchical.
 
 == Example usage
 
