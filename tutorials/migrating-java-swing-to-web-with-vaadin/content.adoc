@@ -1,4 +1,4 @@
-= How to migrate a Java Swing app to the web: use your Swing experience to build web apps
+= Migrate a Swing app to the web: use your Java experience to build web apps
 
 :type: text
 :tags: Swing, Migration, Java
