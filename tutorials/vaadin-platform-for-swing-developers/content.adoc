@@ -1,24 +1,24 @@
-= Vaadin Platform for Swing Developers
+= Migrating a Java Swing view to the web: learn how you can use your Swing experience to build web apps
 
 :type: text
-:tags: Vaadin, Swing, Java Desktop to Web, Java Swing, Java
-:description: A small example application migration from Swing to Vaadin
-:repo: https://github.com/vaadin-learning-center/vaadin-platform-for-swing-developers
+:tags: Swing, Migration, Java
+:description: Learn how you can use your Swing knowledge to migrate a Java desktop app to the web with Vaadin. This tutorial walks you through a concrete example of converting a Swing view into an equivalent Vaadin view for the web.
+:repo: https://github.com/vaadin-learning-center/vaadin-for-swing-developers
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
 
 == Introduction
 
-Migrating applications is hard, I don't think I need to add something here for readers to relate to that. Everyone who has undertaken the task of migrating an existing application used in production has faced several pain points in the process. 
+Migrating applications is hard. I think most readers to relate to that. Everyone who has undertaken the task of migrating an existing application used in production has faced several pain points in the process. 
 
-Migrating from swing and a single-user desktop UI to the web comes with a set of additional challenges. You have to be aware that your application will now serve multiple users instead of one, each of them with their own session, which creates some challenges in terms of managing server resources. 
+Migrating from Swing and a single-user desktop UI to the web comes with a set of additional challenges. You have to be aware that your application will now serve multiple users instead of one, each of them with their own session, which creates some challenges in terms of managing server resources. 
 
-With Vaadin you won't have to do anything special as the platform handles the basics for you, but having that in mind will help you figure out problems that may arise if you allocate too many resources in an application and don't do the appropriate cleanup.
+With Vaadin you won't have to do anything special as the platform handles the basics for you, but having that in mind will help you figure out problems that may arise if you allocate too many resources in an application and don't do the proper cleanup.
 
-This article will not provide a detailed architectural comparison of those differences, instead its aim is to show how to migrate a simple Swing application to a web application using Vaadin. The application is based on Java 8 and can be found https://github.com/vaadin-learning-center/vaadin-platform-for-swing-developers/tree/master/desktop[here].
+This article will not provide a detailed architectural comparison of those differences. Instead, it aims to show how to migrate a simple Swing application to a web application using Vaadin. The app is based on Java 8 and can be found https://github.com/vaadin-learning-center/vaadin-platform-for-swing-developers/tree/master/desktop[here].
 
-With those introductory notes out of the way we can get to the process of migrating a Swing application to Vaadin 13. In other words let's tackle how can we go from this:
+With those introductory notes out of the way, we can get to the process of migrating a Swing application to Vaadin 13. In other words, let's tackle how can we go from this:
 
 image::swing.png[width="75%",align="center"]
 
@@ -28,7 +28,7 @@ image::vaadin-direct.png[width="75%",align="center"]
 
 == Show me the code!
 
-There are two classes that make up the Swing application shown in the screenshot, one is the `CustomerForm` shown at the bottom of the application window and the other is the `SwingApplication` which combines action handling, the table of customers and the form for adding and editing customers.
+Two classes make up the Swing application shown in the screenshot, one is the `CustomerForm` shown at the bottom of the application window, and the other is the `SwingApplication` which combines action handling, the table of customers and the form for adding and editing customers.
 
 Let's start with the fields and the class declaration :
 
@@ -72,7 +72,7 @@ What we did :
 1. We replaced `JTextField`, `JButton` and `JPanel` with `TextField`, `Button` and `FormLayout` respectively.
 
 
-Next let's take a look at the constructor and the helper method `addWithCaption` used in the sample app :
+Next, let's take a look at the constructor and the helper method `addWithCaption` used in the sample app :
 
 |===
 | Before (Swing) | After (Vaadin)
@@ -145,7 +145,7 @@ What we did :
 
 1. We renamed the constructor parameter from `SwingApplication` to `VaadinApplication`, that's irrelevant to the framework but since we are migrating a java swing desktop application to a web application written in Vaadin, renaming the class is a good idea conceptually
 1. Layouts in Vaadin are containers for other items, they decide how to organize the children we add to them, extending `FormLayout` is the point we decide the layout to use, so we don't need a special `setLayout()` call in Vaadin
-1. We added some configuration for the `ResponsiveStep` so that we have a single column form and we use `addFormItem` instead of the helper method `addWithCaption` used for convenience in the Swing application. These are both part of the `FormLayout` and you can read more on that on the documentation of `FormLayout`
+1. We added some configuration for the `ResponsiveStep` so that we have a single column form and we use `addFormItem` instead of the helper method `addWithCaption` used for convenience in the Swing application. These are both parts of the `FormLayout,` and you can read more on that on the documentation of `FormLayout.`
 1. We used a `HorizontalLayout` instead of the horizontal box
 1. We replaced `addActionListener` with `addClickListener`
 
@@ -217,8 +217,8 @@ public class CustomerForm extends FormLayout implements ComponentEventListener<C
 
 What we did :
 
-1. We replaced the `ActionListener` swing interface with `ComponentEventListener<ClickEvent<Button>>`. A nice way to read this is "this class is a listener for component events of the 'click' type that have `Button` as their source"
-1. We also replace `getText()` calls with `getValue()`. Several Vaadin components implement the `HasValue<T>` interface to provide a uniform way of accessing values in fields, for instance `TextField` is a `HasValue<String>` and `Checkbox` is a `HasValue<Boolean>`. As a result `TextField` has a method called `getValue()` which returns a String
+1. We replaced the `ActionListener` swing interface with `ComponentEventListener<ClickEvent<Button>>`. A nice way to read this is "this class is a listener for component events of the 'click' type that have `Button` as their source."
+1. We also replace `getText()` calls with `getValue()`. Several Vaadin components implement the `HasValue<T>` interface to provide a uniform way of accessing values in fields, for instance, `TextField` is a `HasValue<String>` and `Checkbox` is a `HasValue<Boolean>`. As a result `TextField` has a method called `getValue()` which returns a String
 1. We replaced `actionPerformed` with `onComponentEvent` because we changed the interface we're implementing
 
 Next let's handle the `editCustomer()` and `clear()` methods :
@@ -321,12 +321,12 @@ public class VaadinApplication extends VerticalLayout {
 
 What we did :
 
-1. We added the `@Route("")` annotation on our class. This marks the class as a view for the router. With our setup, the application will be deployed under `http://localhost:8080/server-1.0-SNAPSHOT`, and `@Route("")` tells the platform "show this when the user navigates to http://localhost:8080/server-1.0-SNAPSHOT/, in the same way that `@Route("about")` says "show this when the user navigates to http://localhost:8080/server-1.0-SNAPSHOT/about ".
-1. We replaced `JFrame` with `VerticalLayout`. We want the elements of the application to be placed one after another and that's something that the `VerticalLayout` does
-1. We renamed `JLabel` to `Span`. This may strike you as odd, we could have renamed `JLabel` to `Label` and the visual outcome would have been the same, so why `Span`? As you get more familiar with Vaadin you will know that the Java components are translated to HTML elements (not always in a 1-1 fashion) and there `Span` is the semantically appropriate element for simple text content and label is a label for another element, typically used in forms
-1. We replaced `JTable` with `Grid<Customer>`, slightly changed the values of `columnNames` and removed the `CustomerTableModel`. We are letting the `Grid` do some of the heavy lifting for us and there's a "reasonable default" behavior for `Grid` which in many cases makes the model or additional configuration unnecessary. For now it's important to know that we utilize the Grid's bean inspection functionality, and a `getFirstName()` method in a bean called `Customer` is mapped to a column with the id `firstName` and a header "First Name".
+1. We added the `@Route("")` annotation on our class. This marks the class as a view for the router. With our setup, the application will be deployed under `http://localhost:8080/server-1.0-SNAPSHOT`, and `@Route("")` tells the platform "show this when the user navigates to http://localhost:8080/server-1.0-SNAPSHOT/, in the same way, that `@Route("about")` says "show this when the user navigates to http://localhost:8080/server-1.0-SNAPSHOT/about ".
+1. We replaced `JFrame` with `VerticalLayout`. We want the elements of the application to be placed one after another, and that's something that the `VerticalLayout` does
+1. We renamed `JLabel` to `Span`. This may strike you as odd, we could have renamed `JLabel` to `Label,` and the visual outcome would have been the same, so why `Span`? As you get more familiar with Vaadin, you will know that the Java components are translated to HTML elements (not always in a 1-1 fashion) and there `Span` is the semantically appropriate element for  text content and `label` is used to label another element, typically used in forms
+1. We replaced `JTable` with `Grid<Customer>`, slightly changed the values of `columnNames` and removed the `CustomerTableModel`. We are letting the `Grid` do the heavy lifting for us, and there's a "reasonable default" behavior for `Grid` which in many cases makes the model or additional configuration unnecessary. For now, it's essential to know that we utilize the Grid's bean inspection functionality, and a `getFirstName()` method in a bean called `Customer` is mapped to a column with the id `firstName` and a header "First Name."
 
-Next let's take a look at the next section of the app :
+Next, let's take a look at the next section of the app :
 
 |===
 | Before (Swing) | After (Vaadin)
@@ -428,10 +428,10 @@ What we did :
 1. We removed the `main` method, and we call `createUI()` in the constructor instead
 1. We removed `BorderLayout` and `setLayout()` as we don't need additional layout configuration
 1. We replaced `addActionListener` with `addClickListener`, the explanation is the same as in the `CustomerForm`
-1. We replaced the horizontal box with a `HorizontalLayout`, we set the alignment to baseline and set the layout width to full. The `HorizontalLayout` is an abstraction of CSS Flexbox, explaining that is out of the scope of this article but you can find more information on the Ordererd Layout component page https://vaadin.com/components/vaadin-ordered-layout[here]
+1. We replaced the horizontal box with a `HorizontalLayout`, we set the alignment to baseline and set the layout width to full. The `HorizontalLayout` is an abstraction of CSS Flexbox. Explaining the use of FlexBox is out of the scope of this article, but you can find more information on the Ordererd Layout component page https://vaadin.com/components/vaadin-ordered-layout[here]
 1. We replaced `JTable` with `Grid`, set the selection mode to `SINGLE` and set the list of columns that should be shown. Here the most important thing is the `Customer.class` argument in the `Grid` which plays a role similar to the `AbstractTableModel` in a Swing application. The `Grid` will inspect the class to figure out how many columns to show, what header to display and how to get the information it needs
-1. We set the selection mode to `SINGLE`. The available modes are `SINGLE`, `MULTI` and `NONE` with `SINGLE` being the default. This line is redundant but it demonstrates how to set the selection mode
-1. We added a `SelectionListener` to the `Grid` which is the equivalent of adding a `ListSelectionListener` to the `JTable` selection model. The only change in the logic is that we need to handle the case were the selection is empty as you may get this even as a result of a "deselect".
+1. We set the selection mode to `SINGLE`. The available modes are `SINGLE`, `MULTI` and `NONE` with `SINGLE` being the default. This line is redundant, but it demonstrates how to set the selection mode
+1. We added a `SelectionListener` to the `Grid` which is the equivalent of adding a `ListSelectionListener` to the `JTable` selection model. The only change in the logic is that we need to handle the case where the selection is empty as you may get this even as a result of a "deselect."
 
 The last piece that we need to change is the `refreshData()` method. We'll go from this :
 
@@ -461,18 +461,18 @@ What we did :
 
 1. All we did is replace `setModel()` with `setItems()` and pass to it the list of items we want the `Grid` to show.
 
-If we run the application we will see that we have reached the goal we set in the beginning of the article : 
+If we run the application we will see that we have reached the goal we set at the beginning of the article : 
 
 image::vaadin-direct.png[width="75%",align="center"]
 
 == Conclusion
 
-In this small application we see a striking similarity between Java Swing and Vaadin. This familiarity will allow a smoother transition to the web for teams with a strong Swing background and at the same time it doesn't sacrifice the need for a modern look and feel and modern capabilities.
+In this small application, we see a striking similarity between Java Swing and Vaadin. This familiarity will allow a smoother transition to the web for teams with a strong Swing background, and at the same time, it doesn't sacrifice the need for a modern look and feel and modern capabilities.
 
-The Vaadin platform provides a set of high quality, modern web components that you can use out of the box, but its core benefit is that you can fully utilize frontend expertise (external or internal to your team) to build new layouts and customized web components, which in turn you can conveniently wrap inside a Java component that fires events and provides access to its state. 
+The Vaadin platform provides a set of high quality, modern web components that you can use out of the box. But its core benefit is that you can fully utilize frontend expertise (external or internal to your team) to build new layouts and customized web components, which in turn you can conveniently wrap inside a Java component that fires events and provides access to its state. 
 
-These components can serve as building blocks for your Java developers, saving time and providing consistency across the application, the platform will handle the difficult parts of communicating changes between the browser and your server.
+These components can serve as building blocks for your Java developers, saving time and providing consistency across the application, the platform will handle the complicated parts of communicating changes between the browser and your server.
 
-Vaadin is not Swing, it's not built to be a 1-1 mapping from Swing to the web. I strongly recommend taking a look at the official documentation and especially the section on binding data to components, that could simplify your application and offer validation capabilities "for free", especially if you use something like the `BeanValidationBinder`.
+Vaadin is not Swing, it's not built to be a 1-1 mapping from Swing to the web. I strongly recommend taking a look at the official documentation and especially the section on binding data to components, that could simplify your application and offer validation capabilities "for free," especially if you use something like the `BeanValidationBinder`.
 
 I hope that this article demonstrates that you can lean on what is familiar and explore the capabilities of Vaadin while taking on the difficult task of migrating a large existing application to the web.
