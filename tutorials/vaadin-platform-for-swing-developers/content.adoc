@@ -10,21 +10,21 @@
 
 == Introduction
 
-Migrating applications is hard. I think most readers to relate to that. Everyone who has undertaken the task of migrating an existing application used in production has faced several pain points in the process. 
+Migrating applications is hard. I think most readers to relate to that. Everyone who has undertaken the task of migrating an existing application that is used in production has undoubtedly faced many pain points in the process. 
 
 Migrating from Swing and a single-user desktop UI to the web comes with a set of additional challenges. You have to be aware that your application will now serve multiple users instead of one, each of them with their own session, which creates some challenges in terms of managing server resources. 
 
-With Vaadin you won't have to do anything special as the platform handles the basics for you, but having that in mind will help you figure out problems that may arise if you allocate too many resources in an application and don't do the proper cleanup.
+With Vaadin you won't have to do anything special as the framework handles the basics for you, but having that in mind will help you figure out problems that may arise if you allocate too many resources in an application and don't do the proper cleanup.
 
 This article will not provide a detailed architectural comparison of those differences. Instead, it aims to show how to migrate a simple Swing application to a web application using Vaadin. The app is based on Java 8 and can be found https://github.com/vaadin-learning-center/vaadin-platform-for-swing-developers/tree/master/desktop[here].
 
 With those introductory notes out of the way, we can get to the process of migrating a Swing application to Vaadin 13. In other words, let's tackle how can we go from this:
 
-image::swing.png[width="75%",align="center"]
+image::swing.png
 
 To this :
 
-image::vaadin-direct.png[width="75%",align="center"]
+image::vaadin-direct.png
 
 == Show me the code!
 
@@ -323,7 +323,7 @@ What we did :
 
 1. We added the `@Route("")` annotation on our class. This marks the class as a view for the router. With our setup, the application will be deployed under `http://localhost:8080/server-1.0-SNAPSHOT`, and `@Route("")` tells the platform "show this when the user navigates to http://localhost:8080/server-1.0-SNAPSHOT/, in the same way, that `@Route("about")` says "show this when the user navigates to http://localhost:8080/server-1.0-SNAPSHOT/about ".
 1. We replaced `JFrame` with `VerticalLayout`. We want the elements of the application to be placed one after another, and that's something that the `VerticalLayout` does
-1. We renamed `JLabel` to `Span`. This may strike you as odd, we could have renamed `JLabel` to `Label,` and the visual outcome would have been the same, so why `Span`? As you get more familiar with Vaadin, you will know that the Java components are translated to HTML elements (not always in a 1-1 fashion) and there `Span` is the semantically appropriate element for  text content and `label` is used to label another element, typically used in forms
+1. We renamed `JLabel` to `Span`. This may strike you as odd, we could have renamed `JLabel` to `Label,` and the visual outcome would have been the same, so why `Span`? As you get more familiar with Vaadin, you will know that the Java components are translated to HTML elements (not always in a 1-1 fashion) and there `Span` is the semantically appropriate element for  text content and `Label` is used to label another element, typically used in forms
 1. We replaced `JTable` with `Grid<Customer>`, slightly changed the values of `columnNames` and removed the `CustomerTableModel`. We are letting the `Grid` do the heavy lifting for us, and there's a "reasonable default" behavior for `Grid` which in many cases makes the model or additional configuration unnecessary. For now, it's essential to know that we utilize the Grid's bean inspection functionality, and a `getFirstName()` method in a bean called `Customer` is mapped to a column with the id `firstName` and a header "First Name."
 
 Next, let's take a look at the next section of the app :
@@ -469,7 +469,7 @@ image::vaadin-direct.png[width="75%",align="center"]
 
 In this small application, we see a striking similarity between Java Swing and Vaadin. This familiarity will allow a smoother transition to the web for teams with a strong Swing background, and at the same time, it doesn't sacrifice the need for a modern look and feel and modern capabilities.
 
-The Vaadin platform provides a set of high quality, modern web components that you can use out of the box. But its core benefit is that you can fully utilize frontend expertise (external or internal to your team) to build new layouts and customized web components, which in turn you can conveniently wrap inside a Java component that fires events and provides access to its state. 
+Vaadin provides a set of high quality, UI components that you can use out of the box. But its core benefit is that you can fully utilize frontend expertise (external or internal to your team) to build new layouts and customized web components, which in turn you can conveniently wrap inside a Java component that fires events and provides access to its state. 
 
 These components can serve as building blocks for your Java developers, saving time and providing consistency across the application, the platform will handle the complicated parts of communicating changes between the browser and your server.
 
