@@ -20,11 +20,11 @@ This article will not provide a detailed architectural comparison of those diffe
 
 With those introductory notes out of the way, we can get to the process of migrating a Swing application to Vaadin 13. In other words, let's tackle how can we go from this:
 
-image::swing.png
+image::swing.png[Java Swing desktop application]
 
 To this :
 
-image::vaadin-direct.png
+image::vaadin-direct.png[Swing application migrated to a web application]
 
 == Show me the code!
 
@@ -32,10 +32,8 @@ Two classes make up the Swing application shown in the screenshot, one is the `C
 
 Let's start with the fields and the class declaration :
 
-[cols=2*]
-|===
-| Before (Swing) | After (Vaadin)
-a| 
+
+.*Before (Swing)*
 [source,java]
 ----
 public class CustomerForm extends JPanel implements ActionListener {
@@ -50,7 +48,8 @@ public class CustomerForm extends JPanel implements ActionListener {
     private final SwingApplication application;
     private Customer editedCustomer;
 ----
-a|
+
+.*After (Vaadin)*
 [source,java]
 ----
 public class CustomerForm extends FormLayout implements ActionListener {
@@ -65,7 +64,6 @@ public class CustomerForm extends FormLayout implements ActionListener {
     private final VaadinApplication application;
     private Customer editedCustomer;
 ----
-|===
 
 What we did : 
 
@@ -74,9 +72,7 @@ What we did :
 
 Next, let's take a look at the constructor and the helper method `addWithCaption` used in the sample app :
 
-|===
-| Before (Swing) | After (Vaadin)
-a| 
+.*Before (Swing)*
 [source,java]
 ----
 public CustomerForm(SwingApplication application) {
@@ -112,7 +108,8 @@ private void addWithCaption(JTextField f, String caption) {
     add(box);
 }
 ----
-a| 
+
+.*After (Vaadin)*
 [source,java]
 ----
 public CustomerForm(VaadinApplication application) {
@@ -139,7 +136,6 @@ public CustomerForm(VaadinApplication application) {
     updateButtonStates();
 }
 ----
-|===
 
 What we did :
 
@@ -151,9 +147,8 @@ What we did :
 
 Next let's work with action handling, as it stands now our `addClickListener()` statements will not compile. Let's fix that :
 
-|===
-| Before (Swing) | After (Vaadin)
-a|
+
+.*Before (Swing)*
 [source,java]
 ----
 @Override
@@ -175,7 +170,8 @@ public void actionPerformed(ActionEvent e) {
     application.refreshData();
 }
 ----
-a|
+
+.*After (Vaadin)*
 [source,java]
 ----
 @Override
@@ -197,25 +193,25 @@ public void onComponentEvent(ClickEvent<Button> e) {
     application.refreshData();
 }
 ----
-|===
+
 
 Also let's go to the class declaration and change it :
 
-|===
-| Before (Swing) | After (Vaadin)
-a|
+
+.*Before (Swing)*
 [source,java]
 ----
 public class CustomerForm extends JPanel implements ActionListener
 ----
-a|
+
+.*After (Vaadin)*
 [source,java]
 ----
 public class CustomerForm extends FormLayout implements ComponentEventListener<ClickEvent<Button>>
 ----
-|===
 
-What we did :
+
+What we did:
 
 1. We replaced the `ActionListener` swing interface with `ComponentEventListener<ClickEvent<Button>>`. A nice way to read this is "this class is a listener for component events of the 'click' type that have `Button` as their source."
 1. We also replace `getText()` calls with `getValue()`. Several Vaadin components implement the `HasValue<T>` interface to provide a uniform way of accessing values in fields, for instance, `TextField` is a `HasValue<String>` and `Checkbox` is a `HasValue<Boolean>`. As a result `TextField` has a method called `getValue()` which returns a String
@@ -223,9 +219,7 @@ What we did :
 
 Next let's handle the `editCustomer()` and `clear()` methods :
 
-|===
-| Before (Swing) | After (Vaadin)
-a|
+.*Before (Swing)*
 [source,java]
 ----
 void editCustomer(Customer c) {
@@ -244,7 +238,8 @@ void editCustomer(Customer c) {
         updateButtonStates();
     }
 ----
-a|
+
+.*After (Vaadin)*
 [source,java]
 ----
     void editCustomer(Customer c) {
@@ -263,7 +258,7 @@ a|
         updateButtonStates();
     }
 ----
-|===
+
 
 What we did :
 
@@ -273,9 +268,7 @@ The `updateButtonStates()` method remains unchanged. With these changes in place
 
 Now let's move to the actual application and take a look a the necessary changes :
 
-|===
-| Before (Swing) | After (Vaadin)
-a|
+.*Before (Swing)*
 [source,java]
 ----
 /* No annotations here */
@@ -296,7 +289,8 @@ public class SwingApplication extends JFrame {
         table.getSelectionModel().clearSelection();
     }
 ----
-a|
+
+.*After (Vaadin)*
 [source,java]
 ----
 @Route("")
@@ -317,7 +311,6 @@ public class VaadinApplication extends VerticalLayout {
         table.getSelectionModel().deselectAll();
     }
 ----
-|===
 
 What we did :
 
@@ -328,9 +321,7 @@ What we did :
 
 Next, let's take a look at the next section of the app :
 
-|===
-| Before (Swing) | After (Vaadin)
-a|
+.*Before (Swing)*
 [source,java]
 ----
 public static void main(String args[]) {
@@ -377,7 +368,8 @@ private void createUI() {
     setVisible(true);
 }
 ----
-a|
+
+.*After (Vaadin)*
 [source,java]
 ----
 public VaadinApplication() {
@@ -419,7 +411,6 @@ private void createUI() {
     setSizeFull();
 }
 ----
-|===
 
 It looks similar again but with a few subtle differences. 
 
@@ -435,9 +426,8 @@ What we did :
 
 The last piece that we need to change is the `refreshData()` method. We'll go from this :
 
-|===
-| Before (Swing) | After (Vaadin)
-a|
+
+.*Before (Swing)*
 [source,java]
 ----
 protected void refreshData() {
@@ -446,7 +436,8 @@ protected void refreshData() {
     countLabel.setText("Customers in DB: " + customers.size());
 }
 ----
-a|
+
+.*After (Vaadin)*
 [source,java]
 ----
 protected void refreshData() {
@@ -455,7 +446,6 @@ protected void refreshData() {
     countLabel.setText("Customers in DB: " + customers.size());
 }
 ----
-|===
 
 What we did :
 
@@ -463,7 +453,7 @@ What we did :
 
 If we run the application we will see that we have reached the goal we set at the beginning of the article : 
 
-image::vaadin-direct.png[width="75%",align="center"]
+image::vaadin-direct.png[Finished app migrated from Swing to web]
 
 == Conclusion
 
