@@ -8,7 +8,7 @@
 :imagesdir: ./images
 :related_tutorials:
 
-Many developers form https://vaadin.com/forum/thread/17519898/17571651[the community] have requested a `Tree` component in Vaadin Flow. Apparently the component is not on the priority list for upcoming releases, because there is an easy workaround: a `TreeGrid` with one column. The purpose of this tutorial is to make it even more straightforward by providing a reference code to use for your `Tree` component.
+Many developers in the  https://vaadin.com/forum/thread/17519898/17571651[Vaadin community] have requested a `Tree` component for Vaadin Flow. The component is not on the short list for upcoming releases, because there is an easy workaround: a `TreeGrid` with one column. The purpose of this tutorial is to make it even more straightforward by providing a reference code to use for your `Tree` component.
 
 == Show me the code
 
