@@ -8,6 +8,10 @@
 :linkattrs:
 :imagesdir: ./images
 
+
+[TIP]
+All code examples can be found at https://github.com/vaadin-learning-center/spring-secured-vaadin. Just check the available branches.
+
 We get many questions in the forum about *how to use Vaadin 10+ with Spring Security*. We heard you, and we will help you. However, let's start with the definition of "use," first:
 
 Since Vaadin 10, Vaadin supports *client-side templates* in addition to the *Java-only approach*. That means we have to discuss two different types of client-side implementations. We can use as much Spring Security as possible by submitting a form to the configured endpoint or a little less by hooking into Spring Security's authentication flow. Both have pros and cons we will elaborate.
@@ -26,7 +30,7 @@ In sum we end up with:
 *Basic knowledge of Vaadin 10+, Spring Security, and Spring Boot is required for this tutorial*. We will _not_ discuss styling, production builds or other topics unrelated to security.
 
 == Get the base Vaadin + Spring starter
-We are using https://vaadin.com/start/latest/project-base-spring as our starting point. At the time of writing the starter is using Vaadin 12.0.4 with Spring Boot 2.1.0.RELEASE.
+We are using https://vaadin.com/start/latest/project-base-spring as our starting point. When we started writing the tutorial the starter was using Vaadin 12.0.4 with Spring Boot 2.1.0.RELEASE but nowadays it is Vaadin 13.0.2 with Spring Boot 2.1.3.RELEASE.
 
 ```
 .

@@ -65,9 +65,10 @@ Also, add a header and a class name so we can style it with CSS.
 .`*MainVew.java*`
 [source,java]
 ----
+@StyleSheet("frontend://styles/styles.css")
 public MainView() {
   setSizeFull();
-  setDefaultHorizontalComponentAlignmen(Alignment.CENTER);
+  setDefaultHorizontalComponentAlignment(Alignment.CENTER);
   addClassName("main-view");
 
   H1 header = new H1("Vaadin Chat");
@@ -274,11 +275,11 @@ Then, open `Application` and declare two beans:
 [source,java]
 ----
 @Bean
-UnicastProcessor<ChatMessage>publisher(){
-    return  UnicastProcessor.create();
+UnicastProcessor<ChatMessage> publisher(){
+    return UnicastProcessor.create();
 }
 @Bean
-Flux<ChatMessage> message(UnicastProcessor<ChatMessage publisher) {
+Flux<ChatMessage> messages(UnicastProcessor<ChatMessage> publisher) {
     return publisher.replay(30).autoConnect();
 }
 ----

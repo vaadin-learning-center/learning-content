@@ -1,5 +1,7 @@
 Angular
 Apache
+Architecture
+API
 Backend
 Cloud
 Code splitting
@@ -7,9 +9,11 @@ Component
 CSS
 Data entry
 Deploy
+Domain-Driven Design
 Eclipse
 Embed
 Flow
+Fluent API
 I18N
 IntelliJ IDEA
 Internationalisation
@@ -46,12 +50,14 @@ Spring
 Spring Boot
 State management
 Swarm
+Swing
 Standard
 Templating
 Testbench
 Thorntail
 TomEE
 Tree
+Undertow
 Vaadin 7
 Vaadin 8
 Validation

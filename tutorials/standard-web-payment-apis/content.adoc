@@ -7,7 +7,7 @@
 :repo: https://github.com/amahdy/payment-request-flow
 :linkattrs:
 :imagesdir: ./images
-:related_tutorials: web-components-in-flow
+:related_tutorials: web-component-for-vaadin-flow
 
 == Intro
 
@@ -81,7 +81,7 @@ There is also another similar https://vaadin.com/directory/component/payment-req
 
 You can also write your style of handling the payment request on the browser in a form or a https://vaadin.com/tutorials/using-web-components[standard web compoent].
 
-The add-on mentioned above is based on a community-driven https://github.com/jorgecasar/payment-request[web component]. Check out https://vaadin.com/tutorials/web-components-in-flow[the steps] needed to create this add-on.
+The add-on mentioned above is based on a community-driven https://github.com/jorgecasar/payment-request[web component]. Check out https://vaadin.com/tutorials/web-component-for-vaadin-flow[the steps] needed to create this add-on.
 
 == Implement payment API
 
