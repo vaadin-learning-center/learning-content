@@ -2,13 +2,13 @@
 
 :type: text
 :tags: Navigation, Router, Flow
-:description: Setup navigation in a Vaadin app and a few tips
+:description: Learn how to set up navigation in a Vaadin app and a few tips
 :repo: https://github.com/vaadin-learning-center/navigation-tutorial
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
 
-Vaadin Flow comes with a powerful Router to easily navigate between views and manage browser URIs. This tutorial will summarise all the important features you can do with the Router, such as setup different routes, error fallback pages, manage parameters, and some other tips.
+Vaadin comes with a powerful Router that allows you to navigate between views and manage browser URIs easily. This tutorial summarizes all the important features of the Router, such as how to set up different routes, error fallback pages, manage parameters, and some other tips.
 
 The https://vaadin.com/start/latest/project-base[starter app] comes with a `MainView` that has `@Route("")`, which means that the root of your website is served by `MainView`. Run your application and try to point to a different route, such as `/test`, you get the built-in 404 (Page not found) error page if you are running in the development mode, and you get a list of available routes.
 
@@ -20,7 +20,7 @@ The first step in this tutorial, we are creating a custom 404 page for our visit
 public class NotFoundView extends Div
   implements HasErrorParameter<NotFoundException> {
 
-  private Label error = new Label();
+  private Paragraph error = new Paragraph();
 
   public NotFoundView() {
     add(error);
@@ -37,7 +37,7 @@ public class NotFoundView extends Div
 }
 ----
 
-The class above handles the `NotFoundException` during navigation; it adds a `Label` and updates its text with information about the wrong path using `event.getLocation().getPath()`.
+The class above handles the `NotFoundException` during navigation; it adds a `Paragraph` and updates its text with information about the wrong path using `event.getLocation().getPath()`.
 
 == Encapsulate the navigation
 A common practice is to include the error message within the default website layout. To do so, create a new class `MainLayout.java` as following:
@@ -48,7 +48,7 @@ public class MainLayout
   extends VerticalLayout implements RouterLayout {
 
   public MainLayout() {
-    add(new Html("<h1>Vaadin Router Tutorial Inc.</h1>"));
+    add(new H1("Vaadin Router Tutorial Inc."));
   }
 }
 ----
@@ -121,7 +121,7 @@ public class MainView extends Div  {
 Check the https://vaadin.com/docs/flow/routing/tutorial-routing-lifecycle.html[documentation] to learn more about navigation lifecycle, forward, and reroute events.
 
 == Redirect to the previous path
-The previous login mechanism always returns to `MainView` after login. You can, however, preserve the previously requested URL and redirect back to it after login. To do that, let's first create a new view `FruityView.java`:
+The previous login mechanism always returns to `MainView` after login. You can, however, preserve the previously requested URL and redirect back to it after login. To do that, let's first create a new view, `FruityView.java`:
 
 [source,java]
 ----
@@ -171,7 +171,7 @@ public class LoginView extends LoginForm implements HasUrlParameter<String> {
 The modifications are: implementing `HasUrlParameter` and storing the parameter received from `setParameter` locally, and then use it as a parameter for redirection after login `UI.getCurrent().navigate(parameter);`.
 
 == Add navigation menu
-We can create as many views as we want, and specify their URL path within the `@Route("path")` annotation, but how to navigate between those views? So far we have the `MainView` and `FruityView`, and we want the navigation menu to appear only after being logged in. At this point, some restructuring is needed. The idea is to create a nested layout to be used only by the views that appear after logging in. So we create a new layout class `InternalLayout.java` that extends `MainLayout` and has some tabs:
+We can create as many views as we want, and specify their URL path within the `@Route("path")` annotation, but how to navigate between those views? So far, we have the `MainView` and `FruityView`, and we want the navigation menu to appear only after being logged in. At this point, some restructuring is needed. The idea is to create a nested layout to be used only by the views that appear after logging in. So we create a new layout class `InternalLayout.java` that extends `MainLayout` and has some tabs:
 
 [source,java]
 ----
@@ -224,7 +224,7 @@ public class FruityView extends Div {
 }
 ----
 
-Navigating to `/apple`, `/fruits`, or `/fruit` is acting exactly as `/fruity`.
+Navigating to `/apple`, `/fruits`, or `/fruit` is acting the same way as `/fruity`.
 
 == URL parameters
 We can also explicitly add and read URL parameters throughout the navigation. Let's change `FruityView` as following:
@@ -264,7 +264,7 @@ group.addValueChangeListener(evt -> {
 });
 ----
 
-It forms a URL similar to `fruity/Banana`, and we can read the selection as explained earlier.
+It forms a URL similar to `fruity/Banana`, and we can read the selection, as explained earlier.
 
 == Extended URL path
 The path of the URL can have longer path, for example we can setup a view for `fruity/Watermelon`:
