@@ -1,0 +1,58 @@
+= Tree Component
+
+:type: text
+:tags: Tree, Component
+:description: A Tree component for Vaadin Flow based on TreeGrid
+:repo: https://github.com/amahdy/vaadin-tree
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+Many developers in the  https://vaadin.com/forum/thread/17519898/17571651[Vaadin community] have requested a `Tree` component for Vaadin Flow. The component is not on the short list for upcoming releases, because there is an easy workaround: a `TreeGrid` with one column. The purpose of this tutorial is to make it even more straightforward by providing a reference code to use for your `Tree` component.
+
+== Show me the code
+
+The code provides a shortcut to get a `Tree` functionality, by reducing a `TreeGrid` to one column.
+
+[source,java]
+----
+public class Tree<T> extends TreeGrid<T> {
+
+  public Tree(ValueProvider<T, ?> valueProvider) {
+    addHierarchyColumn(valueProvider);
+  }
+}
+----
+
+Exactly, it's as simple as https://github.com/amahdy/vaadin-tree/blob/master/Tree.java[this code]. However, since it is a `Grid` under the hood, some coding mistakes can happen. I leave it up to you to decide to disable other methods like `setColumn`, `setColumns`, `addColumn`, ..etc.
+
+== How it works
+
+In a typical `Grid`, we define each column by a specific value provider. In our case with `Tree` and only one column, we ask the developer to pass the value provider of that single column in the constructor, and it has to be one of the members of the generic bean `T` that is getting used in the class declaration.
+
+We don't need to set a column header nor a caption since this is not a general use case for a `Tree` component.
+We set the given value provider as the first and only column, and make it hierarchical.
+
+== Example usage
+
+Here is a sample code showing how to use the new `Tree` component:
+
+[source,java]
+----
+  Tree<Person> tree = new Tree<>(Person::getFullname);
+  tree.setItems(persons, person -> {
+    if(person.hasLevel()) {
+      return person.getLevel().getItems();
+    }else {
+      return Collections.emptyList();
+    }
+  });
+
+  add(tree);
+----
+
+In the example above, the `Tree` displays the full name of all `persons`, and if a `person` has a hierarchy, then it adds it as a sub-level.
+
+image::tree.png[Tree Component]
+
+What other features do you want to have in a `Tree` component? Let us know in the comments section below.

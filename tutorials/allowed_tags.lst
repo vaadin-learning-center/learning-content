@@ -5,6 +5,7 @@ API
 Backend
 Cloud
 Code splitting
+Component
 CSS
 Data entry
 Deploy
@@ -53,9 +54,9 @@ Swing
 Standard
 Templating
 Testbench
-TomEE
-Testbench
 Thorntail
+TomEE
+Tree
 Undertow
 Vaadin 7
 Vaadin 8
