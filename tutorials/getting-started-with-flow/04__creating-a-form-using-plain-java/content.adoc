@@ -1,7 +1,7 @@
 [[flow.tutorial.form]]
-= Creating a Form Using Plain Java
+= Forms and data binding
 
-:title: Part 4 - Creating a Form Using Plain Java
+:title: Forms and data binding - Vaadin CRUD tutorial part 4
 :author: Vaadin
 :description: Learn how to implement a reusable form to edit data in a Vaadin application.
 :tags: Flow, Java

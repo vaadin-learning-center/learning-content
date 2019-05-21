@@ -1,9 +1,9 @@
 [[flow.tutorial.form]]
 = Connecting the Form to the Application
 
-:title: Part 5 - Connecting the Form to the Application
+:title: Connecting the Form to the Application - Vaadin CRUD tutorial part 5
 :author: Vaadin
-:description: Learn how to communicate between components in a Vaadin Flow application
+:description: Learn how to communicate between components in a Vaadin application
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:
