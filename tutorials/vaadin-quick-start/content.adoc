@@ -139,9 +139,11 @@ image::completed-app.gif[Animation of adding a new todo item and checking it.]
 
 
 Congratulations, you have completed your first Vaadin application! 
+
 == Next steps
 To learn more about Vaadin, see the following tutorials. 
-link:/training/courses[Free online video course covering Vaadin basics]
-link:/tutorials/getting-started-with-flow[CRUD application tutorial] 
+
+- link:/training/courses[Free online video course covering Vaadin basics]
+- link:/tutorials/getting-started-with-flow[CRUD application tutorial] 
 
 If you are more of a tinkerer, you can also browse the link:/components[component examples] and use the app you just built as a sandbox for trying them out for yourself.
