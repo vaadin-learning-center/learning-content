@@ -1,9 +1,9 @@
 [[flow.tutorial.filtering]]
-= Creating Live Filtering for Entities
+= Filtering Entities in a Grid
 
-:title: Part 3 - Creating Live Filtering for Entities
+:title: Filtering Entities in a Grid - Vaadin CRUD tutorial part 3
 :author: Vaadin
-:description: Learn how to filter data in a Grid with Vaadin Flow
+:description: Learn how to filter data in a Grid with Vaadin
 :tags: Flow, Java
 :imagesdir: ./images
 
