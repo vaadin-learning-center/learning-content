@@ -27,8 +27,8 @@ Maven
 
 ++++
 <p>
-<form action="https://vaadin.com/vaadincom/start-service/latest/project-base?techStack=spring">
-  <input type="submit" value="Download starter">
+<form action="https://vaadin.com/vaadincom/start-service/latest/project-base?techStack=spring" method="POST">
+  <input type="submit" value="Download starter" class="button button--bordered"></input>
 </form>
 </p>
 ++++
