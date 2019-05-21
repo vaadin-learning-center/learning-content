@@ -1,9 +1,9 @@
 [[flow.tutorial.grid]]
 = Listing Entities in a Grid
 
-:title: Part 2 - Listing Entities in a Grid
+:title: Listing Entities in a Grid - Vaadin CRUD tutorial part 2
 :author: Vaadin
-:description: Learn how to show data in tabular form using a Grid component in Vaadin Flow
+:description: Learn how to show data in tabular form using a Grid component in Vaadin
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:

@@ -1,7 +1,7 @@
-= Learn Vaadin basics in 2 minutes
+= Vaadin quick start tutorial
 :tags: Java, Flow, Spring, Spring Boot
 :author: Marcus Hellberg
-:description: Learn the basics of Vaadin development in two minutes: components, layouting, and events. 
+:description: Learn the basics of Vaadin development in five minutes: components, layouting, and events. 
 :repo: https://github.com/vaadin-learning-center/vaadin-todo
 :linkattrs: 
 :imagesdir: ./images

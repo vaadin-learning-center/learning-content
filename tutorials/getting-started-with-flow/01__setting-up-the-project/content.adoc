@@ -1,14 +1,14 @@
 [[flow.tutorial]]
 = Setting up the Project
 
-:title: Part 1 - Setting up the Project
+:title: Setting up the Project - Vaadin CRUD tutorial part 1
 :author: Vaadin
-:description: Learn how to get started with Java web development using Vaadin Flow
+:description: Learn how to build a CRUD app with the Vaadin Java API
 :tags: Flow, Java
 :imagesdir: ./images
 :linkattrs:
 
-This tutorial shows you how to create your first Java web application using https://vaadin.com/flow[Vaadin Flow].
+This tutorial shows you how to build a CRUD (Create Read Update Delete) applicatio using Vaadin Java API.
 
 All you need is basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE^] such as https://en.wikipedia.org/wiki/IntelliJ_IDEA[IntelliJ IDEA], and the https://jdk.java.net[JDK] version 8 or later. The tutorial should take between 20 to 60 minutes to complete, depending on your experience.
 
