@@ -470,7 +470,6 @@ I hope that this article demonstrates that you can lean on what is familiar and 
 
 ++++
 <div class="buttonList">
-  <a href="/tutorials/getting-started-with-flow/setting-up-the-project" class="button button--bordered" router-link>Continue to CRUD app tutorial</a>
   <a href="/application-migration/swing" class="button" router-link>Learn about Swing to web migration consulting</a>
 </div>
 ++++
