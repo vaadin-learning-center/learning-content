@@ -466,3 +466,11 @@ These components can serve as building blocks for your Java developers, saving t
 Vaadin is not Swing, it's not built to be a 1-1 mapping from Swing to the web. I strongly recommend taking a look at the official documentation and especially the section on binding data to components, that could simplify your application and offer validation capabilities "for free," especially if you use something like the `BeanValidationBinder`.
 
 I hope that this article demonstrates that you can lean on what is familiar and explore the capabilities of Vaadin while taking on the difficult task of migrating a large existing application to the web.
+
+
+++++
+<div class="buttonList">
+  <a href="/tutorials/getting-started-with-flow/setting-up-the-project" class="button button--bordered" router-link>Continue to CRUD app tutorial</a>
+  <a href="/application-migration/swing" class="button" router-link>Learn about Swing to web migration consulting</a>
+</div>
+++++
