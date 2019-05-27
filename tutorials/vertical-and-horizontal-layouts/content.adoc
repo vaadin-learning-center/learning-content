@@ -1,0 +1,175 @@
+= Vertical and Horizontal Layouts
+
+:type: text
+:tags: <check>, <allowed_tags.lst>, <foo>, <bar>
+:description: <put detailed description here>
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+== Introduction
+
+This tutorial is meant for showing how to use https://vaadin.com/api/platform/10.0.15/com/vaadin/flow/component/orderedlayout/HorizontalLayout.html[HorizontalLayout] and https://vaadin.com/api/platform/10.0.15/com/vaadin/flow/component/orderedlayout/VerticalLayout.html[VerticalLayout], to build complex screens, using a divide and conquer approach.
+
+Our target is to build a typical responsive layout for the main visual components of an application that can be used in a desktop or mobile device:
+
+image::Prototype.png[Prototype]
+
+== First part: Main layout
+As we can see in the picture, we have three main sections, a header, a workspace, and a footer. They are stacked vertically, and inside the header and footer, we have visual elements that are arranged horizontally. Let’s use this first quick analysis to build our UI:
+
+[source,java]
+----
+@Route("")
+public class MainView extends VerticalLayout {
+
+	public MainView() {
+		
+		// HEADER
+		Icon drawer = VaadinIcon.MENU.create();
+		Span title = new Span("My application");
+		Icon help = VaadinIcon.QUESTION_CIRCLE.create();
+		HorizontalLayout header = new HorizontalLayout(drawer, title, help);
+		header.expand(title);
+		header.setPadding(true);
+		header.setWidth("100%");
+
+		// WORKSPACE
+		VerticalLayout workspace = new VerticalLayout();
+		workspace.setSizeFull();
+
+		// FOOTER
+		Tab actionButton1 = new Tab(VaadinIcon.HOME.create(), new Span("Home"));
+		Tab actionButton2 = new Tab(VaadinIcon.USERS.create(), new Span("Customers"));
+		Tab actionButton3 = new Tab(VaadinIcon.PACKAGE.create(), new Span("Products"));
+		Tabs buttonBar = new Tabs(actionButton1, actionButton2, actionButton3);
+		HorizontalLayout footer = new HorizontalLayout(buttonBar);
+		footer.setJustifyContentMode(JustifyContentMode.CENTER);
+		footer.setWidth("100%");
+
+		// MAIN CONTAINER
+		setSizeFull();
+		setMargin(false);
+		setSpacing(false);
+		setPadding(false);
+		add(header, workspace, footer);
+	}
+}
+----
+
+Let’s analyze this part by part:
+Our view is extending VerticalLayout, thus this class it’s going to be our main container. As we stated previously the main parts are stacked vertically so it’s a good fit to use as a base.
+The first thing that we did in the constructor is to define the Header part. We have a few icons (the typical hamburger menu icon and a help icon) and a Title in the middle. We want the header to occupy the whole width and the title to expand in such a way that the icons are always drawn with the same size, and only the title will resize to fill the whole width. Finally, we are enabling the padding so we have some space around the components.
+Then we are creating a space for the main area, calling it “workspace”. We are going to put some components later and we want them to be displayed vertically so we are using VerticalLayout again. And we also want it to occupy the whole width and height, so we use the handy setSizeFull() that will take care of that.
+Then we have the bottom area that we called “footer”. In this part we are going to add some action buttons. Since these buttons are probably going to display different things in the workspace area and we want them to conserve the pressed state, it’s a good idea to use tabs instead of normal buttons. What we want in this case is that this button bar stays always in the middle, so we use setJustifyContentMode(JustifyContentMode.CENTER).
+
+== Second part: Side Menu
+Now we want to build a menu that will appear when we press the menu button. Let’s put something to identify the user and then the options to choose from. Because we don’t want to focus on this part we are going to use just regular Buttons in here:
+
+[source,java]
+----
+		// MENU
+		sideMenu = new VerticalLayout();
+		sideMenu.addClassName("sideMenu");
+		sideMenu.setHeight("100%");
+		sideMenu.setWidth("auto");
+		sideMenu.setSpacing(false);
+		drawer.getElement().addEventListener("click", ev->sideMenu.getStyle().set("left", "0px"));
+		Icon avatar = VaadinIcon.USER.create();
+		avatar.setSize("4em");
+		sideMenu.add(avatar, new Span("John Doe"),createMenuOption("User profile"), createMenuOption("Configuration"), createMenuOption("About"));
+		sideMenu.setAlignItems(Alignment.CENTER);
+----
+
+Because each visual element is placed one on top of the other, again we are using VerticalLayout. We want it to occupy the whole height of the application, but the width should be calculated automatically, based on the width of the elements, that’s why we use setWidth("auto") (the default is 100%). We also want to remove the internal spacing between components. We also added a CSS class name to be able to add some CSS instructions later.
+Then we added an Event Listener (when clicked) to our previous menu Button, that will change the position of this side menu because in the beginning, we are going to hide it outside the viewport. We use inline styles for this for making it simpler, but the recommended approach is to use class names and styles defined outside the java code. We will get to this later.
+Then we added an avatar and some menu options. We want everything to appear centered, so we use setAlignItems(Alignment.CENTER).
+The implementation is easy, just making the buttons to occupy the whole width and a click listener to hide the side menu again when pressed:
+[source,java]
+----
+	private Button createMenuOption(String title) {
+		Button m1 = new Button(title);
+		m1.setWidth("100%");
+		m1.addClickListener(ev -> m1.getElement().getParent().getStyle().set("left", "-1000px"));
+		m1.addClickListener(ev -> Notification.show("Button " + title + " clicked."));
+		return m1;
+	}
+----
+
+Finally the CSS styles added to that class. We are going to create a file called styles.css with this content:
+[source,css]
+----
+	.sideMenu {
+		background-color: white;
+		z-index: 1000;
+		position: absolute;
+		transition: 0.2s;
+		left: -1000px;
+		box-shadow: 2px 1px 5px 0px grey;
+	}
+----
+
+And then going to reference it by adding this annotation to our class:
+@StyleSheet("styles/styles.css")
+
+What we are doing here, besides setting the background color, is to change the side menu to an absolute position, moving it some distance away to the left and change the z index to bring it forward. Adding a small transition effect and a drop shadow are the final touches.
+
+== Third part: Content and final details
+
+Now let’s add some content to the main area (the workspace) to have a better idea of what our application is going to look like.
+We are going to put some https://material.io/design/components/cards.html[“cards”] so the content will overflow:
+
+[source,java]
+----
+		// WORKSPACE
+		VerticalLayout workspace = new VerticalLayout(createCard(), createCard(), createCard(), createCard());
+		workspace.addClassName("workspace");
+		workspace.setSizeFull();
+…
+	private Component createCard() {
+		Span card1Label = new Span("Card");
+		FlexLayout card = new FlexLayout(card1Label);
+		card.addClassName("card");
+		card.setAlignItems(Alignment.CENTER);
+		card.setJustifyContentMode(JustifyContentMode.CENTER);
+		card.setWidth("100%");
+		card.setHeight("200px");
+		return card;
+	}
+----
+
+Each of our cards will be basically a FlexLayout because we want to lay down a text in the middle. We achieve that by using setAlignItems(Alignment.CENTER) and setJustifyContentMode(JustifyContentMode.CENTER).
+And we are also adding a CSS style class name to them so we can add some CSS attributes (the scrollbars, background color and a cast shadow for the cards):
+[source,css]
+----
+	.workspace {
+		overflow: auto;
+		background-color: lightgrey;
+	} 
+	.card {
+		background-color: white;
+		flex-shrink: 0;
+		box-shadow: 2px 1px 5px 0px grey;
+	}
+----
+
+The attribute flex-shrink, will help us to prevent the cards to shrink and not respect the height we gave them.
+Then a minor CSS correction added to the tabs in the footer:
+[source,css]
+----
+	.tab {
+		flex-direction: column;
+	}
+----
+
+This makes them show the icon above the text.
+By implementing these final details we have a nice responsive layout:
+
+image::ScreenshotLandscape.png[Landscape View]
+
+image::ScreenshotPortrait.png[Portrait View]
+
+Feel free to test this and play around with the sources that are available in [this GitHub project](https://github.com/mlopezFC/vertical-horizontal-layouts).
+
+Have fun!
