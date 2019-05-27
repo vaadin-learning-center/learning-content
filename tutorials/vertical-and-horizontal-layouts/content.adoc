@@ -1,12 +1,10 @@
 = Vertical and Horizontal Layouts
 
 :type: text
-:tags: <check>, <allowed_tags.lst>, <foo>, <bar>
-:description: <put detailed description here>
-:repo:
-:linkattrs:
+:tags: Flow, Layout, Java
+:description: Tutorial that shows how to use VerticalLayout and HorizontalLayout
+:repo: https://github.com/mlopezFC/vertical-horizontal-layouts
 :imagesdir: ./images
-:related_tutorials:
 
 == Introduction
 
