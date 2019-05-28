@@ -1,14 +1,14 @@
-= Vertical and Horizontal Layouts
+= Using Vertical and Horizontal layouts in Vaadin
 
 :type: text
 :tags: Flow, Layout, Java
-:description: Tutorial that shows how to use VerticalLayout and HorizontalLayout
+:description: Learn to build a common web application layout in Vaadin using VerticalLayout and HorizontalLayout. 
 :repo: https://github.com/mlopezFC/vertical-horizontal-layouts
 :imagesdir: ./images
 
 == Introduction
 
-This tutorial is meant for showing how to use https://vaadin.com/api/platform/10.0.15/com/vaadin/flow/component/orderedlayout/HorizontalLayout.html[HorizontalLayout] and https://vaadin.com/api/platform/10.0.15/com/vaadin/flow/component/orderedlayout/VerticalLayout.html[VerticalLayout], to build complex screens, using a divide and conquer approach.
+This tutorial is meant for showing how to use https://vaadin.com/api/platform/com/vaadin/flow/component/orderedlayout/HorizontalLayout.html[HorizontalLayout] and https://vaadin.com/api/platform/com/vaadin/flow/component/orderedlayout/VerticalLayout.html[VerticalLayout], to build complex screens, using a divide and conquer approach.
 
 Our target is to build a typical responsive layout for the main visual components of an application that can be used in a desktop or mobile device:
 
