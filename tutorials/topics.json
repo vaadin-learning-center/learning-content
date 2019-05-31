@@ -42,6 +42,12 @@
     "icon": "vc-icons:consulting-turn-key"
   },
   {
+    "id": "dependency-injection",
+    "title": "Dependency Injection",
+    "description": "",
+    "icon": ""
+  },
+  {
     "id": "migration",
     "title": "Migration",
     "description": "",
