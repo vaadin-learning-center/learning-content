@@ -12,7 +12,7 @@ This tutorial is meant for showing how to use https://vaadin.com/api/platform/co
 
 Our target is to build a typical responsive layout for the main visual components of an application that can be used in a desktop or mobile device:
 
-image::Prototype.png[Prototype]
+image::prototype.png[Prototype]
 
 == First part: Main layout
 As we can see in the picture, we have three main sections, a header, a workspace, and a footer. They are stacked vertically, and inside the header and footer, we have visual elements that are arranged horizontally. Let’s use this first quick analysis to build our UI:

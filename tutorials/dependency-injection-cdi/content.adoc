@@ -1,0 +1,187 @@
+= Dependency Injection with CDI
+
+:title: Dependency Injection with CDI
+:type: text
+:author: Sven Ruppert
+:tags: Dependency Injection, CDI, Flow, Java
+:description: Learn how to use Dependency Injection in Vaadin applications with CDI, including how to use the included scopes.
+:repo: https://github.com/vaadin-learning-center/flow-dependency-injection-cdi
+:imagesdir: ./images
+
+In this tutorial, we will learn how to start with Dependency Injection based on CDI
+in a Vaadin application.
+
+
+== Download base project
+This tutorial uses  the `flow-helloworld-maven-meecrowave` project
+as a base. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
+You can find the latest version of the source code for this tutorial
+https://github.com/vaadin-learning-center/flow-dependency-injection-cdi[@github]
+
+=== Preparations for this tutorial
+In this tutorial, we are using the Vaadin Flow CDI add-on from the official Vaadin Directory.
+You can find the add-on https://vaadin.com/directory/component/vaadin-cdi[here].
+To use the add-on the following repository and dependency must be added to the *pom.xml*
+Replace the placeholder *${version}* with the version you will find at the repository.
+
+[source, xml]
+----
+<repository>
+   <id>vaadin-addons</id>
+   <url>http://maven.vaadin.com/vaadin-addons</url>
+</repository>
+----
+
+[source, xml]
+----
+<dependency>
+   <groupId>com.vaadin</groupId>
+   <artifactId>vaadin-cdi</artifactId>
+   <version>${version}</version>
+</dependency>
+----
+
+=== The application
+The base project has a counter that is incremented with every button click.
+The state of this counter is part of the UI. This will be changed now.
+To extract the state from the UI a service with the name *Counter* is created.
+This service is responsible for holding the state and for offering a
+method to manipulate the state.
+
+[source, java]
+----
+public class Counter {
+
+  private int counter = 0;
+
+  public int inc() {
+    counter++;
+    return counter;
+  }
+}
+----
+
+The class *VaadinApp* will now be changed to use the new implementation.
+
+[source, java]
+----
+@Route("")
+public class VaadinApp extends Composite<Div> implements HasLogger {
+
+  private final Button         btnClickMe   = new Button("click me");
+  private final Span           lbClickCount = new Span("0");
+  private final VerticalLayout layout       = new VerticalLayout(btnClickMe, lbClickCount);
+
+  //private int clickcount = 0;
+  private Counter clickcounter = new Counter();
+
+  public VaadinApp() {
+    btnClickMe.addClickListener(event -> {
+      String value = valueOf(clickcounter.inc());
+      lbClickCount.setText(value);
+    });
+    logger().info("setting now the main ui content..");
+    getContent().add(layout);
+  }
+}
+----
+
+To use CDI to manage the instance of the *Counter* service,
+we will add the Annotation *@Inject* to the definition of the class attribute, and at the same time, we are removing the part that is responsible for creating the instance.
+*= new Counter()*
+
+To activate CDI we need a file called *beans.xml* in the folder *resources/META-INF*.
+An empty file would be enough to activate CDI, but to make sure we are only enabling CDI for
+a subset of classes, the attribute *bean-discovery-mode* is set to *annotated*.
+Based on this, the class *Counter* needs an annotation to describe the life-cycle-behavior.
+In this example, *@ApplicationScoped* is used.
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                           http://xmlns.jcp.org/xml/ns/javaee/beans_2_0.xsd"
+       version="2.0"
+       bean-discovery-mode="annotated">
+</beans>
+----
+
+[source, java]
+----
+@ApplicationScoped
+public class Counter {
+
+  private int counter = 0;
+
+  public int inc() {
+    counter++;
+    return counter;
+  }
+}
+----
+
+Now we can start the servlet container and try to use the new CDI version of our example.
+
+=== Router components
+Classes with a *@Route* annotation or that implement the
+ *RouteLayout* and *hasErrorParameter* interfaces are managed Beans as well.
+This will allow you to use *@Inject* in these classes as well.
+
+Have in mind, that the class of a custom UI is not a managed Bean.
+
+=== Custom Scopes
+Especially for Vaadin Apps, a few scopes are available additionally.
+
+The Scopes are:
+
+* @VaadinServiceScoped, The lifecycle of the service is the same as the lifecycle of its Vaadin servlet.
+* @VaadinSessionScoped, The same bean instance will be used within the whole Vaadin session.
+* @UIScoped (for components), @NormalUIScoped (for all other beans)
+* @RouteScoped (for components), @NormalRouteScoped (for all other beans)
+
+==== RouterScope
+RouterScope is a bit more complex. This annotation is used in conjunction with the annotation
+*@RouteScopeOwner*. The usage of this annotation is redundant. It is a CDI qualifier,
+so you have to define it both on the bean, and on the injection point.
+With this annotation (@RouteScopeOwner) you will bind the Route including
+parent-/child-route constructions to bean implementations.
+
+=== Service interfaces
+Vaadin Flow will provide a few interfaces to give you the possibility to customize Vaadin Services.
+
+* I18NProvider (for more info read link:/tutorials/i18n[this])
+* Instantiator
+* SystemMessagesProvider
+* ErrorHandler
+
+The annotation *@VaadinServiceEnabled* can be used
+to bind your implementation to these services and activate them.
+As an example implementation of a *SystemMessagesProvider* is shown.
+
+[source, java]
+----
+@VaadinServiceEnabled
+@VaadinServiceScoped
+public class TestSystemMessagesProvider implements SystemMessagesProvider {
+
+    @Override
+    public SystemMessages getSystemMessages(SystemMessagesInfo systemMessagesInfo) {
+        CustomizedSystemMessages messages = new CustomizedSystemMessages();
+        messages.setInternalErrorMessage("Sorry, something went wrong :(");
+        return messages;
+    }
+}
+----
+
+
+== Next
+In this tutorial, we learned how to activate CDI with the official add-on you can find in the directory.
+To learn more in practice check out the latest source code
+https://github.com/vaadin-learning-center/flow-dependency-injection-cdi[@github].
+
+The documentation about CDI is
+available https://vaadin.com/docs/flow/cdi/tutorial-cdi-basic.html[here]
+
+
