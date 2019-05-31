@@ -7,21 +7,22 @@
 :imagesdir: ./images
 
 
-In this tutorial, you will learn how to build a small but fully functional Vaadin application. You will learn the basics of component-based development, listening to events, and data binding. Once you have completed the tutorial, you will be ready to move on to the link:/tutorials/getting-started-with-flow[30 minute CRUD app tutorial] or to download one of link:/start[the app starters] and play around with different link:/components[components].
+In this 2 minute tutorial, you will learn how to build a small but fully functional Vaadin application. You will learn the basics of component-based development and listening to events.
 
 video::6kDCn6OvXkA[youtube]
 
 
-The application you will build is the classic Todo application. It works well to learn a new framework as you can easily relate concepts to other frameworks you may have used in the past. 
+The application you will build is the classic Todo application. 
 
 image::app-overview.png[Todo application with a header, checkboxes for todo items and a form for entering new items]
 
 
 == Prerequisites
 This tutorial assumes you have the following set up on your computer: 
-Java 8 or later
-An IDE like IntelliJ, Eclipse, or Netbeans
-Maven
+
+- Java 8 or later
+- An IDE like IntelliJ, Eclipse, or Netbeans
+- Maven
 
 == Download and import the app starter
 
