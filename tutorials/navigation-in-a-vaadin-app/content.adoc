@@ -71,18 +71,18 @@ So far we have only one view `MainView` that opens from the root URL. Let's crea
 @Route(value = "login", layout = MainLayout.class)
 public class LoginView extends LoginForm {
 
-  public static String username = "";
-
   public LoginView() {
     addLoginListener(evt -> {
-      LoginView.username = evt.getUsername();
+      // Perform authentication check and update session here
+      // Check project source code for an example
+
       UI.getCurrent().navigate("");
     });
   }
 }
 ----
 
-A simple login form, located under the `/login` URL path, and has a static `username` value to store the Username. _Note that this is not a reference implementation for proper authentication._
+A simple login form, located under the `/login` URL path. _Note that this is not a reference implementation for proper authentication._
 
 We also need to check if the login triggers before navigation to the `MainView`, we do that by updating the `MainLayout` class as following:
 
@@ -93,14 +93,12 @@ public class MainLayout
 
   @Override
   public void beforeEnter(BeforeEnterEvent event) {
-    if(!event.getLocation().getPath().equals("login")
-      && LoginView.username.equals("")) {
-      event.forwardTo("login");
-    }
+    // Validate authenticaion in session
+    // Check project source code for an example
   }
 
   public MainLayout() {
-    add(new Html("<h1>Vaadin Router Tutorial Inc.</h1>"));
+    add(new H1("Vaadin Router Tutorial Inc."));
   }
 }
 ----
@@ -113,7 +111,10 @@ Implementing `BeforeEnterObserver` to be able to check in `beforeEnter` whether 
 public class MainView extends Div  {
 
   public MainView() {
-    add(new Html("<h4>Welcome <i>" + LoginView.username + "</i>!</h4>"));
+    VaadinSession vaadinSession = VaadinSession.getCurrent();
+    String username = (String) vaadinSession.getAttribute(ATTRIBUTE_USERNAME);
+
+    add(new H4("Welcome " + username + "!"));
   }
 }
 ----
@@ -129,7 +130,7 @@ The previous login mechanism always returns to `MainView` after login. You can, 
 public class FruityView extends Div {
 
   public FruityView() {
-    add(new Html("<h3>Select your favorite fruit:</h3>"));
+    add(new H3("Select your favorite fruit:").getText());
     RadioButtonGroup<String> group = new RadioButtonGroup<>();
     group.setItems("Apple", "Banana", "Watermelon");
     add(group);
@@ -141,7 +142,14 @@ Trying to navigate to `/fruity` is always redirecting to the login screen first,
 
 [source,java]
 ----
-event.forwardTo("login", event.getLocation().getPath());
+  String path = event.getLocation().getPath();
+
+  // Validate authentication here
+
+  if (!isAuthenticated &&
+      !path.equals("login")) {
+    event.forwardTo("login" , path);
+  }
 ----
 
 And we make a few upgrades the the `LoginView` to handle parameters:
@@ -151,7 +159,6 @@ And we make a few upgrades the the `LoginView` to handle parameters:
 @Route(value = "login", layout = MainLayout.class)
 public class LoginView extends LoginForm implements HasUrlParameter<String> {
 
-  public static String username = "";
   private String parameter = "";
 
   @Override
@@ -161,7 +168,8 @@ public class LoginView extends LoginForm implements HasUrlParameter<String> {
 
   public LoginView() {
     addLoginListener(evt -> {
-      LoginView.username = evt.getUsername();
+      // ...
+
       UI.getCurrent().navigate(parameter);
     });
   }
@@ -237,12 +245,12 @@ public class FruityView extends Div implements HasUrlParameter<String> {
   public void setParameter(BeforeEvent event
     , @OptionalParameter String parameter) {
     if(parameter!=null) {
-      add(new Html("<h4><i>" + parameter + "</i> is a nice selection! Try again.</h4>"));
+      add(new H4(parameter + " is a nice selection! Try again."));
     }
   }
 
   public FruityView() {
-    add(new Html("<h3>Select your favorite fruit:</h3>"));
+    add(new H3("Select your favorite fruit:").getText());
 
     RadioButtonGroup<String> group = new RadioButtonGroup<>();    
     group.setItems("Apple", "Banana", "Watermelon");
@@ -275,7 +283,7 @@ The path of the URL can have longer path, for example we can setup a view for `f
 public class WatermelonView extends Div {
 
   public WatermelonView() {
-    add(new Html("<h3>Nice choice! Watermelon is my favorite too!</h3>"));
+    add(new H3("Nice choice! Watermelon is my favorite too!"));
     add(new Html("<i>-- Yours, Web Robot.</i>"));
   }
 }
