@@ -2,7 +2,7 @@
 
 :type: text
 :tags: Navigation, Router, Flow
-:description: Learn how to set up navigation in a Vaadin app and a few tips
+:description: Learn how to set up navigation in a Vaadin app: defining routes, parent layouts, parameters, and redirects
 :repo: https://github.com/vaadin-learning-center/navigation-tutorial
 :linkattrs:
 :imagesdir: ./images
@@ -39,7 +39,7 @@ public class NotFoundView extends Div
 
 The class above handles the `NotFoundException` during navigation; it adds a `Paragraph` and updates its text with information about the wrong path using `event.getLocation().getPath()`.
 
-== Encapsulate the navigation
+== Parent layout
 A common practice is to include the error message within the default website layout. To do so, create a new class `MainLayout.java` as following:
 
 [source,java]
@@ -74,7 +74,7 @@ public class LoginView extends LoginForm {
   public LoginView() {
     addLoginListener(evt -> {
       // Perform authentication check and update session here
-      // Check project source code for an example
+      // Check the project source code for an example
 
       UI.getCurrent().navigate("");
     });
