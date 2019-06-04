@@ -1,8 +1,7 @@
-= Vaadin key concepts overview
+= Vaadin key concepts
 :author: Marcus Hellberg
 :description:
 :imagesdir: images
-:toc:
 
 This document is meant for developers who are new to Vaadin and want to get up to speed quickly. It gives you a quick overview of the core concepts and provides links to relevant documentation for further reading. It can also be used as a quick reference while developing Vaadin apps. 
 
