@@ -1,6 +1,6 @@
 = App-Layout for Flow
 
-:title: Business Application Layout for Vaadin Flow
+:title: Application Layout for Vaadin Flow from user - appreciated
 :type: text
 :author: Sven Ruppert
 :tags: Layout, Flow, Java
