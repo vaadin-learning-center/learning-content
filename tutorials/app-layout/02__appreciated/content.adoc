@@ -1,10 +1,10 @@
-= App-Layout for Flow
+= App-Layout Add-on for Flow, created by Johannes Goebel
 
-:title: Application Layout for Vaadin Flow from user - appreciated
+:title: Application App Layout Add-on by Johannes Goebel for Vaadin Flow
 :type: text
 :author: Sven Ruppert
 :tags: Layout, Flow, Java
-:description: Learn how to work with the app-layout for Vaadin Flow to create business apps.
+:description: Learn how to work with the app-layout add-on created by one of our user, Johannes Goebel, for Vaadin Flow to create business apps.
 :repo: https://github.com/vaadin-learning-center/flow-layout-app_layout-vaadin
 :imagesdir: ./images
 
