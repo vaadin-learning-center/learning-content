@@ -1,8 +1,8 @@
-= Make Installable Web Apps
+= How to make a web app installable
 
 :type: text
 :tags: PWA, Install, Java
-:description: PWA in a Vaadin app and how to make your web app installable
+:description: Learn how to turn a Vaadin app into a PWA to make it installable on mobile and desktop.
 :repo:
 :linkattrs:
 :imagesdir: ./images
