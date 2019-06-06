@@ -290,7 +290,7 @@ In this second version, we are hiding the fact that we are internally using `Ver
 == Creating components with Vaadin Designer
 The link:/designer[Vaadin Designer visual builder] is a tool that allows you to build components and views with a drag-and-drop interface instead of code. It can be a powerful tool when you need to create many views or big forms. 
 
-video:drag-and-drop.mp4[]
+video::2h75rbKRSbg[youtube]
 
 You can use components created by Designer in your code like any other component. You can also use the components you have hand-coded in Designer. 
 
@@ -592,7 +592,7 @@ To write a unit test for the component above, we need a testing library to run t
 
 In this example, we are using https://junit.org/junit5/[jUnit 5] and https://site.mockito.org/[Mockito]. 
 
-.`*ExampleComponentTest.java`
+.`*ExampleComponentTest.java*`
 [source,java]
 ----
 class ExampleComponentTest {
