@@ -1,0 +1,126 @@
+= Make Installable Web Apps
+
+:type: text
+:tags: PWA, Install, Java
+:description: PWA in a Vaadin app and how to make your web app installable
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+Would you distribute your application today as a standalone executable file, or as a 
+web application? What about mobile devices, should you enhance the mobile experience of your web app, or creeate a native mobile app instead? And what about other smart devices?
+
+Delivering a web application solve many problems, such as unifying the experience across devices, and guaranteeing that your users are running the latest version without prompts to upgrade. Also, it solves security issues and software pirating. However, native apps are also unique when you can have them installed as part of the operating system apps, access device hardware, and send notifications.
+
+Progressive Web App (PWA) is the new standard that helps you modernize your web app and make it installable, access hardware, and give a native app experience. There are plenty of articles and tutorials about https://vaadin.com/pwa[how PWA works] and how to implement those features in your web app; this tutorial is covering:
+
+1. How to get PWA features in your Vaadin app, with Java only
+2. How to override the default settings and customize the service worker
+
+Before we start, two key concepts of PWA need to get explained: *Manifest file*, and *service worker*. The manifest file is a json-formatted file that describes the app, such as name, entry point, theme color, and more. The service worker is a Javascript file that is responsible for delivering advanced functionalities to your app. Like, manage push notifications, request hardware access (camera, Bluetooth, GPS, ..etc), load an offline version of the app when there is no network connection, and similar functionalities that are classified under a PWA feature.
+
+The good news, modern browsers helps you with your PWA experience. You request access to devise orientation with a few lines of code, and the browser does the low-level device APIs for you, regardless of the operating system or platform. The bad news though is, for Java developers, those lines of code must be in Javascript. Unless you are using Vaadin:
+
+== 1. How to get PWA features in your Vaadin app
+
+Enable PWA in Vaadin is easy. Vaadin framework comes with `@PWA` annotation that enables the PWA functionalities. Place it on top of your main UI class, and you are all set. It injects a manifest file and generates a service worker for you.
+
+[code,js]
+----
+@PWA(name = "Beverage Buddy", shortName = "BevBuddy")
+public class MainLayout {
+  // --
+}
+----
+
+image::install-app.png[Install App]
+
+Things delivered by defaults with the `@PWA` annotation are a default manifest compatible with the Lumo theme, and functionality that allows app installation on desktop and mobile devices.
+
+Now try to disconnect your application server, and reload the page. You are greeted by the default offline page:
+
+image::offline-app.png[Offline App]
+
+You can change this default page, by creating your own custom `offline.html` page and place it in `src/main/webapp/offline.html`.
+
+This offline file can be customized, and you can specify which parts of your application need to be cached. Let's take an example:
+
+Create a file with name `offline.html` and contains:
+
+[source,html]
+----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Offline!</title>
+    <script src="offline.js"></script>
+  </head>
+  <body>
+    <span id="un_placeholder"></span>
+  </body>
+</html>
+----
+
+Create another file `offline.js` with contents as following:
+
+[source,js]
+----
+window.addEventListener('load', () => {
+  getUsername();
+});
+
+function getUsername() {
+  document.getElementById("un_placeholder").innerHTML
+    = localStorage.getItem("username")
+    + " is the stored username.";
+}
+----
+
+Now include them both, `offline.js` and `offline.html` inside `src/main/webapp/` folder.
+
+The code assumes there is a value stored in the browser's local storage with key `username` and tries to retrieve it when offline.
+
+To get this to work, let's store a real `username` from our Vaadin app, in the main UI:
+
+[source,java]
+----
+  public MainLayout() {
+    UI.getCurrent().getPage().executeJs(
+      "localStorage.setItem('username', 'Joey')");
+
+    // --
+  }
+----
+
+Also update your annotation to include the new `offline.js` file:
+
+[source,java]
+----
+@PWA(name = "Beverage Buddy", shortName = "BevBuddy",
+  offlineResources = {"offline.js"})
+----
+
+Now run your Vaadin app one more time, then cut the connection and reload the page. You should see something similar to:
+
+image::offline-storage.png[Offline Storage]
+
+The offline capabilities you can do when there is no internet connection are not limited. Depending on your business needs, it can range from just a static informative page, telling your users that the app can not work offline. Alternatively, implementing offline functionalities and read cached files and stored data in the local storage. The parameter `offlineResources` described earlier can take an array of all possible files that you can to cache and make them available offline.
+
+You may also want to customize the manifest file:
+
+== 2. How to override the default settings and customize the service worker
+
+No need to remember all the manifest file parameters, there are many https://app-manifest.firebaseapp.com/[online services] that can help you customize and generate a manifest file, with the colors and app description you need. To use the custom manifest file, specify the new file with the parameter `manifestPath`:
+
+[source,java]
+----
+@PWA(name = "Beverage Buddy", shortName = "BevBuddy", manifestPath = "manifest.json")
+----
+
+You can also override the default service worker by creating a new one with the exact name `sw.js` and place it in the `src/main/webapp/` folder. However, at this point, you are about to write your custom Javascript code for the service worker. Currently, there is no Java APIs available to customize the service worker.
+
+== Summary
+
+Vaadin framework comes with the default functionalities to make your web app installable and rich with PWA features. Depending on your business needs, you can do a lot with one single annotation `@PWA`, or you might want to make low-level customization and specific front-end code. What other features do you need in your web app that should be part of the default setup?
+
