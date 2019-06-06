@@ -1,0 +1,11 @@
+= Grid-Tutorial
+
+:type: text
+:tags: Flow, Layout, Java, API, Component
+:description: Learn to use the grid component in your web application and use the API efficiently according to your use case.
+:repo: https://github.com/SebastianKuehnau/GridTutorial_V14
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+<Write content here>
