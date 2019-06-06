@@ -8,26 +8,26 @@
 :imagesdir: ./images
 :related_tutorials:
 
-Would you distribute your application today as a standalone executable file, or as a 
-web application? What about mobile devices, should you enhance the mobile experience of your web app, or creeate a native mobile app instead? And what about other smart devices?
+Should you distribute your application as a standalone executable file, or as a web application? What about mobile devices, should you enhance the mobile experience of your web app, or create a native mobile app instead? And what about other smart devices?
 
-Delivering a web application solve many problems, such as unifying the experience across devices, and guaranteeing that your users are running the latest version without prompts to upgrade. Also, it solves security issues and software pirating. However, native apps are also unique when you can have them installed as part of the operating system apps, access device hardware, and send notifications.
+Delivering a web application solves many problems, such as unifying the experience across devices, and guaranteeing that your users are running the latest version without prompts to upgrade. However, native apps have an advantage that you can have them installed as part of the operating system apps, access device hardware, and send notifications.
 
-Progressive Web App (PWA) is the new standard that helps you modernize your web app and make it installable, access hardware, and give a native app experience. There are plenty of articles and tutorials about https://vaadin.com/pwa[how PWA works] and how to implement those features in your web app; this tutorial is covering:
+Progressive Web App (PWA) is the new standard that helps you modernize your web app and make it installable, access hardware, and give a native app experience. There are plenty of articles and tutorials about https://vaadin.com/pwa[how PWA works] and how to implement those features in your web app. This tutorial covers a subset of those specific to Vaadin apps:
 
 1. How to get PWA features in your Vaadin app, with Java only
 2. How to override the default settings and customize the service worker
 
-Before we start, two key concepts of PWA need to get explained: *Manifest file*, and *service worker*. The manifest file is a json-formatted file that describes the app, such as name, entry point, theme color, and more. The service worker is a Javascript file that is responsible for delivering advanced functionalities to your app. Like, manage push notifications, request hardware access (camera, Bluetooth, GPS, ..etc), load an offline version of the app when there is no network connection, and similar functionalities that are classified under a PWA feature.
+Before we start, two key concepts of PWA need to be explained: *Manifest file*, and *ServiceWorker*. The manifest file is a JSON-formatted file that describes the app, such as name, entry point, theme color, and more. The ServiceWorker is a Javascript file that is responsible for delivering advanced functionalities to your app: manage push notifications, load an offline version of the app when there is no network connection, and similar features.
 
-The good news, modern browsers helps you with your PWA experience. You request access to devise orientation with a few lines of code, and the browser does the low-level device APIs for you, regardless of the operating system or platform. The bad news though is, for Java developers, those lines of code must be in Javascript. Unless you are using Vaadin:
+The good news is that modern browsers help you with your PWA experience. You request access to devise orientation with a few lines of code, and the browser does the low-level device APIs for you, regardless of the operating system or platform. The bad news though is, for Java developers, those lines of code must be in Javascript. Unless you are using Vaadin:
 
 == 1. How to get PWA features in your Vaadin app
 
-Enable PWA in Vaadin is easy. Vaadin framework comes with `@PWA` annotation that enables the PWA functionalities. Place it on top of your main UI class, and you are all set. It injects a manifest file and generates a service worker for you.
+Enable PWA in Vaadin is easy. Vaadin framework comes with `@PWA` annotation that enables the PWA functionalities. Place it on top of your entry point route, and you are all set. It injects a manifest file and generates a service worker for you.
 
 [code,js]
 ----
+@Route("")
 @PWA(name = "Beverage Buddy", shortName = "BevBuddy")
 public class MainLayout {
   // --
@@ -36,7 +36,7 @@ public class MainLayout {
 
 image::install-app.png[Install App]
 
-Things delivered by defaults with the `@PWA` annotation are a default manifest compatible with the Lumo theme, and functionality that allows app installation on desktop and mobile devices.
+Things delivered by default with the `@PWA` annotation are a default manifest compatible with the Lumo theme, and functionality that allows app installation on desktop and mobile devices.
 
 Now try to disconnect your application server, and reload the page. You are greeted by the default offline page:
 
@@ -107,11 +107,9 @@ image::offline-storage.png[Offline Storage]
 
 The offline capabilities you can do when there is no internet connection are not limited. Depending on your business needs, it can range from just a static informative page, telling your users that the app can not work offline. Alternatively, implementing offline functionalities and read cached files and stored data in the local storage. The parameter `offlineResources` described earlier can take an array of all possible files that you can to cache and make them available offline.
 
-You may also want to customize the manifest file:
-
 == 2. How to override the default settings and customize the service worker
 
-No need to remember all the manifest file parameters, there are many https://app-manifest.firebaseapp.com/[online services] that can help you customize and generate a manifest file, with the colors and app description you need. To use the custom manifest file, specify the new file with the parameter `manifestPath`:
+You may also want to customize the manifest file. There is no need to remember all the manifest file parameters, there are many https://app-manifest.firebaseapp.com/[online services] that can help you customize and generate a manifest file, with the colors and app description you need. To use the custom manifest file, specify the new file with the parameter `manifestPath`:
 
 [source,java]
 ----
