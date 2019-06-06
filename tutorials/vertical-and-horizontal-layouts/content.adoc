@@ -168,6 +168,6 @@ image::ScreenshotLandscape.png[Landscape View]
 
 image::ScreenshotPortrait.png[Portrait View]
 
-Feel free to test this and play around with the sources that are available in [this GitHub project](https://github.com/mlopezFC/vertical-horizontal-layouts).
+Feel free to test this and play around with the sources that are available in https://github.com/vaadin-learning-center/vertical-horizontal-layouts[this GitHub project].
 
 Have fun!
