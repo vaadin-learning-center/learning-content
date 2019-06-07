@@ -6,8 +6,6 @@
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/formless
 :linkattrs:
 :imagesdir: ./images
-:placeholder:
-:hidden:
 
 After discussing different ways of creating login forms and POSTing the data to Spring Security's endpoint, now, we will explain how to get authenticated without page reloads. This approach will force us to dig a little deeper into the login flow the framework provides by triggering the authentication step manually and taking care of success and error handling.
 
