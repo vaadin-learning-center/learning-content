@@ -1,13 +1,13 @@
-:title: Customize Spring Security to allow reload free login dialogs
+:title: Adding a page reload free login view for better UX using Spring Security
 :author: Paul Römer
 :type: text
 :tags: Spring, Spring Boot
-:description: Adds a specialized Spring Security and Vaadin configuration to allow handling the whole authentication without submitting a form.
-:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/formless
+:description: Presents a Spring Security configuration that allows handling the whole authentication without submitting a form.
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/form-less
 :linkattrs:
 :imagesdir: ./images
 
-After discussing different ways of creating login forms and POSTing the data to Spring Security's endpoint, now, we will explain how to get authenticated without page reloads. This approach will force us to dig a little deeper into the login flow the framework provides by triggering the authentication step manually and taking care of success and error handling.
+After discussing different ways of creating login forms and POSTing the data to Spring Security's endpoint, now, we will explain how to get authenticated without any page reload. This approach will force us to dig a little deeper into the login flow Spring Security provides by triggering the authentication step manually and taking care of success and error handling on our own.
 
 [NOTE]
 I am a big fan of keeping things simple - especially when it comes to security. That is why I am always a little worried when we have to write additional code for the sake of the user's login experience. Also, I want to state out that this only works for your very own login with credentials. If you want to provide Single-Sign-On - what is a natural and pretty secure approach nowadays - you will not be able to avoid redirects at all...
