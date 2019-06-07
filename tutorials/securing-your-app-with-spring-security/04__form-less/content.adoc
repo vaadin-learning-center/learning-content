@@ -7,7 +7,7 @@
 :linkattrs:
 :imagesdir: ./images
 
-After discussing different ways of creating login forms and POSTing the data to Spring Security's endpoint, now, we will explain how to get authenticated without any page reload. This approach will force us to dig a little deeper into the login flow Spring Security provides by triggering the authentication step manually and taking care of success and error handling on our own.
+After discussing different ways of creating login forms and POSTing the data to Spring Security's endpoint, now, we will explain how to *get authenticated without any page reload*. This approach will force us to dig a little deeper into the login flow Spring Security provides by triggering the authentication step manually and taking care of success and error handling on our own.
 
 [NOTE]
 I am a big fan of keeping things simple - especially when it comes to security. That is why I am always a little worried when we have to write additional code for the sake of the user's login experience. Also, I want to state out that this only works for your very own login with credentials. If you want to provide Single-Sign-On - what is a natural and pretty secure approach nowadays - you will not be able to avoid redirects at all...
@@ -63,6 +63,7 @@ protected void configure(HttpSecurity http) throws Exception {
 <3> We keep the form login semi-activate even if we do not use it directly. This makes Spring Security take care of the redirects.
 
 The custom request cache needs some extensions to easily extract the redirect URL. It extends the `HttpSessionRequestCache` that internally stores the saved request as a `DefaultSavedRequest` in the session. That is why it is save to cast the `SavedRequest`.
+
 .`*CustomRequestCache.java*`
 [source,java,linenums]
 ----
@@ -85,6 +86,7 @@ public String resolveRedirectUrl() {
 <3> Some mangling to satisfy `Ui.navigate()` that expects relative links without a leading slash.
 
 Finally, we will put everything together in the login view itself:
+
 .`*LoginView.java*`
 [source,java,linenums]
 ----
