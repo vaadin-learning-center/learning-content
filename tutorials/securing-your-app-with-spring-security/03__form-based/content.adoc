@@ -24,7 +24,7 @@ With Vaadin 13 we introduce a dedicated login component boiling down the needed 
 == Alternative 1: Java-only
 As promised we will start with implementing a Java-only login view. Yes, I know. We cannot avoid all JavaScript, but we reduced it as much as possible.
 
-[INFO]
+[TIP]
 Check https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/java-form for the sources.
 
 First of all, we have to add `iron-form` that allows us to use HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
@@ -91,7 +91,7 @@ public class LoginView extends VerticalLayout {
 == Alternative 2: Declarative view with a Polymer template
 If you prefer, you could also implement the login-form with a Polymer template. 
 
-[INFO]
+[TIP]
 Check https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/polymer-form for the sources.
 
 As in the Java-only example, the `iron-form` component is needed to allow HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
@@ -170,7 +170,7 @@ And finally the actual declaration of our login Polymer component:
 == Alternative 3: Java-only with LoginForm or LoginOverlay component
 With the release of Vaadin 13 we now provide an extremely simplified way to get a login form via dedicated login components: The `LoginOverlay` component is a full-featured login dialog whereby `LoginForm` can be integrated wherever you need it. For details check the https://vaadin.com/components/vaadin-login[documentation, router-link=true].
 
-[INFO]
+[TIP]
 Check https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form and https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-component-form for the sources.
 
 Using them boils down the whole `LoginView` to
