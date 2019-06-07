@@ -119,12 +119,14 @@ public class BasicLayoutView extends VerticalLayout {
 ----
 
 
-image:vaadin-quickstart-basic-layouts.png[Basic header, navbar, and footer layout using Vaadin HorizontalLayout and VerticalLayout]
+image::vaadin-quickstart-basic-layouts.png[Basic header, navbar, and footer layout using Vaadin HorizontalLayout and VerticalLayout]
 
 NOTE: HorizontalLayout and VerticalLayout are not well suited for responsive layouts. They will not wrap their content if the viewport gets too narrow. For that, we'll need to use some CSS. 
 
 === Div
 The `Div` is the most flexible of all the layouts, but it also requires you to handle all positioning yourself through CSS. We can use the https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox[CSS flexbox] layout to achieve a smooth responsive layout that adapts to different viewport sizes.
+
+image::vaadin-quickstart-flex-layout.png[Responsive layout featuring a header, navbar, and a footer.]
 
 When we are using CSS to layout components, we need to define CSS classnames for all the components. We also need to add a `@StyleSheet` annotation to load a CSS file. 
 
