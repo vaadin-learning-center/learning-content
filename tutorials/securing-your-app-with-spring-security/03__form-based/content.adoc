@@ -225,8 +225,55 @@ In sum, all presented approaches will create a straightforward login form allowi
 
 Try them by running `mvn spring-boot:run` and use the configured credentials user/password. When successful, you will get redirected, and the main view of the Vaadin + Spring starter shows up.
 
-Congrats!
+== Handling authentication failures
+Magnus Konze asked me how to display a proper error message on a failed login attempt. The simplest approach is to add a query parameter to the login view's URL in case of a failed authentication and show an error message in the login dialog.
 
-[NOTE]
-Check out the linked repository for implementation details. Each approach got its dedicated branch so you will find the code fitting your needs quite easily.
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+@EnableWebSecurity
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+	private static final String LOGIN_PROCESSING_URL = "/login";
+	private static final String LOGIN_FAILURE_URL = "/login?error"; // <1>
+	private static final String LOGIN_URL = "/login";
+	private static final String LOGOUT_SUCCESS_URL = "/login";
+----
+<1> Adds an empty query parameter to the login failure URL.
+
+.`*LoginView.java*`
+[source,java,linenums]
+----
+@Tag("sa-login-view")
+@Route(value = LoginView.ROUTE)
+@PageTitle("Login")
+public class LoginView extends VerticalLayout implements BeforeEnterObserver { // <1>
+	public static final String ROUTE = "login";
+
+	private LoginForm login = new LoginForm();
+
+	public LoginView(){
+		login.setAction("login");
+		getElement().appendChild(login.getElement());
+	}
+
+	@Override
+	public void beforeEnter(BeforeEnterEvent event) { // <2>
+		// inform the user about an authentication error
+		// (yes, the API for resolving query parameters is annoying...)
+		if(!event.getLocation().getQueryParameters().getParameters().getOrDefault("error", Collections.emptyList()).isEmpty()) {
+			login.setError(true); // <3>
+		}
+	}
+}
+----
+<1> Allows receiving navigation events before the view is rendered.
+<2> `BeforeEnterEvent` gives us access to query parameters.
+<3> Shows the default error message the login dialog provides out of the box.
+
+As you noticed this example is based on alternative 3 discussed above but the same approach can of course be used for the other alternatives, too.
+
+Enjoy!
 
