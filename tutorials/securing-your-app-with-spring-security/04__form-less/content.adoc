@@ -7,7 +7,7 @@
 :linkattrs:
 :imagesdir: ./images
 
-After discussing different ways of creating login forms and POSTing the data to Spring Security's endpoint, now, we will explain how to *get authenticated without any page reload*. This approach will force us to dig a little deeper into the login flow Spring Security provides by triggering the authentication step manually and taking care of success and error handling on our own.
+After exploring different ways of creating login forms and POSTing the data to Spring Security's endpoint, now, we will explain how to *get authenticated without any page reload*. This approach will force us to dig a little deeper into the login flow Spring Security provides by triggering the authentication step manually and taking care of success and error handling on our own.
 
 [NOTE]
 I am a big fan of keeping things simple - especially when it comes to security. That is why I am always a little worried when we have to write additional code for the sake of the user's login experience. Also, I want to state out that this only works for your very own login with credentials. If you want to provide Single-Sign-On - what is a natural and pretty secure approach nowadays - you will not be able to avoid redirects at all...
@@ -60,9 +60,9 @@ protected void configure(HttpSecurity http) throws Exception {
 ----
 <1> Since SpringBoot 2 the authentication manager bean has to be exposed manually.
 <2> We also have to expose the custom request cache to access it in our login view.
-<3> We keep the form login semi-activate even if we do not use it directly. This makes Spring Security take care of the redirects.
+<3> We keep the form login semi-activated even if we do not use it directly. This makes Spring Security take care of the redirects.
 
-The custom request cache needs some extensions to easily extract the redirect URL. It extends the `HttpSessionRequestCache` that internally stores the saved request as a `DefaultSavedRequest` in the session. That is why it is save to cast the `SavedRequest`.
+The custom request cache needs some extensions to easily extract the redirect URL. It extends the `HttpSessionRequestCache` that internally stores the saved request as a `DefaultSavedRequest` in the session. That is why it is safe to cast the `SavedRequest`.
 
 .`*CustomRequestCache.java*`
 [source,java,linenums]
@@ -110,7 +110,7 @@ public class LoginView extends VerticalLayout {
 
         login.addLoginListener(e -> { // <3>
             try {
-                // try to authenticate with given credentials, should always return !null or throw an {@link AuthenticationException}
+                // try to authenticate with given credentials, should always return not null or throw an {@link AuthenticationException}
                 final Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(e.getUsername(), e.getPassword())); // <4>
 
@@ -132,10 +132,10 @@ public class LoginView extends VerticalLayout {
 <1> Let's use the awesome login dialog component Vaadin provides.
 <2> Inject needed beans. The `authenticationManager` to kindly ask for login validation and the `requestCache` to get the redirect URL.
 <3> The component allows registering a login listener that gives access to the provided username and password.
-<4> Starts the authentication process by creating an authentication request object and let the manager do the rest. If successful we get a fully configured authentication object.
+<4> Starts the authentication process by creating an authentication request object and lets the manager do the rest. If successful we get a fully configured authentication object.
 <5> We have to register the authentication object in the security context manually to make Spring Security happy and aware of it.
 <6> If the authentication was successful we must not forget to close the dialog. Otherwise you will not see much of your views.
 <7> Resolve the redirect URL and route to the location.
-<8> In cases the authentication failed, we will inform the user about it via the dialog. It is always a good practice to give as less information as possible.
+<8> In case the authentication failed, we will inform the user about it via the dialog. It is always a good practice to give as little information as possible.
 
-That's it. Now run `mvn spring-boot:run` and open localhost:8080. You will be redirected to the login view, should be able to provide the credentials and redirected back to the root. You can also try URLs like localhost:8080/path-not-exists. As we did not implement any sophisticated redirect checkers you will be faced with Vaadin's default 404 page.
+That's it. Now run `mvn spring-boot:run` and open localhost:8080. You will be redirected to the login view, should be able to provide the credentials and subsequently be redirected back to the root. You can also try URLs like localhost:8080/path-not-exists. As we did not implement any sophisticated redirect checkers you will be faced with Vaadin's default 404 page.
