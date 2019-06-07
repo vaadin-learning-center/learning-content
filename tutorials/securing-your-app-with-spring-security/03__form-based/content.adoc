@@ -273,7 +273,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver { /
 <2> `BeforeEnterEvent` gives us access to query parameters.
 <3> Shows the default error message the login dialog provides out of the box.
 
-As you noticed this example is based on alternative 3 discussed above but the same approach can of course be used for the other alternatives, too.
+As you noticed this example is based on alternative 3 discussed above but the same approach can be used for the other two alternatives, too.
 
 Enjoy!
 
