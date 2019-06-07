@@ -2,7 +2,7 @@
 :author: Paul Römer
 :type: text
 :tags: Spring, Spring Boot
-:description: Presents a Spring Security configuration that allows handling the whole authentication without submitting a form.
+:description: Presents a Spring Security configuration that allows handling the whole authentication without submitting form data.
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/form-less
 :linkattrs:
 :imagesdir: ./images
@@ -60,7 +60,7 @@ protected void configure(HttpSecurity http) throws Exception {
 ----
 <1> Since SpringBoot 2 the authentication manager bean has to be exposed manually.
 <2> We also have to expose the custom request cache to access it in our login view.
-<3> We keep the form login semi-activate even if we do not use it. But Spring Security will take care of the redirects.
+<3> We keep the form login semi-activate even if we do not use it directly. This makes Spring Security take care of the redirects.
 
 The custom request cache needs some extensions to easily extract the redirect URL. It extends the `HttpSessionRequestCache` that internally stores the saved request as a `DefaultSavedRequest` in the session. That is why it is save to cast the `SavedRequest`.
 .`*CustomRequestCache.java*`
