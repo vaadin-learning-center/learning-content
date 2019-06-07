@@ -24,6 +24,9 @@ With Vaadin 13 we introduce a dedicated login component boiling down the needed 
 == Alternative 1: Java-only
 As promised we will start with implementing a Java-only login view. Yes, I know. We cannot avoid all JavaScript, but we reduced it as much as possible.
 
+[TIP]
+Check https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/java-form for the sources.
+
 First of all, we have to add `iron-form` that allows us to use HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
 [source,xml]
 ----
@@ -86,7 +89,13 @@ public class LoginView extends VerticalLayout {
 
 
 == Alternative 2: Declarative view with a Polymer template
-If you prefer, you could also implement the login-form with a Polymer template. As in the Java-only example, the `iron-form` component is needed to allow HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
+If you prefer, you could also implement the login-form with a Polymer template. 
+
+[TIP]
+Check https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/polymer-form for the sources.
+
+As in the Java-only example, the `iron-form` component is needed to allow HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
+
 [source,xml]
 ----
 <dependency>
@@ -161,6 +170,9 @@ And finally the actual declaration of our login Polymer component:
 == Alternative 3: Java-only with LoginForm or LoginOverlay component
 With the release of Vaadin 13 we now provide an extremely simplified way to get a login form via dedicated login components: The `LoginOverlay` component is a full-featured login dialog whereby `LoginForm` can be integrated wherever you need it. For details check the https://vaadin.com/components/vaadin-login[documentation, router-link=true].
 
+[TIP]
+Check https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form and https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-component-form for the sources.
+
 Using them boils down the whole `LoginView` to
 
 [source,java,linenums]
@@ -213,10 +225,55 @@ In sum, all presented approaches will create a straightforward login form allowi
 
 Try them by running `mvn spring-boot:run` and use the configured credentials user/password. When successful, you will get redirected, and the main view of the Vaadin + Spring starter shows up.
 
-Congrats!
+== Handling authentication failures
+Magnus Konze asked me how to display a proper error message on a failed login attempt. The simplest approach is to add a query parameter to the login view's URL in case of a failed authentication and show an error message in the login dialog.
 
-[NOTE]
-Check out the linked repository for implementation details. Each approach got its dedicated branch so you will find the code fitting your needs quite easily.
 
-PS: You may have noticed that the series stops abruptly after this section. The main reason is that I have a hectic schedule but wanted to get out at least some content. On the other hand, it is an excellent opportunity for you to discuss and prioritize other topics in the comment section below. Maybe the next three sections I am suggesting aren't as crucial for you as I would expect. Maybe you want to make me write about other Spring Security related stuff. I don't know, tell me!
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+@EnableWebSecurity
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+	private static final String LOGIN_PROCESSING_URL = "/login";
+	private static final String LOGIN_FAILURE_URL = "/login?error"; // <1>
+	private static final String LOGIN_URL = "/login";
+	private static final String LOGOUT_SUCCESS_URL = "/login";
+----
+<1> Adds an empty query parameter to the login failure URL.
+
+.`*LoginView.java*`
+[source,java,linenums]
+----
+@Tag("sa-login-view")
+@Route(value = LoginView.ROUTE)
+@PageTitle("Login")
+public class LoginView extends VerticalLayout implements BeforeEnterObserver { // <1>
+	public static final String ROUTE = "login";
+
+	private LoginForm login = new LoginForm();
+
+	public LoginView(){
+		login.setAction("login");
+		getElement().appendChild(login.getElement());
+	}
+
+	@Override
+	public void beforeEnter(BeforeEnterEvent event) { // <2>
+		// inform the user about an authentication error
+		// (yes, the API for resolving query parameters is annoying...)
+		if(!event.getLocation().getQueryParameters().getParameters().getOrDefault("error", Collections.emptyList()).isEmpty()) {
+			login.setError(true); // <3>
+		}
+	}
+}
+----
+<1> Allows receiving navigation events before the view is rendered.
+<2> `BeforeEnterEvent` gives us access to query parameters.
+<3> Shows the default error message the login dialog provides out of the box.
+
+As you noticed this example is based on alternative 3 discussed above but the same approach can be used for the other two alternatives, too.
+
+Enjoy!
 
