@@ -1,4 +1,4 @@
-= How to make a web app installable
+= How to make a Vaadin app installable in mobile and desktop
 
 :type: text
 :tags: PWA, Install, Java
