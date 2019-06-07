@@ -136,4 +136,4 @@ public class LoginView extends VerticalLayout {
 <7> Resolve the redirect URL and route to the location.
 <8> In cases the authentication failed, we will inform the user about it via the dialog. It is always a good practice to give as less information as possible.
 
-That's it. Now run `mvn spring-boot:run` and open localhost:8080. You will be redirected to the login view, should able to provide the credentials and be redirected to the root.
+That's it. Now run `mvn spring-boot:run` and open localhost:8080. You will be redirected to the login view, should be able to provide the credentials and redirected back to the root. You can also try URLs like localhost:8080/path-not-exists. As we did not implement any sophisticated redirect checkers you will be faced with Vaadin's default 404 page.
