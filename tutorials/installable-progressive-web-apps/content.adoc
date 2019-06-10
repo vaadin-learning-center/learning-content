@@ -19,7 +19,7 @@ Progressive Web App (PWA) is the new standard that helps you modernize your web 
 
 Before we start, two key concepts of PWA need to be explained: *Manifest file*, and *ServiceWorker*. The manifest file is a JSON-formatted file that describes the app, such as name, entry point, theme color, and more. The ServiceWorker is a Javascript file that is responsible for delivering advanced functionalities to your app: manage push notifications, load an offline version of the app when there is no network connection, and similar features.
 
-The good news is that modern browsers help you with your PWA experience. You request access to devise orientation with a few lines of code, and the browser does the low-level device APIs for you, regardless of the operating system or platform. The bad news though is, for Java developers, those lines of code must be in Javascript. Unless you are using Vaadin:
+The good news is that modern browsers help you with your PWA experience. You request access to device orientation with a few lines of code, and the browser does the low-level device APIs for you, regardless of the operating system or platform. The bad news though is, for Java developers, those lines of code must be in Javascript. Unless you are using Vaadin:
 
 == 1. How to get PWA features in your Vaadin app
 
@@ -105,7 +105,7 @@ Now run your Vaadin app one more time, then cut the connection and reload the pa
 
 image::offline-storage.png[Offline Storage]
 
-The offline capabilities you can do when there is no internet connection are not limited. Depending on your business needs, it can range from just a static informative page, telling your users that the app can not work offline. Alternatively, implementing offline functionalities and read cached files and stored data in the local storage. The parameter `offlineResources` described earlier can take an array of all possible files that you can to cache and make them available offline.
+The offline capabilities you can do when there is no internet connection are not limited. Depending on your business needs, it can range from just a static informative page, telling your users that the app can not work offline. Alternatively, implementing offline functionalities and read cached files and stored data in the local storage. The parameter `offlineResources` described earlier can take an array of all possible files that you want to cache and make them available offline.
 
 == 2. How to override the default settings and customize the service worker
 
