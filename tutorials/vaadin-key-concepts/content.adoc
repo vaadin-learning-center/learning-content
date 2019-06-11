@@ -673,6 +673,8 @@ link:/testbench[Read more about creating reliable and maintainable tests with Te
 == Styling with CSS
 All Vaadin components ship with a configurable theme called Lumo. Lumo allows you to configure things like colors, fonts, sizing, roundness, and spacing to make the component set look the way you want. The configuration is based on CSS custom properties (variables), which ensures all components look consistent.
 
+image::lumo-editor.gif[Editor used to change colors and visual appearance of a Vaadin app]
+
 The easiest way to explore the options and configure values for the CSS variables is to use the https://demo.vaadin.com/lumo-editor/[Lumo theme editor]. 
 
 Vaadin apps can further be customized with CSS. link:/docs/v13/flow/theme/theming-overview.html[Read more about styling Vaadin applications].
