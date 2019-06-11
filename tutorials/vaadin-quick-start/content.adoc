@@ -1,13 +1,13 @@
 = Vaadin quick start tutorial
 :tags: Java, Flow, Spring, Spring Boot
 :author: Marcus Hellberg
-:description: Learn the basics of Vaadin development in two minutes:  components, layouting, and events. 
+:description: Learn the basics of Vaadin development in two minutes with a simple example application.  
 :repo: https://github.com/vaadin-learning-center/vaadin-todo
 :linkattrs: 
 :imagesdir: ./images
 
 
-In this 2 minute tutorial, you will learn how to build a small but fully functional Vaadin application. You will learn the basics of component-based development and listening to events.
+In this 2 minute tutorial, you will learn how to build a small but fully functional Vaadin application. This simple example will teach you the basics of component-based development and listening to events.
 
 video::6kDCn6OvXkA[youtube]
 
