@@ -3,6 +3,7 @@ Apache
 Architecture
 API
 Backend
+Bower
 CDI
 Cloud
 Code splitting
@@ -37,6 +38,7 @@ Migration
 Mutation Testing
 Navigation
 NetBeans
+NPM
 Offline
 Payment Request
 Performance
