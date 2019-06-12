@@ -1,22 +1,22 @@
-= Migrate from Bower to NPM for Vaadin 14+
+= Migrate from Bower to npm for Vaadin 14+
 
 :type: text
 :tags: NPM, Bower, Migration
-:description: Migrate from Bower and install new ES6 modules in Vaadin 14+
+:description: Migrate from Bower to npm and install new ES6 modules in Vaadin 14+
 :repo:
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
 
-One of the biggest changes in Vaadin 14, is migration from Bower to NPM. And as explained in this https://vaadin.com/blog/bower-and-npm-in-vaadin-14-[blog post], Vaadin 14 is and LTS version and the only that will support both, Bower and NPM. Future versions will support NPM.
+One of the biggest changes in Vaadin 14 is the move from Bower to npm. And as explained in this https://vaadin.com/blog/bower-and-npm-in-vaadin-14-[blog post], Vaadin 14 is an LTS version that will support both Bower and npm. Future versions will remove support for Bower and HTML imports.
 
-This tutorial shows you how to migrate your Bower dependencies in Vaadin 10-14, to use NPM only.
+This tutorial shows you how to migrate your Bower and Webjar dependencies in Vaadin 10-14 to use npm. It's only needed for those who have an existing Vaadin project and want to take advantage of the new npm support. All Vaadin 14 and later starters use npm by default.
 
 == 1. Migrate to Vaadin 14
 
-The essential first step is to migrate to Vaadin 14. Because this is the last version that is allowing you to run Bower dependencies, and it supports NPM at the same time. In this tutorial, I use the https://vaadin.com/start/lts/simple-ui[Simple App] as a reference.
+The essential first step is to migrate to Vaadin 14. This is the last version that allows you to run Bower dependencies and the first version that supports npm. In this tutorial, I use the https://vaadin.com/start/lts/simple-ui[Simple App] as a reference.
 
-The migration starts by upgrading the Vaadin version to 14, from the `pom.xml` file:
+The migration start by upgrading the Vaadin version to 14 in the `pom.xml` file:
 
 [source,xml]
 ----
@@ -33,11 +33,11 @@ mvn package
 
 == 2. Migrate Bower modules to ES6 in your project
 
-After a successful migration to Vaadin 14, you can continue your development normally. However, to start using ES modules in your project, a few extra steps are needed:
+After a successful migration to Vaadin 14, you can continue your development normally. However, to start using npm and ES modules in your project, a few extra steps are needed:
 
 === 2.1 Add front-end plugin
 
-This plugin is managing the `webpack.config` and `package.json` files for your project and synchronizes the imports in your Java project with npm. In the `<build><plugins>` section of your `pom.xml` add this plugin:
+This plugin manages the `webpack.config` and `package.json` files for your project and synchronizes the imports in your Java project with npm. In the `<build><plugins>` section of your `pom.xml` add this plugin:
 
 [source,xml]
 ----
@@ -69,15 +69,17 @@ This step is needed to create the `webpack.config` and `package.json` files. In 
 
 All previously created `PolymerTemplate` classes that are based on an HTML file need to change to be an ES module. In our reference app, the example is `reviews-list.html`, that is implemented in the `ReviewsList.java` class:
 
+TIP: There will be a tool for automatically converting templates shortly after the Vaadin 14 release. In the meantime, the instructions below will guide you through the steps. 
+
 [source,java]
 ----
 @HtmlImport("frontend://src/views/reviewslist/reviews-list.html")
 public class ReviewsList extends PolymerTemplate<ReviewsModel> {
 ----
 
-First, migrate `reviews-list.html` to be an ES module with name `reviews-list.js`, you can use the https://polymer-library.polymer-project.org/3.0/docs/upgrade[upgrade guide] for manual steps and `polymer-modulizer` to automate the conversion if needed.
+First, change `reviews-list.html` to be a JavaScript file with the name `reviews-list.js`. You can use the https://polymer-library.polymer-project.org/3.0/docs/upgrade[upgrade guide] for manual steps and `polymer-modulizer` to automate the conversion if needed.
 
-Then, update the annotation to point to the `.js` file, using `@JsModule` annotation, and no need to use the `frontend://` prefix:
+Then, update the annotation to point to the `.js` file, using `@JsModule` annotation. There is no need to use the `frontend://` prefix anymore.
 
 [source,java]
 ----
@@ -94,16 +96,8 @@ Same thing for styles, everything has to be a standard ES module:
 public class MainLayout extends Div {
 ----
 
-=== 2.3 Install the new ES6 dependency through npm
 
-From the root directory of your project, where you normally execute `mvn` commands, and it has the newly created `package.json` file, execute `npm install` with the new dependency that you want to add to your project. If the dependency is located from https://vaadin.com/directory[Vaadin Directory], you should be able to see the `npm` command on the right side. Let's try to install the https://vaadin.com/directory/component/gatanasotime-field[time-field] component:
-
-[source,sh]
-----
-npm install time-field"@0.0.5"
-----
-
-== 3. Install external ES6 modules
+== 3. Install and use npm packages
 
 The new `JsModule` annotation can serve any installed npm dependency. For example, to use the https://vaadin.com/directory/component/fooloomanzoonumber-input[`number-input` component], first install it with the provided `npm install` command. Run this command from the root of your application, from where the `package.json` file is created:
 
