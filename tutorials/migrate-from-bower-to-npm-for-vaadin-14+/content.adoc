@@ -1,0 +1,127 @@
+= Migrate from Bower to npm for Vaadin 14+
+
+:type: text
+:tags: NPM, Bower, Migration
+:description: Migrate from Bower to npm and install new ES6 modules in Vaadin 14+
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+One of the biggest changes in Vaadin 14 is the move from Bower to npm. And as explained in this https://vaadin.com/blog/bower-and-npm-in-vaadin-14-[blog post], Vaadin 14 is an LTS version that will support both Bower and npm. Future versions will remove support for Bower and HTML imports.
+
+This tutorial shows you how to migrate your Bower and Webjar dependencies in Vaadin 10-14 to use npm. It's only needed for those who have an existing Vaadin project and want to take advantage of the new npm support. All Vaadin 14 and later starters use npm by default.
+
+== 1. Migrate to Vaadin 14
+
+The essential first step is to migrate to Vaadin 14. This is the last version that allows you to run Bower dependencies and the first version that supports npm. In this tutorial, I use the https://vaadin.com/start/lts/simple-ui[Simple App] as a reference.
+
+The migration start by upgrading the Vaadin version to 14 in the `pom.xml` file:
+
+[source,xml]
+----
+<vaadin.version>14.0.0.beta2</vaadin.version>
+----
+
+Also, re-compile and package your application, and make sure that it works as expected.
+
+[source,sh]
+----
+mvn package
+----
+
+
+== 2. Migrate Bower modules to ES6 in your project
+
+After a successful migration to Vaadin 14, you can continue your development normally. However, to start using npm and ES modules in your project, a few extra steps are needed:
+
+=== 2.1 Add front-end plugin
+
+This plugin manages the `webpack.config` and `package.json` files for your project and synchronizes the imports in your Java project with npm. In the `<build><plugins>` section of your `pom.xml` add this plugin:
+
+[source,xml]
+----
+  <plugin>
+    <groupId>com.vaadin</groupId>
+    <artifactId>vaadin-maven-plugin</artifactId>
+    <version>${vaadin.version}</version>
+    <executions>
+      <execution>
+        <goals>
+          <goal>prepare-frontend</goal>
+          <goal>build-frontend</goal>
+        </goals>
+      </execution>
+    </executions>
+  </plugin>
+----
+
+
+=== 2.2 Change location of the front-end
+
+Starting with Vaadin 14, the location of the frontend folder has to be at the root of the project. Move the folder `frontend` and all its content from `src/webapp/` to the root directory of your project.
+
+=== 2.3 Re-compile the project
+
+This step is needed to create the `webpack.config` and `package.json` files. In my case `mvn package` was just enough.
+
+=== 2.4 Convert from Polymer 2 to Polymer 3
+
+All previously created `PolymerTemplate` classes that are based on an HTML file need to change to be an ES module. In our reference app, the example is `reviews-list.html`, that is implemented in the `ReviewsList.java` class:
+
+TIP: There will be a tool for automatically converting templates shortly after the Vaadin 14 release. In the meantime, the instructions below will guide you through the steps. 
+
+[source,java]
+----
+@HtmlImport("frontend://src/views/reviewslist/reviews-list.html")
+public class ReviewsList extends PolymerTemplate<ReviewsModel> {
+----
+
+First, change `reviews-list.html` to be a JavaScript file with the name `reviews-list.js`. You can use the https://polymer-library.polymer-project.org/3.0/docs/upgrade[upgrade guide] for manual steps and `polymer-modulizer` to automate the conversion if needed.
+
+Then, update the annotation to point to the `.js` file, using `@JsModule` annotation. There is no need to use the `frontend://` prefix anymore.
+
+[source,java]
+----
+@JsModule("./src/views/reviewslist/reviews-list.js")
+public class ReviewsList extends PolymerTemplate<ReviewsModel> {
+----
+
+Same thing for styles, everything has to be a standard ES module:
+
+[source,java]
+----
+// @HtmlImport("frontend://styles/shared-styles.html")
+@JsModule("./styles/shared-styles.js")
+public class MainLayout extends Div {
+----
+
+
+== 3. Install and use npm packages
+
+The new `JsModule` annotation can serve any installed npm dependency. For example, to use the https://vaadin.com/directory/component/fooloomanzoonumber-input[`number-input` component], first install it with the provided `npm install` command. Run this command from the root of your application, from where the `package.json` file is created:
+
+[source,sh]
+----
+npm install @fooloomanzoo/number-input"@3.0.10"
+----
+
+Then, create a new class `NumberInput.java` as following:
+
+[source,java]
+----
+@JsModule("@fooloomanzoo/number-input/number-input.js")
+public class NumberInput extends Composite<Div> {
+
+}
+----
+
+Note: the `JsModule` import need to have the full `node_modules` path.
+
+It's recommended to re-package the application one more time `mvn package`, and then you can use the new component in your Java UI just like any other component:
+
+[source,java]
+----
+add(new TimeField());
+----
+
