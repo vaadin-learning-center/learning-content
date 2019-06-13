@@ -122,6 +122,6 @@ It's recommended to re-package the application one more time `mvn package`, and 
 
 [source,java]
 ----
-add(new TimeField());
+add(new NumberInput());
 ----
 
