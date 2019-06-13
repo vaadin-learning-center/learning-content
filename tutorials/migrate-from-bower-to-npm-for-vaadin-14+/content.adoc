@@ -59,7 +59,7 @@ This plugin manages the `webpack.config` and `package.json` files for your proje
 
 === 2.2 Change location of the front-end
 
-Starting with Vaadin 14, the location of the frontend folder has to be at the root of the project. Move the folder `frontend` and all its content from `src/webapp/` to the root directory of your project.
+Starting with Vaadin 14, the location of the frontend folder has to be at the root of the project. Move the folder `frontend` and all its content from `src/main/webapp/` to the root directory of your project.
 
 === 2.3 Re-compile the project
 
