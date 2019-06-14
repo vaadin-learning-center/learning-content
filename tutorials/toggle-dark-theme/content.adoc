@@ -1,0 +1,108 @@
+= Toggle dark Lumo theme variant dynamically
+:tags: Java, Flow
+:author: Marcus Hellberg
+:description: Learn how to dynamically change the Vaadin theme between light and dark mode - both for the entire app and parts.  
+:repo: https://github.com/vaadin-learning-center/toggle-dark-theme
+:linkattrs: 
+:imagesdir: ./images
+
+
+A very common question we get from Vaadin developers is how to switch on the dark theme variant dynamically. In this tutorial, I'll show you how to turn it on permanently, and how to dynamically apply the dark variant to the entire application or only parts of it. 
+
+video::1YvdDrmAnzY[youtube]
+
+
+== Option 1: Turn on Dark mode permanently
+
+The first and easiest way to switch to the dark theme is setting the `Lumo.DARK` variant in the `@Theme` annotation on your main route.
+
+`*MainView.java*`
+[source,java]
+----
+@Route
+@Theme(value = Lumo.class, variant = Lumo.DARK)
+public class MainView extends VerticalLayout {
+  //...
+}
+----
+
+image::dark-theme.png[Setting a dark theme with annotation]
+
+== Option 2: Change between light and dark theme on the fly
+
+The second option is to allow your users to decide if they want the light or the dark theme variant. To do this, we need to add a button that sets the appropriate `Lumo.DARK` theme variant on the main UI.
+
+`*MainView.java*`
+[source,java]
+----
+@Route
+public class MainView extends VerticalLayout {
+
+  public MainView() {
+    H1 h1 = new H1("Hello darkness");
+    FormComponent form = new FormComponent();
+
+    Button toggleButton = new Button("Toggle dark theme", click -> {
+      ThemeList themeList = UI.getCurrent().getElement().getThemeList(); // <1>
+
+      if (themeList.contains(Lumo.DARK)) { // <2>
+        themeList.remove(Lumo.DARK);
+      } else {
+        themeList.add(Lumo.DARK);
+      }
+    });
+
+    add(
+        toggleButton,
+        h1,
+        form
+    );
+  }
+}
+----
+<1> Get the list of currently applied theme variants
+<2> Toggle `Lumo.DARK`
+
+image::toggle-app-theme.gif[Toggle between light and dark theme for the app on the fly.]
+
+== Option 3: Switch between light and dark theme for a single component
+
+You can also apply the theme change to specific components instead of the entire application. To do that, use the theme list for that component instead of the `UI`. The change will apply to that component and all its children. 
+
+NOTE: It is only possible to have `Lumo.DARK` children inside light themed areas. It is not possible to make a child of a component with a dark theme to use `Lumo.LIGHT`.
+
+`*MainView.java*`
+[source,java]
+----
+@Route
+public class MainView extends VerticalLayout {
+
+  public MainView() {
+    H1 h1 = new H1("Hello darkness");
+    FormComponent form = new FormComponent();
+
+    Button toggleButton = new Button("Toggle dark theme", click -> {
+      ThemeList themeList = form.getElement().getThemeList(); // <1>
+
+      if (themeList.contains(Lumo.DARK)) {
+        themeList.remove(Lumo.DARK);
+      } else {
+        themeList.add(Lumo.DARK);
+      }
+    });
+
+    add(
+        toggleButton,
+        h1,
+        form
+    );
+  }
+}
+----
+<1> Get theme list for the `form` instead of the `UI`
+
+image::toggle-component-theme.gif[Toggle component theme between light and dark.]
+
+== Summary
+
+In this tutorial, you learned how to use the dark Lumo theme variant. You can either enable the dark mode permanently with the `@Theme` annotation's `Lumo.DARK` variant or dynamically by adding or removing the theme variant on the UI or component you want to change.
