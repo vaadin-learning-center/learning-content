@@ -16,7 +16,7 @@ video::1YvdDrmAnzY[youtube]
 
 The first and easiest way to switch to the dark theme is setting the `Lumo.DARK` variant in the `@Theme` annotation on your main route.
 
-`*MainView.java*`
+.`*MainView.java*`
 [source,java]
 ----
 @Route
@@ -32,7 +32,7 @@ image::dark-theme.png[Setting a dark theme with annotation]
 
 The second option is to allow your users to decide if they want the light or the dark theme variant. To do this, we need to add a button that sets the appropriate `Lumo.DARK` theme variant on the main UI.
 
-`*MainView.java*`
+.`*MainView.java*`
 [source,java]
 ----
 @Route
@@ -71,7 +71,7 @@ You can also apply the theme change to specific components instead of the entire
 
 NOTE: It is only possible to have `Lumo.DARK` children inside light themed areas. It is not possible to make a child of a component with a dark theme to use `Lumo.LIGHT`.
 
-`*MainView.java*`
+.`*MainView.java*`
 [source,java]
 ----
 @Route
