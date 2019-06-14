@@ -1,5 +1,5 @@
 = Toggle dark Lumo theme variant dynamically
-:tags: Java, Flow, 
+:tags: Java, Flow
 :author: Marcus Hellberg
 :description: Learn how to dynamically change the Vaadin theme between light and dark mode - both for the entire app and parts.  
 :repo: https://github.com/vaadin-learning-center/toggle-dark-theme
