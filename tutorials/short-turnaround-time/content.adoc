@@ -19,15 +19,26 @@ The answer is called DCEVM and Hotswap.
 DCEVM is an extension to the JVM that will allow us to reload classes at runtime more easily.
 It is based on the OpenJDK version 8 and 11 so far. Maybe, more versions are available in the future.
 Check the DCEVM-website for this http://dcevm.github.io/[http://dcevm.github.io/]
-To use this, you need to download the version you need (version 8 or 11) and start the installer with the command.
-*java -jar installer.jar*
+To use this, you need to download the version you need (version 8 or 11)
+also, start the installer with the command. *java -jar installer.jar*
 Follow the instructions that the UI will give you. To make it easier to switch between
 a JDK with and without DCEVM you should use a dedicated installation of the JDK for this.
+The primary process is the following:
+* java -jar installer.jar
+* press the button "Add installation directory."
+* select the folder of the JDK you want to use
+* decide if you're going to have it as a replacement and/or alternative JVM configuration
+* close the app
+
+image::img001.png[Select the JDK root directory]
+image::img002.png[Select replace and/or as altjvm]
+
 
 == Hotswap
 After this is done, we need the second part called *HotSwapAgent*
 http://hotswapagent.org/[http://hotswapagent.org/].
-In contrast to standard Java, where the hotswap is limited to in-body code changes, the DCEVM + HotswapAgent allow following code changes:
+In contrast to standard Java, where the hotswap is limited to in-body code changes,
+the DCEVM + HotswapAgent allow following code changes:
 
 * Add/remove/modify class fields.
 * Add/remove/modify methods. Add/remove/modify method annotations
@@ -35,6 +46,7 @@ In contrast to standard Java, where the hotswap is limited to in-body code chang
 * Add/remove a static member of classes. HotswapAgent handles static member initialization.
 * Add/remove enum values
 * Refresh framework and application server settings
+
 The only unsupported operation is hierarchy change (change the superclass or remove an interface).
 DCEVM realizes hotswap on JVM level.
 HotwapAgent does the same on the level of Java frameworks and servlet containers.
@@ -46,8 +58,10 @@ There are a lot of different Plugins available; Vaadin Support is one of them.
 == How to develop with this?
 If you are done with these preparations,
 you should start your Vaadin Flow project in Debug mode using the DCEVM extended JDK.
-Do not forget to activate the HotSwapAgend.
+Do not forget to activate the HotSwapAgend (*-javaagent:hotswap-agent.jar*)
 After you changed a class, re-compile it and make a refresh of the Flow webapp, that is it.
+
+image::img003.gif[DCEVM/Hotsap in practice]
 
 == Fazit
 You are now able to develop a Vaadin Flow web app with short roundtrip times.
