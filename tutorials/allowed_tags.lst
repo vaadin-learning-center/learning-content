@@ -3,6 +3,7 @@ Apache
 Architecture
 API
 Backend
+Bower
 CDI
 Cloud
 Code splitting
@@ -20,6 +21,7 @@ Fluent API
 Hotswap
 HotSwapAgent
 I18N
+Install
 IntelliJ IDEA
 Internationalisation
 Jar
@@ -39,6 +41,7 @@ Migration
 Mutation Testing
 Navigation
 NetBeans
+NPM
 Offline
 Payment Request
 Performance
@@ -49,6 +52,7 @@ Reactive
 Redux
 ResourceBundle
 REST
+Router
 Security
 Shadow DOM
 Spring
