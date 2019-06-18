@@ -90,7 +90,7 @@ public class MainView extends VerticalLayout {
 
 If you still have your server running, you can build the project and Spring Boot DevTools should pick up the changes. If not, run the `spring-boot:run` Maven target according to the instructions in the "Download and import the app starter" section. 
 
-Navigate to link:localhost:8080 and you should see the following:
+Navigate to `http://localhost:8080[localhost:8080, rel="nofollow"]` and you should see the following:
 
 image::components.png[Components visible, but not functional.]
 
