@@ -2,7 +2,7 @@
 :title: Setting up Spring Security for Vaadin applications
 :author: Paul Römer
 :type: text
-:tags: Spring, Spring Boot
+:tags: Spring, Spring Boot, Security
 :description: How to add the Spring Security dependency and redirect unauthenticated users to a login page. 
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin
 :linkattrs:
@@ -109,5 +109,45 @@ public void configure(WebSecurity web) throws Exception {
 <3> and <4> Allows access to frontend resources in development mode.
 <5> Grants access to all bundled resources. This is important for your login view (if a Polymer template needs to be accessed) or for every other public page.
 
+Let's configure a dummy user with some Spring helpers. 
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+@Bean
+@Override
+public UserDetailsService userDetailsService() { // <1>
+    UserDetails user =
+        User.withUsername("user") // <2>
+            .password("{noop}password") // <3>
+            .roles("USER") // <4>
+            .build();
+
+    return new InMemoryUserDetailsManager(user); // <5>
+}
+----
+<1> Exposes the user details service bean so that Spring Security is aware of it and can use it.
+<2> The `User` class is a helper class provided by Spring Security itself to simplify user details creation.
+<3> The `{noop}` prefix allows to define which password encoder is used. In this case the NoOp password encoder is used - plain password.
+<4> Gives the user some role.
+<5> It's dummy stuff, so let us store it in memory only.
+
 Once again, run `mvn spring-boot:run` to build and start the web application and notice the redirection to /login. So far, so good.
 
+== UserDetailsService vs AuthenticationProvider
+I have been asked to explain the difference between defining a *user details service* and *authentication providers*. If you know the details already, just skip this section as it is not related to Vaadin at all.
+
+Both have in same that *they are needed to authenticate users* whereby the user details services concentrates on *looking up the user* by some given user ID from some backend and hand it over to the requesting authentication provider. To the authentication provider it does not matter which backend was used, it just *needs the details to finally authenticate the user*. In most cases it will compare some user input like a password with the stored password. But what details are used for the authentication just depends on the actual provider implementation.
+
+It's not a 100% fit for sure but as a real world example you can think of border control. In this scenario the officer is the authentication provider and you are the user details provider:
+==== Login Dialog
+- Officer: "Who are you?"
+- You: "Paul Römer"
+- Officer: "Give me your ID card"
+- You are looking up your ID card from your bag and hand it over
+==== Authentication Process:
+The officer compares the details on your ID card, types stuff into his/her computer, asks additional questions and (hopefully) is able to authenticate you. You have no idea about the how, you only know about the result.
+
+Of course, this example mixes up authentication and authorization (depending on the country you are visiting that is a completly different story). But I hope you got the point. As there are plenty of user details service and authentication provider examples and tutorials out there, I will postpone extending my secured webapp with some more sophisticated user lookup to better concentrate on other topics.
+
+Cheers!
