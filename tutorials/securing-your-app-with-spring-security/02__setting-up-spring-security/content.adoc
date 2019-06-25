@@ -8,6 +8,9 @@
 :linkattrs:
 :imagesdir: ./images
 
+[WARNING]
+*There was a security issue in the first version of the tutorial:* The navigation listener that checks permissions for router navigation was missing. This will allow attackers to manipulate your login view to trigger router navigation and *access secured pages*! Please, check your code if an UI listener is registered as explained link:#_secure_router_navigation[here].
+
 After discussing the goals and setting up the project base, we can finally start with the actual work!
 
 == Enable Spring Security
@@ -97,17 +100,70 @@ public void configure(WebSecurity web) throws Exception {
             // (development mode) static resources // <3>
             "/frontend/**",
 
-            // (development mode) webjars // <4>
+            // (development mode) webjars // <3>
             "/webjars/**",
 
-            // (production mode) static resources // <5>
+            // (production mode) static resources // <4>
             "/frontend-es5/**", "/frontend-es6/**");
 }
 ----
 <1> Mandatory.
 <2> Needed only when developing a Progressive Web Application.
-<3> and <4> Allows access to frontend resources in development mode.
-<5> Grants access to all bundled resources. This is important for your login view (if a Polymer template needs to be accessed) or for every other public page.
+<3> Allows access to frontend resources in development mode.
+<4> Grants access to all bundled resources. This is important for your login view (if a Polymer template needs to be accessed) or for every other public page.
+
+== Secure Router Navigation
+Finally, we have to secure router navigation by registerring a before navigation listener that checks for permissions. This is *very important as Spring Security is not aware of the single page application behavior* of a Vaadin application. That means AJAX requests as they are done during navigation via router links are *not* protected by the default Spring Security filters.
+
+.`*ConfigureUIServiceInitListener.java*`
+[source,java,linenums]
+----
+@Component // <1>
+public class ConfigureUIServiceInitListener implements VaadinServiceInitListener { // <1>
+
+    @Override
+    public void serviceInit(ServiceInitEvent event) {
+        event.getSource().addUIInitListener(uiEvent -> {
+        final UI ui = uiEvent.getUI();
+        ui.addBeforeEnterListener(this::beforeEnter); // <2>
+        });
+    }
+
+    /**
+     * Reroutes the user if (s)he is not authorized to access the view.
+     *
+     * @param event
+     *            before navigation event with event details
+     */
+    private void beforeEnter(BeforeEnterEvent event) {
+        if (!LoginView.class.equals(event.getNavigationTarget()) // <3>
+            && !SecurityUtils.isUserLoggedIn()) { // <4>
+            event.rerouteTo(LoginView.class); // <5>
+        }
+    }
+}
+----
+
+<1> Allows adding the navigation listener globally to all UI instances by using a service init listener. Spring takes care of registering it.
+<2> Adds the before enter listener.
+<3> Ignores the login view itself.
+<4> Only redirects if user is not logged in. See below.
+<5> Actual rerouting the login view if needed.
+
+.`*SecurityUtils.java*`
+[source,java,linenums]
+----
+static boolean isUserLoggedIn() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // <1>
+    return authentication != null // <2>
+            && !(authentication instanceof AnonymousAuthenticationToken) // <3>
+            && authentication.isAuthenticated(); // <4>
+}
+----
+<1> Gets the authentication token from the security context.
+<2> Fail if no authentication is available.
+<3> Fail for anonymous authentication tokens. Spring Security will add this type of token if all other authentication mechanism failed by default.
+<4> Fail if the authentication token is available but is not authenticated.
 
 Once again, run `mvn spring-boot:run` to build and start the web application and notice the redirection to /login. So far, so good.
 
