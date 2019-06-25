@@ -308,9 +308,9 @@ As an example, let's listen for a `mouseover` event on a component and log it to
 businessCard.getElement().addEventListener("mouseover", e -> {
   System.out.println("'mouseover' event happened");
 });
+----
 
 You can read more about link:/docs/flow/creating-components/tutorial-component-events.html[listening to JavaScript events] and link:/docs/flow/creating-components/tutorial-component-basic.html[working with HTML element attributes and properties] in the docs.
-----
 
 
 == Creating custom JavaScript components
