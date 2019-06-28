@@ -21,30 +21,24 @@ The big disadvantage is the need for a page reload during the login which breaks
 [TIP]
 With Vaadin 13 we introduce a dedicated login component boiling down the needed code to less than 7 lines. Check alternative 3 below.
 
+[NOTE]
+With the upcoming Vaadin 14 the way we handle frontend resources changed. WebJars are not in use anymore but are replaced by NPM. No worries, we provide proper annotations so that adding frontend dependencies keeps being easy. Of course there is always a "but": I will switch all examples to v14 in the tutorial and remove the old ones. Still, you will be able to get code examples from the repository but they will not be maintained anymore. Of course, I will try to answer your questions.
+
 == Alternative 1: Java-only
 As promised we will start with implementing a Java-only login view. Yes, I know. We cannot avoid all JavaScript, but we reduced it as much as possible.
 
 [TIP]
 Check https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/java-form for the sources.
 
-First of all, we have to add `iron-form` that allows us to use HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
-[source,xml]
-----
-<dependency>
-    <groupId>org.webjars.bowergithub.polymerelements</groupId>
-    <artifactId>iron-form</artifactId>
-    <version>2.4.0</version>
-</dependency>
-----
-
-Second, we add a vertically layouted login view with all needed fields, forms and buttons:
+We add a vertically layouted login view with all needed fields, forms and buttons:
 
 .`*LoginView.java*`
 [source,java,linenums]
 ----
 @Route(value = LoginView.ROUTE)
 @PageTitle("Login")
-@HtmlImport("frontend://bower_components/iron-form/iron-form.html") // <1>
+@NpmPackage(value = "@polymer/iron-form", version = "3.0.1") // <1>
+@JsModule("@polymer/iron-form/iron-form.js") // <1>
 public class LoginView extends VerticalLayout {
     public static final String ROUTE = "login";
 
@@ -55,7 +49,7 @@ public class LoginView extends VerticalLayout {
         passwordField.getElement().setAttribute("name", "password"); // <3>
         Button submitButton = new Button("Login");
         submitButton.setId("submitbutton"); // <4>
-        UI.getCurrent().getPage().executeJavaScript("document.getElementById('submitbutton').addEventListener('click', () => document.getElementById('ironform').submit());"); // <5>
+        UI.getCurrent().getPage().executeJs("document.getElementById('submitbutton').addEventListener('click', () => document.getElementById('ironform').submit());"); // <5>
 
         FormLayout formLayout = new FormLayout(); // <6>
         formLayout.add(userNameTextField, passwordField, submitButton);
@@ -76,7 +70,7 @@ public class LoginView extends VerticalLayout {
     }
 }
 ----
-<1> Tells Flow that we need iron forms for the frontend.
+<1> Defines `iron-form` as a frontend dependency and defines which frontend module to load.
 <2> Adds a Vaadin text field for username and sets the form name attribute.
 <3> Same as above but for passwords using Vaadin password field.
 <4> Creates a Vaadin button and makes it referencable by defining an `id`.
@@ -94,73 +88,61 @@ If you prefer, you could also implement the login-form with a Polymer template.
 [TIP]
 Check https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/polymer-form for the sources.
 
-As in the Java-only example, the `iron-form` component is needed to allow HTML forms with custom elements. Just add the needed WEBJAR to your dependencies:
-
-[source,xml]
-----
-<dependency>
-    <groupId>org.webjars.bowergithub.polymerelements</groupId>
-    <artifactId>iron-form</artifactId>
-    <version>2.4.0</version>
-</dependency>
-----
-
-The Java companion file defines the route and references the Polymer template:
+The Java companion file defines the route and frontend dependencies and references the Polymer template (nowadays a JS module):
 [source,java,linenums]
 ----
 @Tag("sa-login-view")
-@HtmlImport("frontend://src/views/sa-login-view.html")
+@NpmPackage(value="@polymer/iron-form", version = "3.0.1") // <1>
+@JsModule("./views/sa-login-view.js")
 @Route(value = LoginView.ROUTE)
 @PageTitle("Login")
 public class LoginView extends PolymerTemplate<TemplateModel> {
     public static final String ROUTE = "login";
 }
 ----
+<1> Instead of defining the dependency via the `@NpmPackage` annotation it could also be added via the `package.json` file.
 
 And finally the actual declaration of our login Polymer component:
 [source,html,linenums]
 ----
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
-<link rel="import" href="../../bower_components/iron-form/iron-form.html">
-<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
-<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-text-field.html">
-<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-password-field.html">
-<link rel="import" href="../../bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
+import '@polymer/iron-form/iron-form';
+import '@vaadin/vaadin-button/vaadin-button';
+import '@vaadin/vaadin-text-field/vaadin-text-field';
+import '@vaadin/vaadin-text-field/vaadin-password-field';
+import '@vaadin/vaadin-ordered-layout/vaadin-vertical-layout';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-<dom-module id="sa-login-view">
-    <template>
+class LoginView extends PolymerElement {
+    static get template() {
+        return html`
         <div class="container">
             <iron-form class="login" id="form" allow-redirect> <!-- <1> -->
                 <form method="post" action="login"> <!-- <2> -->
                     <vaadin-vertical-layout>
                         <vaadin-text-field id="username" name="username" autofocus required></vaadin-text-field>
                         <vaadin-password-field id="password" name="password" required></vaadin-password-field>
-                        <vaadin-button on-tap="login" theme="primary"> <!-- <3> -->
+                        <vaadin-button on-click="login" theme="primary"> <!-- <3> -->
                             Login
                         </vaadin-button>
                     </vaadin-vertical-layout>
                 </form>
             </iron-form>
-        </div>
-    </template>
+        </div>`;
+    }
 
-    <script>
-      class LoginView extends Polymer.GestureEventListeners(Polymer.Element) {
-        static get is() {
-          return 'sa-login-view';
-        }
+    static get is() {
+        return 'sa-login-view';
+    }
 
-        login() { <!-- <4> -->
-          if (!this.$.username.invalid && !this.$.password.invalid) {
+    login() { // <4> 
+        if (!this.$.username.invalid && !this.$.password.invalid) {
             this.$.form.submit();
-          }
         }
-      }
+    }
+}
 
-      window.customElements.define(LoginView.is, LoginView);
-    </script>
-</dom-module>
+window.customElements.define(LoginView.is, LoginView);
 ----
 <1> Declares the encapsulating `iron-form`, allows redirects and makes the form referenceable.
 <2> Declares the actual HTML form and adds needed fields and button.
