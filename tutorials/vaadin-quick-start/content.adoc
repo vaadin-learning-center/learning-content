@@ -26,7 +26,7 @@ This tutorial assumes you have the following set up on your computer:
 
 == Download and import the app starter
 
-https://vaadin.com/start/latest/project-base["Download starter", role="button button--bordered"]
+https://vaadin.com/start/latest/project-base[Download starter^, role="button button--bordered"]
 
 Once you have the starter downloaded, unzip the file and open it in your IDE.  Ensure you can start the project by running the `spring-boot:run` Maven target. 
 
