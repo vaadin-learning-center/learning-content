@@ -8,4 +8,14 @@
 :imagesdir: ./images
 :related_tutorials:
 
-<Write content here>
+Vaadin Grid is a powerful component to show a list of data and it allows you to scroll through the data set and compose the data in a way which is most effectiv for you.
+
+This tutorial will show you how to bind data to the grid and how to add comlumns to the component.
+
+In the second part we are having a look how to customize columns and how to use renderes
+
+In part 3 we will have a look on sorting- and filtering options.
+
+Last but not least we will have a look on Lazy Loading.
+
+
