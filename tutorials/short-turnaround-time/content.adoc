@@ -1,18 +1,18 @@
-= How to develop with Flow, without Servlet-Container restarts
+= How to develop Vaadin apps without servlet container restarts
 
-:title: How to develop with Flow, without Servlet-Container restarts
+:title: How to develop Vaadin apps without servlet container restarts
 :type: text
 :author: Sven Ruppert
 :tags: HotSwapAgent, Hotswap, DCEVM, Flow, Java
-:description: How to develop with Flow, without Servlet-Container restarts
+:description: Set up hot-swapping in your Vaadin projects for quick reloads and more enjoyable coding.
 :imagesdir: ./images
 
 == Why?
 Vaadin Flow is based on Java and a Servlet-Container.
-To see results, you need to deploy the Flow app, and the Servlet-Container must run.
-This startup will take a few seconds based on your machine and project.
-However, how could we get this turnaround time reduced?
-What should we do, to speed up the development?
+To see results, you need to deploy the Flow app, and the servlet container must run.
+This startup will take a few seconds based on your computer and the project.
+How could we get this turnaround time reduced?
+What should we do to speed up the development?
 The answer is called DCEVM and Hotswap.
 
 == What is DCEVM?
@@ -37,7 +37,7 @@ image::img002.png[Select replace and/or as altjvm]
 == Hotswap
 After this is done, we need the second part called *HotSwapAgent*
 http://hotswapagent.org/[http://hotswapagent.org/].
-In contrast to standard Java, where the hotswap is limited to in-body code changes,
+In contrast to standard Java, where the hot-swap is limited to in-body code changes,
 the DCEVM + HotswapAgent allow following code changes:
 
 * Add/remove/modify class fields.
@@ -48,7 +48,7 @@ the DCEVM + HotswapAgent allow following code changes:
 * Refresh framework and application server settings
 
 The only unsupported operation is hierarchy change (change the superclass or remove an interface).
-DCEVM realizes hotswap on JVM level.
+DCEVM does hot-swap on JVM level.
 HotwapAgent does the same on the level of Java frameworks and servlet containers.
 
 To activate HotSwapAgent, download the binary for your JDK (version 8 or 11 is supported right now) and
@@ -57,13 +57,13 @@ There are a lot of different Plugins available; Vaadin Support is one of them.
 
 == How to develop with this?
 If you are done with these preparations,
-you should start your Vaadin Flow project in Debug mode using the DCEVM extended JDK.
-Do not forget to activate the HotSwapAgend (*-javaagent:hotswap-agent.jar*)
-After you changed a class, re-compile it and make a refresh of the Flow webapp, that is it.
+you should start your Vaadin project in Debug mode using the DCEVM extended JDK.
+Do not forget to activate the HotSwapAgend (*-javaagent:hot-swap-agent.jar*)
+After you changed a class, re-compile it and refresh the Flow web app in the browser. That is it.
 
 image::img003.gif[DCEVM/Hotsap in practice]
 
-== Fazit
+== Summary
 You are now able to develop a Vaadin Flow web app with short roundtrip times.
 If you want to try this by yourself, have a look at the starter packs and try it by yourself.
 
