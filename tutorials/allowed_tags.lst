@@ -10,6 +10,7 @@ Code splitting
 Component
 CSS
 Data entry
+DCEVM
 Dependency Injection
 Deploy
 Domain-Driven Design
@@ -17,6 +18,8 @@ Eclipse
 Embed
 Flow
 Fluent API
+Hotswap
+HotSwapAgent
 I18N
 Install
 IntelliJ IDEA
