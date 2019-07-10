@@ -1,4 +1,4 @@
-= Create Components for Vaadin Flow
+= 6 ways to create new components in Vaadin
 
 :type: text
 :tags: Component, Extend, Flow
@@ -8,9 +8,9 @@
 :imagesdir: ./images
 :related_tutorials: web-component-for-vaadin-flow, using-web-components-in-java
 
-Front-end frameworks usually come with a set of built-in components that help you to jump start your development. They cover the most essential needs for a functional user interface, such as a button and an input field.
+Front-end frameworks usually come with a set of built-in components that help you to jump-start your development. They cover the most essential needs for a functional user interface, such as a button and an input field.
 
-Vaadin Framework comes with more than 40 built-in https://vaadin.com/components[components] that cover both essential UI elements and some more advanced functionalities, such as data Grid and Datepicker.
+Vaadin comes with more than 40 built-in https://vaadin.com/components[components] that cover both essential UI elements and some more advanced functionalities, such as a data Grid and a date picker.
 
 However, there is no limit to the customization that you need in your web application, and there is always a need for a customized component. While we can not develop all the combination of possible components, we provide helpful APIs to create custom components.
 
