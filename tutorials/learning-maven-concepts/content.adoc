@@ -59,7 +59,7 @@ When you install and run Maven, it creates a _local repository_ in the `${user.h
 
 A _remote repository_ is a server with HTTP endpoints that allow to `GET` (download) and `PUT` (deploy or publish) artifacts.
 
-When you build a project, Maven checks first if a required dependency is in the local repository. If the dependency it's not there, it downloads it from one of the configured remote repositories. The https://github.com/apache/maven/blob/master/maven-model-builder/src/main/resources/org/apache/maven/model/pom-4.0.0.xml[_Super POM_] (which all Maven projects extend) defines the https://repo.maven.apache.org/maven2[Central Repository]–a repository provided by the Maven community which contains a large number of popular dependencies.
+When you build a project, Maven checks first if a required dependency is in the local repository. If the dependency is not there, Maven downloads it from one of the configured remote repositories. The https://github.com/apache/maven/blob/master/maven-model-builder/src/main/resources/org/apache/maven/model/pom-4.0.0.xml[_Super POM_] (which all Maven projects extend) defines the https://repo.maven.apache.org/maven2[Central Repository]–a repository provided by the Maven community which contains a large number of popular dependencies.
 
 
 
@@ -105,7 +105,7 @@ You can execute all the phases in a given lifecycle (except the `default` lifecy
 mvn lifecycle
 ```
 
-To execute phases of the `default` lifecycle, you need to specify a phase, for example:
+To execute phases of the `default` lifecycle, you need to specify a build phase, for example:
 
 ```
 mvn install
@@ -115,7 +115,7 @@ mvn install
 
 == What is a Plugin?
 
-Build goals are packaged in _Maven plugins_. For example, the Surefire plugin contains the goals used to run unit tests.
+Build goals are packaged in _Maven plugins_. For example, the Surefire plugin contains the goals that are used to run unit tests.
 
 
 
