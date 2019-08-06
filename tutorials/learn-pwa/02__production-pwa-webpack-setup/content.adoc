@@ -57,7 +57,7 @@ In order to conform with Webpack's defaults, we need to restructure our code a b
 |  |-img
 |  |-index.html
 |  |-index.js (rename app.js)
-|  |-manifest.webmanifest
+|  |-manifest.webmanifest (rename manifest.json)
 |  |-schedule.json
 |  |-spearkers.json
 |  |-styles.css
@@ -66,6 +66,8 @@ In order to conform with Webpack's defaults, we need to restructure our code a b
 |-package.json
 |-package-lock.json
 ----
+
+> Remember to rename `app.js` to `index.js` and `manifest.json` to `manifest.webmanifest`
 
 == Configure webpack
 Now that we have all the NPM dependencies installed and the folder structure in place, we can start configuring Webpack. Here's an outline of what we are going to do:
@@ -81,13 +83,13 @@ Create a new file, `webpack.config.js`, in the root of the project.
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = ({ mode }) => {
   return {
     mode, 
     plugins: [
-      new CleanWebpackPlugin(['dist']),
+      new CleanWebpackPlugin(),
       new webpack.ProgressPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
@@ -280,7 +282,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 + const modeConfig = env => require(`./build-utils/webpack.${env.mode}.js`)(env);
 
-module.exports = ({ mode, presets }) => {
+module.exports = ({ mode }) => {
 -  return {
 +  return webpackMerge(
     {
@@ -299,7 +301,7 @@ module.exports = ({ mode, presets }) => {
       ]
 -   };
 +    },
-+    modeConfig({ mode, presets })
++    modeConfig({ mode })
   );
 };
 ----
@@ -375,7 +377,7 @@ const modeConfig = env => require(`./build-utils/webpack.${env.mode}.js`)(env);
     {
       mode,
       plugins: [
-        new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin(),
         new webpack.ProgressPlugin(),
         new HtmlWebpackPlugin({
           filename: 'index.html',
