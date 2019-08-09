@@ -16,6 +16,11 @@ from the learning center is used.
 You are able to find the latest version
 here: https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave[https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave]
 
+== For the impatient
+You can find a demo deployed on a free Heroku instance.
+The URL is https://flow-layout-nested-layouts.herokuapp.com/[https://flow-layout-nested-layouts.herokuapp.com/]
+The demo on Heroku also includes the Open Source APM Solution called **stagemonitor**.
+
 == The challenge
 How to define elements in your application that are needed everywhere
 like a MenuBar?
