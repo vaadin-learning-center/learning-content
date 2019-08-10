@@ -33,7 +33,7 @@ The basic framework that will be used here is based on the link:/components/vaad
 The App Layout handles routing using RouterLayout.
 
 To start with Vaadin's AppLayout, we'll create a class named
-**MainLayout**, extending the class **AbstractAppRouterLayout**.
+**MainLayout**, extending the class **AppLayout**.
 
 
 [NOTE]
@@ -58,59 +58,63 @@ If not, the corresponding **maven** dependency is
 ----
 ====
 
+The app-layout will be customized inside the constructor or the class **MainLayout**.
+For this you have to use the methods **addToDrawer**, **setContent** and **addToNavbar**.
 
-The method to be implemented has the name **configure** and requires two parameters.
-The first is the instance of the generated AppLayout and the second is the menu used in the AppLayout.
-Based on these two instances you can start with the design.
-In addition to the logo placed in the upper left corner, you can also set up the menu items.
-A menu item itself is created with an instance of class **AppLayoutMenuItem**.
-Different combinations can be chosen.
-For example, an icon plus a description and a navigation target can be used, or a definition of an ActionListener instead of a navigation target.
-
-[source,java]
+=== setContent
+With this method, the actual content of the working area is set. Here in this example
+is is used only once after the user had passed the login process.
+[source, java]
 ----
-public class MainLayout extends AbstractAppRouterLayout {
+setContent(new Span("click in the menu ;-) , you will see me never again.."));
+----
 
-  private static final String LOGO_PNG = "logo.png";
+=== addToNavbar
+This method is used to set the navigation bar and the Icon that will be shown in the upper left corner.
+First, the Icon itself is loaded, and the height is fixed to **44px**.
+The instance of the class **DrawerToggle** is used to make the navigation bar responsive.
+Technically it is a specialised button with the provided Icon that is used to open and close the navigation bar itself.
 
-  public static final String ITM_DASHBOARD = "mainview.menue.item.dashboard";
-  public static final String ITM_PROFILE = "mainview.menue.item.profile";
-  public static final String ITM_TRENDS = "mainview.menue.item.trends";
-  public static final String ITM_LOGOUT = "mainview.menue.item.logout";
-
-  @Override
-  protected void configure(AppLayout appLayout ,
-                           AppLayoutMenu appLayoutMenu) {
-
+[source, java]
+----
     StreamResource res = new StreamResource(LOGO_PNG ,
                                             () -> MainView.class.getResourceAsStream("/" + LOGO_PNG));
     Image img = new Image(res , "Vaadin Logo");
-
     img.setHeight("44px");
-    appLayout.setBranding(img);
+    addToNavbar(new DrawerToggle(), img);
 
-    appLayoutMenu
-        .addMenuItems(
-            new AppLayoutMenuItem(DASHBOARD.create() ,
-                                  appLayout.getTranslation(ITM_DASHBOARD) ,
-                                  DashboardView.NAV) ,
-            new AppLayoutMenuItem(USER.create() ,
-                                  appLayout.getTranslation(ITM_PROFILE) ,
-                                  ProfileView.NAV) ,
-            new AppLayoutMenuItem(TRENDING_UP.create() ,
-                                  appLayout.getTranslation(ITM_TRENDS) ,
-                                  TrendsView.NAV) ,
-            new AppLayoutMenuItem(SIGN_OUT.create() ,
-                                  appLayout.getTranslation(ITM_LOGOUT) ,
-                                  e -> {
-                                    UI ui = UI.getCurrent();
-                                    VaadinSession session = ui.getSession();
-                                    session.setAttribute(SecurityService.User.class , null);
-                                    session.close();
-                                    ui.navigate(MainView.class);
-                                  }));
+----
+
+=== addToDrawer
+The method **addToDrawer** is responsible for setting the main menu itself. The menubar is implemented with
+Tabs. Every tab is one visible menu entry of the navigation bar at the left side.
+We need to define a connection between an entry in the menu bar and a component for the content area.
+For this, a map is used to hold both references.
+The key inside the map is the tab itself, and the value in the map is the component for the content area.
+
+**private Map<Tab, Component> tab2Workspace = new HashMap<>();**
+
+[source, java]
+----
+  private Tab dashBoard() {
+    final Span label = new Span(getTranslation(ITM_DASHBOARD));
+    final Icon icon  = DASHBOARD.create();
+    final Tab  tab   = new Tab(new HorizontalLayout(icon,label));
+    tab2Workspace.put(tab, new DashboardView());
+    return tab;
   }
-}
+----
+
+[source, java]
+----
+    final Tabs tabs = new Tabs(dashBoard(), user(), trends(), logout());
+    tabs.setOrientation(Tabs.Orientation.VERTICAL);
+    tabs.addSelectedChangeListener(event -> {
+      final Tab selectedTab = event.getSelectedTab();
+      final Component component = tab2Workspace.get(selectedTab);
+      setContent(component);
+    });
+    addToDrawer(tabs);
 ----
 
 [NOTE]
