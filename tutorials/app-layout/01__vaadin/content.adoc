@@ -19,6 +19,21 @@ In our minimal version, we will assume that there will be a menu in the applicat
 The number of menu entries is limited to four to five and is, therefore, no challenge for a screen.
 Of course, on the assumption that the terms used are a little shorter than some German words, such as "Gleisschotterrbettungsreinigungsmaschine."
 
+[NOTE]
+====
+An online demo is deployed on  https://flow-layout-app-layout-vaadin.herokuapp.com/[Heroku]
+or try it on your machine inside Docker:
+
+[source, bash]
+----
+docker pull vaadintutorials/flow-layout-app_layout-vaadin
+docker run -p8899:8899 --name demo vaadintutorials/flow-layout-app_layout-vaadin
+----
+For more details have a look at the https://github.com/vaadin-learning-center/flow-layout-app_layout-vaadi[github repo].
+====
+
+
+
 == The Layout
 The web application layout is a frame that contains the menu header and a slot for views. 
 Here we have the challenge for the first time that the navigation should not replace the contents of the entire window, only the area where the views are shown.
