@@ -31,7 +31,7 @@ If you need more flexibility regarding design and value appearance, you can also
 
 Basically, there are two options to add columns to the Grid with the ``addColumn`` method. You can pass the field name of the bean ``addColumn("name")`` or you simply provide a ``ValueProvider``and set the getter method as a lambda ``addColumn(item -> item.someMethod())`` or a reference ``addColumn(Person::getFirstName)``. 
 
-Attention: The field name based variant only works with a Grid instantiated with a class as described above.
+But beware: The field name based variant only works with a Grid instantiated with a class as described above.
 [source,java]
 ----
 // no constructor parameter
@@ -45,7 +45,7 @@ personGrid
     .addColumn(item -> item.getTitle() + " " + item.getLastName())
 ----
 
-If you have nested properties you can add the column with the property name via bean notation ``addColumn("address.street")``. Make sure that the object (in that case the address) is not null, otherwise it will lead to an exception.
+If you have nested properties you can add the column with the property name via bean notation ``addColumn("address.street")``. Make sure the object (in that case the address) is not null, otherwise it will throw an exception.
 
 ==== Column configuration
 
@@ -58,9 +58,9 @@ Grid<Person> personGrid = new Grid<>();
 
 // add column for gender with an indivual string, enable sorting and add string to header
 genderColumn = personGrid
-        .addColumn(person -> person.getGender() == Person.Gender.FEMALE ? "Mrs" : "Mr") // we leave the case for unmarried women out for now
+        .addColumn(person -> person.getGender() == Person.Gender.FEMALE ? "Mrs" : "Mr")
         .setSortable(true)
-        .setWidth("200px")
+        .setWidth("200px")  
         .setFrozen(true)
         .setHeader(new Html("<i>Gender</i>"));
 ----
@@ -72,13 +72,13 @@ In the next chapter of this tutorial we will have a look how to use ``renderer``
 
 === Selection Mode
 
-To select items in your Grid you have two options. You can set the Grid to ``SelectionMode.SINGLE`` to pick only one item or  ``SelectionMode.MULTI`` to select more items.
+To select items in your Grid you have two options. You can either set the Grid to ``SelectionMode.SINGLE`` to pick only one item or you set ``SelectionMode.MULTI`` to select more items.
 
 image::singleselect.png[SingleSelect,400,200] 
 
 image::multiselect.png[MultiSelect,400,200]
 
-To invoke code after a selection event you use the method ``addSelectionListener`` to listen to selection events to your Grid component. You will receive the selected bean inside the event object. The listener is also invoked, when the user deselects elements.
+To invoke code after a selection event you can add a listener via ``addSelectionListener`` to your Grid component. You will receive the selected bean inside the event object. The listener is also invoked, when the user deselects elements.
 
 [source,java]
 ----
@@ -90,9 +90,7 @@ personGrid.addSelectionListener(selectionEvent -> {
 }) ;
 ----
 
-With ``personGrid.asSingleSelect().getValue()`` you will get the selected item straight away from the component. 
-
-You can also set the selection manually via ``personGrid.select(item)`` or remove it via ``personGrid.deselectAll()``.
+With ``personGrid.asSingleSelect().getValue()`` you will get the selected item straight away from the component. You can also set the selection manually via ``personGrid.select(item)`` or remove it via ``personGrid.deselectAll()``.
 
 === Binding the Data
 
@@ -100,15 +98,11 @@ Now we have our grid component configured and in the next step we would like to 
 
 This is the simplest approach to provide data to the Grid, but let's have a short look what options are also available.
 
-To show data in the Grid we would need a ``DataProvider``. This is an interface used by the Grid to fetch the data from some back end. The ``DataProvider`` can be distinguish between in memory and lazy loading. 
+To show data in the Grid we would need a ``DataProvider``. This is an interface used by the Grid to fetch the data from some back end. The ``DataProvider`` can be distinguished between in memory and lazy loading. 
 
-The ``InMemoryDataProvider`` keeps all the fetched data from the backend. You can filter and sort the result set. 
+The ``InMemoryDataProvider`` keeps all the fetched data from the backend in memory and you can filter and sort directly in the result set. Regarding to our exmaple from the beginniing if we call ``setItems``on the Grid, it will implicitly create a ``ListDataProvider`` internally and add it to the component.
 
-If you have a huge amount of data and it is to costly to load everything in one step, you would might use a ``CallbackDataProvider``. This loads the data step by step from the back end and also filter and sort the data set. We will have a closer look into that topic in one of the next articles.
-
-There are also other types of data providers, but we stick for now on the two basic ones. 
-
-Side note: If we call ``setItems``on the Grid, it will implicitly create a ``ListDataProvider`` internally.
+If you have a huge amount of data and it is to costly to load all data in one step, you would might use a ``CallbackDataProvider``. This loads the data step by step from the back end and also filter and sort the data set. We will have a closer look into that topic in one of the next articles.
 
 [source,java]
 ----
@@ -125,9 +119,8 @@ final List<Person> personList = PersonService.findAll();
 personGrid.setItems(personList);
 
 // or you can do it alternatively this way
-
-// final ListDataProvider<Person> dataProvider = DataProvider.ofCollection(personList);
-// personGrid.setDataProvider(dataProvider);
+final ListDataProvider<Person> dataProvider = DataProvider.ofCollection(personList);
+personGrid.setDataProvider(dataProvider);
 ----
 
 === Filter and Sort
@@ -139,12 +132,12 @@ dataProvider.setFilter(person -> person.getAddress() != null);
 dataProvider.setSortOrder(Person::getName, SortDirection.ASCENDING);
 ----
 
-These are just the simplest options to filter and sort data in the Grid. There are further options, for instance by combining multiple sort orders and filters or by forwarding customized requests to the back end. We will cover this topic in one of the next articles of this series.
+These are just the simplest options to filter and sort data in the Grid. There are further options to sort and filter data, for example, to combine multiple sort orders and filters or forward customized requests to the back end. We will cover this topic in one of the next articles of this series.
 
 
 === Summary 
 
-Today we learned how to create and configure a Grid and its columns with the Vaadin Grid API. We also had a short preview of how to load data into the component and what filtering and sorting options we have. In the next articles we will have a detailed look on how to render values and components inside columns, how to apply more customized sort and filter options and how to use the lazy loading data provider.
+Today we learned how to create and configure a Grid and its columns with the Vaadin Grid API. We also had a short preview of how to load data into the component and what filtering and sorting options are available. In the next articles we will have a detailed look on how to render values and components inside columns, how to apply more customized sort and filter options and how to use the lazy loading data provider.
 
 If you want to spoil, you could have a look here: https://vaadin.com/docs/v14/flow/components/tutorial-flow-grid.html
 
