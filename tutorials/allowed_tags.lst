@@ -3,20 +3,26 @@ Apache
 Architecture
 API
 Backend
+Bower
 CDI
 Cloud
 Code splitting
 Component
 CSS
 Data entry
+DCEVM
 Dependency Injection
 Deploy
 Domain-Driven Design
 Eclipse
 Embed
+Extend
 Flow
 Fluent API
+Hotswap
+HotSwapAgent
 I18N
+Install
 IntelliJ IDEA
 Internationalisation
 Jar
@@ -36,6 +42,7 @@ Migration
 Mutation Testing
 Navigation
 NetBeans
+NPM
 Offline
 Payment Request
 Performance

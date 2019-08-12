@@ -1,13 +1,13 @@
 = Vaadin quick start tutorial
 :tags: Java, Flow, Spring, Spring Boot
 :author: Marcus Hellberg
-:description: Learn the basics of Vaadin development in two minutes:  components, layouting, and events. 
+:description: Learn the basics of Vaadin development in two minutes with a simple example application.  
 :repo: https://github.com/vaadin-learning-center/vaadin-todo
 :linkattrs: 
 :imagesdir: ./images
 
 
-In this 2 minute tutorial, you will learn how to build a small but fully functional Vaadin application. You will learn the basics of component-based development and listening to events.
+In this 2 minute tutorial, you will learn how to build a small but fully functional Vaadin application. This simple example will teach you the basics of component-based development and listening to events.
 
 video::6kDCn6OvXkA[youtube]
 
@@ -26,13 +26,7 @@ This tutorial assumes you have the following set up on your computer:
 
 == Download and import the app starter
 
-++++
-<p>
-<form action="https://vaadin.com/vaadincom/start-service/latest/project-base?techStack=spring" method="POST">
-  <input type="submit" value="Download starter" class="button button--bordered"></input>
-</form>
-</p>
-++++
+https://vaadin.com/start/latest/project-base[Download starter^, role="button button--bordered"]
 
 Once you have the starter downloaded, unzip the file and open it in your IDE.  Ensure you can start the project by running the `spring-boot:run` Maven target. 
 
@@ -90,7 +84,7 @@ public class MainView extends VerticalLayout {
 
 If you still have your server running, you can build the project and Spring Boot DevTools should pick up the changes. If not, run the `spring-boot:run` Maven target according to the instructions in the "Download and import the app starter" section. 
 
-Navigate to link:localhost:8080 and you should see the following:
+Navigate to `http://localhost:8080[localhost:8080, rel="nofollow"]` and you should see the following:
 
 image::components.png[Components visible, but not functional.]
 

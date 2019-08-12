@@ -12,7 +12,7 @@ This tutorial explains how to import an existing Maven project into Apache NetBe
 
 You can create your Maven project from a Maven archetype or download an existing one from the web. This tutorial uses one of the several project starters at https://vaadin.com/start which include a web application and a `pom.xml` file with a preconfigured Jetty Maven plugin in it.
 
-Go to https://vaadin.com/start and select *Project Base*. Click the *Download* button and extract the ZIP file somewhere in your hard drive. The extracted content should include a directory with a Maven project in it:
+Go to https://vaadin.com/start and use the form to create a new project. Select *Plain Java Servlet* as the technology stack. Click the *Download* button and extract the ZIP file somewhere in your hard drive. The extracted content should include a directory with a Maven project in it:
 
 image::maven-project-directory.png[Maven project directory]
 

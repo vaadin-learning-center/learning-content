@@ -1,0 +1,88 @@
+= 6 ways to create new components in Vaadin
+
+:type: text
+:tags: Component, Extend, Flow
+:description: All possible ways to create a component in Vaadin Flow and extend its functionalities.
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials: web-component-for-vaadin-flow, using-web-components-in-java
+
+Front-end frameworks usually come with a set of built-in components that help you to jump-start your development. They cover the most essential needs for a functional user interface, such as a button and an input field.
+
+Vaadin comes with more than 40 built-in https://vaadin.com/components[components] that cover both essential UI elements and some more advanced functionalities, such as a data Grid and a date picker.
+
+However, there is no limit to the customization that you need in your web application, and there is always a need for a customized component. While we can not develop all the combination of possible components, we provide helpful APIs to create custom components.
+
+=== Extend an existing component
+
+In many cases, we are looking for extra functionalities to an existing component. We can do this with a few approaches:
+
+==== Extend Server-side component
+
+[source,java]
+----
+public class SearchField extends TextField {
+
+  public SearchField() {
+    setPlaceholder("Search..");
+  }
+}
+----
+
+The most straightforward way is to extend an existing component and add extra functionalities as needed. In the example above, I've created a new specific kind of TextField that comes with a default placeholder.
+
+==== Extend using Composite
+
+The previous example is nothing new in Java, create a class that extends another class. However, sometimes we want to hide some APIs of the parent class and make them unexposed and not usable from within the new component. An example where changing the placeholder breaks the functionality of our new SearchField component. Here comes the `Composite` class; it helps you to select the APIs to be exposed:
+
+[source,java]
+----
+public class SearchField extends Composite<TextField> {
+
+  private TextField parent = getContent();
+
+  public SearchField() {
+    parent.setPlaceholder("Search..");
+  }
+
+  public void setTitle(String title) {
+    parent.setTitle("Enter search terms");
+  }
+}
+----
+
+What's different? The developer that is using `SearchField` can not change the placeholder but can change the title.
+
+==== Component of components
+
+[source,java]
+----
+public class SearchForm extends FormLayout {
+
+  private Button searchBtn = new Button("Go");
+  private SearchField searchFld = new SearchField();
+
+  public SearchForm() {
+    add(searchBtn, searchFld);
+  }
+}
+----
+
+A good practice is to divide your UI units into components, each set of logically related components can be a more prominent component as well, to make it easy to manage and test different parts of the UI. The final app itself can be a component that you https://vaadin.com/releases/vaadin-14#embedding[embeded] into other apps.
+
+==== Extend client side component
+
+Components used in Vaadin Flow are standard web components built using Polymer 3. You can https://polymer-library.polymer-project.org/3.0/docs/devguide/dom-template#inherit[extend] them on the client-side just like any other web component, and the newly created web component can be https://vaadin.com/tutorials/web-component-for-vaadin-flow[integrated] later into Vaadin Flow.
+
+=== Add external components
+
+Vaadin Flow works with standard web components, which means that any https://www.webcomponents.org/[web component] can be integrated into the framework. It is one of the most significant features announced since Vaadin 10, a win-win situation where our components can be used with any modern front-end framework, and any modern web component, developed using any technology, can also be used in Vaadin framework.
+
+==== Web component from Vaadin Directory
+
+Now and then, there is a new web component released to the public community. Some are for testing purpose, some are broken, and many are working correctly and production-ready. While https://www.webcomponents.org/elements[webcomponents.org] is the biggest directory of most web components out there, we have tested and validated a proper subset of them and made them available in the https://vaadin.com/directory[Vaadin Directory]. This https://vaadin.com/tutorials/using-web-components-in-java[tutorial] shows you how to install a web component from Vaadin Directory, and the simple steps needed to publish one into the Vaadin Directory to be able to use it.
+
+==== Any web component
+
+Alternatively, this https://vaadin.com/tutorials/web-component-for-vaadin-flow[tutorial] goes into more details on how to integrate any web component and implement Java APIs for it, to be able to use it just like any other Vaadin component explained earlier in this article.

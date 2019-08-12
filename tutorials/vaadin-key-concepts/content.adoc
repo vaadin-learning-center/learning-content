@@ -119,12 +119,14 @@ public class BasicLayoutView extends VerticalLayout {
 ----
 
 
-image:vaadin-quickstart-basic-layouts.png[Basic header, navbar, and footer layout using Vaadin HorizontalLayout and VerticalLayout]
+image::vaadin-quickstart-basic-layouts.png[Basic header, navbar, and footer layout using Vaadin HorizontalLayout and VerticalLayout]
 
 NOTE: HorizontalLayout and VerticalLayout are not well suited for responsive layouts. They will not wrap their content if the viewport gets too narrow. For that, we'll need to use some CSS. 
 
 === Div
 The `Div` is the most flexible of all the layouts, but it also requires you to handle all positioning yourself through CSS. We can use the https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox[CSS flexbox] layout to achieve a smooth responsive layout that adapts to different viewport sizes.
+
+image::vaadin-quickstart-flex-layout.png[Responsive layout featuring a header, navbar, and a footer.]
 
 When we are using CSS to layout components, we need to define CSS classnames for all the components. We also need to add a `@StyleSheet` annotation to load a CSS file. 
 
@@ -306,9 +308,9 @@ As an example, let's listen for a `mouseover` event on a component and log it to
 businessCard.getElement().addEventListener("mouseover", e -> {
   System.out.println("'mouseover' event happened");
 });
+----
 
 You can read more about link:/docs/flow/creating-components/tutorial-component-events.html[listening to JavaScript events] and link:/docs/flow/creating-components/tutorial-component-basic.html[working with HTML element attributes and properties] in the docs.
-----
 
 
 == Creating custom JavaScript components
@@ -670,6 +672,8 @@ link:/testbench[Read more about creating reliable and maintainable tests with Te
 
 == Styling with CSS
 All Vaadin components ship with a configurable theme called Lumo. Lumo allows you to configure things like colors, fonts, sizing, roundness, and spacing to make the component set look the way you want. The configuration is based on CSS custom properties (variables), which ensures all components look consistent.
+
+image::lumo-editor.gif[Editor used to change colors and visual appearance of a Vaadin app]
 
 The easiest way to explore the options and configure values for the CSS variables is to use the https://demo.vaadin.com/lumo-editor/[Lumo theme editor]. 
 

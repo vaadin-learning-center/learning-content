@@ -11,17 +11,22 @@
 In this tutorial, we will learn how to implement an I18NProvider
 that is used for translating text content in a Vaadin application
 
+[NOTE]
+====
+An online demo is deployed on  https://flow-i18n-i18nprovider.herokuapp.com/[Heroku]
+or try it on your machine inside Docker:
+
+[source, bash]
+----
+docker pull vaadintutorials/flow-i18n-i18nprovider
+docker run -p8899:8899 --name demo vaadintutorials/flow-i18n-i18nprovider
+----
+For more details and the latest version of the source code for this tutorial,
+have a look at the https://github.com/vaadin-learning-center/flow-i18n-i18nprovider[github repo].
+====
 
 
-== Download base project
-This tutorial uses  the `flow-helloworld-maven-meecrowave`
-as a base. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
-
-You are able to find the latest version of the source code for this tutorial
-https://github.com/vaadin-learning-center/flow-i18n-i18nprovider[@github]
-
-
-=== Preparations for this tutorial
+== Preparations for this tutorial
 For this tutorial, we assume to have the following piece of code
 
 [source,java]
@@ -78,6 +83,10 @@ The German properties files would get the name *vaadinapp_de*
 and the properties file for Switzerland would have the name  *vaadinapp_de_CH*
 The last file would only contain the properties that would have a different value, compared
 to the original German language file.
+
+The longest version:
+If you need more information's in detail, have a look
+at the tutorial about https://vaadin.com/tutorials/i18n/resourcebundles[ResourceBundles]
 
 == How to use?
 The usage of this implementation depends on one method, with a few different signatures.
