@@ -198,20 +198,20 @@ With the UI components in place and snack type selection working, the next task 
     Binder<SnackOrder> binder = new Binder<>(SnackOrder.class);
     binder.forField(nameField)
         .asRequired("Name is required")
-        .bind("name");
+        .bind(SnackOrder::getName, SnackOrder::setName);
     binder.forField(quantityField)
         .asRequired()
         .withConverter(new StringToIntegerConverter("Quantity must be a number"))
         .withValidator(new IntegerRangeValidator("Quantity must be at least 1", 1, Integer.MAX_VALUE))
-        .bind("quantity");
+        .bind(SnackOrder::getQuantity, SnackOrder::setQuantity);
     binder.forField(snackSelect)
         .asRequired("Please choose a snack")
-        .bind("snack");
+        .bind(SnackOrder::getSnack, SnackOrder::setName);
     binder.readBean(new SnackOrder());
   }
 ----
 
-First, we create a `Binder` of type `SnackOrder`. We then use it to bind each field to a property on `SnackOrder`. The properties are passed in as Strings. There is also an https://vaadin.com/docs/flow/binding-data/tutorial-flow-components-binder.html[alternative API] that uses method references instead of Strings if you prefer that.
+First, we create a `Binder` of type `SnackOrder`. We then use it to bind each field to a property on `SnackOrder`. The properties are bound with method references for type safety.
 
 For each binding, you can configure whether or not it is required, and optionally add converters or validators. Converters convert between the underlying data value, for instance `Integer` for `order`, and the presentation value which is String. Validators validate the input against a given rule. Vaadin comes with several ready-made converters and validators for common use cases, and you can write your own for more complex validation or custom conversion.
 
