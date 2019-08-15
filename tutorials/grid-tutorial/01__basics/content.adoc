@@ -1,6 +1,7 @@
 = Vaadin Grid basics tutorial
 
 :type: text
+:author: Sebastian Kuehnau
 :tags: Flow, Layout, Java, API, Component
 :description: Learn how to configure columns and add data to Grid. How to set up sorting and filtering.
 :repo: https://github.com/vaadin-learning-center/GridTutorial_01_Basics
