@@ -685,7 +685,7 @@ When you are ready to take your application into production, run:
 
 [source]
 ----
-mvn clean package -PproductionMode
+mvn clean package -Pproduction
 ----
 
 This will build a minified bundle and create an ES5 version that is needed for IE11 support. 
