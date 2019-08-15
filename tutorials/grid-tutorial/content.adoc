@@ -74,9 +74,7 @@ In the next chapter of this tutorial we will have a look how to use ``renderer``
 
 To select items in your Grid you have two options. You can either set the Grid to ``SelectionMode.SINGLE`` to pick only one item or you set ``SelectionMode.MULTI`` to select more items.
 
-image::singleselect.png[SingleSelect,400,200] 
-
-image::multiselect.png[MultiSelect,400,200]
+image::selectmodegrid.png["Single- and MultiSelect",800,400]
 
 To invoke code after a selection event you can add a listener via ``addSelectionListener`` to your Grid component. You will receive the selected bean inside the event object. The listener is also invoked, when the user deselects elements.
 
