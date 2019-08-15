@@ -1,37 +1,44 @@
-= Grid-Tutorial
+= Vaadin Grid basics tutorial
 
 :type: text
 :tags: Flow, Layout, Java, API, Component
-:description: Learn to use the grid component in your web application and use the API efficiently according to your use case.
+:description: Learn how to configure columns and add data to Grid. How to set up sorting and filtering.
 :repo: https://github.com/SebastianKuehnau/GridTutorial_V14
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
 
-Vaadin Grid is a powerful component to show a list of data and it allows you to scroll through the data set and compose it in a way which is most effective for you.
 
-This tutorial will show you how to bind data from the back end to the Grid and how to add columns to the component. It also shows some basic features of the Grid component which will be explained more in the next articles of this series.
+Vaadin Grid is a powerful component for showing a list of data. It allows you to scroll through the data set and compose it in a way which is most effective for you.
 
-=== Compose Columns
-The Vaadin Grid is a typed component which brings many benefits to your development. You can instantiate it with a specific class as a constructor parameter. That will scan the given class and add a column for every class field out of the box to your Grid. The Grid will use the ``toString`` method for each value shown by a column.
+This tutorial will show you how to bind data from the back end to the Grid and how to add columns to the component. It also shows some basic features of the Grid component, which will be explained more in the next articles of this series.
+
+=== Adding columns to a Vaadin Grid
+The Vaadin Grid is a typed component which brings many benefits to your development. You can instantiate it with a specific class as a constructor parameter. That will scan the given class and add a column for every class field to your Grid. The Grid will use the `toString` method for each value shown by a column.
+
 [source,java]
 ----
 // scans Person and adds columns
 Grid<Person> personGrid = new Grid<>(Person.class);
 ----
-If you want to reorder the columns, you can call ``setColumns`` with the field names of the class to adjust the order. A nice side effect of this method is, it will only show the fields you pass as parameter. 
+
+If you want to reorder the columns, you can call `setColumns` with the field names of the class to adjust the order. A convenient side effect of this method is that it will only show the fields you pass as a parameter.
+
+TIP: Use `setColumns` to show specific columns in your Grid.
+ 
 [source,java]
 ----
 // Possible to reorder generated columns
 personGrid.setColumns("name", "firstName");
 ----
 
-==== Add Columns
-If you need more flexibility regarding design and value appearance, you can also add columns via `addColumn` method. You can either extend a class based generated Grid as described above or start from scratch with an empty Grid.
+==== Manually adding columns
+If you need more flexibility regarding design and value appearance, you can also add columns via `addColumn` method. You can either extend a class-based generated Grid as described above or start from scratch with an empty Grid.
 
-Basically, there are two options to add columns to the Grid with the ``addColumn`` method. You can pass the field name of the bean ``addColumn("name")`` or you simply provide a ``ValueProvider``and set the getter method as a lambda ``addColumn(item -> item.someMethod())`` or a reference ``addColumn(Person::getFirstName)``. 
+There are two options to add columns to the Grid with the `addColumn` method. You can pass the field name of the bean `addColumn("name")` or you simply provide a `ValueProvider`and set the getter method as a lambda `addColumn(item -> item.someMethod())` or a reference `addColumn(Person::getFirstName)`. 
 
-But beware: The field name based variant only works with a Grid instantiated with a class as described above.
+Please note that the field name based variant only works with a Grid instantiated with a class as described above.
+
 [source,java]
 ----
 // no constructor parameter
@@ -39,68 +46,68 @@ Grid<Person> personGrid = new Grid<>();
 
 // added via getter reference
 personGrid
-    .addColumn(Person::getFirstName);
+ .addColumn(Person::getFirstName);
 
 personGrid
-    .addColumn(item -> item.getTitle() + " " + item.getLastName())
+ .addColumn(item -> item.getTitle() + " " + item.getLastName())
 ----
 
-If you have nested properties you can add the column with the property name via bean notation ``addColumn("address.street")``. Make sure the object (in that case the address) is not null, otherwise it will throw an exception.
+If you have nested properties, you can add the column with the property name via bean notation ``addColumn("address.street")``. Make sure the object (in that case the address) is not null. Otherwise, it will throw an exception.
 
-==== Column configuration
+==== Configuring Grid columns
 
-To add more configurations to the columns you can use the fluent API of the component to chain the different features easily. 
+To add more configurations to the columns, you can use the fluent API of the component to chain the different features easily. 
+
 [source,java]
 ----
-
 // no constructor parameter
 Grid<Person> personGrid = new Grid<>();
 
 // add column for gender with an indivual string, enable sorting and add string to header
 genderColumn = personGrid
-        .addColumn(person -> person.getGender() == Person.Gender.FEMALE ? "Mrs" : "Mr")
-        .setSortable(true)
-        .setWidth("200px")  
-        .setFrozen(true)
-        .setHeader(new Html("<i>Gender</i>"));
+ .addColumn(person -> person.getGender() == Person.Gender.FEMALE ? "Mrs" : "Mr")
+ .setSortable(true)
+ .setWidth("200px") 
+ .setFrozen(true)
+ .setHeader(new Html("<i>Gender</i>"));
 ----
-To get a complete overview of the functions, it is worth looking into the documentation: https://vaadin.com/docs/v14/flow/components/tutorial-flow-grid.html 
 
-Column layout side note: The Grid displays the content in a flex-box layout. Beside the width of a column you can also set it's flex grow property. If you want to have completely fixed columns, use ``setFlexGrow(0)``. We recommend to have the default flex-grow: 1 for the last column to let it take the remaining space.
+To get a complete overview of the functions, it is worth looking into the documentation: https://vaadin.com/docs/flow/components/tutorial-flow-grid.html 
 
-In the next chapter of this tutorial we will have a look how to use ``renderer`` in columns to display individual string like datetimes, charts or components in the way you want it.
+Column layout side note: The Grid displays the content in a flex-box layout. Besides the width of a column, you can also set its flex-grow property. If you want to have fixed-size columns, use `setFlexGrow(0)`. We recommend having the default flex-grow: 1 for the last column to let it take the remaining space.
 
-=== Selection Mode
+In the next chapter of this tutorial, we will have a look at how to use `renderer` in columns to display individual string like dates and times, charts or components in the way you want it.
 
-To select items in your Grid you have two options. You can either set the Grid to ``SelectionMode.SINGLE`` to pick only one item or you set ``SelectionMode.MULTI`` to select more items.
+=== Selecting rows in a Vaadin Grid
+To select items in your Grid, you have two options. You can either set the Grid to `SelectionMode.SINGLE` to pick only one item or you set `SelectionMode.MULTI` to select more items.
 
 image::selectmodegrid.png["Single- and MultiSelect",800,400]
 
-To invoke code after a selection event you can add a listener via ``addSelectionListener`` to your Grid component. You will receive the selected bean inside the event object. The listener is also invoked, when the user deselects elements.
+To invoke code after a selection event, you can add a listener via `addSelectionListener` to your Grid component. You will receive the selected bean inside the event object. The listener is also invoked when the user deselects elements.
 
 [source,java]
 ----
 personGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
 personGrid.addSelectionListener(selectionEvent -> {
-    selectionEvent.getFirstSelectedItem().ifPresent(person -> {
-        Notification.show(person.getName() " is selected");
-    });
+ selectionEvent.getFirstSelectedItem().ifPresent(person -> {
+ Notification.show(person.getName() " is selected");
+ });
 }) ;
 ----
 
-With ``personGrid.asSingleSelect().getValue()`` you will get the selected item straight away from the component. You can also set the selection manually via ``personGrid.select(item)`` or remove it via ``personGrid.deselectAll()``.
+With `personGrid.asSingleSelect().getValue()` you will get the selected item straight away from the component. You can also set the selection manually via `personGrid.select(item)` or remove it via `personGrid.deselectAll()`.
 
-=== Binding the Data
+=== Adding data to a Vaadin Grid
 
-Now we have our grid component configured and in the next step we would like to populate data in it. Therefor we will pass the data in a ``Collection`` to our component with ``setItems``. 
+Now we have our grid component configured, we would like to populate data in it. Therefore we will pass a `Collection` of data to the Grid with `setItems`. 
 
-This is the simplest approach to provide data to the Grid, but let's have a short look what options are also available.
+This is the most straightforward approach to provide data to the Grid, but let's have a short look at what other options are available.
 
-To show data in the Grid we would need a ``DataProvider``. This is an interface used by the Grid to fetch the data from some back end. The ``DataProvider`` can be distinguished between in memory and lazy loading. 
+To show data in the Grid, we need a `DataProvider`. This is an interface used by the Grid to fetch the data from a back end. The `DataProvider` can be distinguished between in-memory and lazy loading. 
 
-The ``InMemoryDataProvider`` keeps all the fetched data from the backend in memory and you can filter and sort directly in the result set. Regarding to our exmaple from the beginniing if we call ``setItems``on the Grid, it will implicitly create a ``ListDataProvider`` internally and add it to the component.
+The `InMemoryDataProvider` keeps all the fetched data from the backend in memory, and you can filter and sort directly in the result set. In the earlier example, if we call `setItems` on the Grid, it will implicitly create an in-memory `ListDataProvider` internally and add it to the component.
 
-If you have a huge amount of data and it is to costly to load all data in one step, you would might use a ``CallbackDataProvider``. This loads the data step by step from the back end and also filter and sort the data set. We will have a closer look into that topic in one of the next articles.
+If you have a considerable amount of data, and it is too costly to load all data in one step, you would use a `CallbackDataProvider`. This loads the data step by step from the back end and also filter and sort the data set. We will have a closer look at that topic in one of the next articles.
 
 [source,java]
 ----
@@ -108,7 +115,7 @@ Grid<Person> personGrid = new Grid<>();
 
 // add columns
 personGrid
-        .addColumn...
+ .addColumn...
 
 // fetch data from the backend at once
 final List<Person> personList = PersonService.findAll();
@@ -121,8 +128,8 @@ final ListDataProvider<Person> dataProvider = DataProvider.ofCollection(personLi
 personGrid.setDataProvider(dataProvider);
 ----
 
-=== Filter and Sort
-If you want to filter or sort the data you can call ``setFilter`` to define a predicate to include required data and ``setSortOrder`` to define the bean field you want to sort and the direction.
+=== Filter and sort columns
+If you want to filter or sort the data, you can call `setFilter` to define a predicate to include required data and `setSortOrder` to define the bean field you want to sort and the direction.
 
 [source,java]
 ----
@@ -130,15 +137,13 @@ dataProvider.setFilter(person -> person.getAddress() != null);
 dataProvider.setSortOrder(Person::getName, SortDirection.ASCENDING);
 ----
 
-These are just the simplest options to filter and sort data in the Grid. There are further options to sort and filter data, for example, to combine multiple sort orders and filters or forward customized requests to the back end. We will cover this topic in one of the next articles of this series.
+These are the easiest options to filter and sort data in the Grid. There are further options to sort and filter data, for example, to combine multiple sort orders and filters or to forward customized requests to the back end. We will cover this topic in one of the next articles in this series.
 
 
 === Summary 
 
-Today we learned how to create and configure a Grid and its columns with the Vaadin Grid API. We also had a short preview of how to load data into the component and what filtering and sorting options are available. In the next articles we will have a detailed look on how to render values and components inside columns, how to apply more customized sort and filter options and how to use the lazy loading data provider.
+Today we learned how to create and configure a Grid and its columns with the Java API. We also had a short preview of how to load data into the component and what filtering and sorting options are available. In the next articles, we will have a detailed look on how to render values and components inside columns, how to apply more customized sort and filter options and how to use the lazy loading data provider.
 
-If you want to spoil, you could have a look here: https://vaadin.com/docs/v14/flow/components/tutorial-flow-grid.html
+If you want a spoiler, you could have a look here: https://vaadin.com/docs/flow/components/tutorial-flow-grid.html
 
-Otherwise stay excited about the next article!
-
-PS: You find the corresponding code to this article here: https://github.com/SebastianKuehnau/GridTutorial_V14/tree/part_one
+Otherwise, stay excited about the next article!

@@ -1,1 +1,1 @@
-In this series of articles, you will learn to use the grid component in your web application and use the API efficiently according to your use case.
+Grid is one of the most commonly used and feature-rich components in the Vaadin framework. This tutorial series covers the use of Grid from the basics like adding data and configuring columns, to advanced topics like customized rendering and lazy loading data.
