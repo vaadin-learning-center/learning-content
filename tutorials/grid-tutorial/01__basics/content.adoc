@@ -36,7 +36,7 @@ personGrid.setColumns("name", "firstName");
 ==== Manually adding columns
 If you need more flexibility regarding design and value appearance, you can also add columns via `addColumn` method. You can either extend a class-based generated Grid as described above or start from scratch with an empty Grid.
 
-There are two options to add columns to the Grid with the `addColumn` method. You can pass the field name of the bean `addColumn("name")` or you simply provide a `ValueProvider`and set the getter method as a lambda `addColumn(item -> item.someMethod())` or a reference `addColumn(Person::getFirstName)`. 
+There are two options to add columns to the Grid with the `addColumn` method. You can pass the field name of the bean `addColumn("name")` or you simply provide a `ValueProvider` and set the getter method as a lambda `addColumn(item -> item.someMethod())` or a reference `addColumn(Person::getFirstName)`. 
 
 Please note that the field name based variant only works with a Grid instantiated with a class as described above.
 
