@@ -1,1 +1,1 @@
-In this series of tutorials, you learn how to build an application using Web Components and LitElement.
+In this series of tutorials, you learn how to turn a web site into a quickly-loading, offline-capable PWA. You'll also learn how to set up a development environment using Webpack for enjoyable development and good production performance.
