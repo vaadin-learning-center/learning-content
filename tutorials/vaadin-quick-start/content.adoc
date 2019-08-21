@@ -20,7 +20,8 @@ image::app-overview.png[Todo application with a header, checkboxes for todo item
 == Prerequisites
 This tutorial assumes you have the following set up on your computer: 
 
-- Java 8 or later
+- https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html:[Java 8 or later]
+- https://nodejs.org/[Node 10]
 - An IDE like IntelliJ, Eclipse, or Netbeans
 - Maven
 
