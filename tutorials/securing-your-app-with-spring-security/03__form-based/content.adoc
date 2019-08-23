@@ -19,7 +19,7 @@ Even if form based login views feel kind of old-school nowadays, they have sever
 The big disadvantage is the need for a page reload during the login which breaks the UX in modern Single Page Applications.
 
 [TIP]
-With Vaadin 13 we introduce a dedicated login component boiling down the needed code to less than 7 lines. Check alternative 3 below.
+With Vaadin 13 we introduce a dedicated login component boiling down the needed code to less than 7 lines. Check link:#_alternative_3_java_only_with_loginform_or_loginoverlay_component[Alternative 3: Java-only with LoginForm or LoginOverlay component].
 
 == Alternative 1: Java-only
 As promised we will start with implementing a Java-only login view. Yes, I know. We cannot avoid all JavaScript, but we reduced it as much as possible.
