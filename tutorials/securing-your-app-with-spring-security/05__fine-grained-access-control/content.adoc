@@ -1,0 +1,135 @@
+:title: Setting up fine-grained access control 
+:author: Paul Römer
+:type: text
+:tags: Spring, Spring Boot, Security
+:description: Extend the navigation listener to allow a view based access control by checking user authorities
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-fine-access-control
+:linkattrs:
+:imagesdir: ./images
+
+**Right now all our examples only know about two states: The user is authenticated or not.** With some additions to the UI listener we have already registered to secure the router navigation, we will be able to overcome these limitations. In the end we will have two different roles, one for the normal users and one for administrators and an administration view only admins have access to.
+
+Let's start with creating the users. Again, for the sake of simplicity, we are using in-memory users:
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+@Bean
+@Override
+public UserDetailsService userDetailsService() {
+    // typical logged in user with some privileges
+    UserDetails normalUser =
+        User.withUsername("user")
+            .password("{noop}password")
+            .roles("User")
+            .build();
+
+    // admin user with all privileges
+    UserDetails adminUser =
+        User.withUsername("admin")
+            .password("{noop}password")
+            .roles("User", "Admin")
+            .build();
+
+    return new InMemoryUserDetailsManager(normalUser, adminUser);
+}
+----
+As you can see the `normalUser` has the "User" role only but the `adminUser` got the "Admin" role in addition.
+
+The next step is about updating the global UI listener to reroute in case the access is denied.
+
+.`*ConfigureUIServiceInitListener.java*`
+[source,java,linenums]
+----
+private void beforeEnter(BeforeEnterEvent event) {
+    if(!SecurityUtils.isAccessGranted(event.getNavigationTarget())) { // <1>
+        if(SecurityUtils.isUserLoggedIn()) { // <2>
+            event.rerouteToError(NotFoundException.class); // <3>
+        } else {
+            event.rerouteTo(LoginView.class); // <4>
+        }
+    }
+    // <5>
+}
+----
+<1> Delegates the access control checks to some helper.
+<2> Access was denied, let's check if the user is logged in at all.
+<3> User is logged in but does not have the needed authority. Hide the view by pretending it is a 404. Redirecting to some access denied view is of course possible, too.
+<4> In case the user is not logged we just redirect to the login view.
+<5> **Don't end up in a StackOverflowError.** Make sure you do not always reroute.
+
+After understanding the reroute behavior we have to discuss the access control checking itself:
+
+.`*SecurityUtils.java*`
+[source,java,linenums]
+----
+public static boolean isAccessGranted(Class<?> securedClass) {
+    // Allow if no roles are required.
+    Secured secured = AnnotationUtils.findAnnotation(securedClass, Secured.class);
+    if (secured == null) {
+        return true; // <1>
+    }
+
+    // lookup needed role in user roles
+    List<String> allowedRoles = Arrays.asList(secured.value());
+    Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+    return userAuthentication.getAuthorities().stream() // <2>
+            .map(GrantedAuthority::getAuthority)
+            .anyMatch(allowedRoles::contains);
+}
+
+public static boolean isUserLoggedIn() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    return authentication != null
+        && !(authentication instanceof AnonymousAuthenticationToken) // <3>
+        && authentication.isAuthenticated();
+}
+----
+<1> Give access if the view is not protected.
+<2> Iterate all authorities the user has and check if access can be granted.
+<3> Do not forget to check for `AnonymousAuthenticationToken` Spring Security assigns by default to non-logged in users.
+
+As you might have noticed already **we are using the `@Secured` annotation to configure the roles needed to access the views.** Of course, it is up to you how to decide whether a user has access or not. For example, **using some property file to define the needed pre-conditions to access the view is also possible.** It all depends on your implementation of `isAccessGranted()`.
+
+
+.`*AdminView.java*`
+[source,java,linenums]
+----
+@Route("/admin")
+@Secured("ROLE_Admin") // <1>
+public class AdminView extends VerticalLayout {
+    @Autowired
+    public AdminView() {
+        Label label = new Label("Looks like you are admin!");
+        add(label);
+    }
+
+}
+----
+<1> Here, you can see `@Secured` in action. Keep in mind the `ROLE_` prefix Spring Security expects.
+
+**Done.** Let's start the application via `mvn spring-boot:run` and play around with the different users. You should not be able to access any view without being logged in and /admin should only accessible when you login as administrator.
+
+=== If you wanne force people to always login to access your views...
+Right now, all views that are not secured by `@Secured` are publicly accessible. If you want people to login before accessing any page you will have to check the login state **(2)** but make also sure the login view is always accessible **(1)**:
+
+.`*SecurityUtils.java*`
+[source,java,linenums]
+----
+public static boolean isAccessGranted(Class<?> securedClass) {
+    if(LoginView.class.equals(securedClass)) { // <1>
+        return true;
+    }
+
+    if(!isUserLoggedIn()) { // <2>
+        return false;
+    }
+
+    // Allow if no roles are required.
+    Secured secured = AnnotationUtils.findAnnotation(securedClass, Secured.class);
+    if (secured == null) {
+    
+    // [...]
+}
+----
+

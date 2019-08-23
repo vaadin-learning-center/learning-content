@@ -1,1 +1,1 @@
-The definitive guide to Spring Security with Vaadin 10+
+The definitive guide to Spring Security with Vaadin 14+
