@@ -1,0 +1,328 @@
+= Connecting Vaadin Applications to MySQL Databases
+
+:type: text
+:tags: Databases,SQL
+:description: Learn how connect Vaadin applications to MySQL databases.
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+In this tutorial, you'll learn how to connect to a MySQL database to save, update, and delete data from a Vaadin web application using the Java Persistence API (JPA).
+
+
+== Prerequisites
+
+This tutorial is a follow-up of the official https://vaadin.com/tutorials/getting-started-with-flow[Vaadin Flow tutorial], which explains how to build a simple application to manage data about customers. That tutorial doesn't use a _real_ back end–it uses an _in-memory dummy_ back end. In this tutorial you'll replace the dummy back end with a real one that connects to a https://dev.mysql.com[MySQL database].
+
+=== Setting up the Database
+
+You'll need a running instance of https://dev.mysql.com[MySQL] version 8 or later and credentials to connect to it with permissions to create new databases and tables, and insert, update and delete rows. Usually, you can just install MySQL in your local machine and use the `root` user for this. You can try to connect to the instance from the command line as follows:
+
+```shell
+mysql -u root -p
+```
+
+TIP: You can change the password of the `root` user by running the following command in a MySQL client: `ALTER USER 'root'@'localhost' IDENTIFIED BY 'newPassword';`.
+
+Connect to the MySQL database and create a new database by executing the following:
+
+```sql
+CREATE DATABASE tutorial;
+```
+=== Setting up the Project
+
+You can either follow the tutorial at https://vaadin.com/tutorials/getting-started-with-flow, or https://github.com/vaadin/tutorial/tree/vaadin10+[download the finished application] and then continue with this tutorial.
+
+If you have Git installed you can run:
+
+```shell
+git clone https://github.com/vaadin/tutorial.git
+cd tutorial
+git checkout vaadin10+
+```
+
+
+== Adding the Dependencies
+
+This tutorial uses https://en.wikipedia.org/wiki/Java_Persistence_API[JPA] (Java Persistence API) as the persistence technology used to connect to MySQL. JPA itself is not a library but more like a specification–a set of interfaces that concrete providers must implement. A very popular implementation is http://hibernate.org[Hibernate].
+
+You can start using Hibernate in your project by adding the following dependency in the `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>5.4.1.Final</version>
+</dependency>
+```
+
+Hibernate, like other JPA implementations, uses https://en.wikipedia.org/wiki/Java_Database_Connectivity[JDBC] (Java Database Connectivity) as the underlying technology to connect to databases. JDBC can "talk" to a variety of databases through _JDBC drivers_. A JDBC driver is a software component that allows a Java application to interact with a database. There are JDBC drivers for all popular databases and they are distributed as JAR files. To include the JDBC driver for MySQL in your project, add the following dependency to the `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.15</version>
+</dependency>
+```
+
+NOTE: If you want to use a different database, you can replace this dependency with the JDBC driver for the database you intend to use.
+
+
+== Configuring the Database Connection
+
+With JPA you have to define a _Persistence Unit_–a definition of the details required to get an _Entity Manager_ (more on this later).
+
+Create a new `persistence.xml` file in the `src/resources/META-INF/` directory with the following content:
+
+```xml
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+              http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="tutorial-pu">
+    </persistence-unit>
+
+</persistence>
+```
+
+The previous is the most basic persistence configuration you can have with JPA. Notice the name of the persistence unit, `tutorial-pu`. This is going to be used later to create an _Entity Manager Factory_.
+
+One of the details you can define in a Persistence Unit is the data source that you want to use to connect to your database. You can do this by adding properties. Change the `persistence.xml` file to add the following connection properties:
+
+```xml
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+              http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="tutorial-pu">
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost/tutorial?serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="password"/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>
+
+```
+
+Let's describe each property:
+
+ * `hibernate.dialect`: The "brand" of database to use. In this case, MySQL version 5 or later.
+
+ * `javax.persistence.jdbc.url`: The connection URL. The value of this property is used by the JDBC driver to establish a connection to the database. Here we are connecting to a MySQL instance running in the same machine the Java application is running. The value of this property depends on the JDBC driver you are using, so make sure to find the right JDBC connection string for your driver if you are using a different database. Notice that the version of the JDBC MySQL driver requires to set a time zone.
+
+ * `javax.persistence.jdbc.user`: The database user that the JDBC driver should use to connect to the database. We are using the `root` user. In production environments, you should create a user with specific privileges to allow the Java application run correctly without exposing the whole database and reduce security risks.
+
+ * `javax.persistence.jdbc.password`: The password corresponding to the database user.
+
+ * `javax.persistence.schema-generation.database.action`: This property specifies what the persistence provider should perform regarding schema generation. For example, we are using the value `create` to let the persistence provider create the tables corresponding to the Java _entities_ we'll configure in the next session.
+
+== Configuring the Domain Model
+
+The domain model is the set of classes that represents the _business model_. For example, in a customer management system, there's probably a `Customer` class, and that's exactly the case of this tutorial's example. We want to store data about customers in the database. In JPA terms, the `Customer` class is an _entity_. Each entity is mapped with one or more database tables. To make this work you need to annotate the `Customer` class with `javax.persistence.@Entity`:
+
+```Java
+@Entity
+public class Customer implements Serializable, Cloneable {
+    ...
+}
+```
+
+The `id` field in the `Customer` class should correspond to an identity primary key column in the `customer` table in the database. To tell JPA this, add the following annotations to the `id` field:
+
+```java
+@Entity
+public class Customer implements Serializable, Cloneable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    ...
+}
+```
+
+The `@Id` annotation specifies the primary key of the entity. The `@GeneratedValue` annotation specifies that the `id` field is auto generated using a database _identity column_.
+
+The last thing you need to configure is the `status` field. JPA is able to automatically persist primitive types. For custom types you have to annotate the field with one of several options. Since `CustomerStatus` is an enum, the simplest way to map it is by using the `@Enumerated` annotation:
+
+```java
+@Entity
+public class Customer implements Serializable, Cloneable {
+
+    ...
+
+    @Enumerated
+    private CustomerStatus status;
+
+    ...
+
+}
+```
+
+The value returned by the `ordinal()` method of the `CustomerStatus` enum is stored in the database.
+
+NOTE: To map relationships to other entities, you can use the `@ManyToOne` or `@OneToMany` annotations.
+
+
+= Implementing the Service Methods
+
+In order to interact with JPA, applications need an `EntityManager` created by an `EntityManagerFactory`. Let's encapsulate this in a single class as follows:
+
+```java
+public class JPAService {
+
+    private static JPAService instance;
+    private EntityManagerFactory entityManagerFactory;
+
+    private JPAService() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("tutorial-pu");
+    }
+
+    public static JPAService getInstance() {
+        if (instance == null) {
+            instance = new JPAService();
+        }
+
+        return instance;
+    }
+
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
+    }
+
+}
+```
+
+The previous class implements the _singleton pattern_. Other classes cannot directly create instances of the class by using the `new` operator. Instead, they have to call the `getInstance()` method which creates and assigns a new instance to a static field. This is the same pattern used in the `CustomerService` class in the https://vaadin.com/tutorials/getting-started-with-flow[Vaadin Flow tutorial].
+
+Also notice that the `JPAService` class has a reference of type `EntityManagerFactory`. This class is the _entry point_ to JPA persistence logic. Creating this class is expensive so only one instance is created per application in the constructor of the `JPAService` singleton class. The persistence unit name previously set in the `persistence.xml` file matches the argument sent to the `createEntityManagerFactory` method.
+
+With this in place, other classes can get a reference to the `EntityManagerFactory` and create `EntityManager` instances when needed. You can use an `EntityManager` to interact with the persistence context, that is, to save or delete entities, find an entity by its primary key, and run queries.
+
+The usual pattern to run persistence logic with JPA looks like the following:
+
+```java
+EntityManager entityManager = null;
+try {
+    entityManager = JPAService.getInstance().getEntityManagerFactory()
+            .createEntityManager();
+    entityManager.getTransaction().begin();
+
+    // ... run queries ...
+
+    entityManager.getTransaction().commit();
+
+    return result;
+
+} finally {
+    if (entityManager != null) {
+        entityManager.close();
+    }
+}
+```
+
+This code creates an `EntityManager` instance that is used to start a transaction, execute any queries on the database, and commit the transaction. We can encapsulate this boilerplate code in a method.
+
+Add the following method to the `JPAService` class as follows:
+
+```java
+public <T> T runInTransaction(Function<EntityManager, T> function) {
+    EntityManager entityManager = null;
+    try {
+        entityManager = JPAService.getInstance().getEntityManagerFactory().createEntityManager();
+        entityManager.getTransaction().begin();
+        T result = function.apply(entityManager);
+        entityManager.getTransaction().commit();
+
+        return result;
+
+    } finally {
+        if (entityManager != null) {
+            entityManager.close();
+        }
+    }
+}
+```
+
+Here we just replaced the `... run queries ...` part with a call to a _function_ supplied as an argument, for example:
+
+```java
+jpaService.runInTransaction(em -> {
+    Query query = em.createQuery("select c from Customer c");
+    return query.getResultList();
+});
+```
+
+Let's implement the service methods in the `CustomerService` class. Start by adding a reference to the `JPAService` class:
+
+```java
+public class CustomerService {
+
+	...
+
+	private JPAService jpaService = JPAService.getInstance();
+
+	...
+
+}
+```
+
+Replace the implementation of the `findAll(String)` method with the following:
+
+```java
+public synchronized List<Customer> findAll(String stringFilter) {
+    return jpaService.runInTransaction(em -> {
+        Query query = em.createQuery("select c from Customer c where lower(c.firstName) like lower(:stringFilter) or lower(c.lastName) like lower(:stringFilter)");
+        query.setParameter("stringFilter", "%" + stringFilter + "%");
+
+        return query.getResultList();
+    });
+}
+```
+
+This method uses the JPA Query Language (JPQL) to select all the customers that match the filter provided. This uses the `EntityManager` to create a `Query` object. Notice how `:stringFilter` is used to specify a value set in the next sentence with `setParameter`. Also notice the usage of the `lower` JPQL function to make sure the filter is case insensitive. We are using the `%` operator to allow matching values in any part of the string.
+
+Replace the `delete(Customer)` method with the following:
+
+```java
+public synchronized void delete(Customer value) {
+    jpaService.runInTransaction(em -> {
+        em.remove(em.merge(value));
+        return null;
+    });
+}
+```
+
+The `EntityManager` contains a method to remove entities, so we don't have to use a JPQL query to do this. Notice the call to the `merge` method. JPA _attaches_ entities to a _session_. When you are running code in a session (when you create an `EntityManager`), you can persist, update, or delete instances that you read during the same session. Since we are sending an entity that was read from a different `EntityManager` instance that was closed before, you need to first merge this entity.
+
+Replace the `saveCustomer(Customer)` method with the following:
+
+```java
+public synchronized void save(Customer entry) {
+    if (entry == null) {
+        LOGGER.log(Level.SEVERE,
+                "Customer is null. Are you sure you have connected your form to the application as described in tutorial chapter 7?");
+        return;
+    }
+
+    jpaService.runInTransaction(em -> {
+        em.merge(entry);
+        return null;
+    });
+}
+```
+
+Finally, you can remove the `contacts` and `nextId` fields of the `CustomerService` class.
+
+Congratulations! Now you have a real backend that connects to a MySQL database.

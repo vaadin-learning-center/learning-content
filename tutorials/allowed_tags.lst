@@ -9,6 +9,7 @@ Cloud
 Code splitting
 Component
 CSS
+Databases
 Data entry
 DCEVM
 Dependency Injection
@@ -58,6 +59,7 @@ Security
 Shadow DOM
 Spring
 Spring Boot
+SQL
 State management
 Swarm
 Swing
