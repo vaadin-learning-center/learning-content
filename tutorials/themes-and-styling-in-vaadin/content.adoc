@@ -13,35 +13,30 @@ This tutorial goes through the basics of themes and styling Vaadin apps
 
 [NOTE]
 ====
-You should be familiar how to set up and run a Vaadin application to be
-able to utilize the instructions in this tutorial. Follow the
+You should be familiar with how to set up and run a Vaadin application to be able to utilize the instructions in this tutorial. Follow the
 https://vaadin.com/tutorials/vaadin-quick-start[Vaadin quickstart
 tutorial] to get started.
 
-In addition, you should have a basic understanding of CSS.
+Also, you should have a basic understanding of CSS.
 https://developer.mozilla.org/en-US/docs/Web/CSS[MDN has great
 documentation for CSS] in case you need it.
 ====
 
 == Choose a theme
 
-Use the https://vaadin.com/docs/v14/flow/theme/using-component-themes.html[`+@Theme+` annotation]
-in the top-level router layout to choose from one of the built-in themes. Use
-the `+@NoTheme+` annotation if don’t want Vaadin to load any theme.
+Use the https://vaadin.com/docs/v14/flow/theme/using-component-themes.html[`+@Theme+` annotation] in the top-level router layout to choose from one of the built-in themes. Use the `+@NoTheme+` annotation if you don't want Vaadin to load any theme.
 
 [NOTE]
 Themes affect component visuals and behavior and also set global fonts
 and text and background colors.
 
-It is not possible to mix themes. For example, you can’t use the Lumo
-theme for Date Picker and the Material theme for Button at the same time.
+It is not possible to mix themes. For example, you can't use the Lumo theme for Date Picker and the Material theme for Button at the same time.
 
 It is not possible to switch themes at runtime.
 
 === Lumo
 
-The default theme for Vaadin. You can also omit the `+@Theme+`
-annotation, it will default to Lumo.
+The default theme for Vaadin. You can also omit the `+@Theme+` annotation, it will default to Lumo.
 
 [source,java]
 ....
@@ -94,7 +89,7 @@ dark.getElement().setAttribute("theme", Lumo.DARK);
 
 [NOTE]
 Dark preset is not supported in IE11.
-https://github.com/vaadin/vaadin-lumo-styles/issues/50[See issue in
+https://github.com/vaadin/vaadin-lumo-styles/issues/50[See the issue in
 GitHub].
 
 === Compact
@@ -103,8 +98,7 @@ The Lumo theme has a compact preset which you can enable by importing an
 additional module.
 
 [NOTE]
-The compact preset will reduce font size and the sizing and spacing of
-all components, allowing you to place more components on the screen.
+The compact preset will reduce the font size and the sizing and spacing of all components, allowing you to place more components on the screen.
 
 [source,java]
 ....
@@ -116,8 +110,7 @@ public class CompactApp extends Div {
 
 Technically, it adds a `+<style>+` element to the page which sets new
 values for the
-https://cdn.vaadin.com/vaadin-lumo-styles/1.5.0/demo/sizing-and-spacing.html[Lumo
-sizing and spacing CSS properties]. You can https://github.com/vaadin/vaadin-lumo-styles/blob/master/presets/compact.html[view the values from the source code].
+https://cdn.vaadin.com/vaadin-lumo-styles/1.5.0/demo/sizing-and-spacing.html[Lumo sizing and spacing CSS properties]. You can https://github.com/vaadin/vaadin-lumo-styles/blob/master/presets/compact.html[view the values from the source code].
 
 == Use component variants
 
@@ -130,9 +123,9 @@ Material theme.
 ====
 *Lumo variants*
 
-You can find a component’s Lumo variants from the
-component’s HTML examples on vaadin.com, from the “Theme
-Variants” section. For example, see
+You can find a component's Lumo variants from the
+component's HTML examples on vaadin.com, from the "Theme
+Variants" section. For example, see
 https://vaadin.com/components/vaadin-button/html-examples/button-theme-variants-demos[Button
 Lumo variants].
 ====
@@ -141,7 +134,7 @@ Lumo variants].
 ====
 *Material variants*
 
-You can find a component’s Material variants from
+You can find a component's Material variants from
 the https://vaadin.com/themes/material[Material theme documentation
 site]. For example, see
 https://cdn.vaadin.com/vaadin-material-styles/1.2.3/demo/buttons.html[Button
@@ -176,10 +169,8 @@ button.getThemeNames().addAll(Arrays.asList("custom", "variant"));
 [[sub-component-variants]]
 === Sub-component variants
 
-Components which internally use another component (sub-component) can
-utilize the variants of the sub-components. For example, while Combo Box
-doesn’t have its own variants, it can still use the Text Field
-component’s ”small” variant, since Combo Box has a Text Field inside it.
+Components which internally use another component (sub-component) can utilize the variants of the sub-components. For example, while Combo Box doesn't have its own variants, it can still use the Text Field
+component's "small" variant, since Combo Box has a Text Field inside it.
 
 [source,java]
 ....
@@ -199,7 +190,7 @@ of components that propagate theme attribute to subcomponents]
 == Import style sheets
 
 You can import a style sheet (a CSS file) either to the global scope or
-to a component’s local scope (shadow DOM).
+to a component's local scope (shadow DOM).
 
 [NOTE]
 ====
@@ -214,8 +205,7 @@ should I place my static files?]
 [[global-scope]]
 === Global scope
 
-The “classic” way of styling on the web. Styles defined in a global
-style sheet apply to all elements/components in the main document.
+The "classic" way of styling on the web. Styles defined in a global style sheet apply to all elements/components in the main document.
 
 They do not apply to component internals, like the label inside the Text
 Field component drag-handle inside the Split Layout component. This
@@ -228,9 +218,7 @@ system) or external styles which are not bundled.
 
 ==== Bundled (local file system)
 
-The https://vaadin.com/api/platform/14.0.2/com/vaadin/flow/component/dependency/CssImport.html[`+@CssImport+` annotation]
-will load the style sheet and inline it to the application bundle during
-a production build (together with other client-side resources). It’s
+The https://vaadin.com/api/platform/14.0.2/com/vaadin/flow/component/dependency/CssImport.html[`+@CssImport+` annotation] will load the style sheet and inline it to the application bundle during a production build (together with other client-side resources). It's
 recommended for styles which often change at the same time as the rest
 of the application code.
 
@@ -246,8 +234,7 @@ Place the file in `+/frontend/styles/global.css+` in your project
 
 ==== Linked (local file system) / external
 
-The https://vaadin.com/api/platform/14.0.2/com/vaadin/flow/component/dependency/StyleSheet.html[`+@StyleSheet+` annotation]
-can be used to link a style sheet without inlining the contents to the
+The https://vaadin.com/api/platform/14.0.2/com/vaadin/flow/component/dependency/StyleSheet.html[`+@StyleSheet+` annotation] can be used to link a style sheet without inlining the contents to the
 application bundle. This allows the browser to load and cache the style
 sheet separately from the rest of the application. It also allows you to
 use external style sheets.
@@ -268,18 +255,14 @@ public class StyledApp extends Div {
 
 [NOTE]
 Place the file in `+/src/main/webapp/styles/global.css+` or
-`+/src/main/resources/META-INF/resources/styles/global.css+`
-for Spring-based projects
+`+/src/main/resources/META-INF/resources/styles/global.css+` for Spring-based projects
 
 [[component-scope]]
 === Component scope
 
-Component styles are scoped per-component, and allow you to customize
-component styles without worrying about side-effects to other parts of
-your app.
+Component styles are scoped per component and allow you to customize component styles without worrying about side-effects to other parts of your app.
 
-They are imported using the `+@CssImport+` annotation with a second
-parameter which is the name of the components’s root element.
+They are imported using the `+@CssImport+` annotation with a second parameter, which is the name of the components' root element.
 
 [source,java]
 ....
@@ -293,7 +276,7 @@ Place the file in `+/frontend/styles/text-field.css+` in your project
 
 == Customize global styles
 
-Let’s modify some of the global font and color properties, using the
+Let's modify some of the global font and color properties, using the
 Lumo theme.
 
 [NOTE]
@@ -316,7 +299,7 @@ If you are unfamiliar with CSS Custom Properties and Variables, read the
 https://developer.mozilla.org/en-US/docs/Web/CSS/--*[documentation on
 MDN].
 
-See the Lumo theme documentation for all of the available top level
+See the Lumo theme documentation for all of the available top-level
 properties, which affect all components.
 
 * https://vaadin.com/themes/lumo[Lumo theme docs ›]
@@ -327,8 +310,7 @@ use the Lumo theme editor.
 * https://demo.vaadin.com/lumo-editor/[Lumo theme editor ›]
 
 [NOTE]
-The Lumo theme editor is not yet an officially supported tool, and does
-not necessarily support the latest versions of Vaadin. You should still
+The Lumo theme editor is not yet an officially supported tool and does not necessarily support the latest versions of Vaadin. You should still
 be able to use the CSS it produces by copying it to the correct files in
 your project.
 
@@ -356,9 +338,9 @@ html {
 ....
 
 [NOTE]
-You can find component-specific custom properties from the component’s
+You can find component-specific custom properties from the component's
 HTML API documentation. For example, see the
-https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement[“Styling” section
+https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement["Styling" section
 for Text Field].
 
 [NOTE]
@@ -375,8 +357,8 @@ sections.
 
 ==== Stylable parts
 
-As an example, let’s modify the Text Field component’s internal ``input
-field'' to have a border and a different background color than the
+As an example, let's modify the Text Field component's internal "input
+field" to have a border and a different background color than the
 default Lumo theme has.
 
 .`*styles/text-field.css*`
@@ -396,13 +378,12 @@ class or ID) may stop working at any release, as they are considered as
 implementation details.
 
 [NOTE]
-The internal parts of each component are listed in the component’s HTML
+The internal parts of each component are listed in the component's HTML
 API documentation. See the
-https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement[“Styling”
-section in Text Field API docs] for an example.
+https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement["Styling" section in Text Field API docs] for an example.
 
 Use the `+:host+` selector to target the components root element
-(e.g. the `+<vaadin-text-field>+` element).
+(e.g. the `+<vaadin-text-field>+` element).
 
 .`*styles/text-field.css*`
 [source,css]
@@ -430,8 +411,8 @@ potential collisions.
 
 === Component state
 
-Let’s add one more detail to our custom text field styles: a different
-border color when the field is invalid, using the `+[invalid]+` state
+Let's add one more detail to our custom text field styles: a different
+border-color when the field is invalid, using the `+[invalid]+` state
 attribute selector.
 
 .`*styles/text-field.css*`
@@ -443,10 +424,9 @@ attribute selector.
 ....
 
 [NOTE]
-The state attributes for each component are listed in the component’s
+The state attributes for each component are listed in the component's
 HTML API documentation. See the
-https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement[“Styling”
-section in Text Field API docs] for an example.
+https://vaadin.com/components/vaadin-text-field/html-api/elements/Vaadin.TextFieldElement["Styling" section in Text Field API docs] for an example.
 
 In addition to the `+[state]+` attributes, standard CSS pseudo-classes
 (`+:hover+`, `+:active+`, etc.) can be used for both the component host
@@ -467,11 +447,7 @@ docs].
 
 === Sub-components
 
-The customizations we did for the Text Field component end up affecting
-other components as well, which internally use Text Field. For example,
-Combo Box, Date Picker, Time Picker and Select all contain a Text Field,
-so those components will automatically ``inherit'' our style
-customizations.
+The customizations we did for the Text Field component end up affecting other components as well, which internally use Text Field. For example, Combo Box, Date Picker, Time Picker, and Select all contain a Text Field, so those components will automatically "inherit" our style customizations.
 
 [NOTE]
 Related: <<sub-component-variants>>
@@ -483,8 +459,7 @@ components.
 
 === Overlays
 
-Styling overlays (e.g. the popup which contains the items for Combo Box
-or Select, or the Date Picker calendar) is covered in the official
+Styling overlays (e.g., the popup which contains the items for Combo Box or Select, or the Date Picker calendar) is covered in the official
 Vaadin documentation:
 https://vaadin.com/docs/v14/flow/theme/tutorial-theming-overlay.html[Theming
 Overlay Components].
@@ -517,7 +492,7 @@ Referencing the image from a style sheet (imported using either
 == Need more help?
 
 Is there something missing from this tutorial? Is there something that
-you don’t know how to do even after reading it? Please let us know in
+you don't know how to do even after reading it? Please let us know in
 the comments.
 
 == Resources
