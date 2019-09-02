@@ -299,10 +299,9 @@ Lumo theme.
 [NOTE]
 See <<global-scope>> for instructions where to place the following CSS.
 
+.`*styles/global.css*`
 [source,css]
 ....
-/* styles/global.css */
-
 html {
   --lumo-font-family: Arial, Helvetica, sans-serif;
   --lumo-primary-text-color: hsl(265, 88%, 44%);
@@ -348,6 +347,7 @@ scope, making them affect all instances of the component.
 [NOTE]
 See <<global-scope>> for instructions where to place the following CSS.
 
+.`*styles/global.css*`
 [source,css]
 ....
 html {
@@ -379,6 +379,7 @@ As an example, let’s modify the Text Field component’s internal ``input
 field'' to have a border and a different background color than the
 default Lumo theme has.
 
+.`*styles/text-field.css*`
 [source,css]
 ....
 [part="input-field"] {
@@ -403,6 +404,7 @@ section in Text Field API docs] for an example.
 Use the `+:host+` selector to target the components root element
 (e.g. the `+<vaadin-text-field>+` element).
 
+.`*styles/text-field.css*`
 [source,css]
 ....
 :host {
@@ -413,6 +415,7 @@ Use the `+:host+` selector to target the components root element
 Pseudo-element selectors (`+::before+` and `+::after+`) can be used in
 combination with the `+:host+` and `+[part]+` selectors.
 
+.`*styles/text-field.css*`
 [source,css]
 ....
 [part="input-field"]::after {
@@ -431,6 +434,7 @@ Let’s add one more detail to our custom text field styles: a different
 border color when the field is invalid, using the `+[invalid]+` state
 attribute selector.
 
+.`*styles/text-field.css*`
 [source,css]
 ....
 :host([invalid]) [part="input-field"] {
@@ -448,6 +452,7 @@ In addition to the `+[state]+` attributes, standard CSS pseudo-classes
 (`+:hover+`, `+:active+`, etc.) can be used for both the component host
 and stylable parts.
 
+.`*styles/text-field.css*`
 [source,css]
 ....
 [part="input-field"]:hover {
