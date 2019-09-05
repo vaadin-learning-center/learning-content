@@ -222,6 +222,9 @@ The https://vaadin.com/api/platform/14.0.2/com/vaadin/flow/component/dependency/
 recommended for styles which often change at the same time as the rest
 of the application code.
 
+[NOTE]
+The `@CssImport` annotation does not work in Vaadin 14 compatibility mode (using Bower and HTML imports).
+
 [source,java]
 ....
 @CssImport("./styles/global.css")
