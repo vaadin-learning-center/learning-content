@@ -3,7 +3,7 @@
 :type: text
 :tags: Flow, API, Java, Fluent API
 :description: Learn how to create a fluent API for Vaadin Flow components.
-:repo: https://github.com/vaadin-learning-center/flow-api-fluent
+:repo: https://github.com/vaadin-learning-center/fluent-api-for-flow
 :linkattrs:
 :imagesdir: ./images
 
