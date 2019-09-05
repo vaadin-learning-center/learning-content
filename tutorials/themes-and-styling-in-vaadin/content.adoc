@@ -497,7 +497,7 @@ the comments.
 
 == Resources
 
-* https://www.notion.so/vaadin/Themes-and-Styling-in-Vaadin-a72d68eeafe341549c7adfcccdf5a951[Official
+* https://vaadin.com/docs/v14/flow/theme/theming-overview.html[Official
 theming documentation]
 * https://vaadin.com/themes/lumo[Lumo theme documentation]
 ** https://demo.vaadin.com/lumo-editor/[Lumo editor]
