@@ -24,9 +24,8 @@ This tutorial assumes you have the following set up on your computer:
 
 == Download and import the app starter
 
-<dl>
 [Download starter^, role="button button--bordered"](https://cdn2.hubspot.net/hubfs/1840687/my-starter-project.zip)
-</dl>
+
 <a class="" href="https://cdn2.hubspot.net/hubfs/1840687/my-starter-project.zip" download>Download starter test</a>
 
 Once you have the starter downloaded, unzip the file and open it in your IDE.  Ensure you can start the project by running the `spring-boot:run` Maven target. 
