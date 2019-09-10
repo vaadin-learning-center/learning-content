@@ -1,7 +1,7 @@
 = Vaadin quick start tutorial
 :tags: Java, Flow, Spring, Spring Boot
 :author: Marcus Hellberg
-:description: Learn the basics of Vaadin development in two minutes with a simple example application.  
+:description: Learn the basics of Vaadin development with a simple example application.  
 :repo: https://github.com/vaadin-learning-center/vaadin-todo
 :linkattrs: 
 :imagesdir: ./images
@@ -9,25 +9,21 @@
 
 In this tutorial, you will learn how to build a small but fully functional Vaadin application. This simple example will teach you the basics of component-based development and listening to events.
 
-video::6kDCn6OvXkA[youtube]
-
-
 The application you will build is the classic Todo application. 
 
 image::app-overview.png[Todo application with a header, checkboxes for todo items and a form for entering new items]
-
 
 == Prerequisites
 This tutorial assumes you have the following set up on your computer: 
 
 - https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html[Java 8 or later]
 - https://nodejs.org/[Node 10]
-- An IDE like IntelliJ, Eclipse, or Netbeans
-- Maven
+- An IDE like https://www.jetbrains.com/idea/download/#section=mac[IntelliJ (recommended)], https://www.eclipse.org/downloads/[Eclipse], or Netbeans
+- https://maven.apache.org/download.cgi?Preferred=ftp://mirror.reverse.net/pub/apache/[Maven]
 
 == Download and import the app starter
 
-https://vaadin.com/start/latest/project-base[Download starter^, role="button button--bordered"]
+https://cdn2.hubspot.net/hubfs/1840687/my-starter-project.zip[Download starter^, role="button button--bordered"]
 
 image::download-starter.jpg[Starter page with the Spring Boot option selected.]
 
@@ -39,23 +35,37 @@ You can find detailed instructions for link:/tutorials/import-maven-project-inte
 
 == Prepare the project
 The starter contains some features and code that we don't need in this tutorial. Let's start with a clean slate by removing everything we don't need:
-[source,diff]
-----
 
--@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
+Replace the following
+
+.`*MainLayout.java*`
+[source,java]
+----
+@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
 
 public class MainView extends VerticalLayout {
 
-- public MainView(@Autowired MessageBean bean) {
-+ public MainView() {
--   Button button = new Button("Click me",
--       event -> Notification.show("Clicked!"));
--   add(button);
+  public MainView(@Autowired MessageBean bean) {
+  public MainView() {
+    Button button = new Button("Click me",
+        event -> Notification.show("Clicked!"));
+    add(button);
  }
 }
-
 ----
 
+With this
+
+.`*MainLayout.java*`
+[source,java]
+----
+public class MainView extends VerticalLayout {
+
+public MainView() {
+
+ }
+}
+----
 We are now ready to start building the app. 
 
 == Building UIs with components and layouts
@@ -71,7 +81,6 @@ Begin by creating all the components we need for the app:
 .`*MainLayout.java*`
 [source,java]
 ----
-
 @Route("")
 public class MainView extends VerticalLayout {
 
@@ -90,7 +99,6 @@ public class MainView extends VerticalLayout {
     );
  }
 }
-
 ---- 
 <1> `todosList` is a vertical layout that will display the task and checkboxes
 <2> `taskField` is the text input field for new tasks
@@ -111,7 +119,6 @@ Vaadin uses an _event-driven programming model_. This means that you can listen 
 .`*MainLayout.java*`
 [source,java]
 ----
-
 @Route("")
 public class MainView extends VerticalLayout {
 
@@ -128,7 +135,6 @@ public class MainView extends VerticalLayout {
   );
  }
 }
-
 ---- 
 <1> Create a checkbox with the value from the `taskField` as it's label.
 
@@ -142,7 +148,8 @@ Congratulations, you have completed your first Vaadin application!
 == Next steps
 To learn more about Vaadin, see the following tutorials. 
 
-- link:/training/courses[Free online video course covering Vaadin basics]
 - link:/tutorials/getting-started-with-flow[CRUD application tutorial] 
+- link:/components[Download application examples]
+- link:/training/courses[Free online video course covering Vaadin basics]
 
 If you are more of a tinkerer, you can also browse the link:/components[component examples] and use the app you just built as a sandbox for trying them out for yourself.
