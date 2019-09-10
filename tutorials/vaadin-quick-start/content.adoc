@@ -26,30 +26,41 @@ This tutorial assumes you have the following set up on your computer:
 
 https://cdn2.hubspot.net/hubfs/1840687/my-starter-project.zip[Download starter^, role="button button--bordered"]
 
-<a class="" href="https://cdn2.hubspot.net/hubfs/1840687/my-starter-project.zip" download>Download starter test</a>
-
 Once you have the starter downloaded, unzip the file and open it in your IDE.  Ensure you can start the project by running the `spring-boot:run` Maven target. 
 
 You can find detailed instructions for link:/tutorials/import-maven-project-intellij-idea[IntelliJ], link:/tutorials/import-maven-project-eclipse[Eclipse], and link:/tutorials/import-maven-project-netbeans[Netbeans] if you need help with importing or running the app.
 
 == Prepare the project
 The starter contains some features and code that we don't need in this tutorial. Let's start from a clean slate by removing everything we don't need:
+
+Replace the following
 [source,diff]
 
 ----
--@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
+@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
 
 public class MainView extends VerticalLayout {
 
-- public MainView(@Autowired MessageBean bean) {
-+ public MainView() {
--   Button button = new Button("Click me",
--       event -> Notification.show("Clicked!"));
--   add(button);
+  public MainView(@Autowired MessageBean bean) {
+  public MainView() {
+    Button button = new Button("Click me",
+        event -> Notification.show("Clicked!"));
+    add(button);
  }
 }
 ----
 
+With this
+[source,diff]
+
+----
+public class MainView extends VerticalLayout {
+
++ public MainView() {
+
+ }
+}
+----
 We are now ready to start building the app. 
 
 == Building UIs with components and layouts
