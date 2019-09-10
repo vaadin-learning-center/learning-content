@@ -145,7 +145,6 @@ Congratulations, you have completed your first Vaadin application!
 To learn more about Vaadin, see the following tutorials. 
 
 - link:/tutorials/getting-started-with-flow[CRUD application tutorial] 
-- link:/components[Download application examples]
 - link:/training/courses[Free online video course covering Vaadin basics]
 
 If you are more of a tinkerer, you can also browse the link:/components[component examples] and use the app you just built as a sandbox for trying them out for yourself.
