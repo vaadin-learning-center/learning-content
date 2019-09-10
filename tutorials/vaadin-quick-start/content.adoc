@@ -16,10 +16,10 @@ image::app-overview.png[Todo application with a header, checkboxes for todo item
 == Prerequisites
 This tutorial assumes you have the following set up on your computer: 
 
-- https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html[Java 8 or later]
-- https://nodejs.org/[Node 10]
-- An IDE like https://www.jetbrains.com/idea/download/#section=mac[IntelliJ (recommended)], https://www.eclipse.org/downloads/[Eclipse], or Netbeans
-- https://maven.apache.org/download.cgi?Preferred=ftp://mirror.reverse.net/pub/apache/[Maven]
+- https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html[Java 8 or later,window=_blank]
+- https://nodejs.org/[Node 10,window=_blank]
+- An IDE like https://www.jetbrains.com/idea/download/#section=mac[IntelliJ (recommended),window=_blank], https://www.eclipse.org/downloads/[Eclipse,window=_blank], or Netbeans
+- https://maven.apache.org/download.cgi?Preferred=ftp://mirror.reverse.net/pub/apache/[Maven,window=_blank]
 
 == Download and import the app starter
 
