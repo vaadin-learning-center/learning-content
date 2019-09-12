@@ -117,7 +117,7 @@ We also need to define the resources directory to expose them to the front-end. 
 
 Where `src/main` is the location of the `webapp` folder that has the front-end resources.
 
-== Server configruation
+== Server configuration
 
 Now let's write some Java code responsible about running the server in the `App.java`. In the `main` method, define the web root URI pointing to the `webapp` folder.
 
