@@ -23,7 +23,7 @@ This tutorial assumes you have the following set up on your computer:
 
 == Download and import the app starter
 
-https://cdn2.hubspot.net/hubfs/1840687/my-starter-project-v14.zip[Download starter^, role="button button--bordered quickstart-download-project"]
+https://pages.vaadin.com/hubfs/my-starter-project-v14.zip[Download starter^, role="button button--bordered quickstart-download-project"]
 
 Once you have the starter downloaded, unzip the file and open it in your IDE.  Ensure you can start the project by running the `spring-boot:run` Maven target. 
 
