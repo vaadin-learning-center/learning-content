@@ -19,7 +19,7 @@ image::app-overview.png[Todo application with a header, checkboxes for todo item
 
 == Download a minimal Vaadin project
 
-https://cdn2.hubspot.net/hubfs/1840687/my-app.zip[Download^, role="button button--bordered quickstart-download-project"]
+https://pages.vaadin.com/hubfs/1840687/my-app.zip[Download^, role="button button--bordered quickstart-download-project"]
 
 Once you have the project downloaded, unzip the file e.g., to your home directory. For now, you don’t need to install any IDE or application server. We’ll use a simple embedded Java server to run the app and a text editor to edit the source code.
 
