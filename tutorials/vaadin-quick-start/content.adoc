@@ -19,11 +19,11 @@ image::app-overview.png[Todo application with a header, checkboxes for todo item
 
 == Download a minimal Vaadin project
 
-https://cdn2.hubspot.net/hubfs/1840687/my-app.zip[Download^, role="button button--bordered quickstart-download-project"]
+https://pages.vaadin.com/hubfs/1840687/my-app.zip[Download^, role="button button--bordered quickstart-download-project"]
 
-Once you have the project downloaded, unzip the file e.g., to your home directory. For now, you don’t need to install any IDE or application server. We’ll use a simple embedded Java server to run the app and a text editor to edit the source code.
+Once you have the project downloaded, unzip the file e.g. to your home directory. For now, you don’t need to install any IDE or application server. We’ll use a simple embedded Java server to run the app and a text editor to edit the source code.
 
-The project folder has a few files and folders many of them related to dependency and project configuration. In this tutorial, we are interested only in our UI code in `src/main/java/com/vaadin/example/MainView.java`
+The project folder has a few files and folders, many of them related to dependency and project configuration. In this tutorial, we are only interested in our UI code in `src/main/java/com/vaadin/example/MainView.java`
 
 Build the project and run the application on an embedded Jetty server. In the project root folder, run `mvnw` script.
 
@@ -92,7 +92,7 @@ Navigate to `http://localhost:8080[localhost:8080, rel="nofollow"]` and you shou
 image::completed-app.gif[Animation of adding a new todo item and checking it.]
 
 == Next steps
-For developing more complex applications, we recommend using an IDE like Eclipse or IntelliJ IDEA. Before deploying your application to production, the assets should be minified and bundled. These topics and many more, are covered in our tutorials and video courses.
+For developing more complex applications, we recommend using an IDE like Eclipse or IntelliJ IDEA. Before deploying your application to production, the assets should be minified and bundled. These topics and many more are covered in our tutorials and video courses.
 
 - link:/tutorials/getting-started-with-flow[CRUD application tutorial] 
 - link:/training/courses[Free online video course covering Vaadin basics]
