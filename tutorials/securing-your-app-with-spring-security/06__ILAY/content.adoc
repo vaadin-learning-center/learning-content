@@ -1,10 +1,87 @@
-= Simplify secured routing by using ILAY and getting even finer grained security
+:title: Use ILAY for fine grained access control in Vaadin applications
 :author: Paul Römer
 :type: text
-:tags: Spring, Spring Boot
-:description: Introduces the Vaadin Add-on ILAY that simplifies securing router navigation.
-:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/master
+:tags: Spring, Spring Boot, Security
+:description: Learn how to use the Vaadin ILAY add-on to simplify fine-grained access control
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay
 :linkattrs:
 :imagesdir: ./images
-:placeholder:
-:hidden:
+
+In the previous tutorial, we implemented view-based access control with plain Vaadin. As we do not like boilerplate code but love the flexibility, we suggest using **link:https://vaadin.com/directory/component/ilay---authorization-for-vaadin[ILAY], a security framework-agnostic Vaadin plugin**.
+
+Like our previous implementation **ILAY works annotation-based and needs you to define access evaluators**.
+
+To get started, add the needed Maven dependency.
+
+.`*pom.xml*`
+[source,xml,linenums]
+----
+<dependency>
+    <groupId>org.ilay</groupId>
+    <artifactId>ilay</artifactId>
+    <version>3.0-Final</version>
+</dependency>
+----
+
+Next, let's define the annotation we can use for the views.
+
+.`*SecuredByRole.java*`
+[source,java,linenums]
+----
+@NavigationAnnotation(RoleBasedEvaluator.class) // <1>
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SecuredByRole {
+    String value() default ""; // <2>
+}
+----
+<1> Links our annotation with an access evaluator. It is explained below.
+<2> It is up to you on which data your security access check is based on. Here, the role name is enough.
+
+And now we can start with defining an access evaluator. Like in the previous tutorial, we will implement a role-based security guard.
+
+.`*RoleBasedEvaluator.java*`
+[source,java,linenums]
+----
+public class RoleBasedEvaluator implements AccessEvaluator<SecuredByRole> { // <1>
+    @Override
+    public Access evaluate(Location location, Class navigationTarget, SecuredByRole annotation) { // <2>
+        if(!SecurityUtils.isAccessGranted(navigationTarget, annotation)) { 
+            if(SecurityUtils.isUserLoggedIn()) {
+                return Access.restricted(NotFoundException.class); // <3>
+            } else {
+                return Access.restricted(LoginView.ROUTE); // <4>
+            }
+        }
+
+        return Access.granted(); // <5>
+    }
+}
+----
+<1> Our access evaluators have to implement the `AccessEvaluator` interface and define a corresponding annotation.
+<2> ILAY gives you all information needed + your custom annotation to decide whether to deny or grant access.
+<3> Uses the `Access` class helpers to restrict access by an exception and let Vaadin handle the redirection.
+<4> Uses the `Access` class helpers to restrict access and redirect to the login view (defining the login view's class is not possible yet)
+<5> Looks all is fine, let's grant access to the view.
+
+Now we have to use the annotation. Otherwise, it won't be that much fun!
+
+.`*RoleBasedEvaluator.java*`
+[source,java,linenums]
+----
+@Route
+@SecuredByRole("ROLE_Admin") // <1>
+public class AdminView extends VerticalLayout {
+    @Autowired
+    public AdminView() {
+        Label label = new Label("Looks like you are admin!");
+        add(label);
+    }
+
+}
+----
+<1> There it is! Only admins should be able to access the admin view.
+
+Woohoo, that's it. As usual, we prepared a demo application, just check out the branch `login-overlay-form-ilay` and execute `mvn spring-boot:run`. 
+
+PS: I heard rumors there is a backdoor in this app, you might wanna check the code.
+
