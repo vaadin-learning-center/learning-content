@@ -1,17 +1,17 @@
-:title: Use ILAY for fine grained access control to avoid boilerplate code
+:title: Use ILAY for fine grained access control in Vaadin applications
 :author: Paul Römer
 :type: text
 :tags: Spring, Spring Boot, Security
-:description: Introduces the Vaadin Add-on ILAY that simplifies fine grained access control even more
+:description: Learn how to use the Vaadin ILAY add-on to simplify fine-grained access control
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay
 :linkattrs:
 :imagesdir: ./images
 
-In the last tutorial we implemented a view based access control with plain Vaadin. As we do not like boilerplate code but love flexibility we suggest using **link:https://vaadin.com/directory/component/ilay---authorization-for-vaadin[ILAY], a security framework agnostic Vaadin plugin**.
+In the previous tutorial, we implemented view-based access control with plain Vaadin. As we do not like boilerplate code but love the flexibility, we suggest using **link:https://vaadin.com/directory/component/ilay---authorization-for-vaadin[ILAY], a security framework-agnostic Vaadin plugin**.
 
-Like our previous implementation **ILAY works annotation based and needs you to define access evaluators**.
+Like our previous implementation **ILAY works annotation-based and needs you to define access evaluators**.
 
-To get started just add the needed Maven dependency.
+To get started, add the needed Maven dependency.
 
 .`*pom.xml*`
 [source,xml,linenums]
@@ -23,7 +23,7 @@ To get started just add the needed Maven dependency.
 </dependency>
 ----
 
-Next, let's define our annotation we can use for the views.
+Next, let's define the annotation we can use for the views.
 
 .`*SecuredByRole.java*`
 [source,java,linenums]
@@ -34,10 +34,10 @@ public @interface SecuredByRole {
     String value() default ""; // <2>
 }
 ----
-<1> Links our annotation with an access evaluator. Just wait a second, it is explained below.
+<1> Links our annotation with an access evaluator. It is explained below.
 <2> It is up to you on which data your security access check is based on. Here, the role name is enough.
 
-And now we can start with defining an access evaluator. Like in the previous tutorial we will implement a role based security guard.
+And now we can start with defining an access evaluator. Like in the previous tutorial, we will implement a role-based security guard.
 
 .`*RoleBasedEvaluator.java*`
 [source,java,linenums]
@@ -63,7 +63,7 @@ public class RoleBasedEvaluator implements AccessEvaluator<SecuredByRole> { // <
 <4> Uses the `Access` class helpers to restrict access and redirect to the login view (defining the login view's class is not possible yet)
 <5> Looks all is fine, let's grant access to the view.
 
-Okay, after that we of course have to use the annotation. Otherwise it will not be that much fun!
+Now we have to use the annotation. Otherwise, it won't be that much fun!
 
 .`*RoleBasedEvaluator.java*`
 [source,java,linenums]
@@ -81,7 +81,7 @@ public class AdminView extends VerticalLayout {
 ----
 <1> There it is! Only admins should be able to access the admin view.
 
-Woohoo, that's it. As usual we prepared a demo application, just checkout the branch `login-overlay-form-ilay` and execute `mvn spring-boot:run`. 
+Woohoo, that's it. As usual, we prepared a demo application, just check out the branch `login-overlay-form-ilay` and execute `mvn spring-boot:run`. 
 
-PS: I heard rumors there is a backdoor in this app, you might wanne check the code.
+PS: I heard rumors there is a backdoor in this app, you might wanna check the code.
 
