@@ -7,6 +7,9 @@
 :linkattrs:
 :imagesdir: ./images
 
+[TIP]
+You can also have a look at the link:/tutorials/securing-your-app-with-spring-security/ILAY[next tutorial about ILAY]. It more or less works the same but will avoid some boilerplate code.
+
 **Right now all our examples only know about two states: The user is authenticated or not.** With some additions to the UI listener we have already registered to secure the router navigation, we will be able to overcome these limitations. In the end we will have two different roles, one for the normal users and one for administrators and an administration view only admins have access to.
 
 Let's start with creating the users. Again, for the sake of simplicity, we are using in-memory users:
