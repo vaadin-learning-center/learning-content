@@ -3,7 +3,7 @@
 :type: text
 :tags: Component, CSS, Java, Templating, Web Components
 :description: This article shows how to do the first steps with the Vaadin Designer to create components and views and make it easy to design your application.
-:repo:
+:repo: https://github.com/vaadin-learning-center/VaadinDesigner_01_Basics
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
