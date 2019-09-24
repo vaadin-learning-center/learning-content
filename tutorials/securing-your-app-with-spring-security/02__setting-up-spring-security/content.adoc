@@ -30,7 +30,16 @@ First, we have to add the needed Spring Security dependencies to our POM:
 </dependency>
 ----
 
-Second, we will add a Vaadin aware Spring Security configuration via the `SecurityConfiguration` class that uses some helpers you can check in the sources.
+Second, we have to disable Spring's MVC error handler. Since Vaadin 14 it causes strange reload behavior. Check this link:https://vaadin.com/forum/thread/17784869/vaadin-14-with-spring-security-login-page-not-loading[forum thread] for details. Thank you all, for fighting this bug down!
+
+.`*Application.java*`
+[source,java,linenums]
+----
+@SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
+public class Application {
+----
+
+Third, we will add a Vaadin aware Spring Security configuration via the `SecurityConfiguration` class that uses some helpers you can check in the sources.
 
 .`*SecurityConfiguration.java*`
 [source,java,linenums]
