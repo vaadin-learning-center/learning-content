@@ -244,6 +244,10 @@ vaadinButton.addClickListener(buttonClickEvent -> {
 ----
 .accept the value in the consumer to add it the grid
 
-After finishing the last step and starting the application again, you can add items to the grid by entering names into the text field and submit it. 
+After finishing the last step and starting the application again, you can add items to the grid by entering names into the text field and submit it. And "et voilà" we created our first application with the Vaadin Designer.
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.final design of the view
+image::designer-4-final-view.png[200, 300]
 
 In this tutorial, we learned how to create components and views with the Vaadin Designer and configure its properties.
