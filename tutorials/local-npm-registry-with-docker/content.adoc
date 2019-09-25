@@ -1,0 +1,11 @@
+= Local NPM Registry with Docker
+
+:type: text
+:tags: <check>, <allowed_tags.lst>, <foo>, <bar>
+:description: <put detailed description here>
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+<Write content here>
