@@ -1,0 +1,251 @@
+= Vaadin Designer Tutorial
+
+:type: text
+:tags: Component, CSS, Java, Templating, Web Components, Layout
+:description: This tutorial shows the first steps with Vaadin Designer. Learn to create components and views, and how to connect to a backend.
+:repo: https://github.com/vaadin-learning-center/VaadinDesigner_01_Basics
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+
+== Build an app from scratch with Vaadin Designer
+
+In this tutorial, we will show how to build an application with Vaadin Designer. You will learn to orchestrate of views and components, adjust CSS, and integrate views to the backend.
+
+This is a hands-on tutorial, so you can read the explanation and join the steps right on your computer. 
+
+Let's start with the first step and download a starter project from https://vaadin.com/start and build it with `mvn install` to download all necessary components to our workspace. After the project has been successfully initialized, you can import the project into your preferred IDE (IntelliJ or Eclipse).
+
+== Installing Vaadin Designer
+Follow these steps to install the Designer either in IntelliJ or Eclipse:
+
+
+=== IntelliJ
+1. Open "Preferences" in the main menu
+2. click on "Plugin" in the side menu
+3. search for "Vaadin Designer" and install the plugin
+
+=== Eclipse
+1. open "Help" and "Install New Software..." in the submenu
+2. add "https://vaadin.com/eclipse" as "Work with"
+3. open the main item Vaadin and select "Vaadin Designer" to install it
+
+After restart the IDE of your choice you are ready to use the Vaadin Designer.
+
+TIP: You find more information about the installation process on our https://vaadin.com/docs/v14/designer/getting-started[webpage].
+
+== First steps with Vaadin designer
+
+You can create both individual components and complete views comprising with Vaadin Designer. You can build UIs with Vaadin components and components you have designed. 
+
+Designer runs either integrated in your IDE or in a separate browser. To activate the browser integration, please follow the instructions on this https://vaadin.com/labs/designer-chrome[webpage].
+
+Both approaches allow you to assemble layouts visually.  Drag and drop components from the side menu to the view. Align and configure the elements to see the results right away on the screen.
+
+Let's create our first component:
+
+1. Right-click on your project folder and select  "Vaadin 10+ design."
+2. Enable the "Create Java companion file" option for creating a corresponding Java class
+3. Choose a name for your element ("my-first-component" in this example)
+4. Press "okay" to finish the process and create the new component
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.New Component created with Vaadin Designer
+image::designer-4-new-element.png[300, 400]
+
+When you double click on the `my-first-component.js` it will open the file with the Vaadin Designer. In the center area, you see the empty view, which can be initialized with different basic designs. The first column on the right contains the component library with default components provided by the Vaadin Framework, your custom components from the workspace and standard HTML elements. These can be dragged and dropped onto the view and aligned as preferred. The boxes on the far right contain a hierarchy view of the components and below a table to change the properties of selected components.
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.Vaadin Designer integrated in your IDE
+image::designer-4-ui.png[600, 800]
+
+After creating the component, you will see two generated files in the project explorer. `MyFirstComponent` is the companion Java class for the component, and `my-first-component.js` is the corresponding template.
+
+In the `MyFirstComponent` class, you will find a  generated code stub for the component, which can be extended programmatically. The `my-first-component.js` is located in the `frontend` folder and extends a `PolymerElement.`
+
+
+== Create a Component with Vaadin Designer
+
+We are going to start with a simple component which let the user input their name. After they click a submit button, a personal greeting message will be displayed on the screen.
+
+After opening the JS file, you can select the `Vertical` as a base layout and drag a `Vaadin Text Field,` `Primary Button` and a `label` on the view. 
+
+The elements from the component menu have names like `Primary Button,` `Icon Text Field` or `Horizontal Layout Margin.` The naming might be a bit different from the terminology you known from Vaadin because these are pre-styled components. After adding all components to the view, you might already notice, all components are arranged on the upper left side. 
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.all components are added to the main layout
+image::designer-4-first-design.png[300, 400]
+
+To align the `vaadin-text-field` and the `vaadin-button` horizontally, we need to add an additional `horizontal-layout` on top of the existing `vertical-layout` and add the text field and the button to it.
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.add theme as property to main layout
+image::designer-4-change-hierarchy.gif[200, 400]
+
+In the next step, we detach the components from the edge of the main layout and bring some margin space between them. Add a `margin` theme attribute to the main layout by selecting the `vaadin-vertical-layout` item in the "Outline" box and click on the "+" in the properties box to add an additional item with the name "theme" and the value `margin`.
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.add theme as property to main layout
+image::designer-4-add-margin-property.png[200, 250]
+
+In the next step, we are going to change some of the component properties to adjust the styles accordingly. If you click on the `vaadin-text-field` in the "Outline" box, it will open the associated component properties in the "Properties" box. Let's add a hint the text-field what the user should input by setting the value of the "placeholder" item, for example, to "input your name." After changing the value, you will see the result right away in the Designer. Next, let's set the theme of the button to "secondary" to make it stand out less and change the text of the button to "Submit." Last but not least, remove the default value of the label.
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.final design of the component
+image::designer-4-final-design-component.png[200, 250]
+
+Let's add some functionality to display the input value together with the current time in the label. If you open the class `MyFirstComponent.java,` you will find a stub of the component with a default constructor and an interface of the template model.
+
+[source, java]
+.Content of MyFirstComponent 
+----
+@Tag("my-first-component")
+@JsModule("./my-first-component.js")
+public class MyFirstComponent extends PolymerTemplate<MyFirstComponent.MyFirstComponentModel> {
+
+    //Creates a new MyFirstComponent.
+    public MyFirstComponent() {
+        // You can initialize any data required for the connected UI components here.
+    }
+
+    ...
+}
+----
+
+To create a Java representation for a component in Designer, we need to click on the icon on the right side of the outline box.
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.icon to add component representation in Java class
+image::designer-4-create-java-representation.png[200, 250]
+
+This will create a field in the `MyFirstComponent.java` class and can be used as a regular Vaadin Java component.
+
+[source, java] 
+----
+@Id("vaadinTextField")
+private TextField vaadinTextField;
+----
+.Representation of component in Java class
+
+Next, we'll look at interacting with the backend. Let's add the value of the `text-field` to the label and add a "Hello" String as well as the current date. In `MyFirstComponent.java` add the following lines of code to the constructor:
+
+[source, java] 
+----
+label.setText(String.format("Hello %s, it is %s", //<1>
+                        vaadinTextField.getValue(), //<2>
+                        LocalDate.now().toString()))); //<3>
+----
+
+<1> Define a string format with a placeholder for the value of the text field and the current date.  
+<2> Value of the text field.
+<3> Current date as text.
+
+After adding the new component you view, you will see the following:
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.component after styling
+image::designer-4-first-styled-design.png[200, 250]
+
+Let's summarize what we did in the first part of this article. We created a new component, defined a basic design, added UI Elements to it, and changed the hierarchy and the styling.
+
+In the next step, we are going to create our own view and add our previously created component on it.
+
+=== Create a View with Vaadin Designer
+Since Vaadin 10 any UI component can be a view when it has the `@Route` annotation. To create a new view, we basically do the same steps when creating a component. Right-click in the project explorer and add a new "Vaadin 10+ Design". As you might remember, the Vaadin Designer provides basic layouts to make the view building faster.
+
+As an example, we create a component with a Java companion file called "MyFirstView" and select the "Header & footer" as a basic layout. It will create a `vertical-layout` with 3 sub-layouts for the header, footer and the content in it. In the design area, the header and footer will be displayed in gray. Let's add an `h1`-element to the header and an `h4`-element to the footer. We can change the text of the `h4`-element by clicking on the subelement "text" and change the value of the text area to "My First View."
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.first view after styling
+image::designer-4-first-view.png[200, 500]
+
+In the next step, we need to open the Java companion file and add the @Route annotation above the class name.
+
+[source, java]
+----
+@Tag("my-first-view")
+@JsModule("./my-first-view.js")
+@Route("first-view")
+public class MyFirstView extends PolymerTemplate<MyFirstView.MyFirstViewModel> {
+    ...
+}
+----
+.add Route annotation to the view class
+
+After starting the application server, you can check the result calling http://localhost:8080/first-view in your browser. Now we can add our previously created component `my-first-component` to the center layout as well as a `vaadin-grid.` 
+
+To use the full strength of the `vaadin-grid` we need to set a type of the item we want to show in the grid. In our example, we want to show the name, date, and time when somebody submits their name. Therefore we need to create a Java bean with a String for the name and a DateTime for the login time as instance variables. We can do it with a small inner class inside in the `MyFirstView` looking like this:
+
+[source, java] 
+----
+ private class PersonDTO {
+    private String name;
+    private LocalDateTime time;
+
+    //constructor, getter, setter
+ }
+----
+.inner class for grid component
+
+After creating the DTO class, we create a component link for the `vaadin-grid` and `my-first-component` in the view class by clicking on the icon in the outline box.
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.connect component in designer in view class
+image::designer-4-connect-component.png[200, 300]
+
+Now we can add columns for the "name" and the "submit-time" programmatically by using the API of the grid component. The columns won't be visible in the design view, because they are initialized during runtime and the design is not showing the changes made in the code. In the second part of this article, we will go into more details about how to create a listing component with the Designer. 
+
+To show the results of the input in the `vaadin-grid,` we will create a consumer in the `my-first-component` and add a code block which will run when the submit button is clicked. All added items will be kept in a Set.
+
+[source, java] 
+----
+public class MyFirstView ... {
+    
+    //Component definitions
+    ...
+
+    private List<PersonDTO> personDTOSet = new ArrayList<>();
+
+    public MyFirstView() {
+
+        //add columns for "name" and "submit time" to grid
+        vaadinGrid.addColumn(PersonDTO::getName).setHeader("Name");
+        vaadinGrid.addColumn(PersonDTO::getSubmitTime).setHeader("Submit Time");
+
+        //set code block which is applied after button click
+        myFirstComponent.setPersonDTOConsumer(personDTO -> {
+            personDTOSet.add(personDTO);
+            vaadinGrid.getDataProvider().refreshAll();
+        });
+        vaadinGrid.setItems(personDTOSet);
+    }
+
+    public interface MyFirstViewModel extends TemplateModel { ... }
+
+    public static class PersonDTO { ... }
+}
+----
+.add columns to grid and set consumer to component
+
+In the `my-first-component` we define a field for the consumer and an appropriate set-method. Inside the submit button click handler, we need to accept the value in the consumer.
+
+[source, java] 
+----
+vaadinButton.addClickListener(buttonClickEvent -> {
+            ...
+            if (personDTOConsumer != null) {
+                personDTOConsumer.accept(personDTO);
+            }
+        });
+----
+.accept the value in the consumer to add it the grid
+
+After finishing the last step and starting the application again, you can add items to the grid by entering names into the text field and submit it. And et voilà we created our first application with the Vaadin Designer.
+
+
+[[figure.designer.tutorial.new.vaadin.design]]
+.final design of the view
+image::designer-4-final-view.png[200, 300]
+
+In this tutorial, we learned how to create components and views with the Vaadin Designer and configure its properties.
