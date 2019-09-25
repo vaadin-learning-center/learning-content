@@ -20,6 +20,7 @@ Let's start with the first step and download a starter project from https://vaad
 == Installing Vaadin Designer
 Follow these steps to install the Designer either in IntelliJ or Eclipse:
 
+
 === IntelliJ
 1. Open "Preferences" in the main menu
 2. click on "Plugin" in the side menu
@@ -30,9 +31,7 @@ Follow these steps to install the Designer either in IntelliJ or Eclipse:
 2. add "https://vaadin.com/eclipse" as "Work with"
 3. open the main item Vaadin and select "Vaadin Designer" to install it
 
-After restarting the IDE of your choice, you are ready to use the Vaadin Designer.
-
-Please make sure you have a valid license or trial, as described in the https://vaadin.com/docs/v14/designer/getting-started/designer-licensing.html[documentation]. 
+After restart the IDE of your choice you are ready to use the Vaadin Designer.
 
 TIP: You find more information about the installation process on our https://vaadin.com/docs/v14/designer/getting-started[webpage].
 
@@ -77,7 +76,6 @@ The elements from the component menu have names like `Primary Button,` `Icon Tex
 [[figure.designer.tutorial.new.vaadin.design]]
 .all components are added to the main layout
 image::designer-4-first-design.png[300, 400]
-
 
 To align the `vaadin-text-field` and the `vaadin-button` horizontally, we need to add an additional `horizontal-layout` on top of the existing `vertical-layout` and add the text field and the button to it.
 
@@ -152,7 +150,6 @@ image::designer-4-first-styled-design.png[200, 250]
 Let's summarize what we did in the first part of this article. We created a new component, defined a basic design, added UI Elements to it, and changed the hierarchy and the styling.
 
 In the next step, we are going to create our own view and add our previously created component on it.
-
 
 === Create a View with Vaadin Designer
 Since Vaadin 10 any UI component can be a view when it has the `@Route` annotation. To create a new view, we basically do the same steps when creating a component. Right-click in the project explorer and add a new "Vaadin 10+ Design". As you might remember, the Vaadin Designer provides basic layouts to make the view building faster.
@@ -244,7 +241,8 @@ vaadinButton.addClickListener(buttonClickEvent -> {
 ----
 .accept the value in the consumer to add it the grid
 
-After finishing the last step and starting the application again, you can add items to the grid by entering names into the text field and submit it. And "et voilà" we created our first application with the Vaadin Designer.
+After finishing the last step and starting the application again, you can add items to the grid by entering names into the text field and submit it. And et voilà we created our first application with the Vaadin Designer.
+
 
 [[figure.designer.tutorial.new.vaadin.design]]
 .final design of the view
