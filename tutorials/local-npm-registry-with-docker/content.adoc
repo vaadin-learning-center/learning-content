@@ -1,29 +1,30 @@
-= Local NPM Registry with Docker
+= Speed up Vaadin builds with a local npm registry
 
 :type: text
 :tags: NPM, Offline, Performance, Install
-:description: This is a description how to setup a local npm registry with nexus in a docker image
+:description: Setup a local npm registry with Nexus in a Docker image to speed up development.
 :repo: https://github.com/SebastianKuehnau/docker-nexus-npm-registry
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
 
-# docker-nexus-npm-registry
-In this tutorial I'm going to show you a workaround how to avoid redundant downloads of npm dependencies while building vaadin applications.
+In this tutorial, we're going to show you how to avoid redundant downloads of npm dependencies while building Vaadin applications.
 
-But first of all, let's have a look on the reasons why and when the NPM dependencies are downloaded and what are possible apporaches to manage the npm dependencies on the developer machine to speed up the build time and reduce unneccessary internet traffic.
+== Why does npm cause slow development turnaround times?
 
-NPM is the equivalent of maven in the Javascript environment and it manages the packages of web components for a Vaadin application. Those packages will be downloaded during the buildtime and depending on your environment stored in a local repository. You have two options to setup NPM on your machine. You can install npm and node globally on your machine. This will create a global  repository and provide the packages accross all your projects in a central location. The other option is to install npm locally with the [frontend-maven-plugin](https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/) from Eirslett and keep the dependencies in your project. Reason for this could be a missing local NPM installation or if you have a test environment, which is deleted after completion.
+npm is the equivalent of Maven in the JavaScript environment. It manages the front-end dependencies for a Vaadin application. The packages will be downloaded during the build time and, depending on your environment, stored in a local repository. 
 
-The idea here to keep all dependencies for the build- and runtime is to create a docker image with a running nexus server on a local port and provide a npm registry.
+You have two options to set up npm. The first option is to install npm and Node globally. This will create a global repository and provide the packages across all your projects in a central location. The second option is to install npm locally with the https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/[frontend-maven-plugin] and keep the dependencies in your project directory. You might want to opt for the second option if you don't have an npm installation or if you are on a test environment, which is deleted after completion.
 
-### Installation
+To speed up the build process, we will cache all dependencies with a Docker image that is running a Nexus server on a local port and provide an npm registry.
 
-To install the npm registry with docker please do the following steps:
+== Installation
 
-1. Install [Docker](https://www.docker.com/).
+To install the npm registry with Docker, please do the following:
 
-2. Download the [docker-nexus-npm-registry image](https://hub.docker.com/r/sebak/nexus_npm_registry_vaadin) from public [Docker Hub Registry](https://registry.hub.docker.com/)
+1. Install https://www.docker.com/[Docker].
+
+2. Download the https://hub.docker.com/r/sebak/nexus_npm_registry_vaadin[docker-nexus-npm-registry image] from public https://registry.hub.docker.com/[Docker Hub Registry]
 
     `$ docker pull sebak/nexus_npm_registry_vaadin`
 
@@ -32,7 +33,7 @@ To install the npm registry with docker please do the following steps:
     `$ docker build -t="npm-registry" .`
 
 
-### Usage
+== Usage
 
     $ docker run -dit -p 8081:8081 npm-registry
 
@@ -42,12 +43,12 @@ To link npm to your local registry add a configuration to your local npm
 
 or add [frontend-maven-plugin](https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/) to your project pom. You can find an example project with a proper configuration in the vaadin-example folder.
 
-After setting up the docker image you need to compile a vaadin project on your machine with 
+After setting up the docker image, you need to compile a Vaadin project on your machine with 
     
     $ mvn install -Pproduction --file vaadin-example/pom.xml
 
-TIP: You could add "-Dvaadin.version=&#60;vaadin version no.&#62;" to download the dependencies for a specific vaadin version. Available version numbers of the Vaadin framework can be found [here](https://github.com/vaadin/platform/tags).
+TIP: You can add "-Dvaadin.version=&#60;vaadin version no.&#62;" to download the dependencies for a specific vaadin version. The available version numbers of the Vaadin framework can be found https://github.com/vaadin/platform/tags[here].
 
-Beware, if you want to add web-components to the project later, which are not part of the default web-component set, you need to have a internet connection available to download and add them to your local npm-regsitry.
+Note that you need to have an internet connection available if you want to add web components which are not part of the default web-component set to the project later.
 
-To check the content of the npm registry you can go to [localhost:8081](http://localhost:8081/) and login with username "admin" and password "admin".
+To check the content of the npm registry, you can go to localhost:8081 and log in with username "admin" and password "admin."
