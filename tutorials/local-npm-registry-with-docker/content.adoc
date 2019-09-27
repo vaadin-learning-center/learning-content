@@ -26,11 +26,11 @@ To install the npm registry with Docker, please do the following:
 
 2. Download the https://hub.docker.com/r/sebak/nexus_npm_registry_vaadin[docker-nexus-npm-registry image] from public https://registry.hub.docker.com/[Docker Hub Registry]
 
-    `$ docker pull sebak/nexus_npm_registry_vaadin`
+    $ docker pull sebak/nexus_npm_registry_vaadin
 
-   or, you can build an image from the given Dockerfile: 
+or, you can build an image from the given Dockerfile: 
    
-    `$ docker build -t="npm-registry" .`
+    $ docker build -t="npm-registry" .
 
 
 == Usage
