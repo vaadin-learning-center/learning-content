@@ -15,7 +15,10 @@ image::app-overview.png[Todo application with a header, checkboxes for todo item
 
 == Prerequisites
 
-- https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html[Java 8 or later,window=_blank]
+To continue make sure that at least the following tools are installed:
+
+- Java Development Kit (JDK) 8 or later, like https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html[OpenJDK 8,window=_blank]
+- A Java IDE, like https://www.jetbrains.com/idea/download/[IntelliJ IDEA Community,window=_blank]
 
 == Download a minimal Vaadin project
 
