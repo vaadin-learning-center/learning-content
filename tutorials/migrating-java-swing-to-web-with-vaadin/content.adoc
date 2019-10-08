@@ -3,7 +3,7 @@
 :type: text
 :tags: Swing, Migration, Java
 :description: Learn how you can use your Swing knowledge to migrate a Java desktop app to the web with Vaadin. This tutorial walks you through a concrete example of converting a Swing view into an equivalent Vaadin view for the web.
-:repo: https://github.com/vaadin-learning-center/vaadin-for-swing-developers
+:repo: https://github.com/vaadin-learning-center/vaadin-platform-for-swing-developers
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
