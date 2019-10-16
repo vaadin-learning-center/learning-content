@@ -40,7 +40,7 @@ you have the information in the IDE to use for example the AddOn discussed here 
 <dependency>
    <groupId>com.github.appreciated</groupId>
    <artifactId>app-layout-addon</artifactId>
-   <version>2.1.0.alpha1</version>
+   <version>4.0.0.rc1</version>
 </dependency>
 ----
 
@@ -55,7 +55,7 @@ The basic framework that will be used here is based on the link:/directory/compo
 In the previous part, we created a class named *MainLayout*.
 In this class, we have placed the definitions of the layout.
 If everything has been implemented neatly, then this class can be edited to use the new layout.
-The class *MainLayout* inherits this time from the class *AppLayoutRouterLayout*.
+The class *MainLayout* inherits this time from the class *AppLayoutRouterLayout<LeftLayouts.LeftResponsiveHybrid>*.
 As in the previous version, in the base classes, the one specific to each layout is implemented.
 The initialization takes place this time within the constructor.
 
@@ -107,7 +107,7 @@ In this example, I use the behavior named *LEFT_RESPONSIVE_HYBRID*
    img.setHeight("var(--app-layout-menu-button-height)");
 
    AppLayout appLayout = AppLayoutBuilder
-       .get(Behaviour.LEFT_RESPONSIVE_HYBRID)
+       .get(LeftLayouts.LeftResponsiveHybrid.class)
        .withTitle(getTranslation(TITLE))
        .withIconComponent(img)
        .withAppMenu(appMenu())
