@@ -75,7 +75,7 @@ Take a look at some of the generated project files:
 
 * `webapp/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way https://vaadin.com/tutorials/learning-maven-concepts[Maven] represents a software project.
 
-* `webapp/src/main/java`: This directory contains the Java code organized in packages. At this point, there is only one package, `com.vaadin.example`, that contains `MainView`: a Java class that implements the web UI using Vaadin Flow:
+* `webapp/src/main/java`: This directory contains the Java code organized in packages. At this point, there is only one package, `org.vaadin.example`, that contains `MainView`: a Java class that implements the web UI using Vaadin Flow:
 +
 [source,java]
 ----
