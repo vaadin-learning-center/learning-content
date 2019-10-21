@@ -8,13 +8,13 @@
 :imagesdir: ./images
 :linkattrs:
 
-This part of the tutorial shows you how to connect the `CustomerForm` component (implemented in the previous step) to the application. 
+This part of the tutorial shows how to connect the `CustomerForm` component (implemented in the https://vaadin.com/tutorials/getting-started-with-flow/creating-a-form-using-plain-java[previous step]) to the application.
 
 == Showing and Hiding the Form
 
-The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is `null`, and shows it if the customer is defined. 
+The `setCustomer(Customer)` method in the `CustomerForm` class hides the form if the specified customer is `null`, and shows it if the customer is defined.
 
-. Initially, when no customer is selected in the Grid, the form should be hidden. Hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
+. Initially, when no customer is selected in the `Grid`, the form should be hidden. Hide the form by setting a `null` customer in the constructor of the `MainView` class as follows:
 +
 [source,java]
 ----
@@ -29,24 +29,24 @@ public MainView() {
 +
 [source,java]
 ----
-grid.asSingleSelect().addValueChangeListener(event -> 
-        form.setCustomer(grid.asSingleSelect().getValue())); 
+grid.asSingleSelect().addValueChangeListener(event ->
+        form.setCustomer(grid.asSingleSelect().getValue()));
 ----
-* `addValueChangeListener` adds a listener to the `Grid`. The `Grid` component supports multi and single-selection modes. This example uses the single-select mode through the `asSingleSelect()` method.
+* `addValueChangeListener` adds a listener to the `Grid`. The `Grid` component supports https://vaadin.com/api/platform/com/vaadin/flow/component/grid/Grid.SelectionMode.html[multi and single-selection modes^]. This example uses the single-select mode through the `asSingleSelect()` method.
 * `setCustomer` sets the selected customer in the `CustomerForm`. This line also uses the single-select mode. 
 * The `getValue()` method returns the `Customer` in the selected row or `null` if there's no selection, effectively showing or hiding the form accordingly.
 
-. Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. 
+. Compile the project by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.
 +
-The form is now "connected" to the `Grid`. 
+The form is now "connected" to the `Grid`.
 
-* When the user selects a row, the data is copied to the input fields, 
-* When the user deselects a row, the form is hidden. 
+* When the user selects a row, the data is copied to the input fields,
+* When the user deselects a row, the form is hidden.
 * The *Save* and the *Delete* buttons work.
 
 == Adding New Customers
 
-To add the functionality to create new customers, we add a button above the `Grid`, next to the `filterText` component.
+To add the functionality to create new customers, add a button above the `Grid`, next to the `filterText` component.
 
 . Add a new `Button` with a click listener, by adding the following code lines to the `MainView` constructor, directly after the `filterText` configuration:
 +
@@ -54,15 +54,15 @@ To add the functionality to create new customers, we add a button above the `Gri
 ----
 Button addCustomerBtn = new Button("Add new customer");
 addCustomerBtn.addClickListener(e -> {
-    grid.asSingleSelect().clear(); 
-    form.setCustomer(new Customer()); 
+    grid.asSingleSelect().clear();
+    form.setCustomer(new Customer());
 });
 ----
-* `clear` clears a possible previous selection from the `Grid`.
+* `clear` removes a possible previous selection from the `Grid`.
 
 * `setCustomer` instantiates a new customer object and passes it to the `CustomerForm` for editing.
 
-. To position the button beside the `filterText` component, we use a `HorizontalLayout` that wraps the `filterText` and `addCustomerBtn` components. Introduce the new layout directly after the previous `addCustomerBtn` code line, as follows:
+. To position the button beside the `filterText` component, use a `HorizontalLayout` that wraps the `filterText` and `addCustomerBtn` components. Introduce the new layout directly after the previous call to `addCustomerBtn`, as follows:
 +
 [source,java]
 ----
@@ -78,20 +78,36 @@ add(toolbar, mainContent);
 ----
 
 . Compile the project, by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes. 
-Users can now create customer records that are stored in the demo backend.
+Users can now create customer records that are stored in the demo back end.
 +
 image::finished-app.png[Finished app]
 
-Congratulations! You have just created your first app with Vaadin Flow.
+Congratulations! You have just created your first app with Vaadin!
 
 == Next Steps
 
 Use your new knowledge to explore ideas on how to create new web UIs for your existing Java applications. Here are a few resources on more advanced topics:
 
-* https://vaadin.com/start#vaadin10[Vaadin app starters] - Explore the various starter packs.
+* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - Tutorial on how to how to connect a Vaadin application to a real SQL database using Spring Boot and a Spring Data JPA back end.
 
-* http://spring.io/guides/gs/crud-with-vaadin/[Creating CRUD UI with Vaadin] - Another Vaadin tutorial with Spring Boot and a Spring Data JPA backend that shows you how to connect your application to a real SQL database.
+* https://start.vaadin.com - Generate a new Vaadin project with custom views and styles.
+
+* https://vaadin.com/docs[Documentation] - Vaadin reference documentation
+
+* https://vaadin.com/api[API] - Vaadin Javadoc documentation
+
+* https://vaadin.com/refcard[Vaadin RefCard] - Cheat sheet for your development efforts
+
+* https://vaadin.com/blog[Blog] - Vaadin's blog with ideas, news, and insights.
 
 * https://vaadin.com/tutorials[Vaadin tutorials] - Learn more about Vaadin and its integration with related technologies.
 
-* http://vaadin.com/directory[Directory] - Explore the many components and add-ons available for developing Vaadin Flow applications.
+* http://vaadin.com/components[UI components] - Explore the UI components included in Vaadin.
+
+* http://vaadin.com/directory[Directory] - Explore the many components and add-ons available for developing Vaadin applications.
+
+* https://vaadin.com/designer[Vaadin Designer] - A plugin for Eclipse and IntelliJ IDEA to visually design Vaadin views.
+
+* https://vaadin.com/testbench[Vaadin TestBench] - Regression testing automation for Vaadin.
+
+* https://vaadin.com/pricing[Commercial offer] Additional products and services on top of the free, open-source Vaadin framework.
