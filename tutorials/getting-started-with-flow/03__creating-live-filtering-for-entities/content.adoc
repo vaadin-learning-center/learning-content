@@ -7,9 +7,9 @@
 :tags: Flow, Java
 :imagesdir: ./images
 
-Most applications need search functionality. Implementing search is also a good exercise for learning Vaadin Flow. 
+Most applications need some kind of search or filtering functionality and implementing it is a good exercise for learning Vaadin.
 
-This part of the tutorial shows you how to add filtering functionality to the list of customers created in the previous step. We implement the filter in a text field above the grid, and add a clear button to clear the input.
+This part of the tutorial shows how to add filtering functionality to the list of customers created in the previous step. You'll implement the filter by adding a https://vaadin.com/components/vaadin-text-field[text field^] above the https://vaadin.com/components/vaadin-grid[Grid^], and adding a https://vaadin.com/components/vaadin-button[button^] to clear the input.
 
 image::filter.png[Filter]
 
@@ -37,7 +37,7 @@ public class MainView extends VerticalLayout {
 ----
 public MainView() {
 
-    filterText.setPlaceholder("Filter by name..."); 
+    filterText.setPlaceholder("Filter by name...");
     filterText.setClearButtonVisible(true); 
 
     ...
@@ -46,7 +46,7 @@ public MainView() {
 +
 * `setPlaceholder` shows the given string in the field. When the user starts typing, the placeholder is automatically removed.
 
-* `setClearButtonVisible` adds a clear button (X) that displays on the right side of the text field. 
+* `setClearButtonVisible` adds a clear button (X) that displays on the right side of the text field.
 
 . Change the `add(grid)` code line to include the `filterText` component as follows:
 +
@@ -66,18 +66,18 @@ To make the filter functional:
 public MainView() {
 
     ...
-    filterText.setValueChangeMode(ValueChangeMode.EAGER); 
-    filterText.addValueChangeListener(e -> updateList()); 
+    filterText.setValueChangeMode(ValueChangeMode.EAGER);
+    filterText.addValueChangeListener(e -> updateList());
 
     ...
 }
 ----
 
-* `ValueChangeMode.EAGER` ensures that change events are fired immediately when the user types.
+* `ValueChangeMode.EAGER` ensures that change events are https://vaadin.com/api/platform/com/vaadin/flow/data/value/ValueChangeMode.html[fired immediately] when the user types.
 
 * `addValueChangeListener` adds a value change listener that reacts to changes in the value of the text field.
 
-. The value change listener calls the `updateList()` method, but this method doesn't yet use the value in the filter. To configure it to use this value, change the line in the `updateList()` method to send the value to the service (backend) call:
+. The value change listener calls the `updateList()` method which doesn't use the value in the filter yet. To configure it to use this value, change the line in the `updateList()` method to send the value to the service (backend) call:
 +
 [source,java]
 ----
