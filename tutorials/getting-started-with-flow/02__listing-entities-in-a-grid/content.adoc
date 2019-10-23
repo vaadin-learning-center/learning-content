@@ -8,11 +8,11 @@
 :imagesdir: ./images
 :linkattrs:
 
-This part of the tutorial shows you how to display data in a `Grid` component.
+This part of the tutorial shows how to display data in a https://vaadin.com/components/vaadin-grid[Grid component^].
 
 == Adding the Domain Objects
 
-Before getting into actual web development with Vaadin Flow, we need to add the necessary domain objects and a dummy backend.
+Before getting into actual web development with Vaadin, we need to add the necessary domain objects and a dummy back end.
 
 Copy or download the following three Java classes from GitHub and add them to your project:
 
@@ -23,16 +23,16 @@ Copy or download the following three Java classes from GitHub and add them to yo
 * https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/com/vaadin/example/CustomerService.java[CustomerService.java^]: This is a simple service class that you can use to get and save `Customer` instances. Think of this class as the entry point to a dummy database.
 
 [TIP]
-A fast way to copy classes in IntelliJ IDEA is to use the clipboard. In the browser, select the content of the file and choose *Edit > Copy*. In IntelliJ IDEA, right-click `com.vaadin.example` in the *Project* view and select *Paste*. IntelliJ IDEA is smart enough to create a properly-named Java file automatically.
+A fast way to copy classes in IntelliJ IDEA is to use the clipboard. In the browser, select the content of the file and choose *Edit > Copy*. In IntelliJ IDEA, right-click `org.vaadin.example` in the *Project* view and select *Paste*. IntelliJ IDEA is smart enough to create a properly-named Java file automatically.
 
 [NOTE]
-The actual implementation of these classes is not relevant for this tutorial, but feel free to explore them. In a real-world application, you would most likely have something similar, but implemented with JPA and EJB, or Spring-managed beans, for example.
+The actual implementation of these classes is not relevant for this tutorial, but feel free to explore them. In a real-world application, you would most likely have something similar, but implemented with JPA, and EJB or Spring-managed beans, for example.
 
 == Showing Data in a Grid
 
-When building UIs for data-centric applications, you frequently start by listing data from a backend. Vaadin offers several components and ways to do this. This tutorial uses the `Grid` component to present data in a table. The data comes from the dummy backend you added in the previous section.
+When building UIs for data-centric applications, you frequently start by listing data from a back end. Vaadin offers several https://vaadin.com/components[components] and ways to do this. This tutorial uses the `Grid` component to present data in a table. The data comes from the dummy back end you added in the previous section.
 
-To show the data in a Grid component:
+To show the data in a `Grid` component:
 
 . In the `MainView` class, add a reference to the `CustomerService` class and introduce an instance variable of type `Grid` as follows:
 +
@@ -51,7 +51,7 @@ public class MainView extends VerticalLayout {
 ----
 +
 [TIP]
-You can fix the compilation errors shown in red using the [Alt+Enter] (Windows) or [Option+Enter] (Mac) shortcut. Position the cursor right after the error in red (for example `Grid`) and then use the shortcut. Make sure to choose the correct class from the `com.vaadin` package.
+You can fix the compilation errors shown in red using the [Alt+Enter] (Windows) or [Option+Enter] (Mac) shortcut. Position the cursor right after the error in red (for example `Grid`) and then use the shortcut. Make sure to choose the correct class from the `org.vaadin` package.
 
 . The `Grid` component uses columns and rows to show data. Configure the columns by replacing the constructor of the `MainView` class with :
 +
@@ -59,11 +59,11 @@ You can fix the compilation errors shown in red using the [Alt+Enter] (Windows) 
 ----
 ...
     public MainView() {
-        grid.setColumns("firstName", "lastName", "status"); 
+        grid.setColumns("firstName", "lastName", "status");
 
-        add(grid); 
+        add(grid);
 
-        setSizeFull(); 
+        setSizeFull();
     }
 ...
 ----
@@ -71,11 +71,11 @@ You can fix the compilation errors shown in red using the [Alt+Enter] (Windows) 
 
 * `add(grid)` adds the `Grid` to the `VerticalLayout`.
 
-* `setSizeFull` sets the height and width of the `VerticalLayout` to 100%, i.e. to use all the space available in the browser.
+* `setSizeFull` sets the height and width of the `VerticalLayout` to 100% so that it uses all the space available in the browser.
 +
 TIP: As an alternative, you can use the `addColumn(ValueProvider)` method to add columns in a type-safe manner. For example, to add a column for the `firstName` property, call `grid.addColumn(Customer::getFirstName)`.
 
-. At this point, the `Grid` columns are ready, but there are no rows yet. To add rows, use the `setItems(Customer...)` method. Since you will need to refresh the rows later in the tutorial, it makes sense to create a method for this now. Create the method and call it from the constructor as follows:
+. At this point, the `Grid` columns are ready, but there are no rows yet. To add rows, use the `setItems(Customer...)` method. Since later in the tutorial you will need to refresh the rows, it makes sense to create a method for this now. Create a new `updateList()` method and call it from the constructor as follows:
 +
 [source,java]
 ----
@@ -95,4 +95,3 @@ TIP: As an alternative, you can use the `addColumn(ValueProvider)` method to add
 . Compile the project, by selecting *Build > Build Project* in IntelliJ IDEA, and refresh your browser to see the changes.
 +
 image::grid.png[Grid with columns and rows]
-

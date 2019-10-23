@@ -10,19 +10,19 @@
 
 This tutorial shows you how to build a CRUD (Create Read Update Delete) application using Vaadin Java API.
 
-All you need is basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE^] such as https://en.wikipedia.org/wiki/IntelliJ_IDEA[IntelliJ IDEA], and the https://jdk.java.net[JDK] version 8 or later. The tutorial should take between 20 to 60 minutes to complete, depending on your experience.
+All you need is basic programming skills, an https://en.wikipedia.org/wiki/Integrated_development_environment[IDE^] such as https://en.wikipedia.org/wiki/IntelliJ_IDEA[IntelliJ IDEA], and the https://jdk.java.net[JDK] version 8 or later. This tutorial should take between 20 to 60 minutes to complete, depending on your experience.
 
 == Overview
 
-We build a basic application to manage data about customers. To keep things simple, the application doesn't connect to a real database, but uses an in-memory backend instead. The concepts help you to understand how to use a real-world backend with the persistence technology of your choice.
+You are going to build a basic application to manage data about customers. To keep things simple, the application wont't connect to a real database but use an in-memory back end instead. You'll be able to use the concepts explained in this tutorial to connect your Vaadin applications to a real-world back end with the persistence technology of your choice.
 
-The end result of the tutorial is a web page with a table (called a Grid in Vaadin Flow) that has filtering capabilities and the functionality to add, delete, and update customer data.
+The application will show a web page with a table (called https://vaadin.com/components/vaadin-grid[Grid^] in Vaadin) with filtering capabilities and functionality to add, delete, and update customer data.
 
 image::finished-app.png[The finished web application]
 
-You can use the application as a starting point for more experiments with Vaadin Flow. For example, you could add new views, create a custom theme, use add-ons, and optimize for mobile.
+You can use the application as a starting point for more experiments with Vaadin. For example, you could add new views, create a custom theme, use https://vaadin.com/directory/[add-ons^], and optimize for mobile devices.
 
-If you don't want to code from scratch, you can https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application^] and experiment with it.
+If you don't want to code it from scratch, you can https://github.com/vaadin/tutorial/tree/vaadin10+[download the final application^] and experiment with it.
 
 == Installing the Development Tools
 
@@ -40,21 +40,21 @@ If you prefer Eclipse or NetBeans, see:
 
 == Creating the Project
 
-The easiest way to create a new Vaadin Flow project is to use the *Project Base* starter.
+The easiest way to create a new Vaadin project is to use the *Project Base* starter.
 
 A starter is a ready-to-use project stub that includes configuration, dependencies, and example code.
 
 To generate a new Vaadin project:
 
-. Go to https://vaadin.com/start/latest/project-base.
+. Go to https://vaadin.com/start/.
 
-. In the *Get Started* form, enter:
+. In the form, select *Plain Java Servlet* as the *Technology stack* and, enter:
 
-** *Group ID*: `com.vaadin.example`.
+** *Group ID*: `org.vaadin.example`.
 
 ** *App Name*: `webapp`.
 
-. Click *Download* and extract the `webapp.zip` file. If the button is not active, you may need to log in.
+. Click *Download* and extract the `webapp.zip` file. If the *Download* button is not active, you may need to log in.
 
 To import the project in IntelliJ IDEA:
 
@@ -66,16 +66,16 @@ To import the project in IntelliJ IDEA:
 
 IntelliJ IDEA will download the required dependencies and build the project.
 
-NOTE: If this is your first Vaadin app, building the project might take a while (depending on the speed of your network), because the libraries need to be downloaded. Maven caches them on your local file system and creating your next Maven-based Vaadin project will be much faster.
+NOTE: If this is your first Vaadin app, building the project might take a while (depending on the speed of your network), because the libraries need to be downloaded. https://vaadin.com/tutorials/learning-maven-concepts[Maven] caches them on your local file system and creating your next Maven-based Vaadin project will be much faster.
 
 
 === Viewing the Generated Project Files
 
 Take a look at some of the generated project files:
 
-* `webapp/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way Maven represents a software project. 
+* `webapp/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way https://vaadin.com/tutorials/learning-maven-concepts[Maven] represents a software project.
 
-* `webapp/src/main/java`: This directory contains the Java code organized in packages. At this point, there is only one package, `com.vaadin.example`, that contains `MainView`: a Java class that implements the web UI using Vaadin Flow:
+* `webapp/src/main/java`: This directory contains the Java code organized in packages. At this point, there is only one package, `org.vaadin.example`, that contains `MainView`: a Java class that implements the web UI using Vaadin Flow:
 +
 [source,java]
 ----
@@ -96,14 +96,14 @@ public class MainView extends VerticalLayout {
 +
 ** The `@Route` annotation tells Vaadin to direct the root URL to this view. The URL parameter is optional and is derived from the class name, if not given.
 
-** The `@PWA` annotation tells Vaadin to activate automatic https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps[PWA] features. This annotation is optional.
+** The `@PWA` annotation tells Vaadin to activate automatic https://vaadin.com/pwa[PWA^] features. This annotation is optional.
 
 ** The view extends `VerticalLayout` which shows components vertically.
 
 ** The `MainView` constructor:
 *** Creates a button with the text *Click me* on it.
 
-*** Adds a click listener (using a lambda expression) that shows a notification when the user clicks the button.
+*** Adds a click listener (using a lambda expression) that shows a https://vaadin.com/components/vaadin-notification[notification] when the user clicks the button.
 
 *** Adds the button to the `VerticalLayout`.
 
@@ -115,14 +115,14 @@ To run the application:
 . Double-click *jetty:run* to build the app and deploy it to a Jetty server. 
 +
 image::jetty-run.png[jetty:run Maven goal]
-. Once the server starts, open `http://localhost:8080` to see the application in the browser.
+. Once the server starts, open `http://localhost:8080` in the browser to see the application in action.
 
 
 [NOTE]
-You can make changes to the code and compile the project, by selecting *Build > Build Project* in IntelliJ IDEA. The Jetty server picks up the changes and deploys them automatically within a few seconds. You can also reload the page to reflect the changes.
+You can make changes to the code and compile the project, by selecting *Build > Build Project* in IntelliJ IDEA. The Jetty server picks up the changes and deploys them automatically within a few seconds. You might need to reload the page in the browser to reflect the changes.
 
 
 [TIP]
-To make the deployment cycle smoother, many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) or similar, to allow smooth hot-code replacement.
+To make the deployment cycle smoother, many Java developers use http://zeroturnaround.com/software/jrebel/[JRebel] (commercial JVM agent) or https://vaadin.com/blog/developing-without-server-restarts[similar], to allow smooth hot-code replacement.
 
 If you want to use break points in your code, start the server in debug mode by right-clicking *jetty:run* and selecting *Debug 'webapp [jetty:run]'*.
