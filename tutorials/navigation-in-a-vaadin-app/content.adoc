@@ -17,10 +17,11 @@ The first step in this tutorial, we are creating a custom 404 page for our visit
 
 [source,java]
 ----
+@ParentLayout(MainLayout.class)
 public class NotFoundView extends Div
   implements HasErrorParameter<NotFoundException> {
 
-  private Paragraph error = new Paragraph();
+  private final Label error = new Label();
 
   public NotFoundView() {
     add(error);
@@ -31,7 +32,7 @@ public class NotFoundView extends Div
     BeforeEnterEvent event,
     ErrorParameter<NotFoundException> parameter) {
 
-    error.setText("Can not find URL: " + event.getLocation().getPath());
+    error.setText("Cannot find URL: " + event.getLocation().getPath());
     return HttpServletResponse.SC_NOT_FOUND;
   }
 }

@@ -57,10 +57,10 @@ public class MainView extends VerticalLayout {
 ----
 
 Let’s analyze this part by part:
-Our view is extending VerticalLayout, thus this class it’s going to be our main container. As we stated previously the main parts are stacked vertically so it’s a good fit to use as a base.
+Our view is extending *VerticalLayout*, thus this class it’s going to be our main container. As we stated previously the main parts are stacked vertically so it’s a good fit to use as a base.
 The first thing that we did in the constructor is to define the Header part. We have a few icons (the typical hamburger menu icon and a help icon) and a Title in the middle. We want the header to occupy the whole width and the title to expand in such a way that the icons are always drawn with the same size, and only the title will resize to fill the whole width. Finally, we are enabling the padding so we have some space around the components.
-Then we are creating a space for the main area, calling it “workspace”. We are going to put some components later and we want them to be displayed vertically so we are using VerticalLayout again. And we also want it to occupy the whole width and height, so we use the handy setSizeFull() that will take care of that.
-Then we have the bottom area that we called “footer”. In this part we are going to add some action buttons. Since these buttons are probably going to display different things in the workspace area and we want them to conserve the pressed state, it’s a good idea to use tabs instead of normal buttons. What we want in this case is that this button bar stays always in the middle, so we use setJustifyContentMode(JustifyContentMode.CENTER).
+Then we are creating a space for the main area, calling it “workspace”. We are going to put some components later and we want them to be displayed vertically so we are using *VerticalLayout* again. And we also want it to occupy the whole width and height, so we use the handy *setSizeFull()* that will take care of that.
+Then we have the bottom area that we called “footer”. In this part we are going to add some action buttons. Since these buttons are probably going to display different things in the workspace area and we want them to conserve the pressed state, it’s a good idea to use tabs instead of normal buttons. What we want in this case is that this button bar stays always in the middle, so we use *setJustifyContentMode(JustifyContentMode.CENTER)*.
 
 == Second part: Side Menu
 Now we want to build a menu that will appear when we press the menu button. Let’s put something to identify the user and then the options to choose from. Because we don’t want to focus on this part we are going to use just regular Buttons in here:
@@ -80,9 +80,9 @@ Now we want to build a menu that will appear when we press the menu button. Let�
 		sideMenu.setAlignItems(Alignment.CENTER);
 ----
 
-Because each visual element is placed one on top of the other, again we are using VerticalLayout. We want it to occupy the whole height of the application, but the width should be calculated automatically, based on the width of the elements, that’s why we use setWidth("auto") (the default is 100%). We also want to remove the internal spacing between components. We also added a CSS class name to be able to add some CSS instructions later.
-Then we added an Event Listener (when clicked) to our previous menu Button, that will change the position of this side menu because in the beginning, we are going to hide it outside the viewport. We use inline styles for this for making it simpler, but the recommended approach is to use class names and styles defined outside the java code. We will get to this later.
-Then we added an avatar and some menu options. We want everything to appear centered, so we use setAlignItems(Alignment.CENTER).
+Because each visual element is placed one on top of the other, again we are using *VerticalLayout*. We want it to occupy the whole height of the application, but the width should be calculated automatically, based on the width of the elements, that’s why we use *setWidth("auto")* (the default is 100%). We also want to remove the internal spacing between components. We also added a CSS class name to be able to add some CSS instructions later.
+Then we added an Event Listener (when clicked) to our previous menu *Button*, that will change the position of this side menu because in the beginning, we are going to hide it outside the viewport. We use inline styles for this for making it simpler, but the recommended approach is to use class names and styles defined outside the java code. We will get to this later.
+Then we added an avatar and some menu options. We want everything to appear centered, so we use *setAlignItems(Alignment.CENTER)*.
 The implementation is easy, just making the buttons to occupy the whole width and a click listener to hide the side menu again when pressed:
 [source,java]
 ----
@@ -109,7 +109,7 @@ Finally the CSS styles added to that class. We are going to create a file called
 ----
 
 And then going to reference it by adding this annotation to our class:
-@StyleSheet("styles/styles.css")
+*@StyleSheet("styles/styles.css")*
 
 What we are doing here, besides setting the background color, is to change the side menu to an absolute position, moving it some distance away to the left and change the z index to bring it forward. Adding a small transition effect and a drop shadow are the final touches.
 
@@ -137,7 +137,7 @@ We are going to put some https://material.io/design/components/cards.html[“car
 	}
 ----
 
-Each of our cards will be basically a FlexLayout because we want to lay down a text in the middle. We achieve that by using setAlignItems(Alignment.CENTER) and setJustifyContentMode(JustifyContentMode.CENTER).
+Each of our cards will be basically a *FlexLayout* because we want to lay down a text in the middle. We achieve that by using *setAlignItems(Alignment.CENTER)* and *setJustifyContentMode(JustifyContentMode.CENTER)*.
 And we are also adding a CSS style class name to them so we can add some CSS attributes (the scrollbars, background color and a cast shadow for the cards):
 [source,css]
 ----
