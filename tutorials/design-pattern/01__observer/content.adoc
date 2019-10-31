@@ -186,6 +186,7 @@ If we are using Vaadin, the Interface **Registration** is already existing.
 And we can even improve the given implementation of the class of type **Registry** .
 So far we needed a **key** for registration, but this is not necessary.
 Switching the internal data structure from a **Map** to a **Set** , we can use the consumer for the registration and de-registration.
+Don´t forget to use thread safe datastructures to avoid concurrency issues.
 
 [source, java]
 ----
