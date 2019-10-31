@@ -1,13 +1,13 @@
-= Constructor Value versus Observer Pattern in Flow
+= Constructor Value versus Observer Pattern in Vaadin
 
 :type: text
 :tags: Flow, Design Pattern, Java, Observer
-:description: Learn how to use the Observer Pattern for decoupling Flow Components
+:description: Learn how to use the Observer Pattern for decoupling Vaadin Components
 :repo: https://github.com/vaadin-learning-center/flow-design-pattern-observer
 :linkattrs:
 :imagesdir: ./images
 
-In this tutorial, we will see how to use the observer design pattern to decouple flow components.
+In this tutorial, we will see how to use the observer design pattern to decouple Vaadin components.
 
 == Who belongs to whom?
 
@@ -181,8 +181,8 @@ mainView.subView.buttonClicked(inputValue);
 Assertions.assertEquals(inputValue, mainView.getInputValue());
 ----
 
-== How to use this with Vaadin Flow?
-If we are using Flow, the Interface **Registration** is already existing.
+== How to use this with Vaadin?
+If we are using Vaadin, the Interface **Registration** is already existing.
 And we can even improve the given implementation of the class of type **Registry** .
 So far we needed a **key** for registration, but this is not necessary.
 Switching the internal data structure from a **Map** to a **Set** , we can use the consumer for the registration and de-registration.
@@ -338,23 +338,3 @@ The increased abstraction also allows more than one component to register on the
 Of course, one should not forget at this point that the logoff from a registry should not be forgotten to allow the garbage collector to function correctly.
 
 Happy Coding
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Now we have all together that is needed for a fluent API for Flow.
-If you want to try it by yourself, get one of our starters you can find link:/start/latest[here].
