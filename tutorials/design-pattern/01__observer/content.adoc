@@ -7,12 +7,13 @@
 :linkattrs:
 :imagesdir: ./images
 
-In this tutorial, we will see how to use the observer design pattern to decouple Vaadin components.
+In this tutorial, we show you how to use the observer design pattern to decouple Vaadin components.
 
 == Who belongs to whom?
 
-It is quite common to connect two components using constructor parameters.
-This procedure can be seen very clearly, for example, in the construction of graphic surfaces.
+Connecting two components using constructor parameters is a common procedure. 
+It can be clearly seen, for example, in the construction of graphic surfaces.
+
 Take, for example, the following pseudo source code.
 
 [source,java]
@@ -27,18 +28,21 @@ public class SubView {
   }
 }
 ----
+The subcomponent gets the surrounding main component via the constructor.
+The instance of the given component is only needed for a value transit.
+The value results from user interaction in the subcomponent and is consumed in the surrounding element.
 
-This subcomponent gets the surrounding main component via the constructor.
-The instance of this given component is just needed for a value transit.
-The value is the result of a user interaction inside the subcomponent and consumed inside the surrounding element.
-This procedure leads to results in various challenges that I find avoidable.
-First, this sub-component is hard-bound to the main element.
-This hard coupled type makes no sense since this bond is based purely on the use of the generated values.
-Furthermore, the testing of the sub-component is more difficult because an instance of the main component or a corresponding MOCK must be used.
-Again, this is an additional requirement that merely adds complexity and at the same time, reduces the abstraction of the individual components.
-So what can you do here and add that to the project without another framework as a dependency?
+This procedure leads to various challenges that can actually be avoided:
 
-== Observer - The classic
+* First, the subcomponent is hard-bound to the main element.
+This type of hard coupling makes no sense, because the bond is based purely on the use of the generated values.
+* Furthermore, testing the subcomponent is more difficult, because an instance of the main component, or a corresponding MOCK, needs to be used.
+Again, this is an additional requirement that merely adds complexity and at the same time reduces the abstraction of the individual components.
+
+So how can we add this to a project, without addding another framework as a dependency?
+
+
+== Observer Pattern: The Classic
 
 There is a straightforward design pattern that can help here. We're talking about the Observer pattern.
 
@@ -59,12 +63,13 @@ public class Observable<KEY, VALUE> {
 }
 ----
 
-The basic principle consists of three interactions.
-In a map, a consumer is stored for a given key.
-The consumer is the utilization unit for an event or better an input type that is defined by the second type definition of the map.
-You can register with a key and later the associated consumer can also be removed again from this map if needed.
-If a data package is now ready for processing, it will be sent to all consumers who have already registered at this time using the method for posting events.
-In practice, all existing consumers in the map are processing the value once in an undefined order.
+The basic principle consists of three interactions:
+
+. In a map, a consumer is stored for a given key.
+The consumer is the utilization unit for an event, or better an input type that is defined by the second type definition of the map.
+You can register with a key. If needed, the associated consumer can also later be removed from the map.
+. When a data package is ready for processing, it is sent to all consumers who are registered at the time, using the method for posting events.
+. In practice, all existing consumers in the map process the value once in an undefined order.
 The sent event must be immutable itself.
 
 == Registry
@@ -96,10 +101,11 @@ public class Registry<KEY, VALUE> {
 }
 ----
 
-For this, a Functional Interface with the name **Registration** is defined, which only provides the method to remove itself from the registry.
+For this, a functional interface named `Registration` is defined, which only provides the method to remove itself from the registry.
 This method implements the respective logout process.
-The instance of a **Registration** is the return value of a registration process itself.
-The processing of the event data is made in the same way we have done it at the implementation of the Observable.
+The instance of a `Registration` is the return value of a registration process itself.
+Processing of the event data happens in the same way as we defined in the implementation of `Observable`. 
+
 The practical use is shown below in a JUnit5 test.
 
 [source,java]
@@ -129,11 +135,11 @@ eventBus.sentEvent(new Event(expected, ""));
 Assertions.assertEquals(3, counter.get());
 ----
 
-== Coupling of components 
+== Coupling of Components 
 
-Let's start with the sub-component.
+Let's start with the subcomponent.
 This element is no longer linked to the main component.
-In this example, I am using a general static event bus of type **Registry**.
+In this example, we use a general static event bus of type `Registry`.
 Of course, you can also use your event bus instance per component, which further decouples the component.
 
 [source,java]
@@ -148,7 +154,7 @@ public class SubView {
 }
 ----
 
-If another component wants to use the values of the fictitious user interaction, it can register with the instance of the sub-component.
+If another component wants to use the values of the fictitious user interaction, it can register with the instance of the subcomponent.
 
 [source,java]
 ----
@@ -182,11 +188,12 @@ Assertions.assertEquals(inputValue, mainView.getInputValue());
 ----
 
 == How to use this with Vaadin?
-If we are using Vaadin, the Interface **Registration** is already existing.
-And we can even improve the given implementation of the class of type **Registry** .
-So far we needed a **key** for registration, but this is not necessary.
-Switching the internal data structure from a **Map** to a **Set** , we can use the consumer for the registration and de-registration.
-Don´t forget to use thread safe datastructures to avoid concurrency issues.
+
+In Vaadin, the `Registration` interface already exits.
+And, we can even improve the given implementation of the class of type `Registry`.
+Up until now, we needed a **key** for registration, but this is not necessary.
+By switching the internal data structure from a `Map` to a `Set` , we can use the consumer for the registration and de-registration.
+Don´t forget to use thread safe data structures to avoid concurrency issues.
 
 [source, java]
 ----
@@ -205,8 +212,8 @@ public class Registry<VALUE> {
 }
 ----
 
-If we want to build a component-specific **Registry** to get more type-safety,
-we have to extend the generic class and adding the event-type itself.
+If we want to build a component-specific `Registry` for more type-safety,
+we have to extend the generic class and add the event-type itself.
 
 [source, java]
 ----
@@ -231,12 +238,14 @@ public class DemoComponentRegistry
 }
 ----
 
-To demonstrate the usage of this class of type **DemoComponentRegistry** a class with the name **DemoComponent** is created.
-The component contains a few attributes to receive and sent events. The basic idea is the following:
-This component can send a message with the content provided by the user.
-In technical words, the input value from the instance of type **TextField** will be wrapped into an instance of an event and sent to the registry
-while the user pressed the button. Additionally, the component can present the event data that is received from the registry.
-The id, as well as the value itself from the event, is shown in the two text fields that have the prefix **event** at their name.
+To demonstrate the use of this class of type `DemoComponentRegistry`, we create a class named `DemoComponent`.
+The component contains a few attributes to receive and send events. The basic idea is the following:
+
+* The component can send a message with the content provided by the user.
+In technical terms, the input value from the instance of type `TextField` is wrapped into an instance of an event and sent to the registry when the user clicks the button. 
+* Additionally, the component can presend event data received from the registry.
+The `id`, as well as the value from the event itself, is shown in the two text fields with the "event" prefix in their name.
+
 [source, java]
 ----
 public class DemoComponent
@@ -255,10 +264,9 @@ public class DemoComponent
 }
 ----
 
-The implementation to sent an event is shown below.
-Inside the **ClickListener** the instance of type **ValueEvent** is created and filled with the component id itself
-together with the value from the input field.
-Afterwards, the freshly created event will be sent to all components that are interested in this information.
+The implementation to send an event is shown below.
+In the `ClickListener`, the instance of type `ValueEvent` is created and filled with the component `id` itself, together with the value from the input field.
+Afterwards, the freshly created event is sent to all components that are interested in this information.
 
 [source, java]
 ----
@@ -283,12 +291,12 @@ Afterwards, the freshly created event will be sent to all components that are in
   }
 ----
 
-The instance of the registry itself is stored inside the **VaadinSession**.
-With this approach, every user will have its instance of an event-bus.
-If events should be shared between users, use a JVM static instance.
+The instance of the registry itself, is stored is the `VaadinSession`.
+With this approach, every user has an instance of an event-bus.
+If events need to be shared between users, you can use a JVM static instance.
 
-The missing piece is now the registration at the event-bus itself. To make it even a bit more dynamic,
-the checkbox (named **active**) is used to register and de-register the component itself.
+The missing piece is now the registration at the event-bus itself. To make it a bit more dynamic,
+a checkbox (named `active`) is used to register and de-register the component itself.
 
 [source, java]
 ----
@@ -322,20 +330,20 @@ the checkbox (named **active**) is used to register and de-register the componen
   }
 ----
 
-In the same way, you saw it before, the main view is created and holds a few instances of type **DemoComponent** additionally.
-Everything together looks like the following.
+In the same way as before, the main view is created and also includes a few instances of type `DemoComponent`.
+All together, the result looks like this.
 
 image::01_main-view-empty.jpg[]
 
-If you want to see this in action you could have a view at this video on https://youtu.be/jVCwFi461TQ[youtube]
-or you can try it by yourself on  https://flow-design-pattern-observer.herokuapp.com/[heroku]
+To see this in action, watch this https://youtu.be/jVCwFi461TQ[YouTube video] or 
+or try it yourself on  https://flow-design-pattern-observer.herokuapp.com/[heroku].
 
 
 == Conclusion
 
-With a few lines of source code, we have not only decoupled the components much better from each other but also simplified the testing of the individual elements.
-There are no mocks needed anymore.
-The increased abstraction also allows more than one component to register on the sub-component shown here.
-Of course, one should not forget at this point that the logoff from a registry should not be forgotten to allow the garbage collector to function correctly.
+With a few lines of source code, we have not only decoupled the components in a far better way, but also simplified individual element testing.
+No mocks are needed anymore.
+The increased abstraction also allows more than one component to register on the subcomponent shown here.
+Of course, one should not forget at this point that logoff from a registry needs to be taken into consideration to allow the garbage collector to function correctly.
 
 Happy Coding
