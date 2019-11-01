@@ -1,4 +1,4 @@
-= Constructor Value versus Observer Pattern in Vaadin
+= Constructor Value Versus Observer Pattern in Vaadin
 
 :type: text
 :tags: Flow, Design Pattern, Java, Observer
@@ -9,7 +9,7 @@
 
 In this tutorial, we show you how to use the observer design pattern to decouple Vaadin components.
 
-== Who belongs to whom?
+== Who Belongs to Whom?
 
 Connecting two components using constructor parameters is a common procedure. 
 It can be clearly seen, for example, in the construction of graphic surfaces.
@@ -187,7 +187,7 @@ mainView.subView.buttonClicked(inputValue);
 Assertions.assertEquals(inputValue, mainView.getInputValue());
 ----
 
-== How to use this with Vaadin?
+== How to Use This with Vaadin?
 
 In Vaadin, the `Registration` interface already exits.
 And, we can even improve the given implementation of the class of type `Registry`.
