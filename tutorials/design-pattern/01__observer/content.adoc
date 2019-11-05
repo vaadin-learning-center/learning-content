@@ -1,8 +1,8 @@
-= Constructor Value Versus Observer Pattern in Vaadin
+= Decoupling Vaadin components with the Observer Pattern
 
 :type: text
 :tags: Flow, Design Pattern, Java, Observer
-:description: Learn how to use the Observer Pattern for decoupling Vaadin Components
+:description: Learn to create reusable components by decoupling them. The observer pattern helps to communicate information effectively without tight coupling.
 :repo: https://github.com/vaadin-learning-center/flow-design-pattern-observer
 :linkattrs:
 :imagesdir: ./images
