@@ -24,7 +24,7 @@ The project should include a directory with a Maven project in it:
 
 image::maven-project-directory.png[Maven project directory]
 
-NOTE: You need https://nodejs.org/en/download/[Node.js] installed in your computer to compile the example application.
+NOTE: You need https://nodejs.org/en/download/[Node.js] installed on your computer to compile the example application.
 
 == Import the project
 
