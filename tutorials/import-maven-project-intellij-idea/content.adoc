@@ -68,7 +68,7 @@ For simplicity, change the name of the configuration to *Run on Jetty* and click
 
 image::run-on-jetty.png[Run on Jetty]
 
-NOTE: If you are using a multi-module Maven project, make sure you select the correct module when creating the running configuration.
+NOTE: If you are using https://vaadin.com/spring[Spring Boot], use the `spring-boot:run` goal.
 
 You should see the new option on the top right corner of IntelliJ IDEA:
 
