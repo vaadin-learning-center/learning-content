@@ -348,7 +348,7 @@ Add a `@Push` annotation on the `MainView` class to instruct Vaadin to use a web
 public class MainView extends VerticalLayout {
 ----
 
-Then, we need to assure Vaadin that we know what we're doing when we are updating the UI from an outside thread (messages from other users are triggered outside the normal request-response cycle of the user). We can do this by using the `access` helper on the main `UI` class. It takes in a `Command` and ensures that it gets run synchronized and that Vaadin updates the changes to the client. 
+Then, we need to assure Vaadin that we know what we're doing when we are updating the UI from an outside thread (messages from other users are triggered outside the normal request-response cycle of the user). We can do this by using the `access` helper on the main `UI` class. It takes in a `Command` and ensures safe concurrent access and that Vaadin updates the changes to the client. 
 
 Change the message subscription in the `showChat` method to the following:
 
