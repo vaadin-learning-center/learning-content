@@ -6,7 +6,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
-This tutorial explains how to import a https://vaadin.com/start/latest[existing Maven project] into https://netbeans.org/[Apache NetBeans] and how to associate https://vaadin.com/tutorials/learning-maven-concepts#_what_is_a_build_goal[Maven goals] to IDE actions. This is useful, for example, when using the Jetty Maven plugin that allows you to quickly deploy and run a Java web application using this popular server.
+This tutorial explains how to import an https://vaadin.com/start/latest[existing Maven project] into https://netbeans.org/[Apache NetBeans] and how to associate https://vaadin.com/tutorials/learning-maven-concepts#_what_is_a_build_goal[Maven goals] to IDE actions. This is useful, for example, when using the Jetty Maven plugin that allows you to quickly deploy and run a Java web application using this popular server.
 
 NOTE: Maven is a project management tool that goes beyond dependency management. See https://vaadin.com/tutorials/learning-maven-concepts[Learning Maven Concepts] for more.
 
