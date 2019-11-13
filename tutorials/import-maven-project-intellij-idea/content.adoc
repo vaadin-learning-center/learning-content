@@ -24,7 +24,7 @@ The project should include a directory with a Maven project in it:
 
 image::maven-project-directory.png[Maven project directory]
 
-NOTE: You need https://nodejs.org/en/download/[Node.js] installed in your computer to compile the example application.
+NOTE: You need https://nodejs.org/en/download/[Node.js] installed on your computer to compile the example application.
 
 == Import the project
 
@@ -52,7 +52,7 @@ image::lifecycle.png[Lifecycle phases]
 
 You'll see how IntelliJ idea executes the `install` build phase (and all the previous phases in the Maven's default lifecycle) that downloads dependencies and copies the generated artifacts into your local Maven repository, among other things.
 
-You can use a similar approach to run any Maven goal. For example, you can double-click the `jetty:run` goal in the *Plugins* sub-tree to deploy and run the web application implemented in the project you imported. Similarly, if you are using https://vaadin.com/spring[Spring], you can double-click `spring-boot:run` to run the application.
+You can use a similar approach to run any Maven goal. For example, you can double-click the `jetty:run` goal in the *Plugins* sub-tree to deploy and run the web application implemented in the project you imported. Similarly, if you are using https://vaadin.com/spring[Spring Boot], you can double-click `spring-boot:run` to run the application.
 
 == Creating a running configuration
 
@@ -80,8 +80,7 @@ image::run-icon.png[Run icon]
 
 NOTE: If you use the https://vaadin.com/[Vaadin] project used in the tutorial, you can invoke the web application at http://localhost:8080.
 
-That's it. Now you can use IntelliJ IDEA to develop your Maven application.
-To learn more about:
+That's it. Now you can use IntelliJ IDEA to develop your Maven application. To learn more about:
 
 * The key concepts in Maven, see https://vaadin.com/tutorials/learning-maven-concepts[Learning Maven Concepts].
 * How to develop a Java web application without coding JavaScript or HTML, see https://vaadin.com/tutorials/vaadin-quick-start[Vaadin Quick Start Tutorial].
