@@ -404,11 +404,11 @@ binder.withValidator(person ->
 
 *Two-way data binding*
 
-If you used two-way data binding (`setBean()`, see "Binding an input to an object"), the bound object would contain the updated values, provided that all field and form level validations passed.
+If you used two-way data binding (`setBean()`), the bound object would contain the updated values, provided that all field and form level validations passed.
 
 *One-way data binding*
 
-If you used one-way data binding (`readBean()`, see "Binding an input to an object"), you need to read the form manually. 
+If you used one-way data binding (`readBean()`), you need to read the form manually. 
 
 [source,java]
 ----
