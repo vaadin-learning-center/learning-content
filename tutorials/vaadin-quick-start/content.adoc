@@ -94,6 +94,35 @@ Navigate to `http://localhost:8080[localhost:8080, rel="nofollow"]` and you shou
 
 image::completed-app.gif[Animation of adding a new todo item and checking it.]
 
+== Adding styling
+
+Many Vaadin components have built-in style variants that can be easily added with Java. For instance, we can highlight the Button by giving it the `primary` style attribute. We do this with adding the following line after we create the button (the line with `new Button`):
+
+[source,java]
+----
+addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+----
+
+There are more variants you can add, and most other components have their own styles too; you can explore the Variant classes for ideas, such as the  `TextFieldVariant`.
+
+Vaadin apps also support styling with CSS. Any style can be applied, but for the sake of simplicity lets just bold the text for the CheckBoxes for some visual flair. To add some styles to the app, add the following annotation under the `@Route` line:
+
+[source,java]
+----
+@CssImport("styles/styles.css")
+----
+
+Since this style file does not yet exist, we need to create it. The `@CssImport` annotation looks in a folder in the project root called `frontend`, so the full path of the file would be `{project root}/frontend/styles/styles.css`. You can add multiple style files if you want, but one is enough for now. Here is the content to put into our styles.css file:
+
+[source,css]
+----
+vaadin-checkbox {
+	font-weight: bold;
+}
+----
+
+Save all files, close the server and run the `mvnw` script again. The Button should now be blue, and the text for all CheckBoxes is bolded. 
+
 == Next steps
 For developing more complex applications, we recommend using an IDE like Eclipse or IntelliJ IDEA. Before deploying your application to production, the assets should be minified and bundled. These topics and many more are covered in our tutorials and video courses.
 
