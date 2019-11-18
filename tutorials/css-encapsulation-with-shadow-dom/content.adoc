@@ -5,6 +5,8 @@
 :description: Encapsulating CSS styles with the Shadow DOM
 :imagesdir: ./images
 
+image::shadow-light-small.gif["The words shadow dom and light dom with an animated glowing effect.",link="https://codepen.io/niiyeboah/pen/wREZpy"]
+
 == The Global Problem
 
 The global scope of CSS can be problematic for many reasons. Every CSS rule we define has the potential to have wide-ranging and often unintended side effects. In other cases, a rule may have no effect due to conflicts with global styles. As applications increase in scale and complexity, maintainability and extensibility become increasingly challenging as a result of the global nature of CSS. There are a lot of different approaches to solving the CSS scoping problem:
