@@ -22,11 +22,10 @@ To continue make sure that at least the following tools are installed:
 
 == Download a minimal Vaadin project
 
-https://pages.vaadin.com/hubfs/1840687/my-app.zip[Download^, role="button button--bordered quickstart-download-project", onclick="_hsq && _hsq.push(['trackEvent', { id: '000007517662', value: null }]);"]
 ++++
-
+<a href="https://pages.vaadin.com/hubfs/1840687/my-app.zip" class="button button--bordered quickstart-download-project"
+ onClick="function test(){ _hsq && _hsq.push(['trackEvent', { id: '000007517662', value: null }]); } test(); return true;">Download</a>
 ++++
-
 
 Once you have the project downloaded, unzip the file e.g. to your home directory. For now, you don’t need to install any IDE or application server. We’ll use a simple embedded Java server to run the app and a text editor to edit the source code.
 
