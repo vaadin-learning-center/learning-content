@@ -8,7 +8,7 @@
 :imagesdir: ./images
 :related: getting-started-with-flow
 
-Typically, applications make server-side Java methods available to the client-side by exposing them as end-points in a REST web service. Although this is a perfectly valid approach, this tutorial shows an alternative way to call Java methods on the server without having to implement web services. This is possible thanks to Vaadin Flow, a framework that incorporates a set of Java classes that, not only allows you to build web UIs in plain Java, but also includes an automated communication mechanism that makes calling Java methods from JavaScript  straightforward.
+Typically, applications make server-side Java methods available to the client-side by exposing them as end-points in a REST web service. Although this is a perfectly valid approach, this tutorial shows an alternative way to call Java methods on the server without having to implement web services. This is possible thanks to Vaadin, a framework that incorporates a set of Java classes that, not only allows you to build web UIs in plain Java, but also includes an automated communication mechanism that makes calling Java methods from JavaScript  straightforward.
 
 In this step-by-step tutorial, you will learn how to use Vaadin to call server-side Java code from client-side JavaScript code. All you need to follow this tutorial is a basic understanding of the Java Programming Language, the fundamentals of JavaScript, JDK 8 or later, and a Java IDE.
 
