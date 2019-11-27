@@ -1,0 +1,197 @@
+= Creating a simple app using Vaadin Router
+
+:title: Creating a Vaadin app using Gradle
+:tags: JavaScript, Navigation
+:description: This guide describes how to create a simple app using the Vaadin Gradle plugin
+:linkattrs:
+:sectnums:
+:imagesdir: ./images
+:hide-uri-scheme:
+
+[.introText]
+Gradle is a popular build tool for Java, Groovy, and other projects.
+It is an alternative to using Maven, and in many ways much more simple to use, while also more powerful if need be.
+You can use it to create a new application or library, build it, run it, and manage dependencies during development.
+
+This tutorial describes how to create, compile, and run a Vaadin application project with Gradle, using the Vaadin Gradle Plugin.
+
+For information about the general usage of Gradle, please refer to the link:https://docs.gradle.org/current/userguide/userguide.html[Gradle User Manual].
+
+== Requirements
+
+The Gradle plugin has the following requirements:
+
+* Windows, Mac, or Linux
+* Java SDK 8 or later
+* Gradle 5
+** Install it from https://gradle.org/install
+** Gradle 6 currently has known issues with running the project
+
+[[build-file]]
+== Creating The Build File
+
+The first thing you need in a Vaadin project, is the Gradle build file.
+
+Create an empty folder and in it a `build.gradle` file containing the following:
+
+----
+plugins {
+    id 'com.vaadin.vaadin-flow' version '1.2' <1>
+}
+
+vaadin.autoconfigure() <2>
+----
+<1> Enable the Vaadin plugin
+<2> This is an optional line that enables automatic configuration, using defaults for repositories and dependencies.
+If you leave this out, you can configure them manually, as described later.
+
+That is all you need to create a Vaadin project.
+
+If you choose to manually configure the repositories and dependencies, you can leave the above line out and use the helpers described in the following.
+
+=== Setting Vaadin Version
+
+By default, the lastest stable version of the Vaadin framework is used.
+You can choose another version in a `vaadin` block.
+
+----
+vaadin {
+    version = '14.0.0'
+}
+----
+
+=== Configuring Repositories
+
+The `repositories` section defines the locations to search for packages.
+
+To manually configure the repositories, you need to include a `repositories` section as follows:
+
+----
+repositories {
+    vaadin.repositories()
+}
+----
+
+You can use any Gradle repository definitions in the block.
+
+The following helpers are supported:
+
+`vaadin.repositories()`::
+  Include all Vaadin repositories.
+  While this uses them all, going through them uses more time than using a more narrow selection.
+
+`vaadin.prereleases()`::
+  Include Vaadin prerelease version repositories.
+
+`vaadin.addons()`::
+  Include repositories for Vaadin add-on components available from the Vaadin Directory.
+
+`vaadin.snapshots()`::
+  Include Vaadin snapshot repositories.
+
+For more information regarding repositories, please refer to Gradle documentation.
+
+=== Configuring Dependencies
+
+----
+dependencies { <4>
+    vaadin.bom()
+    vaadin.core()
+    vaadin.lumoTheme()
+    vaadin.slf4j()
+}
+----
+<1> Vaadin Maven repositories, where the dependencies are located; use the default.
+<2> Fetch the basic dependencies.
+
+== Creating a Vaadin Project
+
+Once you have the `build.gradle` file, you are ready to create the application skeleton.
+You can do that by running a Gradle task.
+
+The plugin offers a number of tasks to create a skeleton:
+
+`vaadinCreateProject`::
+  A basic application skeleton with a servlet and a Vaadin application.
+
+`vaadinCreateWebComponent`::
+  A web component development project skeleton.
+
+`vaadinCreateWebTemplate`::
+  A component template project skeleton.
+
+`vaadinCreateComponent`::
+  A server-side component project skeleton.
+
+`vaadinCreateComposite`::
+  A server-side composite component project skeleton.
+
+For example:
+
+ $ gradle vaadinCreateProject --name MyProject --package com.example
+
+You can now open the project in an IDE or editor.
+
+The project should look as follows (in the Eclipse IDE):
+
+image::myproject-created-annotated.png[Image,852,578]
+
+The files are as follows:
+
+`src/main/java/MyProjectServlet.java`::
+  The entry-point to the Java web application.
+  You only need to modify this class for certain advanced features.
+
+`src/main/java/MyProjectUI.java`::
+  The application UI when running as a stand-alone application.
+  The skeleton uses defaults, so this is empty.
+  The annotations for the class defined the application theme used.
+
+`src/main/java/MyProjectView.java`::
+  The application view class for the root route, built from components.
+
+== Running the Application
+
+For running the application during development, the Gradle plugin supports the Gretty plugin for running the application in an embedded web server.
+You can do that either in an IDE or at command-line as follows.
+
+To run the application, simply run the `appRun` task:
+
+ $ gradle appRun
+
+The task compiles the application and starts the web server in `http://localhost:8080/myproject` (or whatever your project name is).
+
+== Developing in the Eclipse IDE
+
+Gradle has first-class support at least in the Eclipse IDE, IDEA, NetBeans, and Android Studio.
+In the following, we go through how to create, import, and develop a Vaadin Gradle project in the Eclipse IDE.
+
+=== Creating a New Project
+
+Creating a new Vaadin project with Gradle goes by first creating a normal project.
+
+. Select **File -> New -> Other -> Gradle -> Gradle Project**
+. Enter a project name
+. Click *Finish*
++
+A plain Java project is created. You now need to create the Vaadin project.
+. Edit the `build.gradle` file to contain the definitions described earlier in <<build-file>>.
+. Close and reopen the project
+
+You should now see the project in the *Gradle Tasks* tab; you can browse all the various available tasks.
+
+image::eclipse-gradle-tasks.png[Image,786,717]
+
+. Double click *vaadin -> vaadinCreateProject*
+. Select the project in the Project Explorer and press *F5* to refresh it
++
+The generated source files should now show up.
+. Delete the plain Java source files created with the project
+
+== Going for Production
+
+TODO
+
+== Further Reading
+
+TODO
