@@ -1,4 +1,4 @@
-= Creating a simple app using Vaadin Router
+= Creating a Vaadin app using Gradle
 
 :title: Creating a Vaadin app using Gradle
 :tags: JavaScript, Navigation
@@ -9,11 +9,14 @@
 :hide-uri-scheme:
 
 [.introText]
-Gradle is a popular build tool for Java, Groovy, and other projects.
+Gradle is a popular build tool for Java, Groovy, Kotlin, and other projects.
 It is an alternative to using Maven, and in many ways much more simple to use, while also more powerful if need be.
 You can use it to create a new application or library, build it, run it, and manage dependencies during development.
 
 This tutorial describes how to create, compile, and run a Vaadin application project with Gradle, using the Vaadin Gradle Plugin.
+For running the application, we use the *Gretty Plugin* to run it in an embedded web server.
+
+image::gradle-plugin-overview.png[Image,1146,618]
 
 For information about the general usage of Gradle, please refer to the link:https://docs.gradle.org/current/userguide/userguide.html[Gradle User Manual].
 
@@ -36,7 +39,7 @@ Create an empty folder and in it a `build.gradle` file containing the following:
 
 ----
 plugins {
-    id 'com.vaadin.vaadin-flow' version '1.2' <1>
+    id 'com.vaadin.vaadin-flow' version '1.3' <1>
 }
 
 vaadin.autoconfigure() <2>
@@ -188,10 +191,49 @@ image::eclipse-gradle-tasks.png[Image,786,717]
 The generated source files should now show up.
 . Delete the plain Java source files created with the project
 
+=== Running the Application
+
+You can run the project using Gretty in an embedded web server.
+
+. Open the *Gradle Tasks* tab
+. Double-click the `gretty` -> `appRun` task
+** The *Gradle Executions* tab opens and shows build progress
+. When the `:apprun` task is running, open the browser at `http://localhost:8080`.
+. To stop the server go to the *Console* tab and press any key.
+
 == Going for Production
 
-TODO
+To build a web application as a WAR package, you need the `war` plugin.
+You also need to enable it.
 
+.In `build.gradle`:
+----
+apply plugin: 'war'
+
+war {
+    enabled=true
+}
+----
+
+When making a production-ready build, the Vaadin Gradle Plugin transpiles the client-side dependencies to legacy browsers.
+You enable that by either setting it in `build.gradle` or at command-line when invoking Gradle.
+
+In `build.gradle`:
+
+----
+vaadin {
+   productionMode = true
+}
+----
+
+At command-line:
+
+----
+$ gradle -DproductionMode=true war
+----
+
+////
 == Further Reading
 
 TODO
+////

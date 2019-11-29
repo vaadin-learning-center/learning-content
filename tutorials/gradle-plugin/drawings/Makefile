@@ -1,4 +1,5 @@
-IMAGES = myproject-created-annotated
+IMAGES = myproject-created-annotated \
+	gradle-plugin-overview
 
 SRCIMAGES := $(foreach file, $(IMAGES), $(file).svg)
 TRGIMAGES := $(foreach file, $(IMAGES), ../images/$(file).png)
