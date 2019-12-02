@@ -135,7 +135,7 @@ The key inside the map is the tab itself, and the value in the map is the compon
 [NOTE]
 ====
 This example is using the **I18Provider** from Flow.
-To read more about this, I recommend our tutorials about link:/tutorials/i18n[Internationalizing in Flow]
+To read more about this, I recommend our tutorials about link:/learn/tutorials/i18n[Internationalizing in Flow]
 ====
 
 To use the layout now, you have to assign the attribute **layout** with the class **MainLayout** to the participating views in the **@Route** annotation.

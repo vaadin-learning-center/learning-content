@@ -62,7 +62,7 @@ The initialization takes place this time within the constructor.
 [quote]
 The approach in this layout is again based on Flow's RouterLayout concept.
 If you would like to read a little bit about the basic principles,
-I refer you to https://vaadin.com/tutorials/nested-layouts-in-flow[Documentation] in the Learning Center.
+I refer you to https://vaadin.com/learn/tutorials/nested-layouts-in-flow[Documentation] in the Learning Center.
 
 
 In this case,

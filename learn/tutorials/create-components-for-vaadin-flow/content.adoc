@@ -73,7 +73,7 @@ A good practice is to divide your UI units into components, each set of logicall
 
 ==== Extend client side component
 
-Components used in Vaadin Flow are standard web components built using Polymer 3. You can https://polymer-library.polymer-project.org/3.0/docs/devguide/dom-template#inherit[extend] them on the client-side just like any other web component, and the newly created web component can be https://vaadin.com/tutorials/web-component-for-vaadin-flow[integrated] later into Vaadin Flow.
+Components used in Vaadin Flow are standard web components built using Polymer 3. You can https://polymer-library.polymer-project.org/3.0/docs/devguide/dom-template#inherit[extend] them on the client-side just like any other web component, and the newly created web component can be https://vaadin.com/learn/tutorials/web-component-for-vaadin-flow[integrated] later into Vaadin Flow.
 
 === Add external components
 
@@ -81,8 +81,8 @@ Vaadin Flow works with standard web components, which means that any https://www
 
 ==== Web component from Vaadin Directory
 
-Now and then, there is a new web component released to the public community. Some are for testing purpose, some are broken, and many are working correctly and production-ready. While https://www.webcomponents.org/elements[webcomponents.org] is the biggest directory of most web components out there, we have tested and validated a proper subset of them and made them available in the https://vaadin.com/directory[Vaadin Directory]. This https://vaadin.com/tutorials/using-web-components-in-java[tutorial] shows you how to install a web component from Vaadin Directory, and the simple steps needed to publish one into the Vaadin Directory to be able to use it.
+Now and then, there is a new web component released to the public community. Some are for testing purpose, some are broken, and many are working correctly and production-ready. While https://www.webcomponents.org/elements[webcomponents.org] is the biggest directory of most web components out there, we have tested and validated a proper subset of them and made them available in the https://vaadin.com/directory[Vaadin Directory]. This https://vaadin.com/learn/tutorials/using-web-components-in-java[tutorial] shows you how to install a web component from Vaadin Directory, and the simple steps needed to publish one into the Vaadin Directory to be able to use it.
 
 ==== Any web component
 
-Alternatively, this https://vaadin.com/tutorials/web-component-for-vaadin-flow[tutorial] goes into more details on how to integrate any web component and implement Java APIs for it, to be able to use it just like any other Vaadin component explained earlier in this article.
+Alternatively, this https://vaadin.com/learn/tutorials/web-component-for-vaadin-flow[tutorial] goes into more details on how to integrate any web component and implement Java APIs for it, to be able to use it just like any other Vaadin component explained earlier in this article.

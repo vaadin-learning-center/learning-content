@@ -50,7 +50,7 @@ Use the http://start.spring.io/[Spring Initializr] to create a new Spring Boot a
 
 image::initializr.png[Spring initializr]
 
-Click *Generate Project*, extract the generated file, and import the https://vaadin.com/tutorials/learning-maven-concepts[Maven] project into your favorite IDE (see instructions for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans]).
+Click *Generate Project*, extract the generated file, and import the https://vaadin.com/learn/tutorials/learning-maven-concepts[Maven] project into your favorite IDE (see instructions for https://vaadin.com/learn/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/learn/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/learn/tutorials/import-maven-project-netbeans[NetBeans]).
 
 Open up the `DiscoveryServerApplication` class and annotate it with `@EnableEurekaServer`:
 

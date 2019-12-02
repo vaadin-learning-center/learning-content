@@ -14,7 +14,7 @@ This tutorial goes through the basics of themes and styling Vaadin apps
 [NOTE]
 ====
 You should be familiar with how to set up and run a Vaadin application to be able to utilize the instructions in this tutorial. Follow the
-https://vaadin.com/tutorials/vaadin-quick-start[Vaadin quickstart
+https://vaadin.com/learn/tutorials/vaadin-quick-start[Vaadin quickstart
 tutorial] to get started.
 
 Also, you should have a basic understanding of CSS.

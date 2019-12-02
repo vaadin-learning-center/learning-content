@@ -12,7 +12,7 @@
 
 This tutorial teaches you how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Kubernetes on Google Cloud Platform. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Kubernetes as a potential host platform for your applications.
 
-Following the link:/tutorials/cloud-deployment/google/[previous tutorial] about deploying to Google cloud, in this tutorial we will see how to deploy it on Google Kubernetes Engine.
+Following the link:/learn/tutorials/cloud-deployment/google/[previous tutorial] about deploying to Google cloud, in this tutorial we will see how to deploy it on Google Kubernetes Engine.
 
 First, enable the https://console.cloud.google.com/apis/api/containerregistry.googleapis.com[Container Registery] API on your project.
 

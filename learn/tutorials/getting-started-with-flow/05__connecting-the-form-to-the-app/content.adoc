@@ -8,7 +8,7 @@
 :imagesdir: ./images
 :linkattrs:
 
-This part of the tutorial shows how to connect the `CustomerForm` component (implemented in the https://vaadin.com/tutorials/getting-started-with-flow/creating-a-form-using-plain-java[previous step]) to the application.
+This part of the tutorial shows how to connect the `CustomerForm` component (implemented in the https://vaadin.com/learn/tutorials/getting-started-with-flow/creating-a-form-using-plain-java[previous step]) to the application.
 
 == Showing and Hiding the Form
 

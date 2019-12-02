@@ -86,7 +86,7 @@ to the original German language file.
 
 The longest version:
 If you need more information's in detail, have a look
-at the tutorial about https://vaadin.com/tutorials/i18n/resourcebundles[ResourceBundles]
+at the tutorial about https://vaadin.com/learn/tutorials/i18n/resourcebundles[ResourceBundles]
 
 == How to use?
 The usage of this implementation depends on one method, with a few different signatures.
