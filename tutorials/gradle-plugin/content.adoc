@@ -39,18 +39,20 @@ Create an empty folder and in it a `build.gradle` file containing the following:
 
 ----
 plugins {
-    id 'com.vaadin.vaadin-flow' version '1.3' <1>
+    id 'java' <1>
+    id 'com.vaadin' version '1.0' <2>
 }
 
-vaadin.autoconfigure() <2>
+vaadin.autoconfigure() <3>
 ----
-<1> Enable the Vaadin plugin
-<2> This is an optional line that enables automatic configuration, using defaults for repositories and dependencies.
+<1> (Optional) Define the programming language to be used in the project; the alternatives are `java` (default) and `groovy`.
+<2> Enable the Vaadin Gradle Plugin with the given version.
+<3> This is an optional line that enables automatic configuration, using defaults for repositories and dependencies.
 If you leave this out, you can configure them manually, as described later.
 
 That is all you need to create a Vaadin project.
 
-If you choose to manually configure the repositories and dependencies, you can leave the above line out and use the helpers described in the following.
+If you choose to manually configure the repositories and dependencies, you can leave the above autoconfiguration line out and use the helpers described in the following.
 
 === Setting Vaadin Version
 
@@ -131,7 +133,20 @@ The plugin offers a number of tasks to create a skeleton:
 
 For example:
 
+ $ gradle vaadinCreateProject
+
+This creates the project with the default names.
+You can customize the skeleton with parameters as follows:
+
  $ gradle vaadinCreateProject --name MyProject --package com.example
+
+The following optional parameters are supported:
+
+`--name`::
+  (Optional) Application class name.
+
+`--package`::
+  (Optional) Package path to the application class.
 
 You can now open the project in an IDE or editor.
 
@@ -141,16 +156,10 @@ image::myproject-created-annotated.png[Image,852,578]
 
 The files are as follows:
 
-`src/main/java/MyProjectServlet.java`::
-  The entry-point to the Java web application.
-  You only need to modify this class for certain advanced features.
+`src/main/java/.../HelloButton.java`::
+  The server-side counterpart for the custom JavaScript/Polymer `hello-button.js` example component.
 
-`src/main/java/MyProjectUI.java`::
-  The application UI when running as a stand-alone application.
-  The skeleton uses defaults, so this is empty.
-  The annotations for the class defined the application theme used.
-
-`src/main/java/MyProjectView.java`::
+`src/main/java/.../MyProjectView.java`::
   The application view class for the root route, built from components.
 
 == Running the Application
@@ -201,7 +210,7 @@ You can run the project using Gretty in an embedded web server.
 . When the `:apprun` task is running, open the browser at `http://localhost:8080`.
 . To stop the server go to the *Console* tab and press any key.
 
-== Going for Production
+== Going to Production
 
 To build a web application as a WAR package, you need the `war` plugin.
 You also need to enable it.
