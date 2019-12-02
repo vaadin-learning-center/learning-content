@@ -71,7 +71,7 @@ image::variables-example1.png[Default style for buttons]
 <custom-style>
   <style>
     html {
-      --lumo-border-radius: 0 !important;
+      --lumo-border-radius: 0px !important;
       --lumo-primary-color: #0d548a;
     }
   </style>
@@ -88,7 +88,7 @@ image::variables-example2.png[Global changes to variables]
 <custom-style>
   <style>
     html {
-      --lumo-border-radius: 0 !important;
+      --lumo-border-radius: 0px !important;
       --lumo-primary-color: #0d548a;
       --my-teal-color: #0d7f8c;
       --my-primary-gradient: linear-gradient(var(--my-teal-color), var(--lumo-primary-color));
