@@ -6,13 +6,13 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
-This tutorial explains how to import an https://vaadin.com/start/latest[existing Maven project] into IntelliJ IDEA and how to create a running configuration for a https://vaadin.com/tutorials/learning-maven-concepts#_what_is_a_build_goal[Maven goal]. This is useful, for example, when using the Jetty Maven plugin that allows you to quickly deploy and run a Java web application using this popular server.
+This tutorial explains how to import an https://vaadin.com/start/latest[existing Maven project] into IntelliJ IDEA and how to create a running configuration for a https://vaadin.com/learn/tutorials/learning-maven-concepts#_what_is_a_build_goal[Maven goal]. This is useful, for example, when using the Jetty Maven plugin that allows you to quickly deploy and run a Java web application using this popular server.
 
-NOTE: Maven is a project management tool that goes beyond dependency management. See https://vaadin.com/tutorials/learning-maven-concepts[Learning Maven Concepts] to learn more.
+NOTE: Maven is a project management tool that goes beyond dependency management. See https://vaadin.com/learn/tutorials/learning-maven-concepts[Learning Maven Concepts] to learn more.
 
 == Download an existing Maven project
 
-This tutorial uses a https://vaadin.com/tutorials/learning-maven-concepts#_what_is_an_archetype[Maven archetype] that generates a web application with a preconfigured Jetty Maven Plugin in it:
+This tutorial uses a https://vaadin.com/learn/tutorials/learning-maven-concepts#_what_is_an_archetype[Maven archetype] that generates a web application with a preconfigured Jetty Maven Plugin in it:
 
 ```
 mvn -B archetype:generate -DarchetypeGroupId=com.vaadin -DarchetypeArtifactId=vaadin-archetype-application -DarchetypeVersion=LATEST -DgroupId=org.test -DartifactId=webapp -Dversion=1.0-SNAPSHOT
@@ -46,7 +46,7 @@ Open the *Maven* view by clicking the corresponding option on the left side of t
 
 image::maven-projects-view.png[Maven projects view]
 
-This view shows all the available Maven projects and their https://vaadin.com/tutorials/learning-maven-concepts[build phases and build goals]. Let's say you want to run `mvn install`. To do that, expand the project tree in the *Maven* view to show the corresponding https://vaadin.com/tutorials/learning-maven-concepts#_what_is_a_build_phase[lifecycle phase] and then double-click *install*:
+This view shows all the available Maven projects and their https://vaadin.com/learn/tutorials/learning-maven-concepts[build phases and build goals]. Let's say you want to run `mvn install`. To do that, expand the project tree in the *Maven* view to show the corresponding https://vaadin.com/learn/tutorials/learning-maven-concepts#_what_is_a_build_phase[lifecycle phase] and then double-click *install*:
 
 image::lifecycle.png[Lifecycle phases]
 
@@ -82,5 +82,5 @@ NOTE: If you use the https://vaadin.com/[Vaadin] project used in the tutorial, y
 
 That's it. Now you can use IntelliJ IDEA to develop your Maven application. To learn more about:
 
-* The key concepts in Maven, see https://vaadin.com/tutorials/learning-maven-concepts[Learning Maven Concepts].
-* How to develop a Java web application without coding JavaScript or HTML, see https://vaadin.com/tutorials/vaadin-quick-start[Vaadin Quick Start Tutorial].
+* The key concepts in Maven, see https://vaadin.com/learn/tutorials/learning-maven-concepts[Learning Maven Concepts].
+* How to develop a Java web application without coding JavaScript or HTML, see https://vaadin.com/learn/tutorials/vaadin-quick-start[Vaadin Quick Start Tutorial].

@@ -14,7 +14,7 @@ that is used for testing a Vaadin application with testbench.
 
 == Download base project
 This tutorial uses  the `flow-helloworld-maven-meecrowave`
-as a base. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
+as a base. Read more about it https://vaadin.com/learn/tutorials/helloworld-with-meecrowave[here]
 
 You can find the latest version of the source code for this tutorial
 https://github.com/vaadin-learning-center/tdd-junit5-02-extensions[@github]
@@ -23,7 +23,7 @@ https://github.com/vaadin-learning-center/tdd-junit5-02-extensions[@github]
 === Preparations for this tutorial
 For this tutorial, we assume to have the following piece of code.
 We discussed how to test this piece of code in the first part of this tutorial series.
-You can find the first part https://https://vaadin.com/tutorials/junit5/basics[here].
+You can find the first part https://https://vaadin.com/learn/tutorials/junit5/basics[here].
 
 [source,java]
 ----

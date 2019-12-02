@@ -34,9 +34,9 @@ This tutorial uses https://www.jetbrains.com/idea/[IntelliJ IDEA], but you can u
 
 If you prefer Eclipse or NetBeans, see:
 
-* https://vaadin.com/tutorials/import-maven-project-eclipse[Importing a Maven project in Eclipse].
+* https://vaadin.com/learn/tutorials/import-maven-project-eclipse[Importing a Maven project in Eclipse].
 
-* https://vaadin.com/tutorials/import-maven-project-netbeans[Importing a Maven Project in NetBeans].
+* https://vaadin.com/learn/tutorials/import-maven-project-netbeans[Importing a Maven Project in NetBeans].
 
 == Creating the Project
 
@@ -66,14 +66,14 @@ To import the project in IntelliJ IDEA:
 
 IntelliJ IDEA will download the required dependencies and build the project.
 
-NOTE: If this is your first Vaadin app, building the project might take a while (depending on the speed of your network), because the libraries need to be downloaded. https://vaadin.com/tutorials/learning-maven-concepts[Maven] caches them on your local file system and creating your next Maven-based Vaadin project will be much faster.
+NOTE: If this is your first Vaadin app, building the project might take a while (depending on the speed of your network), because the libraries need to be downloaded. https://vaadin.com/learn/tutorials/learning-maven-concepts[Maven] caches them on your local file system and creating your next Maven-based Vaadin project will be much faster.
 
 
 === Viewing the Generated Project Files
 
 Take a look at some of the generated project files:
 
-* `webapp/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way https://vaadin.com/tutorials/learning-maven-concepts[Maven] represents a software project.
+* `webapp/pom.xml`: This file defines the project. It contains the configuration to build the project and declares the required dependencies (external libraries). The `pom.xml` file is the way https://vaadin.com/learn/tutorials/learning-maven-concepts[Maven] represents a software project.
 
 * `webapp/src/main/java`: This directory contains the Java code organized in packages. At this point, there is only one package, `org.vaadin.example`, that contains `MainView`: a Java class that implements the web UI using Vaadin Flow:
 +

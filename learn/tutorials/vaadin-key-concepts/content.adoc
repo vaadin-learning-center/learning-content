@@ -7,7 +7,7 @@ This document is meant for developers who are new to Vaadin and want to get up t
 
 If you don't have Vaadin app set up yet, you can download one on the link:/start[starter page]. 
 
-//TIP: Writing Vaadin apps is more fun and productive when you have your development environment set up to show changes automatically. If you need help setting up your environment, link:/tutorials/foo[TODO: check out this tutorial on setting up hotswap for Vaadin projects].
+//TIP: Writing Vaadin apps is more fun and productive when you have your development environment set up to show changes automatically. If you need help setting up your environment, link:/learn/tutorials/foo[TODO: check out this tutorial on setting up hotswap for Vaadin projects].
 
 == Core concepts
 
@@ -700,9 +700,9 @@ Now that you know the basics, you can start building your own app.
 
 If you want to learn how to build a complete app with data binding and a database, start with the link:/tutorials/getting-started-with-flow/setting-up-the-project[basic Vaadin tutorial].
 
-If you prefer watching videos, we have a link:/training/courses[free online video course on Vaadin basics] (requires vaadin.com account). 
+If you prefer watching videos, we have a link:/learn/training/courses[free online video course on Vaadin basics] (requires vaadin.com account). 
 
-If you want to browse all tutorials and the learning material, head over to the link:/tutorials[Vaadin Learning Center].
+If you want to browse all tutorials and the learning material, head over to the link:/learn/tutorials[Vaadin Learning Center].
 
 If you just want to tinker around, check out link:/components[the code snippets for components] or head over to the link:/docs[full documentation] for a more in-depth explanation of how Vaadin works. 
 

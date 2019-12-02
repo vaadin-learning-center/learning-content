@@ -12,7 +12,7 @@ In this tutorial, we will take https://github.com/jorgecasar/payment-request[a w
 
 === Prepare a base add-on
 
-First, we must deploy the web component as a WebJar, as explained in the second section of https://vaadin.com/tutorials/using-web-components-in-java[using web components in java] tutorial.
+First, we must deploy the web component as a WebJar, as explained in the second section of https://vaadin.com/learn/tutorials/using-web-components-in-java[using web components in java] tutorial.
 
 [source,xml]
 ----
@@ -28,7 +28,7 @@ Now let's create a new https://vaadin.com/start/latest/component[Add-on Componen
 image::new-addon.png[New Addon]
 
 === Create base Java components
-Extract and open the Maven project in your editor of choice (see here for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], or https://vaadin.com/tutorials/import-maven-project-netbeans[Netbeans]). 
+Extract and open the Maven project in your editor of choice (see here for https://vaadin.com/learn/tutorials/import-maven-project-intellij-idea[IntelliJ], https://vaadin.com/learn/tutorials/import-maven-project-eclipse[Eclipse], or https://vaadin.com/learn/tutorials/import-maven-project-netbeans[Netbeans]). 
 
 In the new project, we will find the `PaymentRequest` class created automatically and corresponds to the `payment-request` tag. Let's create four similar classes for the other custom tags used by the component (`payment-address`, `payment-item`, `payment-method`, `payment-shipping-option`), following this pattern:
 

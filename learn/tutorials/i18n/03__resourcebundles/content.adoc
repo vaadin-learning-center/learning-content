@@ -14,14 +14,14 @@ This section describes how to implement custom ResourceBundles for international
 
 == Download base project
 This tutorial uses the `flow-helloworld-maven-meecrowave`
-as a base. Read more about it https://vaadin.com/tutorials/helloworld-with-meecrowave[here]
+as a base. Read more about it https://vaadin.com/learn/tutorials/helloworld-with-meecrowave[here]
 
 You are able to find the latest version of the source code for this tutorial
 https://github.com/vaadin-learning-center/flow-i18n-resourcebundles[@github]
 
 == Recommended reading
 
-It is recommended to read the tutorial about the https://vaadin.com/tutorials/i18n/i18nprovider[I18NProvider] first.
+It is recommended to read the tutorial about the https://vaadin.com/learn/tutorials/i18n/i18nprovider[I18NProvider] first.
 This tutorial will use the *I18NProvider* later for the translations.
 
 == ResourceBundles

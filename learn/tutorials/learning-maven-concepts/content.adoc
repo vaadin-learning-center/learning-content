@@ -169,6 +169,6 @@ mvn archetype:generate  \
     -DarchetypeVersion=1.0
 ```
 
-Of course, after creating a new project, the next natural step is to import it into an IDE such as https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], or https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans].
+Of course, after creating a new project, the next natural step is to import it into an IDE such as https://vaadin.com/learn/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/learn/tutorials/import-maven-project-eclipse[Eclipse], or https://vaadin.com/learn/tutorials/import-maven-project-netbeans[NetBeans].
 
 As an alternative to Maven archetypes, technologies and frameworks such as https://start.spring.io[Spring], https://thorntail.io/generator[Thorntail], and https://vaadin.com/start[Vaadin] offer web interfaces to initialize new projects quickly.

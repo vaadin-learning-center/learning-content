@@ -129,5 +129,5 @@ Save all files, close the server and run the `mvnw` script again. The Button sho
 == Next steps
 For developing more complex applications, we recommend using an IDE like Eclipse or IntelliJ IDEA. Before deploying your application to production, the assets should be minified and bundled. These topics and many more are covered in our tutorials and video courses.
 
-- link:/tutorials/getting-started-with-flow[CRUD application tutorial] 
-- link:/training/courses[Free online video course covering Vaadin basics]
+- link:/learn/tutorials/getting-started-with-flow[CRUD application tutorial] 
+- link:/learn/training/courses[Free online video course covering Vaadin basics]

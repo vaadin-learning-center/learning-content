@@ -12,7 +12,7 @@ for Vaadin Flow.
 
 == For the impatient reader
 > This tutorial uses the  `flow-helloworld-maven-meecrowave` starter as a base.
-> You can find the latest tutorial version https://vaadin.com/tutorials/helloworld-with-meecrowave[here].
+> You can find the latest tutorial version https://vaadin.com/learn/tutorials/helloworld-with-meecrowave[here].
 
 This tutorial shows you how to build a fluent API from scratch. If you just want to use the fluent API, you can find an addon in the link:/directory/component/rapidpm-vaadin-fluent-component-api[directory].
 

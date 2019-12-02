@@ -27,9 +27,9 @@ image::starter-page.png[Starter page, 80%, align="center"]
 [start=3]
 . Click the *Download* button, and extract the generated ZIP file.
 
-. The ZIP contains a Maven project. Import the Maven project into your favorite IDE (see the instructions for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans]). This project is a simple starting point for developing a Java web application with Vaadin.
+. The ZIP contains a Maven project. Import the Maven project into your favorite IDE (see the instructions for https://vaadin.com/learn/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/learn/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/learn/tutorials/import-maven-project-netbeans[NetBeans]). This project is a simple starting point for developing a Java web application with Vaadin.
 
-NOTE: Don't worry if you are not familiar with Maven. Most IDEs have excellent support for Maven, to the point you don't need to understand all its details to use it. If you want to learn more about the key concepts in Maven, see https://vaadin.com/tutorials/learning-maven-concepts[this article].
+NOTE: Don't worry if you are not familiar with Maven. Most IDEs have excellent support for Maven, to the point you don't need to understand all its details to use it. If you want to learn more about the key concepts in Maven, see https://vaadin.com/learn/tutorials/learning-maven-concepts[this article].
 
 [start=5]
 . The _starter_ creates a simple "Hello, World" application we don't need right now. We want to keep the project as simple as possible, so go ahead and delete the `MainView` class and the `resources`, `frontend/src`, and `frontend/styles` directories (keep the `frontend` directory). The directory structure should look like this:
@@ -70,7 +70,7 @@ public class MainView extends Div {
 
 By default, the `@Route` annotation makes Vaadin map the class with the context root when the annotated class is named `MainView`. So when `http://localhost:8080/` is requested, the `MainView` class will have the chance to perform any logic on the server side. If we wanted to map the class to  `http://localhost:8080/example`, we would need to say it explicitly with `@Route("example")`.
 
-If you run the project at this point, you will get an empty web page. Let's confirm this by executing the Maven Jetty Plugin. If you have Maven installed in your machine, just run `mvn jetty:run` in the command line. If you are using an IDE, create a run configuration for the `jetty:run` _goal_. See the detailed instructions for https://vaadin.com/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/tutorials/import-maven-project-netbeans[NetBeans].
+If you run the project at this point, you will get an empty web page. Let's confirm this by executing the Maven Jetty Plugin. If you have Maven installed in your machine, just run `mvn jetty:run` in the command line. If you are using an IDE, create a run configuration for the `jetty:run` _goal_. See the detailed instructions for https://vaadin.com/learn/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/learn/tutorials/import-maven-project-eclipse[Eclipse], and https://vaadin.com/learn/tutorials/import-maven-project-netbeans[NetBeans].
 
 NOTE: The Jetty Maven Plugin is configured in the `pom.xml` file. This plugin allows us to easily deploy the web application to a Jetty server without having to install it manually.
 
@@ -226,4 +226,4 @@ Without coding any JavaScript at all you get this HTML-based web application in 
 
 image::web-app-with-vaadin.png[Web application implemented with Vaadin]
 
-If you want to learn more about this, try the tutorial at https://vaadin.com/tutorials/getting-started-with-flow.
+If you want to learn more about this, try the tutorial at https://vaadin.com/learn/tutorials/getting-started-with-flow.
