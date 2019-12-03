@@ -11,20 +11,6 @@
 In this tutorial, we will learn how to implement an I18NProvider
 that is used for translating text content in a Vaadin application
 
-[NOTE]
-====
-An online demo is deployed on  https://flow-i18n-i18nprovider.herokuapp.com/[Heroku]
-or try it on your machine inside Docker:
-
-[source, bash]
-----
-docker pull vaadintutorials/flow-i18n-i18nprovider
-docker run -p8899:8899 --name demo vaadintutorials/flow-i18n-i18nprovider
-----
-For more details and the latest version of the source code for this tutorial,
-have a look at the https://github.com/vaadin-learning-center/flow-i18n-i18nprovider[github repo].
-====
-
 
 == Preparations for this tutorial
 For this tutorial, we assume to have the following piece of code
