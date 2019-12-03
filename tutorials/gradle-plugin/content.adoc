@@ -142,11 +142,14 @@ You can customize the skeleton with parameters as follows:
 
 The following optional parameters are supported:
 
-`--name`::
-  (Optional) Application class name.
+`--name` (optional)::
+  Application class name.
 
-`--package`::
-  (Optional) Package path to the application class.
+`--package` (optional)::
+  Package path to the application class.
+
+`--baseTheme` (optional)::
+  Base theme of the application: either `lumo` or `material`.
 
 You can now open the project in an IDE or editor.
 
@@ -156,11 +159,17 @@ image::myproject-created-annotated.png[Image,852,578]
 
 The files are as follows:
 
-`src/main/java/.../HelloButton.java`::
+`src/main/java/<package>/HelloButton.java`::
   The server-side counterpart for the custom JavaScript/Polymer `hello-button.js` example component.
 
-`src/main/java/.../MyProjectView.java`::
+`src/main/java/<package>/MyProjectView.java`::
   The application view class for the root route, built from components.
+
+`src/main/javascript/hello-button.js`::
+  An example Polymer JavaScript component used by the *HelloButton* server-side component.
+
+`src/main/stylesheets/theme.css`::
+  The application theme.
 
 == Running the Application
 
@@ -215,7 +224,7 @@ You can run the project using Gretty in an embedded web server.
 To build a web application as a WAR package, you need the `war` plugin.
 You also need to enable it.
 
-.In `build.gradle`:
+In `build.gradle`:
 ----
 apply plugin: 'war'
 

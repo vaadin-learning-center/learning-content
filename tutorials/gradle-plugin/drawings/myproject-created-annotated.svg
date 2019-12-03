@@ -71,9 +71,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.9899495"
-     inkscape:cx="512.00823"
-     inkscape:cy="299.76987"
+     inkscape:zoom="1.979899"
+     inkscape:cx="300.39272"
+     inkscape:cy="263.36043"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="2560"
@@ -214,7 +214,7 @@
          id="tspan13163-0-8-3"
          x="338.3429"
          y="867.74438"
-         style="font-size:12.5px;line-height:1.25">Gradle project configuration</tspan></text>
+         style="font-size:12.5px;line-height:1.25">Gradle build configuration</tspan></text>
     <g
        transform="translate(210,-17.576123)"
        id="g3822-4-0">
