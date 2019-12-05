@@ -700,7 +700,7 @@ Now that you know the basics, you can start building your own app.
 
 If you want to learn how to build a complete app with data binding and a database, start with the link:/tutorials/getting-started-with-flow/setting-up-the-project[basic Vaadin tutorial].
 
-If you prefer watching videos, we have a link:/learn/training/courses[free online video course on Vaadin basics] (requires vaadin.com account). 
+If you prefer watching videos, we have a link:/learn/training[free online video course on Vaadin basics] (requires vaadin.com account). 
 
 If you want to browse all tutorials and the learning material, head over to the link:/learn/tutorials[Vaadin Learning Center].
 
