@@ -32,9 +32,9 @@ Once you have the project downloaded, unzip the file e.g. to your home directory
 
 Next, you should import the project into your IDE. For IntelliJ IDEA, you can follow the steps described in https://vaadin.com/learn/tutorials/import-maven-project-intellij-idea#_import_the_project[import the project] tutorial.
 
-The project folder has a few files and folders, many of them related to dependency and project configuration. In this tutorial, we are only interested in our UI code in `src/main/java/com/example/test/spring/MainView.java`
+The project folder has a few files and folders, many of them related to dependency and project configuration. In this tutorial, we are only interested in our UI code in `src/main/java/com/example/MainView.java`
 
-To run the application, you should run the `src/main/java/com/example/test/spring/Application.java` class. Running the main method in the class, will start an embedded server and trigger the frontend resources build. Starting up the build for the first time, might take a while.
+To run the application, you should run the `src/main/java/com/example/Application.java` class. Running the main method in the class, will start an embedded server and trigger the frontend resources build. Starting up the build for the first time, might take a while.
 
 Navigate to `http://localhost:8080[localhost:8080, rel="nofollow"]`, and you should see a basic Vaadin application with a button.
 
@@ -47,12 +47,12 @@ Here is the breakdown of the different components and layouts of the app we are 
 
 image::component-layout.png[Diagram showing the layouts of the application. todosList is a layout containing checkboxes for todo items. Underneath it is a horizontal layout containing a text field and a button.]
 
-Open `src/main/java/com/example/test/spring/MainView.java`. Replace the code in MainView with the code below:
+Open `src/main/java/com/example/MainView.java`. Replace the code in MainView with the code below:
 
 .`*MainView.java*`
 [source,java]
 ----
-package com.example.test.spring;
+package com.example;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
