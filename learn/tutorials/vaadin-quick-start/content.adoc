@@ -24,7 +24,7 @@ To continue make sure that at least the following tools are installed:
 == Download a minimal Vaadin project
 
 ++++
-<a href="https://vaadin.com/vaadincom/start-service/lts/project-base" class="button button--bordered quickstart-download-project"
+<a href="https://vaadin.com/vaadincom/start-service/latest/project-base?appName=My Todo&groupId=com.example&techStack=spring" class="button button--bordered quickstart-download-project"
  onClick="function test(){ _hsq && _hsq.push(['trackEvent', { id: '000007517662', value: null }]); } test(); return true;">Download</a>
 ++++
 
