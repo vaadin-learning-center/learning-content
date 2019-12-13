@@ -1,0 +1,128 @@
+:title: Vaadin speciale
+:author: Paul Römer
+:type: text
+:tags: Spring, Spring Boot, Security
+:description: Learn how to use Push, Upload and other Vaadin specials
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay
+:linkattrs:
+:imagesdir: ./images
+
+**This tutorial isn't like others.** This one is about explicitly answering your questions that came up over time and cannot be solved by some comments but by some examples. We will start with
+- **link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push[Vaadin's Push mechanism], then
+- **link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[check the Vaadin Upload component and how to get a valid security context next] and finally
+- **link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[eleborate changing the application servlet context].
+
+Likely, others will follow soon and I also expect updates for the ones listed above based on your comments. So, let's get started with pushing stuff.
+
+Vaadin server-side pushing to the client
+
+Most of the time the UI of a Vaadin application is only updated on client request when the UI is accessible and locked. The client is more or less pulling the data on user requests. But there are of course a lot of cases, especially if you go reactively, when the server should push data to the client. This is supported by Vaadin for ages and uses websockets for communication. The good thing is that the default transport mechanism in Vaadin 14 is `WEBSOCKET_XHR` which directly translates to "Websocket for server to client, XHR for client to server". This means the client to server transport layer does not change and is handled by our Spring Security filter chain.
+
+Let's start with enabling Push for the `MainView`:
+
+.`*MainView.java*`
+[source,java,linenums]
+----
+@Push // <1>
+@Route
+@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
+public class MainView extends VerticalLayout {
+[...]
+----
+<1> As I said, the defaults are fine and we know can push data from the server to the client in the main view.
+
+.`*RoleBasedEvaluator.java*`
+[source,java,linenums]
+----
+public MainView(@Autowired MessageBean bean) {
+    final Button button = new Button("Click me", e -> {
+        Notification.show(bean.getMessage());
+        final UI ui = UI.getCurrent(); // <1>
+        ExecutorService executor = Executors.newSingleThreadExecutor(); // <2>
+        executor.submit(() -> {
+            doHeavyStuff(); // <3>
+            ui.access(() -> { // <4>
+                Notification.show("Calculation done"); // <5>
+            });
+        });
+    });
+    add(button);
+    // simple link to the logout endpoint provided by Spring Security
+    Element logoutLink = ElementFactory.createAnchor("logout", "Logout");
+    getElement().appendChild(logoutLink);
+}
+----
+<1> That is the tricky part. We need a reference to the UI as we are not able to access it from the background thread.
+<2> Let's get some help from Java to execute a background task.
+<3> In this case "heavy stuff" means sleeping for some time.
+<4> Get exclusive access to the UI (no, it's not the big kernel lock)
+<5> Do something that needs the UI for sure.
+
+Wow, that's it already. You can give it a try by checking out https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push and run the webapp as ususal.
+
+The next one is about the Vaadin Upload component and how to get an initialized security context in it's listeners.
+
+Can you trust Vaadin Upload?
+
+Yes, you can but only by altering our security configuration. Using the Vaadin Upload component is straight forward:
+
+.`*MainView.java*`
+[source,java,linenums]
+----
+MemoryBuffer buffer = new MemoryBuffer(); // <1>
+Upload upload = new Upload(buffer);
+add(upload);
+upload.addSucceededListener(e -> { // <2>
+   Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // <3>
+   Notification.show(String.format("Upload finished: %s for %sauthenticated user ", e.getFileName(), authentication == null ? "non-" : "")); // <4>
+});
+----
+<1> Business as usual with Vaadin Upload.
+<2> Let's use the the success listener for our tests.
+<3> Get the authentication object with plain Spring Security utils. No magic involved.
+<4> Finally, show a message containing the file name and an info about the authentication state.
+
+If you would run the code without further changes you would always get no authentication object. This is because our Spring Security configuration ignores requests to /VAADIN completely so you will not get an initialized security context. To fix that we have to make sure requests to /VAADIN are also handled by the filter chain:
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+protected void configure(HttpSecurity http) throws Exception {
+    // Not using Spring CSRF here to be able to use plain HTML for the login page
+    http.csrf().disable()
+
+    // Register our CustomRequestCache that saves unauthorized access attempts, so
+    // the user is redirected after login.
+    .requestCache().requestCache(new CustomRequestCache())
+
+    // Restrict access to our application.
+    .and().authorizeRequests()
+
+    // Allow all flow internal requests.
+    .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
+
+    // Vaadin Flow static resources
+    // Now, those requests are handled by Spring Security's filter chain which results in a fully initialized
+    // security context. This is used in the upload's success listener to do additional authentication checks for example.
+    .antMatchers("/VAADIN/**").permitAll() // <1>
+
+    // Allow all requests by logged in users.
+    .anyRequest().authenticated()
+
+[...]
+----
+<1> With the move from `configure(WebSecurity web)` to `configure(HttpSecurity http)` we now redirect all requests Spring Security so that it can initialize the context.
+
+With this change we the notification will change and tell us that the authentication object was successfully resolved. The code is here: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload
+
+Good, let's jump to the last special for now:
+
+Changing the servlet context
+
+
+
+
+Woohoo, that's it. As usual, we prepared a demo application, just check out the branch `login-overlay-form-ilay` and execute `mvn spring-boot:run`. 
+
+PS: I heard rumors there is a backdoor in this app, you might wanna check the code.
+
