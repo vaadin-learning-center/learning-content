@@ -19,6 +19,8 @@ echo "Alright, creating content for $content.."
 git branch "author/$github/$content"
 git checkout "author/$github/$content"
 
+pushd "learn"
+
 #Create file structure
 mkdir "tutorials/$content"
 mkdir "tutorials/$content/images"
