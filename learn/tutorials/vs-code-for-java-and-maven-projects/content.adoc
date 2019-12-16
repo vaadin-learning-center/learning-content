@@ -1,0 +1,42 @@
+= Quickstart: Using VS Code with Java and Maven projects
+
+:title: Using VS Code for Java and Maven projects
+:tags: Java, Maven
+:description: Step by step instructions for importing, running, and debugging a Maven-based Java application in VS Code. 
+:linkattrs:
+:sectnums:
+:imagesdir: ./images
+
+Java is one of many languages supported by https://code.visualstudio.com/:[Visual Studio Code (VS Code)]. Like most things in VS Code, Java support is extension based. You may need several extensions, depending on the project type and stack you are working with. You can find more detail in https://code.visualstudio.com/docs/languages/java:[Java in Visual Studio Code] in the official VS Code documentation.
+ 
+Fortunately, getting started is really simple and you will probably already be familiar with many things. If you feel comfortable , you can skip this tutorial and just try it out for yourself:
+
+== Install the “Java Extension Pack”
+This installs the most essential extensions for Java support. In many cases, it’s all you need. You can install the pack manually, or in response to the automatic prompt that displays when you first open a Java file.
+
+image::vscode-java-extension-pack.png[VS Code open to the extensions tab, showing a search for "java". The "Java Extension Pack" plugin is selected]
+
+== Open your project
+Download a starter project from https://vaadin.com/start/latest:[vaadin.com/start] (or use an existing project), extract it into a folder, and then use Open Folder in VS Code to open the project. VS Code automatically recognizes that it is a Maven-based Java project and opens the Java Overview.
+
+image::vscode-open-folder.png[A folder containing a Maven project opened in VS Code]
+
+== Build and run
+Your project is now ready to run (and develop). You can use the Maven Projects panel to run a goal, or you can open a terminal (select Terminal>New Terminal) and run commands in your project folder.
+
+image::vscode-run-maven.png[Maven projects opened in the VS Code side menu. The "spring-boot:run" target is selected and output is printed to the console.]
+
+== Develop
+You may find that VS Code works similarly to what you are already used to. For instance, you can hover over a type to see more information; use CTRL/CMD+hover for more, and CTRL/CMD+click to navigate to the type. 
+
+image::vscode-coding.png[An editor window showing a Java file. The mouse cursor is over a Notification class, and the IDE shows a tool tip explaining it's usage.]
+
+== Debug
+Use F5 (or select Debug >Start Debugging) to start debugging. The first time you do this, VS Code automatically generates a launch configuration for you, and you have to select Start Debugging again to actually start the process. Once your application has started, you will find the usual debugging tools in the Debug view; for example, clicking to the left of the row number adds a breakpoint and so on.
+
+image::vscode-debugging.png[A Java file with a breakpoint stopped at a return statement. VS Code shows controls for resuming, jumping over, and jumping into the code.]
+
+== Next steps
+Visual Studio Code is an advanced IDE with many convenient tricks up its sleeve. https://code.visualstudio.com/docs:[Take a look at the official documentation], and in particular the https://code.visualstudio.com/docs/java/java-tutorial:[Writing Java with VS Code] section that includes information about editing, running, debugging, and so on. There is also a section on https://code.visualstudio.com/docs/java/java-project#_maven:[Maven support in VS Code].
+
+Happy coding!
