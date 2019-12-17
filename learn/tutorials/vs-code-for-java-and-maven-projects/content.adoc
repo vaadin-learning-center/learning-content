@@ -9,7 +9,7 @@
 
 Java is one of many languages supported by https://code.visualstudio.com/:[Visual Studio Code (VS Code)]. Like most things in VS Code, Java support is extension based. You may need several extensions, depending on the project type and stack you are working with. You can find more detail in https://code.visualstudio.com/docs/languages/java:[Java in Visual Studio Code] in the official VS Code documentation.
  
-Fortunately, getting started is really simple and you will probably already be familiar with many things. If you feel comfortable , you can skip this tutorial and just try it out for yourself:
+Fortunately, getting started is simple and you'll probably already be familiar with most of the things.
 
 == Install the “Java Extension Pack”
 This installs the most essential extensions for Java support. In many cases, it’s all you need. You can install the pack manually, or in response to the automatic prompt that displays when you first open a Java file.
