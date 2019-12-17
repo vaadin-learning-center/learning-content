@@ -11,6 +11,8 @@ Java is one of many languages supported by https://code.visualstudio.com/:[Visua
  
 Fortunately, getting started is simple and you'll probably already be familiar with most of the things.
 
+video::XJeT0ErXBHo[youtube]
+
 == Install the “Java Extension Pack”
 This installs the most essential extensions for Java support. In many cases, it’s all you need. You can install the pack manually, or in response to the automatic prompt that displays when you first open a Java file.
 
