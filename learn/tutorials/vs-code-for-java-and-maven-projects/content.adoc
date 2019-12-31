@@ -7,7 +7,7 @@
 :sectnums:
 :imagesdir: ./images
 
-Java is one of many languages supported by https://code.visualstudio.com/:[Visual Studio Code (VS Code)]. Like most things in VS Code, Java support is extension based. You may need several extensions, depending on the project type and stack you are working with. You can find more detail in https://code.visualstudio.com/docs/languages/java:[Java in Visual Studio Code] in the official VS Code documentation.
+Java is one of many languages supported by https://code.visualstudio.com/[Visual Studio Code (VS Code)]. Like most things in VS Code, Java support is extension based. You may need several extensions, depending on the project type and stack you are working with. You can find more detail in https://code.visualstudio.com/docs/languages/java[Java in Visual Studio Code] in the official VS Code documentation.
  
 Fortunately, getting started is simple and you'll probably already be familiar with most of the things.
 
@@ -19,7 +19,7 @@ This installs the most essential extensions for Java support. In many cases, itâ
 image::vscode-java-extension-pack.png[VS Code open to the extensions tab, showing a search for "java". The "Java Extension Pack" plugin is selected]
 
 == Open your project
-Download a starter project from https://vaadin.com/start/latest:[vaadin.com/start] (or use an existing project), extract it into a folder, and then use Open Folder in VS Code to open the project. VS Code automatically recognizes that it is a Maven-based Java project and opens the Java Overview.
+Download a starter project from https://vaadin.com/start/latest[vaadin.com/start] (or use an existing project), extract it into a folder, and then use Open Folder in VS Code to open the project. VS Code automatically recognizes that it is a Maven-based Java project and opens the Java Overview.
 
 image::vscode-open-folder.png[A folder containing a Maven project opened in VS Code]
 
@@ -39,6 +39,6 @@ Use F5 (or select Debug >Start Debugging) to start debugging. The first time you
 image::vscode-debugging.png[A Java file with a breakpoint stopped at a return statement. VS Code shows controls for resuming, jumping over, and jumping into the code.]
 
 == Next steps
-Visual Studio Code is an advanced IDE with many convenient tricks up its sleeve. https://code.visualstudio.com/docs:[Take a look at the official documentation], and in particular the https://code.visualstudio.com/docs/java/java-tutorial:[Writing Java with VS Code] section that includes information about editing, running, debugging, and so on. There is also a section on https://code.visualstudio.com/docs/java/java-project#_maven:[Maven support in VS Code].
+Visual Studio Code is an advanced IDE with many convenient tricks up its sleeve. https://code.visualstudio.com/docs[Take a look at the official documentation], and in particular the https://code.visualstudio.com/docs/java/java-tutorial[Writing Java with VS Code] section that includes information about editing, running, debugging, and so on. There is also a section on https://code.visualstudio.com/docs/java/java-project#_maven[Maven support in VS Code].
 
 Happy coding!
