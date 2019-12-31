@@ -33,7 +33,7 @@ Follow these steps to install the Designer either in IntelliJ or Eclipse:
 
 After restart the IDE of your choice you are ready to use the Vaadin Designer.
 
-TIP: You find more information about the installation process on our https://vaadin.com/docs/v14/designer/getting-started[webpage].
+TIP: You find more information about the installation process on our https://vaadin.com/docs/v14/designer/getting-started/designer-overview.html[webpage].
 
 == First steps with Vaadin designer
 
