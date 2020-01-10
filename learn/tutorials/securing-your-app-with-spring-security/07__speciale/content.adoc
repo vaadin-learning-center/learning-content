@@ -1,4 +1,4 @@
-:title: Vaadin speciale
+:title: Spring Security Specials
 :author: Paul Römer
 :type: text
 :tags: Spring, Spring Boot, Security
@@ -8,13 +8,13 @@
 :imagesdir: ./images
 
 **This tutorial isn't like others.** This one is about explicitly answering your questions that came up over time and cannot be solved by some comments but by some examples. We will start with
-- **link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push[Vaadin's Push mechanism], then
-- **link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[check the Vaadin Upload component and how to get a valid security context next] and finally
-- **link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[eleborate changing the application servlet context].
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push[Vaadin's Push mechanism], then
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[check the Vaadin Upload component and how to get a valid security context next] and finally
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[eleborate changing the application servlet context].
 
 Likely, others will follow soon and I also expect updates for the ones listed above based on your comments. So, let's get started with pushing stuff.
 
-Vaadin server-side pushing to the client
+== Vaadin server-side pushing to the client
 
 Most of the time the UI of a Vaadin application is only updated on client request when the UI is accessible and locked. The client is more or less pulling the data on user requests. But there are of course a lot of cases, especially if you go reactively, when the server should push data to the client. This is supported by Vaadin for ages and uses websockets for communication. The good thing is that the default transport mechanism in Vaadin 14 is `WEBSOCKET_XHR` which directly translates to "Websocket for server to client, XHR for client to server". This means the client to server transport layer does not change and is handled by our Spring Security filter chain.
 
@@ -29,7 +29,7 @@ Let's start with enabling Push for the `MainView`:
 public class MainView extends VerticalLayout {
 [...]
 ----
-<1> As I said, the defaults are fine and we know can push data from the server to the client in the main view.
+<1> As stated above, defaults are fine and we can start pushing data from the server to the client in the main view, now.
 
 .`*RoleBasedEvaluator.java*`
 [source,java,linenums]
@@ -52,8 +52,8 @@ public MainView(@Autowired MessageBean bean) {
     getElement().appendChild(logoutLink);
 }
 ----
-<1> That is the tricky part. We need a reference to the UI as we are not able to access it from the background thread.
-<2> Let's get some help from Java to execute a background task.
+<1> Well, that might be the trickiest part. We need a reference to the UI as we are not able to access it from the background thread.
+<2> Let's get some backup from Java to execute a background task.
 <3> In this case "heavy stuff" means sleeping for some time.
 <4> Get exclusive access to the UI (no, it's not the big kernel lock)
 <5> Do something that needs the UI for sure.
@@ -62,9 +62,9 @@ Wow, that's it already. You can give it a try by checking out https://github.com
 
 The next one is about the Vaadin Upload component and how to get an initialized security context in it's listeners.
 
-Can you trust Vaadin Upload?
+== Can you trust Vaadin Upload?
 
-Yes, you can but only by altering our security configuration. Using the Vaadin Upload component is straight forward:
+Yes, you can but only after altering our security configuration. Using the Vaadin Upload component is straight forward:
 
 .`*MainView.java*`
 [source,java,linenums]
@@ -111,18 +111,16 @@ protected void configure(HttpSecurity http) throws Exception {
 
 [...]
 ----
-<1> With the move from `configure(WebSecurity web)` to `configure(HttpSecurity http)` we now redirect all requests Spring Security so that it can initialize the context.
+<1> By moving the filter for /VAADIN from `configure(WebSecurity web)` to `configure(HttpSecurity http)` Spring Security will check the requests and can initialize the context.
 
-With this change we the notification will change and tell us that the authentication object was successfully resolved. The code is here: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload
+Now, the notification will change and tell us that the authentication object was successfully resolved. The code is here: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload, try it!
 
 Good, let's jump to the last special for now:
 
-Changing the servlet context
+== Changing the Context Path or just the URL Mapping
 
+First things first, some explanation for a better understanding. Context path changes affect the whole application and all its servlets. That means, if you change the context path to `/deadbeef` all your servlets, no matter what their own URL mapping is, can only be accessed by URLs starting with `/deadbeef`. Spring Boot provides `server.servlet.context-path` property to configure it. Instead, the URL mapping is set per servlet. As we are using Spring Boot you naturally would use the servlet registration bean's method to define the URL mapping. As Vaadin registers the servlet on its own, we provide the `vaadin.urlMapping` configuration property. Again, this will only affect the Vaadin servlet and for example Spring Security will not know about it and still redirects to `/login` instead of `/<your-vaadin-servlet-mapping/login`. This means you will have to update your security configuration if you change the URL mapping.
 
+To me, it is a matter of taste what to use. Personally, I always prefer to keep it simple for life, so I do for my Spring Boot applications and normally have only one servlet per app. In this case `server.servlet.context-path` property is the way to go. But of course there are use-cases in which managing several servlets in one app makes much more sense. Feel free, but do not forget to update your security configuration!
 
-
-Woohoo, that's it. As usual, we prepared a demo application, just check out the branch `login-overlay-form-ilay` and execute `mvn spring-boot:run`. 
-
-PS: I heard rumors there is a backdoor in this app, you might wanna check the code.
 
