@@ -9,8 +9,9 @@
 
 **This tutorial isn't like others.** This one is about explicitly answering your questions that came up over time and cannot be solved by some comments but by some examples. We will start with
 - link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push[Vaadin's Push mechanism], then
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[check the Vaadin Upload component and how to get a valid security context next] and finally
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[eleborate changing the application servlet context].
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[check the Vaadin Upload component and how to get a valid security context next], then
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[eleborate changing the application servlet context] and finally
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay[logging out].
 
 Likely, others will follow soon and I also expect updates for the ones listed above based on your comments. So, let's get started with pushing stuff.
 
@@ -31,7 +32,7 @@ public class MainView extends VerticalLayout {
 ----
 <1> As stated above, defaults are fine and we can start pushing data from the server to the client in the main view, now.
 
-.`*RoleBasedEvaluator.java*`
+.`*MainView.java*`
 [source,java,linenums]
 ----
 public MainView(@Autowired MessageBean bean) {
@@ -121,6 +122,40 @@ Good, let's jump to the last special for now:
 
 First things first, some explanation for a better understanding. Context path changes affect the whole application and all its servlets. That means, if you change the context path to `/deadbeef` all your servlets, no matter what their own URL mapping is, can only be accessed by URLs starting with `/deadbeef`. Spring Boot provides `server.servlet.context-path` property to configure it. Instead, the URL mapping is set per servlet. As we are using Spring Boot you naturally would use the servlet registration bean's method to define the URL mapping. As Vaadin registers the servlet on its own, we provide the `vaadin.urlMapping` configuration property. Again, this will only affect the Vaadin servlet and for example Spring Security will not know about it and still redirects to `/login` instead of `/<your-vaadin-servlet-mapping/login`. This means you will have to update your security configuration if you change the URL mapping.
 
-To me, it is a matter of taste what to use. Personally, I always prefer to keep it simple for life, so I do for my Spring Boot applications and normally have only one servlet per app. In this case `server.servlet.context-path` property is the way to go. But of course there are use-cases in which managing several servlets in one app makes much more sense. Feel free, but do not forget to update your security configuration!
+To me, it is a matter of taste what to use. Personally, I always prefer to keep it simple for life, so I do for my Spring Boot applications and normally have only one servlet per app. In this case `server.servlet.context-path` property is the way to go. But of course there are use-cases in which managing several servlets in one app makes much more sense. Feel free to use whichever approach you want, but do not forget to update your security configuration!
 
+== Get me out of here
+
+We always talk about logging in but never talk about logging out. But from a security point of view it is even more important to get rid of all of your security context so others cannot (re-)use it. As ususal I prefer using endpoints Spring Security provides already and in all our examples we have already defined it:
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+
+    [...]
+
+		// Configure logout
+		.and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL); // <1>
+}
+----
+<1> Enables the /logout endpoint and redirects to `LOGOUT_SUCCESS_URL` afterwards. Check link:https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#logout-java-configuration[the Spring Security docs] for details.
+
+Next, we have to be able to redirect the user to the endpoint. This part is not trivial as Vaadin's router does not know any view corresponding to the logout endpoint Spring Security provides and will just ignore your request. Actually, this is good as Spring Security expects a full page request anyway. Luckily, Vaadin provides low level access and allows us to add an anchor element via Java easily:
+
+.`*MainView.java*`
+[source,java,linenums]
+----
+public MainView(@Autowired MessageBean bean) {
+    [...]
+    // simple link to the logout endpoint provided by Spring Security
+    Element logoutLink = ElementFactory.createAnchor("logout", "Logout"); // <1>
+    getElement().appendChild(logoutLink); // <2>
+}
+----
+<1> Kindly ask the element factory to create an anchor element.
+<2> Add it to the main view.
+
+The same approach works for Polymer templates, just add the anchor element declaratively.
 
