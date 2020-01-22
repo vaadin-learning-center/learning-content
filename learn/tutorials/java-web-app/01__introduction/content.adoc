@@ -1,8 +1,8 @@
-= Introduction: Web App Development in Java tutorial
+= Web App Development in Java tutorial overview
 
+:title: Web App Development in Java tutorial overview
 :tags: Vaadin, Java, Spring 
 :author: Vaadin
-:publish_date: 2020-01-22
 :description: In this tutorial series you will learn how to build a modern, full-stack, web application with Spring Boot and Vaadin
 :repo: https://github.com/vaadin-learning-center/vaadin-crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
