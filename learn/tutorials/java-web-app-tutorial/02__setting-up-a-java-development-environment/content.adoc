@@ -20,7 +20,7 @@ For web app development in Java, you need a:
 
 You can complete this guide using any IDE, but for the sake of simplicity, we use https://www.jetbrains.com/idea/[IntelliJ Idea] throughout. The IntelliJ Community Edition is free to use and a great choice if you don't already have an IDE setup. 
 
-If you have the necessary tools installed on your computer, you're ready to start the tutorial, and can skip ahead to the link:/learn/tutorials/java-web-app-tutorial/running-and-debugging-maven-apps-in-intellij[next chapter]. If not, follow the instructions for your operating system to get ready to start coding.
+If you have the necessary tools installed on your computer, you're ready to start the tutorial, and can skip ahead to the next chapter. If not, follow the instructions for your operating system to get ready to start coding.
 
 == Which Java version should you install?
 If you're new to Java or haven't used it in a while, you may be surprised by the number of Java runtimes available. A while ago, https://blogs.oracle.com/java-platform-group/update-and-faq-on-the-java-se-release-cadence[Oracle changed their release model] and made the official Oracle JDK a paid product for commercial projects. Instead of one major release every few years, they now release new major versions every 6 months, and designate a long-term support (LTS) version every 3 years. *We recommend you use the current LTS version, https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html[Java SE 11]*, if you prefer to use Oracle.
