@@ -1,5 +1,6 @@
-= Introduction: Web App Development in Java tutorial
+= Web App Development in Java tutorial overview
 
+:title: Web App Development in Java tutorial overview
 :tags: Vaadin, Java, Spring 
 :author: Vaadin
 :publish_date: 2020-01-22

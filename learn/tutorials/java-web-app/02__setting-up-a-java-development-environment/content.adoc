@@ -1,5 +1,6 @@
 = Setting up a Java development environment
 
+:title: Setting up a Java development environment
 :tags: Vaadin, Java, Spring 
 :author: Vaadin
 :publish_date: 2020-01-22
