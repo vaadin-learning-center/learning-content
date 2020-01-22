@@ -3,7 +3,6 @@
 :title: Setting up a Java development environment
 :tags: Vaadin, Java, Spring 
 :author: Vaadin
-:publish_date: 2020-01-22
 :description: Windows, Linux, and macOS instructions for installing a Java development environment: JDK, Maven, Git, Node, and IntelliJ
 :repo: https://github.com/vaadin-learning-center/vaadin-crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
