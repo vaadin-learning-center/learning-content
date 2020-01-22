@@ -1,0 +1,194 @@
+= Setting up a Java development environment
+
+:tags: Vaadin, Java, Spring 
+:author: Vaadin
+:publish_date: 2020-01-22
+:description: Windows, Linux, and macOS instructions for installing a Java development environment: JDK, Maven, Git, Node, and IntelliJ
+:repo: https://github.com/vaadin-learning-center/vaadin-crm-tutorial
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+
+Before you can start developing your Java app, you need to install the necessary development tools and set up your development environment. 
+
+For web app development in Java, you need a: 
+
+* Java Development Kit (JDK)
+* Build tool (Maven)
+* Version control system (Git)
+* Front-end build tool (Node.js)
+* Integrated development environment (IDE). 
+
+You can complete this guide using any IDE, but for the sake of simplicity, we use https://www.jetbrains.com/idea/[IntelliJ Idea] throughout. The IntelliJ Community Edition is free to use and a great choice if you don't already have an IDE setup. 
+
+If you have the necessary tools installed on your computer, you're ready to start the tutorial, and can skip ahead to the link:/learn/tutorials/java-web-app-tutorial/running-and-debugging-maven-apps-in-intellij[next chapter]. If not, follow the instructions for your operating system to get ready to start coding.
+
+== Which Java version should you install?
+If you're new to Java or haven't used it in a while, you may be surprised by the number of Java runtimes available. A while ago, https://blogs.oracle.com/java-platform-group/update-and-faq-on-the-java-se-release-cadence[Oracle changed their release model] and made the official Oracle JDK a paid product for commercial projects. Instead of one major release every few years, they now release new major versions every 6 months, and designate a long-term support (LTS) version every 3 years. *We recommend you use the current LTS version, https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html[Java SE 11]*, if you prefer to use Oracle.
+
+When the Oracle JDK became a commercial product, many developers chose to switch to alternative JDKs. There are many available drop-in replacements that are free to use and come with long-term-support releases. *We recommend you use either https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html[Amazon Corretto] or https://openjdk.java.net/[OpenJDK]*.
+
+
+== Setting up on Windows
+To set up your development environment on Windows:
+
+. Install Java:
+.. Go to the Amazon Corretto 11 download page.
+.. Download and run the Windows installer (`.msi`). 
+.. Follow the prompts in the wizard.
++
+image::win-coretto-installer.png[Amazon Corretto installer]
+
+
+. Install Maven:
+.. Go to the Maven https://maven.apache.org/download.cgi[download] page.
+.. Download the Binary zip archive in the Files section. 
+.. Extract the archive to `C:\Program Files`.
+.. In Windows, go to *Control Panel > Systems and Security > System > Advanced system settings*. 
+.. Select Environment Variables.
++
+image::win-system-properties.png[Windows system properties widow]
+.. In Environment Variables, select the Path systems variable (in the bottom box) and then select Edit.
+.. Select Browse in the edit dialog.
+.. Navigate to and select `C:\Program Files\apache-maven-3.6.3\bin` (substitute the version number you downloaded) and then select OK. 
++
+image::win-environment-variable.png[Environmental variables window]
+.. Select OK in all open dialogs to close them and save the environment variable. 
+
+
+. Install Node:
+.. Go to the Node.js https://nodejs.org/en/download/[download] page. 
+.. Download and run the Windows Installer (`.msi`) for your system. 
+.. Follow the prompts in the wizard.
++
+image::win-nodejs-wizard.png[Node.js Windows installer]
+
+. Install Git:
+.. Go to the Git https://git-scm.com/downloads[download] page.
+.. Download and run the Windows installer (`.exe`) for your system. 
+.. Follow the prompts in the wizard. If you are unsure about any option, use the defaults. 
++
+image::win-git-installer.png[Git installer]
+
+
+. Install IntelliJ:
+.. Go to the IntelliJ Windows https://www.jetbrains.com/idea/download/#section=windows[download] page. 
+.. Download and run the Community Edition installer (`.exe`). 
+.. Follow the prompts in the wizard.
++
+image::win-intellij-wizard.png[IntelliJ installer]
+
+.. Reboot your computer to finish the setup.
+.. Start IntelliJ and set up your preferences. You can use the defaults, unless you have reason not to.
+
+
+== Setting up on macOS
+
+To set up your developer environment on macOS:
+
+. Install Java:
+.. Go to the Amazon Corretto 11 https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html[download] page.
+.. Download and run the macOs installer (`.pkg`). 
+.. Follow the prompts in the wizard.
++
+image::mac-corretto-installer.png[Amazon Corretto installer on Mac]
+
+. Install Homebrew:
++
+https://brew.sh/[Homebrew], is a package manager, and is the easiest way to install both Maven and Node on macOS. 
+To install Homebrew, paste the following into your terminal:
++
+----
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+----
+
+. Install Maven and Node:
++
+Use this command to install both Maven and Node in Homebrew:
++
+----
+brew install node maven
+----
+
+. Install IntelliJ:
+.. Go to the IntelliJ Mac https://www.jetbrains.com/idea/download/#section=mac[download] page. 
+.. Download the Community Edition installer . 
+.. Copy the app to your Applications folder in Finder.  
++
+image::mac-intellij-install.png[Installing IntelliJ on Mac]
+
+
+== Setting up on Linux 
+
+This section contains instructions for Debian and RPM-based distros. Installation on other distributions should be very similar and you can adapt these instructions, if necessary.  On Linux, it's easiest to use OpenJDK, as it's available in the package repositories. 
+
+. Install Node.js:
++
+NOTE: You need to install the latest Node.js LTS repository to your package manager. The version available in most distributions is not sufficiently new for our purposes. https://github.com/nodesource/distributions[Nodesource] offers packages for all major distros.
+
+
+.. Debian-based systems:
+
+... For Ubuntu and distributions using sudo, run:
++
+----
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y openjdk-11-jdk maven git nodejs
+----
+
+
+... For Debian, or if you are not using sudo, run the following as root:
++
+----
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
+apt-get install -y openjdk-11-jdk maven git nodejs
+----
+
+.. RPM-based distributions, run:
++
+----
+curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
+sudo yum install -y java-11-openjdk-devel.x86_64 maven git nodejs
+----
+
+
+... Check the Java version:
+**** To ensure that you are running Java 11, run `java -version`. 
+
+**** To change to change to Java 11, if necessary, use:
++
+----
+sudo alternatives --config java
+----
++
+NOTE: If you are on a different distro, or aren't comfortable with the automatic repo setup script, you can find a full set of instructions on the https://github.com/nodesource/distributions[NodeSource GitHub repository].
+
+
+. Install IntelliJ:
++
+TIP: The easiest way to install IntelliJ on Linux is to use the https://snapcraft.io/docs/installing-snapd[Snap package manager]. If you use Ubuntu or a derivative, it is already installed. 
+
+
+.. To install IntelliJ using snap, run:
++
+----
+sudo snap install intellij-idea-community --classic
+----
+
+
+.. To install intelliJ manually:
+... Go to the IntelliJ Linux https://www.jetbrains.com/idea/download/#section=linux[download] page. 
+... Download the Community Edition `.tar.gz`. 
+... Extract the archive: 
++
+----
+sudo mkdir /opt/intellij
+sudo tar zxvf ideaIC*.tar.gz -C /opt/intellij --strip-components=1
+----
+... Run the IDE (the start wizard gives you the option to create a desktop shortcut):
++
+----
+sh /opt/intellij/bin/idea.sh
+----
+
+
+You now have everything you need to start coding Java. The next tutorial will show you how to import and run a Maven-based Java project in IntelliJ.
