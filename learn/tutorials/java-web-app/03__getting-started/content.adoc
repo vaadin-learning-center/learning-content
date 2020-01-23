@@ -47,17 +47,17 @@ image::open-pom.png[open pom file]
 
 . Select *Open as Project*.
 This imports a project based on the POM file.
-
-image::open-as-project.png[open as project]
 +
+image::open-as-project.png[open as project]
+
 . IntelliJ imports the project and downloads all necessary dependencies. 
 This can take several minutes, depending on your internet connection speed.
 
 
 When the import is complete, your project structure will be similar to this:
 
-* Java source files are in the src/main/java folder. 
-* Test files are in the src/test folder (we'll refer to these later).
+* Java source files are in the `src/main/java` folder. 
+* Test files are in the `src/test` folder (we'll refer to these later).
 
 image::project-structure.png[project file hierarchy]
 
@@ -80,14 +80,12 @@ The first time you start a Vaadin application, it downloads front-end dependenci
 
 You’ll know that your application has started when you see the following output in the console:
 
----- +
 ----
 Tomcat started on port(s): 8080 (http) with context path ''
 Started Application in 80.189 seconds (JVM running for 83.42)
 ----
----- +
 
-You can now open http://localhost:8080[http://localhost:8080] in your browser. You’ll see a *Say hello* button and *Your name* field on the screen. Enter your name and click the button to see the notification that displays. 
+You can now open localhost:8080 in your browser. You’ll see a *Say hello* button and *Your name* field on the screen. Enter your name and click the button to see the notification that displays. 
 
 image:running-app.png[running app view]
 
@@ -108,7 +106,6 @@ image::debug-icon.png[debug button]
 +
 You can now insert a debug point. This tells the debugger to pause the app whenever it gets to the line marked in the code. 
 
-
 . In MainView.java, on the line containing Notification.show, click next to the line number to add a breakpoint (debug point). 
 When you click, the code line is highlighted and a red dot displays. 
 +
@@ -122,17 +119,11 @@ image::debugger.png[debug view]
 +
 In the debug panel, you can see values for all variables. There are also controls that allow you to run the app one step at a time, to better understand what's happening. The most important controls are:
 
- * *Step over*: Continue to the next line in the same file.
-+
-image::step-over.png[step over icon]
+ * image:step-over.png[step over icon] *Step over*: Continue to the next line in the same file.
 
- * *Step into*: Drill into a method call (for instance, if you wanted to see what's going on inside service.greet()).
-+
-image::step-into.png[step into icon]
+ * image:step-into.png[step into icon] *Step into*: Drill into a method call (for instance, if you wanted to see what's going on inside service.greet()).
 
- * *Step out*: Go back to the line of code that called the method you're currently in.
-+
-image::step-out.png[step out icon]
+ * image:step-out.png[step out icon] *Step out*: Go back to the line of code that called the method you're currently in.
 +
 Play around with the debugger to familiarize yourself with it. If you want to learn more, JetBrains has an https://www.jetbrains.com/help/idea/debugging-code.html[excellent resource on using the debugger]. 
 
@@ -161,12 +152,13 @@ The middle of the icon should turn solid to indicate that LiveReload is working 
 . When LiveReload is running, verify that it works by making a change in the code:
 .. Create a new H1 heading and add it as the first argument in the add() method on the last line in MainView.
 +
-.MainView.java
+.`*MainView.java*`
 [source,java]
 ----
 add(new H1("Hello world"), textField, button);
 ----
-..  Click the build icon  in IntelliJ (next to the run targets dropdown)
+
+.. Click the build icon  in IntelliJ (next to the run targets dropdown)
 +
 image::build-icon-small.png[build icon]
 +
@@ -177,33 +169,30 @@ image::intellij-build.png[build location]
 +
 image::reloaded-change.png[reloaded page]
 
-*NOTE:* You may sometimes see error messages like this in the browser after a reload.  +
----- +
+[NOTE]
+====
+You may sometimes see error messages like this in the browser after a reload.  
+
 ----
 Could not navigate to ''
 Reason: Couldn't find route for ''
 Available routes:
 This detailed message is only shown when running in development mode.
 ----
----- +
-or  +
----- +
+or
 ----
 There was an exception while trying to navigate to '' with the exception message 'Error creating bean with name 'com.vaadin.tutorial.crm.MainView': Unsatisfied dependency expressed through constructor parameter 0
 ----
----- +
 
 These errors are caused by a https://github.com/spring-projects/spring-boot/issues/19543[Spring DevTools reload timing issue]. You may be able to alleviate the issue by adding the following two properties to src/main/resources/application.properties** **and adjusting the intervals to work with your computer. Stop and restart the server after adding the properties.
+====
 
-.application.properties +
-[source] +
----- +
+.`*application.properties*`
+[source]
 ----
 spring.devtools.restart.poll-interval=2s
 spring.devtools.restart.quiet-period=1s
-
 ----
----- +
 
 
 === Enabling auto import 
@@ -212,7 +201,7 @@ You can configure IntelliJ to automatically resolve imports for Java classes. Th
 
 To enable auto import in IntelliJ:
 
-. Open the **P***references/Settings* window and navigate to *Editor > General > Auto Import*. 
+. Open the *Preferences/Settings* window and navigate to *Editor > General > Auto Import*. 
 . Enable the following two options:
 
 * *Add unambiguous imports on the fly*.
@@ -220,10 +209,9 @@ To enable auto import in IntelliJ:
 +
 image::auto-import.png[automatic import settings]
 +
-Vaadin shares many class names (like Button) with Swing, AWT, and JavaFX . 
+Vaadin shares many class names (like Button) with Swing, AWT, and JavaFX. 
 
 . If you don't use Swing, AWT, or JavaFX in other projects, add the following packages to the *Exclude from import and completion* list to help IntelliJ select the correct classes automatically.
-
 
 * com.sun
 * java.awt
@@ -231,8 +219,3 @@ Vaadin shares many class names (like Button) with Swing, AWT, and JavaFX .
 * javax.swing
 * jdk.internal
 * Sun.plugin
-
-
-
-
-
