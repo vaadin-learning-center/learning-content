@@ -18,6 +18,8 @@ In this section, you'll learn:
 * How to import a project starter into your IDE.  
 * How to set up your browser to automatically show updates as you build your application. 
 
+video::pMWw_HktG3M[youtube]
+
 === Importing a Maven project into IntelliJ
 
 https://maven.apache.org/[Maven] is the most popular project management tool for Java. It takes care of managing your project structure and dependencies, and builds runnable artifacts. 
