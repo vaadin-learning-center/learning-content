@@ -1,7 +1,7 @@
 = Importing, running, and debugging a Java web app project
 
 :title: Importing, running, and debugging a Java web app project
-:tags: Vaadin, Java, Spring 
+:tags: Java, Spring 
 :author: Vaadin
 :description: Instructions for importing, running, and debugging a Java web app project in IntelliJ
 :repo: https://github.com/vaadin-learning-center/vaadin-crm-tutorial
@@ -223,4 +223,4 @@ Vaadin shares many class names (like Button) with Swing, AWT, and JavaFX.
 * javafx.scene
 * javax.swing
 * jdk.internal
-* Sun.plugin
+* sun.plugin
