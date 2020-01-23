@@ -119,11 +119,16 @@ image::debugger.png[debug view]
 +
 In the debug panel, you can see values for all variables. There are also controls that allow you to run the app one step at a time, to better understand what's happening. The most important controls are:
 
- * image:step-over.png[step over icon] *Step over*: Continue to the next line in the same file.
+* *Step over*: Continue to the next line in the same file.
++
+image::step-over.png[step over icon]
 
- * image:step-into.png[step into icon] *Step into*: Drill into a method call (for instance, if you wanted to see what's going on inside service.greet()).
-
- * image:step-out.png[step out icon] *Step out*: Go back to the line of code that called the method you're currently in.
+* *Step into*: Drill into a method call (for instance, if youwanted to see what's going on inside service.greet()).
++
+image::step-into.png[step into icon]
+* *Step out*: Go back to the line of code that called the methodyou're currently in.
++
+image:step-out.png[step out icon]
 +
 Play around with the debugger to familiarize yourself with it. If you want to learn more, JetBrains has an https://www.jetbrains.com/help/idea/debugging-code.html[excellent resource on using the debugger]. 
 
