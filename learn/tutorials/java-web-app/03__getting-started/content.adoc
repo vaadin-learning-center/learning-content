@@ -1,6 +1,6 @@
 = Importing, running, and debugging a Java web app project
 
-:title: Getting started: importing, running, and debugging a Java web app project
+:title: Importing, running, and debugging a Java web app project
 :tags: Vaadin, Java, Spring 
 :author: Vaadin
 :description: Instructions for importing, running, and debugging a Java web app project in IntelliJ
