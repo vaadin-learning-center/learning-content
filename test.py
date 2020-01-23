@@ -144,7 +144,7 @@ def load_properties(propsFile):
 	result = {}
 	possibleAttributes = [ line for line in open(propsFile, encoding="utf-8") if ":" in line or "=" in line]
 	for attr in possibleAttributes:
-		m = re.search("^(.*)[:|=](.*)$", attr)
+		m = re.search("^([^:|=]*)[:|=](.*)$", attr)
 		if m:
 			result[m.group(1).strip()] = m.group(2).strip();
 
