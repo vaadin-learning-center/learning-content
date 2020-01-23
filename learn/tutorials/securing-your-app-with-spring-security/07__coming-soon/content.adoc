@@ -1,0 +1,9 @@
+:title: Real world setup with CAS, Vaadin and Spring Security
+:author: Paul Römer
+:type: text
+:tags: Spring, Spring Boot, Security
+:description: Learn how to integrate Vaadin with CAS and Spring Security
+:repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay
+:linkattrs:
+:imagesdir: ./images
+:coming_soon:
