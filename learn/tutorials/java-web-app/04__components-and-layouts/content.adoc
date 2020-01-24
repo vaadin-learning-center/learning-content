@@ -8,3 +8,4 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 :coming_soon:
+:hidden:
