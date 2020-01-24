@@ -8,8 +8,6 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
-== Importing, running, and debugging a Java web app project
-
 
 The first step in any project is to set up the project and get a base app running. 
 
@@ -20,7 +18,7 @@ In this section, you'll learn:
 
 video::pMWw_HktG3M[youtube]
 
-=== Importing a Maven project into IntelliJ
+== Importing a Maven project into IntelliJ
 
 https://maven.apache.org/[Maven] is the most popular project management tool for Java. It takes care of managing your project structure and dependencies, and builds runnable artifacts. 
 
@@ -63,7 +61,7 @@ image::project-structure.png[project file hierarchy]
 
 
 
-=== Running a Spring Boot project
+== Running a Spring Boot project
 
 Spring Boot makes it easier to run a Java web application, because it takes care of starting and configuring the server. 
 
@@ -89,7 +87,7 @@ You can now open localhost:8080 in your browser. You’ll see a *Say hello* butt
 
 image:running-app.png[running app view]
 
-=== Debugging with IntelliJ
+== Debugging with IntelliJ
 
 The debugger is a useful tool to understand what's happening in your code when things are not working as expected. Knowing how to use the debugger saves you from having to use a lot of `System.out.println`'s.
 
@@ -139,7 +137,7 @@ image::resume-icon.png[resune program icon]
 Your code will now run normally and you'll see the notification in your browser.
 
 
-=== Enabling live browser reload 
+== Enabling live browser reload 
 
 One final thing to do before starting to program is to enable live reloading of changes. This provides a far better development experience. All code changes you make are automatically displayed in the browser, without the need to refresh the page manually. 
 
@@ -200,7 +198,7 @@ spring.devtools.restart.quiet-period=1s
 ----
 
 
-=== Enabling auto import 
+== Enabling auto import 
 
 You can configure IntelliJ to automatically resolve imports for Java classes. This makes it easier to copy code from this tutorial into your IDE. 
 

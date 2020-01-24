@@ -1,0 +1,11 @@
+= Building UIs with components and layouts
+
+:title: Building UIs with components and layouts
+:tags: Java, Spring 
+:author: Vaadin
+:description: Learn the basics of using components and layouts, the building blocks of Vaadin web apps. 
+:repo: https://github.com/vaadin-learning-center/crm-tutorial
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+:coming_soon:
+:hidden:

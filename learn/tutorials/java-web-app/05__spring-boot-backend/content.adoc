@@ -1,0 +1,11 @@
+= Building a backend with Spring Boot
+
+:title: Building a backend with Spring Boot
+:tags: Java, Spring 
+:author: Vaadin
+:description: Learn how to set up a database, JPA entities, Spring Data repositories, and service classes
+:repo: https://github.com/vaadin-learning-center/crm-tutorial
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+:coming_soon:
+:hidden:
