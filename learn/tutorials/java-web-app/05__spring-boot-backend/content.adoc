@@ -359,9 +359,9 @@ public class ContactService {
 }
 ----
 +
-* The `@Service` annotation lets Spring know that this is a service class and makes it available for injection. This allows you to easily use it from your UI code later on.
-* The constructor takes 2 parameters: `ContactRepository` and `CompanyRepository`. Spring provides instances based on the interfaces we defined earlier. 
-* For now, most operations are just passed through to the repository. The only exception is the `save` method, which checks for null values before attempting to save.
+<1> The `@Service` annotation lets Spring know that this is a service class and makes it available for injection. This allows you to easily use it from your UI code later on.
+<2> The constructor takes 2 parameters: `ContactRepository` and `CompanyRepository`. Spring provides instances based on the interfaces we defined earlier. 
+<3> For now, most operations are just passed through to the repository. The only exception is the `save` method, which checks for null values before attempting to save.
 
 .`*CompanyService.java*`
 [source,java]
@@ -436,9 +436,9 @@ public void populateTestData() {
 }
 ----
 
-* The @PostConstruct annotation tells Spring to run this method after constructing ContactService.
-* Creates 3 test companies.
-* Creates test contacts.
+<1> The @PostConstruct annotation tells Spring to run this method after constructing ContactService.
+<2> Creates 3 test companies.
+<3> Creates test contacts.
 
 == Finalizing the back end
 
