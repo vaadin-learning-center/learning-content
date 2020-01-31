@@ -7,19 +7,22 @@
 :linkattrs:
 :imagesdir: ./images
 
-**This tutorial isn't like others.** This one is about explicitly answering your questions that came up over time and cannot be solved by some comments but by some examples. We will start with
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push[Vaadin's Push mechanism], then
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[check the Vaadin Upload component and how to get a valid security context next], then
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[eleborate changing the application servlet context] and finally
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay[logging out].
+**This tutorial isn't like others:** it is about explicitly answering your questions. It deals with issues that come up again and again, and are best answered by examples, rather than comments.
+We cover:
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push[Vaadin Push mechanism.]
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[How to get a valid security context in Vaadin’s Upload component.]
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[How to change the application servlet context.]
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay[Logging out.]
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-always-remember-me[How to remember users.]
+- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/spring-mvc-login-view[Using a Spring Thymeleaf login view.]
 
-Likely, others will follow soon and I also expect updates for the ones listed above based on your comments. So, let's get started with pushing stuff.
+We plan to publish solutions to new issues as and when they arise. We will also update this content based on your comments. So, let’s get started with pushing stuff.
 
-== Vaadin server-side pushing to the client
+== Vaadin server-side push to the client
 
-Most of the time the UI of a Vaadin application is only updated on client request when the UI is accessible and locked. The client is more or less pulling the data on user requests. But there are of course a lot of cases, especially if you go reactively, when the server should push data to the client. This is supported by Vaadin for ages and uses websockets for communication. The good thing is that the default transport mechanism in Vaadin 14 is `WEBSOCKET_XHR` which directly translates to "Websocket for server to client, XHR for client to server". This means the client to server transport layer does not change and is handled by our Spring Security filter chain.
+Most of the time, the UI of a Vaadin application only updates on client request when the UI is accessible and locked. The client, more or less, pulls the data on user requests. But, there are, of course, a lot of cases, especially if you go reactively, when the server should push data to the client. Vaadin supports this using the WebSocket protocol. The good thing is that the default transport mechanism in Vaadin 14 is `WEBSOCKET_XHR`: this translates directly to "WebSocket for server to client and XHR for client to server". This means the client to server transport layer does not change and is handled by our Spring Security filter chain.
 
-Let's start with enabling Push for the `MainView`:
+Let’s start with enabling Push for the `MainView`:
 
 .`*MainView.java*`
 [source,java,linenums]
@@ -30,7 +33,7 @@ Let's start with enabling Push for the `MainView`:
 public class MainView extends VerticalLayout {
 [...]
 ----
-<1> As stated above, defaults are fine and we can start pushing data from the server to the client in the main view, now.
+<1> As stated above, defaults are fine and we can now start pushing data from the server to the client in the main view.
 
 .`*MainView.java*`
 [source,java,linenums]
@@ -53,37 +56,36 @@ public MainView(@Autowired MessageBean bean) {
     getElement().appendChild(logoutLink);
 }
 ----
-<1> Well, that might be the trickiest part. We need a reference to the UI as we are not able to access it from the background thread.
-<2> Let's get some backup from Java to execute a background task.
-<3> In this case "heavy stuff" means sleeping for some time.
-<4> Get exclusive access to the UI (no, it's not the big kernel lock)
+<1> This is probably the trickiest part. We need a reference to the UI, as we are not able to access it from the background thread.
+<2> This gets you some backup from Java to execute background tasks.
+<3> In this case "heavy stuff" means sleeping for a while.
+<4> This allows exclusive access to the UI (no, it’s not the big kernel lock).
 <5> Do something that needs the UI for sure.
 
-Wow, that's it already. You can give it a try by checking out https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push and run the webapp as ususal.
-
-The next one is about the Vaadin Upload component and how to get an initialized security context in it's listeners.
+Wow, that's it already. You can give it a try by checking out https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push and running the webapp in the usual way.
 
 == Can you trust Vaadin Upload?
 
-Yes, you can but only after altering our security configuration. Using the Vaadin Upload component is straight forward:
+Yes you can, but only after altering your security configuration.
+In this section, we cover how to get an initialized security context in the Vaadin Upload component’s listeners.
+Using the Vaadin Upload component is straight forward:
 
 .`*MainView.java*`
 [source,java,linenums]
 ----
-MemoryBuffer buffer = new MemoryBuffer(); // <1>
+MemoryBuffer buffer = new MemoryBuffer();
 Upload upload = new Upload(buffer);
 add(upload);
-upload.addSucceededListener(e -> { // <2>
-   Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // <3>
-   Notification.show(String.format("Upload finished: %s for %sauthenticated user ", e.getFileName(), authentication == null ? "non-" : "")); // <4>
+upload.addSucceededListener(e -> { // <1>
+   Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // <2>
+   Notification.show(String.format("Upload finished: %s for %sauthenticated user ", e.getFileName(), authentication == null ? "non-" : "")); // <3>
 });
 ----
-<1> Business as usual with Vaadin Upload.
-<2> Let's use the the success listener for our tests.
-<3> Get the authentication object with plain Spring Security utils. No magic involved.
-<4> Finally, show a message containing the file name and an info about the authentication state.
+<1> Adds the success listener.
+<2> Gets the authentication object with plain Spring Security utils. No magic involved.
+<3> Shows a message containing the file name and info about the authentication state.
 
-If you would run the code without further changes you would always get no authentication object. This is because our Spring Security configuration ignores requests to /VAADIN completely so you will not get an initialized security context. To fix that we have to make sure requests to /VAADIN are also handled by the filter chain:
+If you run the code without further changes, you would never get an authentication object. This is because our Spring Security configuration ignores requests to /VAADIN completely, so you do not get an initialized security context. To fix this, you need to make sure requests to /VAADIN are also handled by the filter chain:
 
 .`*SecurityConfiguration.java*`
 [source,java,linenums]
@@ -112,21 +114,19 @@ protected void configure(HttpSecurity http) throws Exception {
 
 [...]
 ----
-<1> By moving the filter for /VAADIN from `configure(WebSecurity web)` to `configure(HttpSecurity http)` Spring Security will check the requests and can initialize the context.
+<1> Moving the filter for /VAADIN from `configure(WebSecurity web)` to `configure(HttpSecurity http)` ensures that Spring Security checks the requests and can initialize the context.
 
-Now, the notification will change and tell us that the authentication object was successfully resolved. The code is here: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload, try it!
-
-Good, let's jump to the last special for now:
+Now, the notification will change and tell you that the authentication object was successfully resolved. The code is here: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload, try it!
+Good, let’s move on to the next issue :
 
 == Changing the Context Path or just the URL Mapping
 
-First things first, some explanation for a better understanding. Context path changes affect the whole application and all its servlets. That means, if you change the context path to `/deadbeef` all your servlets, no matter what their own URL mapping is, can only be accessed by URLs starting with `/deadbeef`. Spring Boot provides `server.servlet.context-path` property to configure it. Instead, the URL mapping is set per servlet. As we are using Spring Boot you naturally would use the servlet registration bean's method to define the URL mapping. As Vaadin registers the servlet on its own, we provide the `vaadin.urlMapping` configuration property. Again, this will only affect the Vaadin servlet and for example Spring Security will not know about it and still redirects to `/login` instead of `/<your-vaadin-servlet-mapping/login`. This means you will have to update your security configuration if you change the URL mapping.
-
-To me, it is a matter of taste what to use. Personally, I always prefer to keep it simple for life, so I do for my Spring Boot applications and normally have only one servlet per app. In this case `server.servlet.context-path` property is the way to go. But of course there are use-cases in which managing several servlets in one app makes much more sense. Feel free to use whichever approach you want, but do not forget to update your security configuration!
+First things first! This topic requires some explanation for a better understanding. Context path changes affect the whole application and all its servlets. This means, if you change the context path to `/deadbeef`, all your servlets, no matter what their own URL mapping is, can only be accessed by URLs starting with `/deadbeef`. Spring Boot provides the `server.servlet.context-path` property to configure this. The URL mapping, on the other hand, is set per servlet. As you are using Spring Boot,  you would typically use the servlet registration bean’s method to define the URL mapping. As Vaadin registers the servlet on its own, the `vaadin.urlMapping` configuration property is provided. Again, this only affects the Vaadin servlet. Spring Security, for example, does not know about it and still redirects to `/login` instead of `/<your-vaadin-servlet-mapping>/login`. This means you have to update your security configuration if you change the URL mapping.
+To me, which option to use is a matter of personal preference. Because I prefer to keep life simple, in Spring Boot applications I normally have only one servlet per app. In this scenario, the `server.servlet.context-path` property is the way to go. But, of course, there are many use-cases in which managing several servlets in one app makes much more sense. Feel free to use whichever approach you want, but do not forget to update your security configuration!
 
 == Get me out of here
 
-We always talk about logging in but never talk about logging out. But from a security point of view it is even more important to get rid of all of your security context so others cannot (re-)use it. As ususal I prefer using endpoints Spring Security provides already and in all our examples we have already defined it:
+We always talk about logging in, but never about logging out. From a security point of view, logging out is even more important. You need to get rid of your entire security context, so others cannot (re-)use it. I prefer to use the endpoints provided by Spring Security and the examples below assume this has been defined:
 
 .`*SecurityConfiguration.java*`
 [source,java,linenums]
@@ -142,7 +142,7 @@ protected void configure(HttpSecurity http) throws Exception {
 ----
 <1> Enables the /logout endpoint and redirects to `LOGOUT_SUCCESS_URL` afterwards. Check link:https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#logout-java-configuration[the Spring Security docs] for details.
 
-Next, we have to be able to redirect the user to the endpoint. This part is not trivial as Vaadin's router does not know any view corresponding to the logout endpoint Spring Security provides and will just ignore your request. Actually, this is good as Spring Security expects a full page request anyway. Luckily, Vaadin provides low level access and allows us to add an anchor element via Java easily:
+Next, we have to be able to redirect the user to the endpoint. This part is not trivial, as Vaadin’s router is not aware of any view that corresponds to the logout endpoint provided by Spring Security and simply ignores the request. This is actually a good thing, as Spring Security expects a full page request anyway. Luckily, Vaadin provides low-level access and allows you to easily add an anchor element using Java:
 
 .`*MainView.java*`
 [source,java,linenums]
@@ -154,8 +154,104 @@ public MainView(@Autowired MessageBean bean) {
     getElement().appendChild(logoutLink); // <2>
 }
 ----
-<1> Kindly ask the element factory to create an anchor element.
-<2> Add it to the main view.
+<1> Asks the element factory to create an anchor element.
+<2> Adds it to the main view.
 
-The same approach works for Polymer templates, just add the anchor element declaratively.
+The same approach also works for Polymer templates, just add the anchor element declaratively.
 
+== Remember Me
+
+In case you want to keep your users logged in, even if the session was destroyed already, Spring Security provides out-of-the-box support for remember me cookies. You just have to activate it in the security configuration:
+
+.`*SecurityConfiguration.java*`
+[source,java,linenums]
+----
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+
+    [...]
+    // Configure remember me cookie
+    .and().rememberMe().key("pssssst").alwaysRemember(true) // <1>
+}
+----
+<1> This enables the remember me services provided by Spring Security, defines an application specific key and activates it by default.
+
+And that's it already!
+
+You may wonder why remember me is always activated. This hides the issue that our current login dialog does not support a remember me checkbox, yet. link:https://github.com/vaadin/vaadin-login-flow/issues/81[Please vote!] 
+If a checkbox has to be provided, you have to use a custom login form or use the low level API to access and extend the internal form.
+
+== Use a Spring Thymeleaf login view
+
+Long time ago, one of our users came up with the following question
+
+[quote, Morgan Pittkin]
+____
+[...] I wonder, does this present a security risk in the form of a DoS vulnerability? Each request creates a Vaadin session, with all the server-side structures (UI, etc) that go along with it, eating memory. For a public site it seems like it would be fairly easy to overwhelm the server with login page requests, no?
+____
+
+This bugs me for quite some time now and the only way I can think of to mitigate the issue in the webapp itself, is by *not* using Vaadin for the login view. Instead, a Thymeleaf based login form is introduced. Besides adding another technology to your techstack this also means you have to style the login dialog on your own.
+
+To get Thymeleaf support we first have to add the needed dependency:
+
+.`*pom.xml*`
+[source,xml]
+----
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+----
+
+Secondly, we have to take care of the Web MVC configuration:
+
+.`*WebConfig.java*`
+[source,java,linenums]
+----
+@EnableWebMvc // <1>
+@Component
+public class WebConfig implements WebMvcConfigurer {
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) { // <2>
+    registry.addViewController("/login").setViewName("login"); // <3>
+    registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+  }
+}
+----
+<1> Enables Web MVC.
+<2> Instead of implementing a controller class the view controller registry is used.
+<3> Registers a view controller on-the-fly, configures its request path and the name of the view to load.
+
+Finally, the login view template needs to be implemented and put into `src/main/resources/templates/` folder by convention.
+
+.`*login.html*`
+[source,html]
+----
+<html xmlns:th="https://www.thymeleaf.org">
+<bod>
+  <title>Spring Secured Vaadin</title>
+  <div th:fragment="content">
+    <form name="f" th:action="@{/login}" method="post">
+      <fieldset>
+        <legend>Please Login</legend>
+        <div th:if="${param.error}" class="alert alert-error">
+        Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+        You have been logged out.
+        </div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username"/>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"/>
+        <div class="form-actions">
+          <button type="submit" class="btn">Log in</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</body>
+</html>
+----
+
+Done! When accessing the application you get redirected to the new login view provided by Spring MVC instead of loading the Vaadin context. This will only happen after successfully logging in.
