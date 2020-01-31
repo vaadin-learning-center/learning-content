@@ -111,7 +111,7 @@ public class MainView extends VerticalLayout {
 
 }
 ----
-* <1> `@Route("")` maps the view to the root.
+<1> `@Route("")` maps the view to the root.
 
 . Next, *delete* the following unnecessary files: 
 

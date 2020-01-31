@@ -1,0 +1,11 @@
+= Filtering entities in a data grid
+
+:title: Filtering entities in a data grid
+:tags: Java, Spring 
+:author: Vaadin
+:description: Learn how to filter the entities displayed in a data grid
+:repo: https://github.com/vaadin-learning-center/crm-tutorial
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+:coming_soon:
+:hidden:
