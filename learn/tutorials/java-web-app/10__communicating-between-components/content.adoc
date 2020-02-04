@@ -9,7 +9,7 @@
 :imagesdir: ./images
 
 
-In the previous tutorial, we created a reusable form component to edit contacts. In this tutorial we'll hook it up to our application. Our form will:
+In the https://vaadin.com/learn/tutorials/java-web-app/data-binding-and-validation[previous tutorial], we created a reusable form component to edit contacts. In this tutorial we'll hook it up to our application. Our form will:
 
 * Show the contact currently-selected in the grid.
 * Be hidden when no contact is selected.

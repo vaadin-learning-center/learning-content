@@ -8,7 +8,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
-In the previous tutorial, we added filtering to the grid that lists contacts stored in a database. In this tutorial, we build a form component to add, remove, and edit contacts. 
+In the https://vaadin.com/learn/tutorials/java-web-app/filtering-the-grid[previous tutorial], we added filtering to the grid that lists contacts stored in a database. In this tutorial, we build a form component to add, remove, and edit contacts. 
 
 video::ttuBu8dYNn0[youtube]
 

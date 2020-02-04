@@ -8,7 +8,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
-In the previous tutorial, we started building a reusable form component. In this tutorial, we define the form component API and use data binding to make the form functional.
+In the https://vaadin.com/learn/tutorials/java-web-app/customizing-UI-components[previous tutorial], we started building a reusable form component. In this tutorial, we define the form component API and use data binding to make the form functional.
 
 video::k-DxZ1reIdM[youtube]
 
