@@ -106,7 +106,7 @@ image::contacts-grid.png[contacts listed in the grid]
 
 == Adding a custom column to the grid
 
-In the previous chapter, when we set up the data model, we defined that each `Contact` belongs to a `Company`. We now want to show that company information as a column in the grid. The problem is that if we add `"company"` to the column list, the grid doesn't show the company name, but something like "com.vaadin.tutorial.crm.backend.e..." instead.  
+In the previous chapter, when we set up the https://vaadin.com/learn/tutorials/java-web-app/spring-boot-backend#_defining_the_data_model[data model], we defined that each `Contact` belongs to a `Company`. We now want to show that company information as a column in the grid. The problem is that if we add `"company"` to the column list, the grid doesn't show the company name, but something like "com.vaadin.tutorial.crm.backend.e..." instead.  
 
 The company property is a reference to another object, and the grid  shows the fully qualified class name because it doesn't know how we want to display the object. To fix this, we need to change how the company column is defined. 
 
