@@ -114,13 +114,13 @@ private void deleteContact(ContactForm.DeleteEvent event) {
 }
 ----
 <1> Save calls `saveContact`, it:
-* Uses contactService to save the contact in the event to the database.
-* Updates the list.
-* Closes the editor.
+.. Uses contactService to save the contact in the event to the database.
+.. Updates the list.
+.. Closes the editor.
 <2> Delete calls `deleteContact`, it:
-* Uses `contactService` to delete the contact from the database.
-* Updates the list.
-* Closes the editor.
+.. Uses `contactService` to delete the contact from the database.
+.. Updates the list.
+.. Closes the editor.
 <3> Close closes the editor.
 
 Build the application and verify that you are now able to update and delete contacts.
