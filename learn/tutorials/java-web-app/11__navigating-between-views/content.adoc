@@ -1,0 +1,13 @@
+= Connecting the UI to the backend
+
+:title: Connecting the UI to the backend
+:tags: Java, Spring 
+:author: Vaadin
+:description: Learn how to connect the UI to the backend and list entities in a grid
+:repo: https://github.com/vaadin-learning-center/crm-tutorial
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+:coming_soon:
+
+_Coming soon_
+
