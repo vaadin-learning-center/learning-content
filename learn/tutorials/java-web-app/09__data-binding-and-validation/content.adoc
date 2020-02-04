@@ -146,7 +146,7 @@ public void setContact(Contact contact) {
 
 == Setting up events
 
-Vaadin comes with an event-handling system for components. We’ve already used it to listen to value-change events from the filter text field. We want the form component to have a similar way of informing parents of events. 
+Vaadin comes with an event-handling system for components. We’ve already used it to listen to value-change events from the https://vaadin.com/learn/tutorials/java-web-app/filtering-the-grid#_adding_a_text_field_for_filtering[filter text field]. We want the form component to have a similar way of informing parents of events. 
 
 To do this, add the following at the end of the `ContactForm` class:
 
