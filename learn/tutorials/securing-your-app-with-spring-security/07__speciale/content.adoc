@@ -9,12 +9,12 @@
 
 **This tutorial isn't like others:** it is about explicitly answering your questions. It deals with issues that come up again and again, and are best answered by examples, rather than comments.
 We cover:
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push[Vaadin Push mechanism.]
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[How to get a valid security context in Vaadin’s Upload component.]
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[How to change the application servlet context.]
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay[Logging out.]
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-always-remember-me[How to remember users.]
-- link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/spring-mvc-login-view[Using a Spring Thymeleaf login view.]
+- link:#_vaadin_server_side_push_to_the_client[Vaadin Push mechanism] \[link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/server-push[repo]].
+- link:#_can_you_trust_vaadin_upload[How to get a valid security context in Vaadin’s Upload component] \[link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-authenticated-upload[repo]].
+- link:#_changing_the_context_path_or_just_the_url_mapping[How to change the application servlet context] \[link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-custom-servlet-context[repo]].
+- link:#_get_me_out_of_here[Logging out] \[link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay[repo]].
+- link:#_remember_me[How to remember users] \[link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-always-remember-me[repo]].
+- link:#_use_a_spring_thymeleaf_login_view[Using a Spring Thymeleaf login view] \[link:https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/spring-mvc-login-view[repo]].
 
 We plan to publish solutions to new issues as and when they arise. We will also update this content based on your comments. So, let’s get started with pushing stuff.
 
