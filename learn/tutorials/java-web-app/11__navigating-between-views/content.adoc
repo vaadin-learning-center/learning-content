@@ -1,13 +1,14 @@
-= Connecting the UI to the backend
+= Routing: navigating between views 
 
-:title: Connecting the UI to the backend
+:title: Routing: navigating between views 
 :tags: Java, Spring 
 :author: Vaadin
-:description: Learn how to connect the UI to the backend and list entities in a grid
+:description: Add a dashbord view to your application and navigate between the different views.
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 :coming_soon:
+:hidden:
 
 _Coming soon_
 
