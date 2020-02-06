@@ -80,30 +80,58 @@ Let's take a look at some of the generated files:
 [source,java]
 ----
 /**
- * The main view contains a button and a click listener.
+ * The main view contains a text field for getting the user name and a button
+ * that shows a greeting message in a notification.
  */
-@Route("") <1>
-@PWA(name = "Project Base for Vaadin Flow", shortName = "Project Base") <2>
-public class MainView extends VerticalLayout { <3>
+@Route("")
+@PWA(name = "Project Base for Vaadin", shortName = "Project Base")
+@CssImport("./styles/shared-styles.css")
+@CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
+public class MainView extends VerticalLayout {
 
     public MainView() {
-        Button button = new Button("Click me", <4>
-                event -> Notification.show("Clicked!")); <5>
-        add(button); <6>
+        // Use TextField for standard text input
+        TextField textField = new TextField("Your name");
+
+        // Button click listeners can be defined as lambda expressions
+        GreetService greetService = new GreetService();
+        Button button = new Button("Say hello",
+                e -> Notification.show(greetService.greet(textField.getValue())));
+
+        // Theme variants give you predefined extra styles for components.
+        // Example: Primary button is more prominent look.
+        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        // You can specify keyboard shortcuts for buttons.
+        // Example: Pressing enter in this view clicks the Button.
+        button.addClickShortcut(Key.ENTER);
+
+        // Use custom CSS classes to apply styling. This is defined in shared-styles.css.
+        addClassName("centered-content");
+
+        add(textField, button);
     }
 }
 ----
-<1> Tells Vaadin to direct the root URL to this view. The URL parameter is optional and will be derived from the class name if not given.
+** The `@Route` annotation tells Vaadin to direct the root URL to this view. The URL parameter is optional and is derived from the class name, if not given.
 
-<2> Tells Vaadin to activate automatic https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps[PWA] features. This annotation is optional.
+** The `@PWA` annotation tells Vaadin to activate automatic https://vaadin.com/pwa[PWA^] features. This annotation is optional.
 
-<3> Makes this view a `VerticalLayout` which shows components vertically.
+** The `@CssImport` Imports a CSS file that are mentioned in the paranthesis.
 
-<4> Creates a button with the text `Click me` on it.
+** The view extends `VerticalLayout` which shows components vertically.
 
-<5> Adds a _click listener_ (using a Java lambda expression) that shows a notification when the user clicks the button.
+** The `MainView` constructor:
 
-<6> Adds the button to the `VerticalLayout`.
+*** Creates a text field to enter user's name.
+
+*** Creates a button with the text *Say hello* on it to send a greeting message.
+
+*** GreetService that has a method and it checks if the user has filled the text field or is an anonymous user.
+
+*** Adds a click listener (using a lambda expression) that shows a https://vaadin.com/components/vaadin-notification[notification] when the user clicks the button.
+
+*** Adds the text field and the button to the `VerticalLayout`.
 
 === Running the Application
 
