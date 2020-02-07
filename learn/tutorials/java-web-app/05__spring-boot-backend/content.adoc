@@ -68,7 +68,7 @@ Our application is a customer relationship management (CRM) system that manages 
 To create your entity classes:
 
 . Create a new package: `com.vaadin.tutoria.crm.backend.entity`.
-. Create three classes, `AbstractEntity`, `Employee`, and `Company`, in the new package, using the code detailed below.
+. Create three classes, `AbstractEntity`, `Contact`, and `Company`, in the new package, using the code detailed below.
 +
 The easiest way to do this is to copy the full class and paste it into the package in the project view. IntelliJ (and most other IDEs) will automatically create the Java file for you.
 +
