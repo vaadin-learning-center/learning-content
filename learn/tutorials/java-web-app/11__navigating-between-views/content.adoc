@@ -28,7 +28,9 @@ We want our application to have:
 .. `ListView`: The default view, mapped to `""`. 
 .. `DashboardView`: Mapped to `"dashboard"`.
 * A responsive app layout and navigation links.
---
+
+Let's begin:
+
 . Start by renaming `MainView` to `ListView`. Right click `MainView` and select *Refactor > Rename*. When IntelliJ asks if you want to rename the file, answer yes.
 +
 image::rename-class.png[Refactor rename]
