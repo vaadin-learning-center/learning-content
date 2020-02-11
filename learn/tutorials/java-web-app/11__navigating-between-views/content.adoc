@@ -128,7 +128,7 @@ public class ListView extends VerticalLayout {
 <3> Adds a title to the page. 
 
 . Run the application. You should now see a header and a sidebar on the list view. 
-
++
 image::app-layout-list-view.png[Application with sidebar list view]
 
 == Creating the dashboard view
