@@ -117,9 +117,9 @@ public class Application extends SpringBootServletInitializer {
 
 . In the new package create the following classes using the code detailed below:
 +
-* `SecurityUtils`: Utility methods.
-* `CustomRequestCache`: A cache to keep track of unauthenticated requests.
-* `SecurityConfiguration`: Spring Security configuration.
+<1> `SecurityUtils`: Utility methods.
+<2> `CustomRequestCache`: A cache to keep track of unauthenticated requests.
+<3> `SecurityConfiguration`: Spring Security configuration.
 +
 TIP: Paste the class code into the package and IntelliJ will automatically create the class for you.
 +
