@@ -116,12 +116,13 @@ public class Application extends SpringBootServletInitializer {
 . Create a new package `com.vaadin.tutorial.crm.security` for classes related to security.
 
 . In the new package create the following classes using the code detailed below:
-+
+
 * `SecurityUtils`: Utility methods.
 * `CustomRequestCache`: A cache to keep track of unauthenticated requests.
 * `SecurityConfiguration`: Spring Security configuration.
 +
-
+TIP: Paste the class code into the package and IntelliJ will automatically create the class for you.
++
 .`*SecurityUtils.java*`
 [source,java]
 ----
@@ -335,8 +336,6 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 <1> The `@Component` annotation registers the listener. Vaadin will pick it up on startup.
 <2> In `serviceInit`, we listen for the initialization of the UI (the internal root component in Vaadin) and then add a listener before every view transition.
 <3> In authenticateNavigation, we reroute all requests to the login, if the user is not logged in
-
-TIP: Paste the class code into the package and IntelliJ will automatically create the class for you.
 
 TIP: You can read more about fine-grained access control in the https://vaadin.com/learn/tutorials/securing-your-app-with-spring-security[Spring Security tutorial series].
 
