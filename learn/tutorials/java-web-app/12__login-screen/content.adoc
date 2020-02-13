@@ -123,6 +123,8 @@ public class Application extends SpringBootServletInitializer {
 +
 TIP: Paste the class code into the package and IntelliJ will automatically create the class for you.
 +
+.. SecurityUtils
++
 .`*SecurityUtils.java*`
 [source,java]
 ----
@@ -162,6 +164,8 @@ public final class SecurityUtils {
 <1> `isFrameworkInternalRequest` determines if a request is internal to Vaadin.
 <2> `isUserLoggedIn` checks if the current user is logged in.
 +
+.. CustomRequestCache
++
 .`*CustomRequestCache.java*`
 [source,java]
 ----
@@ -185,6 +189,8 @@ class CustomRequestCache extends HttpSessionRequestCache {
 ----
 +
 <1> Saves unauthenticated requests so we can redirect the user to the page they were trying to access once they’re logged in.
++
+.. SecurityConfiguration
 +
 .`*SecurityConfiguration.java*`
 [source,java]
