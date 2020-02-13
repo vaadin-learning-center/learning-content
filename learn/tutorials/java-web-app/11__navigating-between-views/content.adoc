@@ -42,7 +42,7 @@ image::rename-class.png[Refactor rename]
 ----
 @CssImport("./styles/shared-styles.css") //<1>
 public class MainLayout extends AppLayout { //<2>
-    public MainView() {
+    public MainLayout() {
         createHeader();
         createDrawer();
     }
@@ -252,7 +252,7 @@ public DashboardView(ContactService contactService, CompanyService companyServic
 ----
 . Add a navigation link to `DashboardView` in the `MainLayout` drawer:
 +
-.`*DashboardView.java*`
+.`*MainLayout.java*`
 [source,java]
 ----
 private void createDrawer() {
