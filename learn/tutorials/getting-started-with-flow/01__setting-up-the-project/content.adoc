@@ -14,7 +14,7 @@ All you need is basic programming skills, an https://en.wikipedia.org/wiki/Integ
 
 == Overview
 
-You are going to build a basic application to manage data about customers. To keep things simple, the application wont't connect to a real database but use an in-memory back end instead. You'll be able to use the concepts explained in this tutorial to connect your Vaadin applications to a real-world back end with the persistence technology of your choice.
+You are going to build a basic application to manage data about customers. To keep things simple, the application won’t connect to a real database but use an in-memory back end instead. You'll be able to use the concepts explained in this tutorial to connect your Vaadin applications to a real-world back end with the persistence technology of your choice.
 
 The application will show a web page with a table (called https://vaadin.com/components/vaadin-grid[Grid^] in Vaadin) with filtering capabilities and functionality to add, delete, and update customer data.
 
@@ -80,7 +80,7 @@ Take a look at some of the generated project files:
 [source,java]
 ----
 /**
- * The main view contains a text field for getting the user name and a button
+ * The main view contains a text field to get the user name and a button
  * that shows a greeting message in a notification.
  */
 @Route("")
@@ -118,13 +118,13 @@ public class MainView extends VerticalLayout {
 
 ** The `@PWA` annotation tells Vaadin to activate automatic https://vaadin.com/pwa[PWA^] features. This annotation is optional.
 
-** The `@CssImport` imports a CSS file from `frontend` folder.
+** The `@CssImport` annotation imports the CSS file mentioned in parenthesis.
 
 ** The view extends `VerticalLayout` which shows components vertically.
 
 ** The `MainView` constructor:
 
-*** Creates a text field to enter user name.
+*** Creates a text field to enter the user's name.
 
 *** Creates a button with the text *Say hello* on it.
 
