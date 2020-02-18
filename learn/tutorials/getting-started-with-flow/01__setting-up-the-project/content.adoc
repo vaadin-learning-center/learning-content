@@ -118,7 +118,7 @@ public class MainView extends VerticalLayout {
 
 ** The `@PWA` annotation tells Vaadin to activate automatic https://vaadin.com/pwa[PWA^] features. This annotation is optional.
 
-** The `@CssImport` annotation imports the CSS file mentioned in parenthesis.
+** The `@CssImport` annotation imports the specified CSS file mentioned in parenthesis.
 
 ** The view extends `VerticalLayout` which shows components vertically.
 
