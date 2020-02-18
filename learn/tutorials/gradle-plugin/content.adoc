@@ -29,9 +29,9 @@ The Gradle plugin has the following requirements:
 
 * Windows, Mac, or Linux
 * Java SDK 8 or newer
-* Gradle 5 or 6
+* Gradle 5 or 6 (or use provided wrapper from the example projects)
 ** Install it from https://gradle.org/install
-* Node.js and npm
+* Node.js and npm (can also be installed locally to project using the Vaadin Gradle Plugin)
 
 Except for Gradle, these are general Vaadin requirements, as described in https://vaadin.com/docs/v14/flow/installing/installing-overview.html[Installing Development Tools].
 
@@ -112,10 +112,10 @@ plugins {
 <1> Use the plugin version of your choice.
 <2> Use the Gretty embedded web server for running the application during development.
 See <<running>> for details.
-<3> Build a WAR package, usually for production.
-To include Vaadin dependencies in the WAR, you need to define `providedCompile` in the dependencies section, as described later.
+<3> Build a WAR package to deploy to a traditional Servlet container.
+You also need to define Servlet API using `providedCompile "javax.servlet:javax.servlet-api:3.1.0"` in the dependencies section.
 <4> By default the plugin supports Java.
-You can include Groovy with the optional plugin.
+You can include Groovy or Kotlin with the optional plugin.
 
 [[build-file.vaadin-options]]
 === Vaadin Plugin Configuration
