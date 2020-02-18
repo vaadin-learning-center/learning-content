@@ -78,6 +78,20 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt"
          transform="scale(0.6)" />
     </marker>
+    <marker
+       inkscape:stockid="CurveOut"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="CurveOut-2-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4413-9-0"
+         d="m -5.4129913,-5.0456926 c 2.76,0 4.99999999,2.24 4.99999999,5.00000002 0,2.75999998 -2.23999999,4.99999998 -4.99999999,4.99999998"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt"
+         transform="scale(0.6)" />
+    </marker>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -87,8 +101,8 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="310.30502"
-     inkscape:cy="207.01571"
+     inkscape:cx="373.13299"
+     inkscape:cy="236.55103"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="2560"
@@ -126,7 +140,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -136,7 +150,20 @@
      id="layer1"
      style="display:inline"
      transform="translate(-9.2151276,-34.283983)">
-    <path
+    <flowRoot
+       transform="translate(-122.75712,157.40904)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       id="flowRoot3793-3-9-6-1-7-8-4"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3795-7-3-6-2-1-7-3"><rect
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:125%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="61.402534"
+           x="271.73105"
+           height="62.844219"
+           width="169.7542"
+           id="rect3797-4-9-8-9-9-2-1" /></flowRegion><flowPara
+         id="flowPara5318-8-49"
+         style="font-size:14px;line-height:1.25">Theme CSS</flowPara></flowRoot>    <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 311.18034,387.03428 c -23.18034,15.48541 -76.51367,63.48541 -149.5,17.25"
        id="path2990-6-5-5"
@@ -182,7 +209,7 @@
     <g
        style="display:inline"
        id="g3928-7"
-       transform="translate(-418.33333,-437.73265)">
+       transform="translate(-173,-432.39933)">
       <image
          y="547.14124"
          x="578.55554"
@@ -192,7 +219,7 @@
          height="84.888885"
          width="84.888885" />
       <flowRoot
-         transform="translate(239.91569,476.30133)"
+         transform="translate(310.60212,460.106)"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none"
          id="flowRoot3793-3-9-6"
          xml:space="preserve"><flowRegion
@@ -213,7 +240,7 @@
          ry="42.666687" />
     </g>
     <flowRoot
-       transform="translate(209.57601,196.52457)"
+       transform="translate(-127.26009,-18.649292)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none"
        id="flowRoot3793-3-9-6-1-7-8"
        xml:space="preserve"><flowRegion
@@ -226,13 +253,7 @@
            width="169.7542"
            id="rect3797-4-9-8-9-9-2" /></flowRegion><flowPara
          id="flowPara5318-8"
-         style="font-size:14px;line-height:1.25;text-align:center;text-anchor:middle">Java/Groovy/Kotlin Sources</flowPara></flowRoot>    <path
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#CurveOut)"
-       d="M 306.25,312.35302 C 252.91666,285.68636 219.83333,231.93636 210.33333,193.93636"
-       id="path2990"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <g
+         style="font-size:14px;line-height:1.25;text-align:center;text-anchor:middle">Java/Groovy/Kotlin Sources</flowPara></flowRoot>    <g
        style="display:inline"
        id="g3928-7-6-3"
        transform="translate(-391.66667,-197.73265)">
@@ -274,11 +295,11 @@
            width="170.27484"
            id="rect3797-4-9-8-9-9-28-7" /></flowRegion><flowPara
          id="flowPara5648-7-9"
-         style="font-size:14px;line-height:1.25">com.vaadin.vaadin-flow</flowPara></flowRoot>    <flowRoot
+         style="font-size:14px;line-height:1.25">com.vaadin</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3793-2"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none"
-       transform="translate(204.96345,95.837397)"><flowRegion
+       transform="translate(-196.36984,53.170747)"><flowRegion
          id="flowRegion3795-0"><rect
            id="rect3797-2"
            width="289.91379"
@@ -290,48 +311,35 @@
          style="font-size:24px;line-height:1.25">myproject</flowPara></flowRoot>    <circle
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;stroke:#2d3538;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="path3773-3-7"
-       cx="536.66663"
-       cy="172.51968"
+       cx="135.33333"
+       cy="129.85303"
        r="75" />
     <circle
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ff3a49;fill-opacity:1;stroke:#2d3538;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="path2997-7-0-8"
-       cx="606.66663"
-       cy="142.51968"
+       cx="183.33333"
+       cy="72.853035"
        r="10" />
     <circle
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ff3a49;fill-opacity:1;stroke:#2d3538;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="path2997-7-6-3"
-       cx="466.66666"
-       cy="202.51968"
+       cx="80"
+       cy="178.5197"
        r="10" />
     <circle
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ff3a49;fill-opacity:1;stroke:#2d3538;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="path2997-7-16-6"
-       cx="566.66663"
-       cy="242.51968"
+       cx="165.33333"
+       cy="199.85303"
        r="10" />
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#CurveOut-2)"
-       d="m 224,114.51969 c 46.43934,-57.98276 193,-57.166665 256,5.33333"
+       d="m 488.16176,140.80278 c 51.53553,-13.14154 83.5956,-15.61642 138.25305,6.16056"
        id="path2990-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <flowRoot
-       transform="translate(0.059634,-9.970723)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none"
-       id="flowRoot3793-3-9-6-1-7-8-1"
-       xml:space="preserve"><flowRegion
-         id="flowRegion3795-7-3-6-2-1-7-9"><rect
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:125%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;writing-mode:lr-tb;text-anchor:start"
-           y="61.402534"
-           x="271.73105"
-           height="62.844219"
-           width="169.7542"
-           id="rect3797-4-9-8-9-9-2-47" /></flowRegion><flowPara
-         id="flowPara5318-8-8"
-         style="font-size:14px;line-height:1.25">vaadinCreateProject</flowPara></flowRoot>    <flowRoot
-       transform="translate(48.141762,135.2596)"
+       transform="translate(-248.70102,132.75004)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none"
        id="flowRoot3793-3-9-6-1-7-8-6-2"
        xml:space="preserve"><flowRegion
@@ -343,20 +351,9 @@
            width="169.7542"
            id="rect3797-4-9-8-9-9-2-5-4" /></flowRegion><flowPara
          id="flowPara5318-8-4-7"
-         style="font-size:14px;line-height:1.25">JavaScript Sources</flowPara></flowRoot>    <flowRoot
-       transform="translate(353.16048,72.616534)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none"
-       id="flowRoot3793-3-9-6-1-7-8-4"
-       xml:space="preserve"><flowRegion
-         id="flowRegion3795-7-3-6-2-1-7-3"><rect
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:125%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;writing-mode:lr-tb;text-anchor:start"
-           y="61.402534"
-           x="271.73105"
-           height="62.844219"
-           width="169.7542"
-           id="rect3797-4-9-8-9-9-2-1" /></flowRegion><flowPara
-         id="flowPara5318-8-49"
-         style="font-size:14px;line-height:1.25">Theme CSS</flowPara></flowRoot>    <flowRoot
+         style="font-size:14px;line-height:1.25">JavaScript</flowPara><flowPara
+         style="font-size:14px;line-height:1.25"
+         id="flowPara923">Sources</flowPara></flowRoot>    <flowRoot
        transform="translate(115.84586,367.49072)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none"
        id="flowRoot3793-3-9-4-5-26"
@@ -398,7 +395,7 @@
          id="flowPara5696-7">plugins</flowPara></flowRoot>    <g
        style="display:inline"
        id="g3928-7-6-3-2"
-       transform="translate(195,-224.39932)">
+       transform="translate(210.91666,-218.64931)">
       <circle
          id="path3773-30-9-4-6-2"
          style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;stroke:#2d3538;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
@@ -422,12 +419,12 @@
            id="flowPara683-5">Gretty</flowPara></flowRoot>    </g>
     <path
        style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#CurveOut-2-9)"
-       d="m 601.16666,213.51969 c 28.16667,13 81.5,39.66667 103.5,96.83333"
+       d="m 691.35474,193.32121 c 37.0104,44.27877 43.4044,65.6121 46.47487,119.56734"
        id="path2990-3-9"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <flowRoot
-       transform="translate(396.75862,173.2596)"
+       transform="translate(388.58234,187.79204)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none"
        id="flowRoot3793-3-9-6-1-7-8-1-0"
        xml:space="preserve"><flowRegion
@@ -447,5 +444,44 @@
        preserveAspectRatio="none"
        height="56.000004"
        width="54.273136" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 205.83333,158.68636 c 66.16667,35.83333 87.5,67.83333 124.83333,126.5"
+       id="path2990-6-5-5-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#CurveOut-2-1)"
+       d="M 370.5049,273.45903 C 373.33333,244.25743 400,205.18636 416,189.18636"
+       id="path2990-3-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <g
+       style="display:inline"
+       id="g3928-7-6-3-2-1"
+       transform="translate(136.33333,-405.73265)">
+      <circle
+         id="path3773-30-9-4-6-2-1"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;stroke:#2d3538;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+         cx="325"
+         cy="152.36218"
+         r="40"
+         transform="translate(200,421.22349)" />
+      <flowRoot
+         transform="translate(165.21791,490.60204)"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+         id="flowRoot3793-3-9-6-2-0-6-0"
+         xml:space="preserve"><flowRegion
+           id="flowRegion3795-7-3-6-9-6-1-8"><rect
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18px;line-height:125%;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:center;writing-mode:lr-tb;text-anchor:middle"
+             y="61.402534"
+             x="271.73105"
+             height="89.491997"
+             width="174.20142"
+             id="rect3797-4-9-8-5-2-0-5" /></flowRegion><flowPara
+           style="font-size:18px;line-height:1.25"
+           id="flowPara683-5-0">Web</flowPara><flowPara
+           style="font-size:18px;line-height:1.25"
+           id="flowPara1115">App</flowPara></flowRoot>    </g>
   </g>
 </svg>
