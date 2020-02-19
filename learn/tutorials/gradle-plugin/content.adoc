@@ -224,22 +224,7 @@ dependencies {
 }
 ----
 
-With `14.+` version specification, we choose to use the latest version of Vaadin 14.
-
-For Vaadin 13 compatibility, you need to define a number of WebJar dependencies:
-
-----
-dependencies {
-  implementation("com.vaadin:vaadin-core:13.+") {
-      ["com.vaadin.webjar",
-       "org.webjars.bowergithub.insites",
-       "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
-       "org.webjars.bowergithub.vaadin",
-       "org.webjars.bowergithub.webcomponents"]
-              .forEach { group -> exclude(group: group) }
-  }
-}
-----
+With `14.+` version specification, you choose to use the latest version of Vaadin 14, but you can also give exact version.
 
 See https://docs.gradle.org/current/userguide/declaring_dependencies.html[Declaring dependencies] in Gradle documentation for further details.
 
@@ -252,7 +237,24 @@ In the starter project, we define default targets for convenience, so that you c
 defaultTasks("clean", "vaadinBuildFrontend", "build")
 ----
 
-== Vaadin Tasks
+[[compiling]]
+== Compiling
+
+If you defined the default tasks as described above in <<build-file.other>>, you can simply do:
+
+----
+$ gradle
+----
+
+Otherwise, you normally build the project with the standard `build` task.
+However, on the first time and also otherwise if it is necessary, you need to build the Vaadin frontend.
+
+----
+$ gradle vaadinBuildFrontend build
+----
+
+[[compiling.tasks]]
+=== Vaadin Tasks
 
 The Vaadin-related tasks handled by the plugin are as follows:
 
@@ -282,7 +284,7 @@ $ gradle tasks
 [[running]]
 == Running the Application
 
-For running the application during development, the Gradle plugin supports the Gretty plugin for running the application in an embedded web server.
+For running the application during development, the Gradle plugin supports the Gretty plugin, which runs the application in an embedded web server.
 You can do that either in an IDE or at command-line as follows.
 
 See https://akhikhl.github.io/gretty-doc/index.html[Gretty documentation] for a complete reference on using Gretty.
@@ -291,6 +293,7 @@ One way to enable the Gretty plugin is in the `plugin` section of the `gradle.bu
 
 ----
 plugins {
+  ...
   id 'org.gretty' version '3.0.1'
 }
 ----
