@@ -20,7 +20,7 @@ End-to-end tests require the application to be deployed and are run in a browser
 
 In this chapter, we write and run unit and integration tests. We cover end-to-end tests in the next chapter.
 
-video::?v=zz3AcFpXSFI[youtube]
+video::zz3AcFpXSFI[youtube]
 
 == Creating and running unit tests for simple UI logic
 
