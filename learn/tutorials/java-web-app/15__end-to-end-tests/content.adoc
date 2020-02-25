@@ -247,11 +247,11 @@ public class LoginViewElement extends VerticalLayoutElement {
 }
 ----
 +
-<1> Selects the `com.vaadin.testbench.annotations.Attribute` import.
+.. Selects the `com.vaadin.testbench.annotations.Attribute` import.
 +
 CAUTION: To make the correct functionality available from super classes, the hierarchy of the view object should match the hierarchy of the view (`public class LoginView extends VerticalLayout` vs `public class LoginViewElement extends VerticalLayoutElement`). 
 +
-* Adding the `@Attribute(name = "class", contains = "login-view")` annotation allows you to find the `LoginViewElement` using the TestBench query API, for example:
+.. Adding the `@Attribute(name = "class", contains = "login-view")` annotation allows you to find the `LoginViewElement` using the TestBench query API, for example:
 +
 [source,java]
 ----
