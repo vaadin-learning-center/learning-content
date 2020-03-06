@@ -15,6 +15,7 @@ In the https://vaadin.com/learn/tutorials/java-web-app/data-binding-and-validati
 * Be hidden when no contact is selected.
 * Save and delete contacts in the database.
 
+You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/08-component-communication[GitHub].
 
 video::H86oKt5qbSs[youtube]
 
