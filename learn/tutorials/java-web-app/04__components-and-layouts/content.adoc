@@ -13,6 +13,8 @@ In the previous two tutorials, you learned to set up a Java development environm
 
 In this chapter we introduce you to core Vaadin concepts and get our project ready for coding.
 
+Remember, you can always find the source code for each individual chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[GitHub].
+
 video::vmh5coL-nKs[youtube]
 
 == Quick introduction to Vaadin

@@ -12,6 +12,8 @@ So far in this tutorial series, we've built a CRM application that has one view 
 
 In this tutorial we set up Spring Security and add a login screen to limit access to logged in users. 
 
+You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/10-login[GitHub].
+
 video::_VLuaavfD20[youtube]
 
 == Creating a login view

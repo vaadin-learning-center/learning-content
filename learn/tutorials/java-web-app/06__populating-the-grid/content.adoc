@@ -11,6 +11,8 @@
 
 Now that your back end is in place, you're ready to begin building the UI. We start by listing all contacts in a data grid. To do this, we need to create the necessary UI components and hook them up to the back end.
 
+You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/04-listing-entities[GitHub].
+
 video::_109sgFRgA0[youtube]
 
 == Creating and configuring the Grid
