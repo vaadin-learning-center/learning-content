@@ -10,6 +10,8 @@
 
 In the https://vaadin.com/learn/tutorials/java-web-app/filtering-the-grid[previous tutorial], we added filtering to the grid that lists contacts stored in a database. In this tutorial, we build a form component to add, remove, and edit contacts. 
 
+You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/06-creating-components[GitHub].
+
 video::ttuBu8dYNn0[youtube]
 
 Vaadin is a component-based framework. You've already worked with several components, like `Grid`, `TextField`, and `VerticalLayout`. But, the real power of the component-based architecture is in the ability to create your own components. 

@@ -16,6 +16,8 @@ End-to-end tests are executed in a browser window, controlled by a web driver an
 . Make sure you have Chrome installed and install a web driver manager that will download the needed web driver.
 . Create a base test class that starts a browser and opens the application URL.
 
+You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/13-end-to-end-testing[GitHub].
+
 NOTE: The end-to-end tests use https://vaadin.com/testbench[Vaadin TestBench], which is a commercial tool that is a part of the Vaadin Pro Subscription. You can get a free trial at https://vaadin.com/trial. All Vaadin Pro tools and components are free for students through the https://education.github.com/pack[GitHub Student Developer Pack].
 
 video::W-IT96DX8WI[youtube]

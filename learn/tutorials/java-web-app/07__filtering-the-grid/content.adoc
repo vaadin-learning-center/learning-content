@@ -13,6 +13,8 @@
 
 In the https://vaadin.com/learn/tutorials/java-web-app/populating-the-grid[previous tutorial], we created a data grid and filled it with contact details stored in the database. In this tutorial, we continue by adding a text field to filter the contents of the grid.
 
+You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/05-filtering-grid[GitHub].
+
 video::Ty3dhCkQP1E[youtube]
 
 == Adding a text field for filtering

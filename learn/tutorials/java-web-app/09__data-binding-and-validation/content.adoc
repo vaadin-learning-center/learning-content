@@ -10,6 +10,8 @@
 
 In the https://vaadin.com/learn/tutorials/java-web-app/customizing-UI-components[previous tutorial], we started building a reusable form component. In this tutorial, we define the form component API and use data binding to make the form functional.
 
+You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/07-data-binding[GitHub].
+
 video::k-DxZ1reIdM[youtube]
 
 == Binding object properties to input fields
