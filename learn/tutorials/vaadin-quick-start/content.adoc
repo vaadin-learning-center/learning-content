@@ -6,6 +6,7 @@
 :linkattrs: 
 :imagesdir: ./images
 
+Vaadin is a great way to build a modern web app, combining web components with the power of server-side Java.
 
 In this tutorial, you learn how to build a small but fully functional Vaadin application. This example teaches you the basics of component-based development and listening to events.
 
