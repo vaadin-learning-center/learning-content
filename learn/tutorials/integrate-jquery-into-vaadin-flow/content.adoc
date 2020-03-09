@@ -3,12 +3,12 @@
 :type: text
 :tags: Flow, Java, Javascript, Jquery, webpack
 :description: This tutorial teaches you how to use JQuery library in a Vaadin project
-:repo:
+:repo: https://github.com/jcgueriaud1/jquery-integration
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials:
 
-JQuery played a big part in the JavaScript ecosytem and is a popular javascript library. This tutorial will help you to integrate jQuery in your Vaadin project, check if it's loaded and use a jQuery plugin.
+JQuery played a big part in the JavaScript ecosystem and is a popular javascript library. This tutorial will help you to integrate jQuery in your Vaadin project, check if it's loaded and use a jQuery plugin.
 
 NOTE: This tutorial requires Vaadin 14 in npm mode, this is the default mode.
 
@@ -16,13 +16,13 @@ NOTE: This tutorial requires Vaadin 14 in npm mode, this is the default mode.
 
 Create an empty page.
 
-To import the JQuery library from Java, add *@Javascript* annotation on top of your component of *@Route*
+To import the jQuery library from Java, add *@Javascript* annotation on top of your component of *@Route*
 
 [source,java]
 ----
 @Javascript(“https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js”)
 ----
-We can execute some javascript from Java to test if the JQuery library is loaded.
+You can execute some javascript from Java to test if the jQuery library is loaded.
 
 .`*MainVew.java*`
 [source,java]
@@ -46,7 +46,7 @@ image::jquery-loaded-globally.png[jQuery loaded globally]
 
 jQuery is loaded and can be called from the Java.
 
-We can also test jQuery from a javascript file.
+You can also test jQuery from a javascript file.
 Create a new file *jquery-test.js* in *frontend/src*
 
 [source,js]
@@ -68,7 +68,7 @@ image::jquery-loaded-js.png[jQuery loaded in js]
 
 == 2. Use NPM and web pack
 
-In Vaadin 14, the javascript module loader has changed from Bower and Webjars to NPM and Webpack. Instead of using CDN, we can use NPM and Webpack to import a third party JavaScript library.
+Vaadin 14 manages front-end dependencies using npm and webpack instead of Bower and Webjars (in Vaadin 10-13). Instead of using CDN, you can import a third party JavaScript library using npm.
 
 Add the annotation *@NpmPackage* on top of your component of *@Route*
 [source,java]
@@ -76,9 +76,7 @@ Add the annotation *@NpmPackage* on top of your component of *@Route*
 @NpmPackage(value = "jquery", version = "3.4.1”)
 ----
 
-You can find all the libraries in this website: https://www.npmjs.com/
-*@NpmPackage* will download the correct version, but won’t add it in the page.
-Let’s add it with an annotation.
+You can find all the libraries and their latest version on this website: https://www.npmjs.com/[NPM Registry]
 
 [source,java]
 ----
@@ -99,9 +97,9 @@ public class MainView extends VerticalLayout {
 }
 ----
 
-If you run the application, the npm package *jquery* will be downloaded in *node_modules* folder but it's not loaded in the application.
+If you run the application, the npm package *jquery* will be downloaded in *node_modules* folder but it's not imported in the view.
 
-We have to import the library in the javascript file.
+You have to import the library .
 [source,js]
 ----
 import jQuery from 'jquery';
@@ -117,7 +115,7 @@ jQuery can be called from your Javascript file, but it still not available globa
 
 image::jquery-not-loaded-globally.png[jQuery not loaded globally]
 
-We can define it globally in the javascript file.
+You can define *jquery* globally in the javascript file.
 [source,js]
 ----
 import jQuery from 'jquery';
@@ -141,15 +139,13 @@ In Vaadin 14, if you import a javascript file, it will run as a Javascript modul
 - @JavaScript("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js") will define jQuery variable as a global variable (window.jQuery).
 - @JavaScript("jquery/dist/jquery.min.js") will define jQuery variable as a module variable (jQuery inside this module, globally jQuery is undefined).
 
-It's better to avoid global variable, it will reduce the conflict between libraries.
-
-NOTE: In an older version of Vaadin (7 to 14 in compatibility mode), then *@JavaScript("jquery/dist/jquery.min.js")* define jQuery variable as a global variable (window.jQuery).
+WARNING: In an older version of Vaadin (7, 8, 10-13 and 14 in compatibility mode), then *@JavaScript("jquery/dist/jquery.min.js")* define jQuery variable as a global variable (window.jQuery).
 
 == 3. Use JQuery with a plugin: jTippy
 
-In most cases, you want to add jQuery library to use a JQuery plugin.In this example it's a tooltip plugin: jtippy which has only one dependency *jquery*. You will need to configure webpack to automatically import jQuery if needed for a webpack module.
+In most cases, you want to add jQuery library to use a jQuery plugin. As an example, we will use a tooltip plugin: *jtippy* which has only one dependency *jQuery*. 
 
-To do that, you need to add a configuration to *webpackconfig.js*
+First you need to configure webpack to automatically import *jQuery* if needed for a webpack module. This configuration is very specific to *jquery*. Update the file *webpackconfig.js* on the root of your project.
 
 [source,js]
 ----
@@ -170,7 +166,7 @@ module.exports = merge(flowDefaults, {
 
 NOTE: *webpackconfig.js* is automatically created by the Vaadin framework the first time you run the application.
 
-To use jTippy library, go to the npm website and read the example and translate into Java and Javascript code: https://www.npmjs.com/package/jtippy
+To use jTippy library, go to the npm website and read the example and translate into Java and Javascript code: https://www.npmjs.com/package/jtippy[jtippy on npm]
 
 [source,html]
 ----
@@ -178,9 +174,9 @@ To use jTippy library, go to the npm website and read the example and translate 
 <script src="jTippy-master/jTippy.min.js"></script>
 ----
 
-We can import style with *@CssImport*.
-We will import the library from our javascript module.
-We also need to load the library from NPM.
+- Add the dependency of jtippy from NPM.
+- Import style with *@CssImport*.
+- Load our custom javascript module.
 
 [source,java]
 ----
@@ -198,7 +194,7 @@ We also need to load the library from NPM.
 </a>
 ----
 
-This has to be translated to Vaadin code.
+Translate the HTML code to Vaadin code.
 
 [source,java]
 ----
@@ -217,7 +213,7 @@ $(function(){
 });
 ----
 
-We just need to add the import.
+Copy/paste the javascript code and import jtippy module.
 
 [source,js]
 ----
@@ -231,3 +227,8 @@ $(function(){
 image::jtooltip-loaded.png[jTooltip is loaded]
 
 NOTE: Some jQuery plugins need to have jQuery and $ define globally. So you will need to add window.jQuery = jQuery; window.$ = jQuery;
+
+
+== Summary
+
+Vaadin framework comes with the default functionalities to manage and optimize front-end dependencies but some libraries like jQuery require specific configuration of webpack in order to be used in Vaadin. Did you try to import Javascript library in Vaadin 14 project? 
