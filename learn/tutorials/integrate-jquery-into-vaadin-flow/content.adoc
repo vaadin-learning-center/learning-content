@@ -8,7 +8,7 @@
 :imagesdir: ./images
 :related_tutorials:
 
-JQuery played a big part in the JavaScript ecosystem and is a popular javascript library. This tutorial will help you to integrate jQuery in your Vaadin project, check if it's loaded and use a jQuery plugin.
+JQuery was one of the top most used JavaScript library and is still really popular. This tutorial will help you to integrate jQuery in your Vaadin project, check if it's loaded and use a jQuery plugin.
 
 NOTE: This tutorial requires Vaadin 14 in npm mode, this is the default mode.
 
@@ -175,7 +175,7 @@ To use jTippy library, go to the npm website and read the example and translate 
 ----
 
 - Add the dependency of jtippy from NPM.
-- Import style with *@CssImport*.
+- Import style with `@CssImport`.
 - Load our custom javascript module.
 
 [source,java]
