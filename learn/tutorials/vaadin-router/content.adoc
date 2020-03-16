@@ -168,3 +168,17 @@ router.setRoutes([
   {path: '/:user', component: 'x-user-profile'}
 ]);
 ----
+
+== Server configuration
+
+Finally, we need a simple web server to run our application. Vaadin Router is designed for Single Page Applications (SPA) which typically only utilise one `index.html` file and respond with it to any URL requested by the web browsers. 
+Navigation in the application is then handled by the Router itself after the application loads in the web browser. The URL in the browser is updated without causing any additional network requests, with the help of the https://developer.mozilla.org/en-US/docs/Web/API/History[HTML5 History API].
+
+Assuming that https://nodejs.org/[Node.js] is installed, we can start a simple development web server using the https://www.npmjs.com/package/serve[`serve`] npm packge:
+
+[source,bash]
+----
+$ npx serve --single
+----
+
+The general idea of SPA configuration&mdash;rewriting all the GET requests which accept `text/html`, except direct file requests, to the single `index.html` file&mdash;is also doable with other servers like nginx. Note that https://vaadin.com/docs/index.html[Vaadin framework] supports this out of the box, without requiring any extra configuration.
