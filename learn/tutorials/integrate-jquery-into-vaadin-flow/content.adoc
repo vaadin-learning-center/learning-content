@@ -1,7 +1,7 @@
 = Integrate JQuery into Vaadin Flow
 
 :type: text
-:tags: Flow, Java, Javascript, Jquery, webpack
+:tags: Flow, Java, JavaScript, jQuery, Webpack
 :description: This tutorial teaches you how to use JQuery library in a Vaadin project
 :repo: https://github.com/jcgueriaud1/jquery-integration
 :linkattrs:
