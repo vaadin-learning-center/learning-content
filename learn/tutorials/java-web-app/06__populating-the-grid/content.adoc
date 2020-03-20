@@ -13,7 +13,9 @@ Now that your back end is in place, you're ready to begin building the UI. We st
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/04-listing-entities[GitHub].
 
+ifndef::print[]
 video::_109sgFRgA0[youtube]
+endif::[]
 
 == Creating and configuring the Grid
 

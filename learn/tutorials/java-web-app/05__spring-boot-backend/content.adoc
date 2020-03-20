@@ -13,7 +13,9 @@ Most real-life applications need to persist and retrieve data from a database. I
 
 There are a fair number of classes to copy and paste to set up your backend. You can make your life easier by downloading a project with all the changes, if you prefer. The download link is at the end of this chapter. 
 
+ifndef::print[]
 video::KepUsaX-yag[youtube]
+endif::[]
 
 == Installing the database dependencies
 

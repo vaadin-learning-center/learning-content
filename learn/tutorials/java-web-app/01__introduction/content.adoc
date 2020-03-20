@@ -8,7 +8,9 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
+ifndef::print[]
 video::quiQg9bgFs8[youtube]
+endif::[]
 
 Welcome to _Web App Development in Java: A practical guide_. 
 

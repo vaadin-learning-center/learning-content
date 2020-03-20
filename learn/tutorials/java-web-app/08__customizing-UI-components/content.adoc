@@ -12,7 +12,9 @@ In the https://vaadin.com/learn/tutorials/java-web-app/filtering-the-grid[previo
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/06-creating-components[GitHub].
 
+ifndef::print[]
 video::ttuBu8dYNn0[youtube]
+endif::[]
 
 Vaadin is a component-based framework. You've already worked with several components, like `Grid`, `TextField`, and `VerticalLayout`. But, the real power of the component-based architecture is in the ability to create your own components. 
 

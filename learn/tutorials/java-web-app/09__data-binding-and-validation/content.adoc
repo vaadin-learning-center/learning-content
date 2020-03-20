@@ -12,7 +12,9 @@ In the https://vaadin.com/learn/tutorials/java-web-app/customizing-UI-components
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/07-data-binding[GitHub].
 
+ifndef::print[]
 video::k-DxZ1reIdM[youtube]
+endif::[]
 
 == Binding object properties to input fields
 

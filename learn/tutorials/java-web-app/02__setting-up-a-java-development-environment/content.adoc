@@ -30,7 +30,9 @@ When the Oracle JDK became a commercial product, many developers chose to switch
 
 == Setting up on Windows
 
+ifndef::print[]
 video::BiAkQRvqgug[youtube]
+endif::[]
 
 To set up your development environment on Windows:
 
@@ -86,7 +88,9 @@ image::win-intellij-wizard.png[IntelliJ installer]
 
 == Setting up on macOS
 
+ifndef::print[]
 video::IhULXu8uD5M[youtube]
+endif::[]
 
 To set up your developer environment on macOS:
 
@@ -124,7 +128,9 @@ image::mac-intellij-install.png[Installing IntelliJ on Mac]
 
 == Setting up on Linux 
 
+ifndef::print[]
 video::hQyTvkndyPQ[youtube]
+endif::[]
 
 This section contains instructions for Debian and RPM-based distros. Installation on other distributions should be very similar and you can adapt these instructions, if necessary.  On Linux, it's easiest to use OpenJDK, as it's available in the package repositories. 
 

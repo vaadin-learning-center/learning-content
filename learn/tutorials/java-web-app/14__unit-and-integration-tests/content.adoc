@@ -22,7 +22,9 @@ In this chapter, we write and run unit and integration tests. We cover end-to-en
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/12-unit-testing[GitHub].
 
+ifndef::print[]
 video::zz3AcFpXSFI[youtube]
+endif::[]
 
 == Creating and running unit tests for simple UI logic
 

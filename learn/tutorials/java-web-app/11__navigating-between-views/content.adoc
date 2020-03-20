@@ -13,7 +13,9 @@ So far in this tutorial series, we've built a CRM application for listing and ed
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/09-routing[GitHub].
 
+ifndef::print[]
 video::-J4RZXfgLRc[youtube]
+endif::[]
 
 == Defining routes
 

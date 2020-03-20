@@ -15,7 +15,9 @@ In this chapter we introduce you to core Vaadin concepts and get our project rea
 
 Remember, you can always find the source code for each individual chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[GitHub].
 
+ifndef::print[]
 video::vmh5coL-nKs[youtube]
+endif::[]
 
 == Quick introduction to Vaadin
 First, let's review a few of the core Vaadin concepts we'll be working with.

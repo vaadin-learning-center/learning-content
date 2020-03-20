@@ -12,7 +12,9 @@ In this chapter, we turn the completed CRM application into a progressive web ap
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/11-pwa[GitHub].
 
+ifndef::print[]
 video::tqucnVIDaak[youtube]
+endif::[]
 
 == What is a PWA?
 

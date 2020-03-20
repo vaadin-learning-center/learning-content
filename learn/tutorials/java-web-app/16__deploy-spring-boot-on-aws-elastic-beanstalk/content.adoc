@@ -13,7 +13,9 @@ In this final tutorial in the series, we show you how to deploy the Spring Boot 
 
 So far in this series, the application has used an in-memory H2 database. For the deployed application, we will use a MySQL server for persistent storage instead. 
 
+ifndef::print[]
 video::EtDSJRdpJM4[youtube]
+endif::[]
 
 == Preparing the application for production
 Before we can deploy the app, we need to make it ready for production. More specifically, we need to build the app with Vaadin production mode enabled and add a separate configuration file to configure the production database and ports. 

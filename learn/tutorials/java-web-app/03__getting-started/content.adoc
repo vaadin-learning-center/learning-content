@@ -16,7 +16,9 @@ In this section, you'll learn:
 * How to import a project starter into your IDE.  
 * How to set up your browser to automatically show updates as you build your application. 
 
+ifndef::print[]
 video::pMWw_HktG3M[youtube]
+endif::[]
 
 == Importing a Maven project into IntelliJ
 
