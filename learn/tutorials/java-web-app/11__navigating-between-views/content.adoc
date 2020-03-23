@@ -108,11 +108,11 @@ a[highlight] {
 ----
 . Create a new package for the list view, `com.vaadin.tutorial.crm.ui.view.list`. Separate packages for each view makes it easier to keep our project organized. 
 +
-image::create-package.png[New Package]
+image::create-new-package.png[New Package]
 
 . Move `ListView` and `ContactForm` into the new package. The resulting package structure should look like this:
 +
-image::package-structure.png[Package structure]
+image::project-structure-11.png[Package structure]
 
 . Finally, in `ListView` update the `@Route` mapping to use the new `MainLayout` and delete the `@CSSImport` annotation.
 +
