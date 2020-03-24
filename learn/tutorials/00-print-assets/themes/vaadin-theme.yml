@@ -29,6 +29,9 @@ font:
       italic: source-code-pro-medium-italic.ttf
       bold: source-code-pro-bold.ttf
       bold_italic: source-code-pro-bold-italic.ttf
+    FallbackFont: GEM_FONTS_DIR/mplus1p-regular-fallback.ttf
+  fallback:
+    - FallbackFont
 
 base:
   font_color: #4F545B
@@ -105,7 +108,7 @@ admonition:
   code_font_size: 6
   literal_font_size: 6
   label:
-    padding: [0, 4, 0, 0]
+    padding: [0, 4, 0, 4]
     min_width: 20
     font_size: 7
     tip:

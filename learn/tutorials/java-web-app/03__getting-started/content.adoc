@@ -1,5 +1,3 @@
-= Importing, running, and debugging a Java web app project
-
 :title: Importing, running, and debugging a Java web app project
 :tags: Java, Spring 
 :author: Vaadin
@@ -8,6 +6,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
+= Importing, running, and debugging a Java web app project
 
 The first step in any project is to set up the project and get a base app running. 
 
@@ -224,3 +223,5 @@ Vaadin shares many class names (like Button) with Swing, AWT, and JavaFX.
 * javax.swing
 * jdk.internal
 * sun.plugin
+
+Now that you have a working development environment, we can start building a web app.

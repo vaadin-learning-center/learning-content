@@ -1,5 +1,3 @@
-= Running end-to-end browser tests
-
 :title: Running end-to-end browser tests 
 :tags: Java, Spring 
 :author: Vaadin
@@ -7,6 +5,8 @@
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
+
+= Running end-to-end browser tests
 
 End-to-end (e2e) tests are used to test the entire application. They're far more coarse grained than unit or integration tests. This makes them well suited to check that the application works as a whole, and to catch any regressions that may be missed by more specific tests. 
 

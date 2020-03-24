@@ -1,5 +1,3 @@
-= Setting up a Java development environment
-
 :title: Setting up a Java development environment
 :tags: Java, Spring 
 :author: Vaadin
@@ -7,6 +5,9 @@
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
+
+= Setting up a Java development environment
+
 
 Before you can start developing your Java app, you need to install the necessary development tools and set up your development environment. 
 

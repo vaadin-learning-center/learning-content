@@ -1,5 +1,3 @@
-= Routing: navigating between views 
-
 :title: Routing: navigating between views 
 :tags: Java, Spring 
 :author: Vaadin
@@ -8,6 +6,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
+= Routing: navigating between views 
 
 So far in this tutorial series, we've built a CRM application for listing and editing contacts. In this chapter, we add a dashboard view to the application. We also add a responsive application layout, with a header and a navigation sidebar that can be toggled on small screens. 
 

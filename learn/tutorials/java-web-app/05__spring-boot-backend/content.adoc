@@ -1,5 +1,3 @@
-= Building a backend with Spring Boot: database, repositories and services
-
 :title: Building a backend with Spring Boot: database, repositories and services
 :tags: Java, Spring 
 :author: Vaadin
@@ -8,6 +6,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
+= Building a backend with Spring Boot: database, repositories and services
 
 Most real-life applications need to persist and retrieve data from a database. In this tutorial, we use an in-memory H2 database. You can easily adapt the configuration to use another database, like MySQL or Postgres. 
 

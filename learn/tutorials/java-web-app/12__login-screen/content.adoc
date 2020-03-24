@@ -1,5 +1,3 @@
-= Adding a login screen with Spring Security
-
 :title: Adding a login screen with Spring Security
 :tags: Java, Spring 
 :author: Vaadin
@@ -7,6 +5,8 @@
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
+
+= Adding a login screen with Spring Security
 
 So far in this tutorial series, we've built a CRM application that has one view for listing and editing contacts, and a dashboard view for showing stats. 
 

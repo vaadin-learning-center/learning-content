@@ -1,5 +1,3 @@
-= Building UIs with components and layouts
-
 :title: Building UIs with components and layouts
 :tags: Java, Spring 
 :author: Vaadin
@@ -7,6 +5,8 @@
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
+
+= Building UIs with components and layouts
 
 
 In the previous two tutorials, you learned to set up a Java development environment and to import and run a Maven-based Spring Boot project. 

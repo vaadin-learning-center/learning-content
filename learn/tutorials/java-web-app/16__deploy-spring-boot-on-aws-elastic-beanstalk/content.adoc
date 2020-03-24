@@ -1,5 +1,3 @@
-= Deploying a Spring Boot app on AWS Elastic Beanstalk
-
 :title: Deploying a Spring Boot app on AWS Elastic Beanstalk
 :tags: Java, Spring 
 :author: Vaadin
@@ -8,6 +6,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
+= Deploying a Spring Boot app on AWS Elastic Beanstalk
 
 In this final tutorial in the series, we show you how to deploy the Spring Boot application we have built on https://aws.amazon.com/[Amazon Web Services (AWS)] with https://aws.amazon.com/elasticbeanstalk/[AWS Elastic Beanstalk (EB)]. EB is a service that orchestrates other AWS services like virtual servers, load balancers, storage, and databases.
 

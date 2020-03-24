@@ -1,5 +1,3 @@
-= Communicating between components using events and properties
-
 :title: Communicating between components using events and properties
 :tags: Java, Spring 
 :author: Vaadin
@@ -7,6 +5,8 @@
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
+
+= Communicating between components using events and properties
 
 
 In the https://vaadin.com/learn/tutorials/java-web-app/data-binding-and-validation[previous tutorial], we created a reusable form component to edit contacts. In this tutorial we'll hook it up to our application. Our form will:

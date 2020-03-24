@@ -1,5 +1,3 @@
-= Connecting the UI to the backend
-
 :title: Connecting the UI to the backend
 :tags: Java, Spring 
 :author: Vaadin
@@ -8,6 +6,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 
+= Connecting the UI to the backend
 
 Now that your back end is in place, you're ready to begin building the UI. We start by listing all contacts in a data grid. To do this, we need to create the necessary UI components and hook them up to the back end.
 

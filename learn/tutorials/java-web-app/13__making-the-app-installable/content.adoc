@@ -1,5 +1,3 @@
-= Making the app an installable PWA
-
 :title: Making the app an installable PWA
 :tags: Java, Spring 
 :author: Vaadin
@@ -7,6 +5,8 @@
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
+
+= Making the app an installable PWA
 
 In this chapter, we turn the completed CRM application into a progressive web application (PWA) so that users can install it. 
 
@@ -72,18 +72,18 @@ Vaadin creates a generic offline fallback page that displays when the applicatio
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
   <title>Offline | Vaadin CRM</title>
-  <link rel="stylesheet" href="./styles/offline.css"><!-- <1> -->
+  <link rel="stylesheet" href="./styles/offline.css"> <1>
 </head>
 <body>
 
 <div class="content">
-  <img src="./images/offline.png" alt="VaadinCRM is offline" class="offline-image"/> <!-- <2> -->
+  <img src="./images/offline.png" alt="VaadinCRM is offline" class="offline-image"/> <2>
   <h1>Oh deer, you're offline</h1>
   <p>Your internet connection is offline. Get back online to continue using Vaadin CRM.</p>
 </div>
 <script>
   window.addEventListener('online', location.reload);
-</script><!-- <3> -->
+</script> <3>
 </body>
 </html>
 ----
@@ -100,7 +100,7 @@ Vaadin creates a generic offline fallback page that displays when the applicatio
 [source,css]
 ----
 body {
-    display: flex; /* <1> */
+    display: flex; <1>
     flex-direction: column;
     align-items: center;
     font-family: sans-serif;

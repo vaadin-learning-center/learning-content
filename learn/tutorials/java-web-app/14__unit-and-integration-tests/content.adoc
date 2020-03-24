@@ -1,5 +1,3 @@
-= Running unit and integration tests in the app
-
 :title: Running unit and integration tests in the app
 :tags: Java, Spring 
 :author: Vaadin
@@ -7,6 +5,8 @@
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
+
+= Running unit and integration tests in the app
 
 It is a common best practice to test as little code as possible in a single test. In this way, when things go wrong, only relevant tests fail. For UI testing, there are three main approaches:
 
