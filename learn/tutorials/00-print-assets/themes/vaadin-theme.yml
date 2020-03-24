@@ -25,13 +25,10 @@ font:
       bold: montserrat-semibold.ttf
       bold_italic: montserrat-semibold-italic.ttf
     SourceCodePro:
-      normal: source-code-pro-medium.ttf
-      italic: source-code-pro-medium-italic.ttf
-      bold: source-code-pro-bold.ttf
-      bold_italic: source-code-pro-bold-italic.ttf
-    FallbackFont: GEM_FONTS_DIR/mplus1p-regular-fallback.ttf
-  fallback:
-    - FallbackFont
+      normal: source-code-pro-medium-conum.ttf
+      italic: source-code-pro-medium-italic-conum.ttf
+      bold: source-code-pro-bold-conum.ttf
+      bold_italic: source-code-pro-bold-italic-conum.ttf
 
 base:
   font_color: #4F545B
