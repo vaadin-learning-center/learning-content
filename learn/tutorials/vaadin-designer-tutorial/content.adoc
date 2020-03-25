@@ -1,7 +1,7 @@
 = Vaadin Designer Tutorial
 
 :type: text
-:tags: Component, CSS, Java, Templating, Web Components, Layout, Web GUI, WYSIWYG, Designer
+:tags: Component, CSS, Java, Templating, Web Components, Layout
 :description: This tutorial shows the first steps with Vaadin Designer. Learn to create components and views, and how to connect to a backend.
 :repo: https://github.com/vaadin-learning-center/VaadinDesigner_01_Basics
 :linkattrs:
