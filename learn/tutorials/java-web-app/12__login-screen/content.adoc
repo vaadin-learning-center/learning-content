@@ -287,7 +287,7 @@ WARNING: We do not recommend that you configure users directly in the code for a
 [source,java]
 ----
 @Override
-public void configure(WebSecurity web) throws Exception {
+public void configure(WebSecurity web) {
     web.ignoring().antMatchers(
         "/VAADIN/**",
         "/favicon.ico",
