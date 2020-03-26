@@ -3,6 +3,7 @@
 :print:
 :source-highlighter: coderay
 :toc:
+:imagesdir: ./pdf-images
 
 = Modern web app development in Java
 A practical guide with Spring Boot and Vaadin

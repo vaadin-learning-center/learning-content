@@ -1,16 +1,20 @@
 const fs = require("fs").promises;
 const { spawn } = require("child_process");
+const imageDir = "pdf-images";
 
 async function generatePDF() {
   console.log("Copying images...");
-  await fs.mkdir("images");
+  await fs.mkdir(imageDir);
   try {
     for (const path of await fs.readdir(".")) {
       const stat = await fs.lstat(path);
       if (path.match(/\d\d.+/) && stat.isDirectory()) {
         if ((await fs.readdir(path)).includes("images")) {
           for (const image of await fs.readdir(`${path}/images`)) {
-            await fs.copyFile(`${path}/images/${image}`, `images/${image}`);
+            await fs.copyFile(
+              `${path}/images/${image}`,
+              `${imageDir}/${image}`
+            );
           }
         }
       }
@@ -38,7 +42,7 @@ async function generatePDF() {
 }
 
 async function cleanup() {
-  return fs.rmdir("images", { recursive: true });
+  return fs.rmdir(imageDir, { recursive: true });
 }
 
 generatePDF();

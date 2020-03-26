@@ -4,7 +4,7 @@
 :description: Windows, Linux, and macOS instructions for installing a Java development environment: JDK, Maven, Git, Node, and IntelliJ
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
 = Setting up a Java development environment
 

@@ -4,7 +4,7 @@
 :description: Learn the basics of using components and layouts, the building blocks of Vaadin web apps. 
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
 = Building UIs with components and layouts
 
@@ -109,7 +109,7 @@ package com.vaadin.tutorial.crm.ui;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-@Route("") //<1>
+@Route("") <1>
 public class MainView extends VerticalLayout {
 
     public MainView() {

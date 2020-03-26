@@ -6,7 +6,7 @@
 :description: In this tutorial series you will learn how to build a modern, full-stack, web application with Spring Boot and Vaadin
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
 ifndef::print[]
 video::quiQg9bgFs8[youtube]

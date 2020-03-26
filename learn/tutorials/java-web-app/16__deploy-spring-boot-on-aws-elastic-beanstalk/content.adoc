@@ -4,7 +4,7 @@
 :description: How to set up a production build with a MySQL database and deploy it to AWS Elastic Beanstalk. 
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
 = Deploying a Spring Boot app on AWS Elastic Beanstalk
 
@@ -34,8 +34,8 @@ TIP: Do not store sensitive information like passwords in properties files that 
 .`*application-prod.properties*`
 [source]
 ----
-server.port=5000 # <1>
-spring.datasource.url=jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME} # <2>
+server.port=5000 <1>
+spring.datasource.url=jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME} <2>
 spring.datasource.username=${RDS_USERNAME}
 spring.datasource.password=${RDS_PASSWORD}
 spring.jpa.hibernate.ddl-auto=create

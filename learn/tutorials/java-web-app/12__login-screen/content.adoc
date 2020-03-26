@@ -4,7 +4,7 @@
 :description: Set up Spring Security and add a login screen to limit access to logged in users.
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
 = Adding a login screen with Spring Security
 
@@ -323,12 +323,12 @@ import com.vaadin.flow.server.VaadinServiceInitListener;
 import com.vaadin.tutorial.crm.ui.view.login.LoginView;
 import org.springframework.stereotype.Component;
 
-@Component // <1>
+@Component <1>
 public class ConfigureUIServiceInitListener implements VaadinServiceInitListener {
 
 	@Override
 	public void serviceInit(ServiceInitEvent event) {
-		event.getSource().addUIInitListener(uiEvent -> { // <2>
+		event.getSource().addUIInitListener(uiEvent -> { <2>
 			final UI ui = uiEvent.getUI();
 			ui.addBeforeEnterListener(this::authenticateNavigation);
 		});
@@ -336,7 +336,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 
 	private void authenticateNavigation(BeforeEnterEvent event) {
 		if (!LoginView.class.equals(event.getNavigationTarget()) 
-		    && !SecurityUtils.isUserLoggedIn()) { // <3>
+		    && !SecurityUtils.isUserLoggedIn()) { <3>
 			event.rerouteTo(LoginView.class);
 		}
 	}
@@ -362,10 +362,10 @@ private void createHeader() {
     H1 logo = new H1("Vaadin CRM");
     logo.addClassName("logo");
 
-    Anchor logout = new Anchor("/logout", "Log out"); // <1> 
+    Anchor logout = new Anchor("/logout", "Log out"); <1> 
 
-    HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout); // <2> 
-    header.expand(logo); // <3>
+    HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout); <2> 
+    header.expand(logo); <3>
     header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
     header.setWidth("100%");
     header.addClassName("header");

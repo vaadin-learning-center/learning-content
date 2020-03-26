@@ -4,7 +4,7 @@
 :description: Turn your Web App into a Progressive Web app by making it installable.
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
 = Making the app an installable PWA
 
@@ -35,9 +35,9 @@ Add the `@PWA` annotation to `MainLayout` as follows:
 [source,java]
 ----
 @CssImport("./styles/shared-styles.css")
-@PWA( // <1>
-    name = "VaadinCRM", // <2>
-    shortName = "CRM") // <3>
+@PWA( <1>
+    name = "VaadinCRM", <2>
+    shortName = "CRM")  <3>
 public class MainLayout extends AppLayout {
      ...
 }
@@ -132,7 +132,7 @@ image::offline.png[example offline image]
 @PWA(
     name = "VaadinCRM",
     shortName = "VaadinCRM",
-    offlineResources = { // <1>
+    offlineResources = { <1>
         "./styles/offline.css",
         "./images/offline.png"})
 public class MainLayout extends AppLayout {
