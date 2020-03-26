@@ -1,21 +1,20 @@
-= Filtering entities in a data grid
-
 :title: Filtering entities in a data grid
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to filter the entities displayed in a data grid
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
-
-== Filtering entities in a data grid
+= Filtering entities in a data grid
 
 In the https://vaadin.com/learn/tutorials/java-web-app/populating-the-grid[previous tutorial], we created a data grid and filled it with contact details stored in the database. In this tutorial, we continue by adding a text field to filter the contents of the grid.
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/05-filtering-grid[GitHub].
 
+ifndef::print[]
 video::Ty3dhCkQP1E[youtube]
+endif::[]
 
 == Adding a text field for filtering
 
@@ -28,24 +27,24 @@ public class MainView extends VerticalLayout {
     private ContactService contactService;
 
     private Grid<Contact> grid = new Grid<>(Contact.class);
-    private TextField filterText = new TextField(); // <1>
+    private TextField filterText = new TextField(); <1>
 
     public MainView(ContactService contactService) {
         this.contactService = contactService;
         addClassName("list-view");
         setSizeFull();
-        configureFilter(); // <2> 
+        configureFilter(); <2> 
         configureGrid(); 
 
-        add(filterText, grid); // <3> 
+        add(filterText, grid); <3> 
         updateList();
     }
 
     private void configureFilter() {
-        filterText.setPlaceholder("Filter by name..."); //<4>
-        filterText.setClearButtonVisible(true); // <5> 
-        filterText.setValueChangeMode(ValueChangeMode.LAZY); // <6>
-        filterText.addValueChangeListener(e -> updateList()); // <7>
+        filterText.setPlaceholder("Filter by name..."); <4>
+        filterText.setClearButtonVisible(true); <5> 
+        filterText.setValueChangeMode(ValueChangeMode.LAZY); <6>
+        filterText.addValueChangeListener(e -> updateList()); <7>
     }
     // Grid configuration omitted
 }
@@ -89,11 +88,11 @@ public class ContactService {
 		return contactRepository.findAll();
 	}
 
-	public List<Contact> findAll(String stringFilter) { // <1> 
-		if (stringFilter == null || stringFilter.isEmpty()) { // <2>
+	public List<Contact> findAll(String stringFilter) { <1> 
+		if (stringFilter == null || stringFilter.isEmpty()) { <2>
 			return contactRepository.findAll();
 		} else {
-			return contactRepository.search(stringFilter); // <3>
+			return contactRepository.search(stringFilter); <3>
 		}
 	}
 

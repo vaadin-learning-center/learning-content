@@ -1,12 +1,12 @@
-= Running end-to-end browser tests
-
 :title: Running end-to-end browser tests 
 :tags: Java, Spring 
 :author: Vaadin
 :description: Run end-to-end tests on your app to find and fix possible errors.
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
+
+= Running end-to-end browser tests
 
 End-to-end (e2e) tests are used to test the entire application. They're far more coarse grained than unit or integration tests. This makes them well suited to check that the application works as a whole, and to catch any regressions that may be missed by more specific tests. 
 
@@ -20,7 +20,9 @@ You can find the completed source code for this chapter on https://github.com/va
 
 NOTE: The end-to-end tests use https://vaadin.com/testbench[Vaadin TestBench], which is a commercial tool that is a part of the Vaadin Pro Subscription. You can get a free trial at https://vaadin.com/trial. All Vaadin Pro tools and components are free for students through the https://education.github.com/pack[GitHub Student Developer Pack].
 
+ifndef::print[]
 video::W-IT96DX8WI[youtube]
+endif::[]
 
 == Configuring Maven to start the server
 
@@ -122,13 +124,13 @@ image::create-package-prompt.png[create package prompt]
 package com.vaadin.tutorial.crm.it;
 
 public abstract class AbstractTest extends ParallelTest {
-    @Rule
-    public ScreenshotOnFailureRule rule = new ScreenshotOnFailureRule(this, true); // <2>
-
     @BeforeClass
     public static void setupClass() {
         WebDriverManager.chromedriver().setup(); // <1>
     }
+    
+    @Rule
+    public ScreenshotOnFailureRule rule = new ScreenshotOnFailureRule(this, true); // <2>
 }
 ----
 +
@@ -233,7 +235,7 @@ For this text, you need to write the same code to access the components in the v
 ----
 package com.vaadin.tutorial.crm.it.elements.login;
 
-@Attribute(name = "class", contains = "login-view") // <1> 
+@Attribute(name = "class", contains = "login-view") <1> 
 public class LoginViewElement extends VerticalLayoutElement {
 
     public boolean login(String username, String password) {

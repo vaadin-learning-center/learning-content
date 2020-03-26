@@ -1,18 +1,20 @@
-= Defining the form component API and binding the data
-
 :title: Defining the form component API and binding the data
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to define the API for the form component and bind the data.
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
+
+= Defining the form component API and binding the data
 
 In the https://vaadin.com/learn/tutorials/java-web-app/customizing-UI-components[previous tutorial], we started building a reusable form component. In this tutorial, we define the form component API and use data binding to make the form functional.
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/07-data-binding[GitHub].
 
+ifndef::print[]
 video::k-DxZ1reIdM[youtube]
+endif::[]
 
 == Binding object properties to input fields
 
@@ -37,11 +39,11 @@ To do this, add the  `BeanValidationBinder` field to `ContactForm` as follows:
 [source,java]
 ----
 // Other fields omitted
-Binder<Contact> binder = new BeanValidationBinder<>(Contact.class); //<1>
+Binder<Contact> binder = new BeanValidationBinder<>(Contact.class); <1>
 
 public ContactForm() {
     addClassName("contact-form");
-    binder.bindInstanceFields(this); // <2>
+    binder.bindInstanceFields(this); <2>
     // Rest of constructor omitted
 }
 ----
@@ -90,13 +92,13 @@ To set the company and contact status:
 .ContactForm.java
 [source,java]
 ----
-public ContactForm(List<Company> companies) { // <1>
+public ContactForm(List<Company> companies) { <1>
   addClassName("contact-form");
   binder.bindInstanceFields(this);
 
-  company.setItems(companies); // <2>
-  company.setItemLabelGenerator(Company::getName); // <3>
-  status.setItems(Contact.Status.values()); // <4>
+  company.setItems(companies); <2>
+  company.setItemLabelGenerator(Company::getName); <3>
+  status.setItems(Contact.Status.values()); <4>
  
    //omitted
 }
@@ -114,7 +116,7 @@ WARNING: You will get a compilation error if you build the application at this p
 [source,java]
 ----
 public MainView(ContactService contactService,
-                CompanyService companyService) { //<1>
+                CompanyService companyService) { <1>
     this.contactService = contactService;
     addClassName("list-view");
     setSizeFull();
@@ -122,7 +124,7 @@ public MainView(ContactService contactService,
     configureGrid();
     configureFilter();
 
-    form = new ContactForm(companyService.findAll()); //<2>
+    form = new ContactForm(companyService.findAll()); <2>
 
     add(filterText, grid, form);
     updateList();
@@ -141,7 +143,7 @@ To do this, add the following in the `ContactForm` class:
 [source,java]
 ----
 public void setContact(Contact contact) {
-  binder.setBean(contact); //<1>
+  binder.setBean(contact); <1>
 }
 ----
 <1> Calls `binder.setBean` to bind the values from the contact to the UI fields
@@ -159,7 +161,7 @@ To do this, add the following at the end of the `ContactForm` class:
 public static abstract class ContactFormEvent extends ComponentEvent<ContactForm> {
   private Contact contact;
 
-  protected ContactFormEvent(ContactForm source, Contact contact) { //<1>
+  protected ContactFormEvent(ContactForm source, Contact contact) { <1>
     super(source, false);
     this.contact = contact;
   }
@@ -189,7 +191,7 @@ public static class CloseEvent extends ContactFormEvent {
 }
 
 public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-    ComponentEventListener<T> listener) { //<2>
+    ComponentEventListener<T> listener) { <2>
   return getEventBus().addListener(eventType, listener);
 }
 ----
@@ -208,17 +210,17 @@ To add `save`, `delete` and `close` event listeners, add the following to the `C
 private Component createButtonsLayout() {
   // omitted
 
-  save.addClickListener(event -> validateAndSave()); // <1> 
-  delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean()))); // <2>
-  close.addClickListener(event -> fireEvent(new CloseEvent(this))); // <3>
+  save.addClickListener(event -> validateAndSave()); <1> 
+  delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean()))); <2>
+  close.addClickListener(event -> fireEvent(new CloseEvent(this))); <3>
 
 
-  binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid())); // <4>
+  binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid())); <4>
   return new HorizontalLayout(save, delete, close);
 }
 
 private void validateAndSave() {
-  if (binder.isValid()) { // <5>
+  if (binder.isValid()) { <5>
     fireEvent(new SaveEvent(this, binder.getBean()));
   }
 }

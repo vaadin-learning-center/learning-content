@@ -1,19 +1,20 @@
-= Routing: navigating between views 
-
 :title: Routing: navigating between views 
 :tags: Java, Spring 
 :author: Vaadin
 :description: Add a dashbord view to your application and navigate between the different views.
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
+= Routing: navigating between views 
 
 So far in this tutorial series, we've built a CRM application for listing and editing contacts. In this chapter, we add a dashboard view to the application. We also add a responsive application layout, with a header and a navigation sidebar that can be toggled on small screens. 
 
 You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/09-routing[GitHub].
 
+ifndef::print[]
 video::-J4RZXfgLRc[youtube]
+endif::[]
 
 == Defining routes
 
@@ -42,8 +43,8 @@ image::rename-class.png[Refactor rename]
 .`*MainLayout.java*`
 [source, java]
 ----
-@CssImport("./styles/shared-styles.css") //<1>
-public class MainLayout extends AppLayout { //<2>
+@CssImport("./styles/shared-styles.css") <1>
+public class MainLayout extends AppLayout { <2>
     public MainLayout() {
         createHeader();
         createDrawer();
@@ -53,23 +54,23 @@ public class MainLayout extends AppLayout { //<2>
         H1 logo = new H1("Vaadin CRM");
         logo.addClassName("logo");
         
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo); // <3> 
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo); <3> 
           
         header.setDefaultVerticalComponentAlignment(
-             FlexComponent.Alignment.CENTER); // <4> 
+             FlexComponent.Alignment.CENTER); <4> 
         header.setWidth("100%");
         header.addClassName("header");
 
 
-        addToNavbar(header); // <5>
+        addToNavbar(header); <5>
 
     }
 
     private void createDrawer() {
-        RouterLink listLink = new RouterLink("List", ListView.class); // <6>
-        listLink.setHighlightCondition(HighlightConditions.sameLocation()); // <7>
+        RouterLink listLink = new RouterLink("List", ListView.class); <6>
+        listLink.setHighlightCondition(HighlightConditions.sameLocation()); <7>
 
-        addToDrawer(new VerticalLayout(listLink)); // <8>
+        addToDrawer(new VerticalLayout(listLink)); <8>
     }
 }
 ----
@@ -106,20 +107,20 @@ a[highlight] {
 ----
 . Create a new package for the list view, `com.vaadin.tutorial.crm.ui.view.list`. Separate packages for each view makes it easier to keep our project organized. 
 +
-image::create-package.png[New Package]
+image::create-new-package.png[New Package]
 
 . Move `ListView` and `ContactForm` into the new package. The resulting package structure should look like this:
 +
-image::package-structure.png[Package structure]
+image::project-structure-11.png[Package structure]
 
 . Finally, in `ListView` update the `@Route` mapping to use the new `MainLayout` and delete the `@CSSImport` annotation.
 +
 .`*ListView.java*`
 [source,java]
 ----
-@Route(value="", layout = MainLayout.class) //<1>
+@Route(value="", layout = MainLayout.class) <1>
 //<2>
-@PageTitle("Contacts | Vaadin CRM") // <3> 
+@PageTitle("Contacts | Vaadin CRM") <3> 
 public class ListView extends VerticalLayout {
      ...
 }
@@ -154,18 +155,18 @@ import com.vaadin.tutorial.crm.backend.service.CompanyService;
 import com.vaadin.tutorial.crm.backend.service.ContactService;
 import com.vaadin.tutorial.crm.ui.MainLayout;
 
-@Route(value = "dashboard", layout = MainLayout.class) // <1> 
-@PageTitle("Dashboard | Vaadin CRM") // <2> 
+@Route(value = "dashboard", layout = MainLayout.class) <1> 
+@PageTitle("Dashboard | Vaadin CRM") <2> 
 public class DashboardView extends VerticalLayout {
 
     private ContactService contactService;
     private CompanyService companyService;
 
-    public DashboardView(ContactService contactService, CompanyService companyService) { // <3>
+    public DashboardView(ContactService contactService, CompanyService companyService) { <3>
         this.contactService = contactService;
         this.companyService = companyService;
         addClassName("dashboard-view");
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER); // <4>
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER); <4>
     }
 }
 ----
@@ -181,7 +182,7 @@ public class DashboardView extends VerticalLayout {
 [source,java]
 ----
 private Component getContactStats() {
-    Span stats = new Span(contactService.count() + " contacts"); // <1>
+    Span stats = new Span(contactService.count() + " contacts"); <1>
     stats.addClassName("contact-stats");
     return stats;
 }
@@ -212,7 +213,7 @@ https://vaadin.com/components/vaadin-charts[Vaadin charts] is a collection of da
 ----
 public Map<String, Integer> getStats() {
   HashMap<String, Integer> stats = new HashMap<>();
-  findAll().forEach(company -> stats.put(company.getName(), company.getEmployees().size())); // <1>
+  findAll().forEach(company -> stats.put(company.getName(), company.getEmployees().size())); <1>
   return stats;
 }
 ----
@@ -224,13 +225,13 @@ public Map<String, Integer> getStats() {
 [source,java]
 ----
 private Chart getCompaniesChart() {
-    Chart chart = new Chart(ChartType.PIE); // <1> 
+    Chart chart = new Chart(ChartType.PIE); <1> 
 
-    DataSeries dataSeries = new DataSeries(); // <2> 
+    DataSeries dataSeries = new DataSeries(); <2> 
     Map<String, Integer> companies = companyService.getStats();
     companies.forEach((company, employees) ->
-        dataSeries.add(new DataSeriesItem(company, employees))); // <3> 
-    chart.getConfiguration().setSeries(dataSeries); // <4>
+        dataSeries.add(new DataSeriesItem(company, employees))); <3> 
+    chart.getConfiguration().setSeries(dataSeries); <4>
     return chart;
 }
 ----
