@@ -39,20 +39,20 @@ import com.vaadin.flow.router.Route;
 
 import java.util.Collections;
 
-@Route("login") // <1>
+@Route("login") <1>
 @PageTitle("Login | Vaadin CRM") 
 
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
-	private LoginForm login = new LoginForm(); // <2>
+	private LoginForm login = new LoginForm(); <2>
 
 	public LoginView(){
 		addClassName("login-view");
 		setSizeFull();
-		setAlignItems(Alignment.CENTER); //<3>
+		setAlignItems(Alignment.CENTER); <3>
 		setJustifyContentMode(JustifyContentMode.CENTER);
 		
-		login.setAction("login"); // <4>
+		login.setAction("login");  <4>
 
 		add(new H1("Vaadin CRM"), login);
 	}
@@ -60,7 +60,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
 		// inform the user about an authentication error
-		if(!event.getLocation() // <5>
+		if(!event.getLocation() <5>
 			.getQueryParameters()
 			.getParameters()
 			.getOrDefault("error", Collections.emptyList())
@@ -149,14 +149,14 @@ public final class SecurityUtils {
         // Util methods only
     }
 
-    static boolean isFrameworkInternalRequest(HttpServletRequest request) { // <1>
+    static boolean isFrameworkInternalRequest(HttpServletRequest request) { <1>
         final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
         return parameterValue != null
             && Stream.of(ServletHelper.RequestType.values())
             .anyMatch(r -> r.getIdentifier().equals(parameterValue));
     }
 
-    static boolean isUserLoggedIn() { // <2>
+    static boolean isUserLoggedIn() { <2>
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null
             && !(authentication instanceof AnonymousAuthenticationToken)
@@ -183,7 +183,7 @@ import javax.servlet.http.HttpServletResponse;
 class CustomRequestCache extends HttpSessionRequestCache {
 
 	@Override
-	public void saveRequest(HttpServletRequest request, HttpServletResponse response) { // <1>
+	public void saveRequest(HttpServletRequest request, HttpServletResponse response) { <1>
 		if (!SecurityUtils.isFrameworkInternalRequest(request)) {
 			super.saveRequest(request, response);
 		}
@@ -213,8 +213,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 
-@EnableWebSecurity // <1>
-@Configuration // <2>
+@EnableWebSecurity <1>
+@Configuration <2>
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String LOGIN_PROCESSING_URL = "/login";
@@ -235,18 +235,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 ----
 @Override
 protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable() // <1>
-        .requestCache().requestCache(new CustomRequestCache()) //<2>
-        .and().authorizeRequests() // <3>
-        .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll() // <4>
+    http.csrf().disable()  <1>
+        .requestCache().requestCache(new CustomRequestCache()) <2>
+        .and().authorizeRequests() <3>
+        .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()  <4>
 
-        .anyRequest().authenticated() // <5>
+        .anyRequest().authenticated()  <5>
 
-        .and().formLogin() // <6>
+        .and().formLogin()  <6>
         .loginPage(LOGIN_URL).permitAll() 
-        .loginProcessingUrl(LOGIN_PROCESSING_URL) // <7>
+        .loginProcessingUrl(LOGIN_PROCESSING_URL)  <7>
         .failureUrl(LOGIN_FAILURE_URL)
-        .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL); // <8>
+        .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL); <8>
 }
 ----
 +
