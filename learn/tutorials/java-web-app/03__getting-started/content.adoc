@@ -1,13 +1,12 @@
-= Importing, running, and debugging a Java web app project
-
 :title: Importing, running, and debugging a Java web app project
 :tags: Java, Spring 
 :author: Vaadin
 :description: Instructions for importing, running, and debugging a Java web app project in IntelliJ
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
 
+= Importing, running, and debugging a Java web app project
 
 The first step in any project is to set up the project and get a base app running. 
 
@@ -16,7 +15,9 @@ In this section, you'll learn:
 * How to import a project starter into your IDE.  
 * How to set up your browser to automatically show updates as you build your application. 
 
+ifndef::print[]
 video::pMWw_HktG3M[youtube]
+endif::[]
 
 == Importing a Maven project into IntelliJ
 
@@ -222,3 +223,5 @@ Vaadin shares many class names (like Button) with Swing, AWT, and JavaFX.
 * javax.swing
 * jdk.internal
 * sun.plugin
+
+Now that you have a working development environment, we can start building a web app.

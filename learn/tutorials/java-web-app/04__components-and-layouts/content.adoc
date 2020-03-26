@@ -1,12 +1,12 @@
-= Building UIs with components and layouts
-
 :title: Building UIs with components and layouts
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn the basics of using components and layouts, the building blocks of Vaadin web apps. 
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
+
+= Building UIs with components and layouts
 
 
 In the previous two tutorials, you learned to set up a Java development environment and to import and run a Maven-based Spring Boot project. 
@@ -15,7 +15,9 @@ In this chapter we introduce you to core Vaadin concepts and get our project rea
 
 Remember, you can always find the source code for each individual chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[GitHub].
 
+ifndef::print[]
 video::vmh5coL-nKs[youtube]
+endif::[]
 
 == Quick introduction to Vaadin
 First, let's review a few of the core Vaadin concepts we'll be working with.
@@ -107,7 +109,7 @@ package com.vaadin.tutorial.crm.ui;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-@Route("") //<1>
+@Route("") <1>
 public class MainView extends VerticalLayout {
 
     public MainView() {

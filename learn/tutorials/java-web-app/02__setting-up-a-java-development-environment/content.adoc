@@ -1,12 +1,13 @@
-= Setting up a Java development environment
-
 :title: Setting up a Java development environment
 :tags: Java, Spring 
 :author: Vaadin
 :description: Windows, Linux, and macOS instructions for installing a Java development environment: JDK, Maven, Git, Node, and IntelliJ
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-:imagesdir: ./images
+ifndef::print[:imagesdir: ./images]
+
+= Setting up a Java development environment
+
 
 Before you can start developing your Java app, you need to install the necessary development tools and set up your development environment. 
 
@@ -30,7 +31,9 @@ When the Oracle JDK became a commercial product, many developers chose to switch
 
 == Setting up on Windows
 
+ifndef::print[]
 video::BiAkQRvqgug[youtube]
+endif::[]
 
 To set up your development environment on Windows:
 
@@ -86,7 +89,9 @@ image::win-intellij-wizard.png[IntelliJ installer]
 
 == Setting up on macOS
 
+ifndef::print[]
 video::IhULXu8uD5M[youtube]
+endif::[]
 
 To set up your developer environment on macOS:
 
@@ -124,7 +129,9 @@ image::mac-intellij-install.png[Installing IntelliJ on Mac]
 
 == Setting up on Linux 
 
+ifndef::print[]
 video::hQyTvkndyPQ[youtube]
+endif::[]
 
 This section contains instructions for Debian and RPM-based distros. Installation on other distributions should be very similar and you can adapt these instructions, if necessary.  On Linux, it's easiest to use OpenJDK, as it's available in the package repositories. 
 
