@@ -3,7 +3,9 @@
 :print:
 :source-highlighter: coderay
 :toc:
+:front-cover-image: image:ModernJavaWeb-GuideCover.pdf[]
 :imagesdir: ./pdf-images
+:notitle:
 
 = Modern web app development in Java
 A practical guide with Spring Boot and Vaadin

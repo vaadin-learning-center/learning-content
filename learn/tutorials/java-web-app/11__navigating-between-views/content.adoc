@@ -1,4 +1,4 @@
-:title: Routing: navigating between views 
+:title: "Routing: navigating between views"
 :tags: Java, Spring 
 :author: Vaadin
 :description: Add a dashbord view to your application and navigate between the different views.
