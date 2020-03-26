@@ -6,6 +6,11 @@ async function generatePDF() {
   console.log("Copying images...");
   await fs.mkdir(imageDir);
   try {
+    fs.copyFile(
+      "./pdf-assets/ModernJavaWeb-GuideCover.pdf",
+      `${imageDir}/ModernJavaWeb-GuideCover.pdf`
+    );
+
     for (const path of await fs.readdir(".")) {
       const stat = await fs.lstat(path);
       if (path.match(/\d\d.+/) && stat.isDirectory()) {
@@ -23,13 +28,14 @@ async function generatePDF() {
     console.log("Generating PDF");
     const pdfGenerator = spawn("asciidoctor-pdf", [
       "-a",
-      "pdf-theme=../00-print-assets/themes/vaadin-theme.yml",
+      "pdf-theme=./pdf-assets/themes/vaadin-theme.yml",
       "-a",
-      "pdf-fontsdir=../00-print-assets/fonts",
+      "pdf-fontsdir=./pdf-assets/fonts",
       "pdf.adoc"
     ]);
 
     pdfGenerator.stdout.pipe(process.stdout);
+    pdfGenerator.stderr.pipe(process.stderr);
 
     pdfGenerator.on("exit", async () => {
       await cleanup();
