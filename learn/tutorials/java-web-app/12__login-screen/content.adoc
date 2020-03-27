@@ -298,10 +298,7 @@ public void configure(WebSecurity web) {
         "/icons/**",
         "/images/**",
         "/styles/**",
-        "/frontend/**",
-        "/h2-console/**",
-        "/frontend-es5/**",
-        "/frontend-es6/**");
+        "/h2-console/**");
 }
 ----
 
