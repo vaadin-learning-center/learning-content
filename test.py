@@ -122,7 +122,7 @@ def load_asciidoc_attributes(adocFile):
 	result = {}
 	possibleAttributes = [ line for line in open(adocFile, "r", encoding="utf-8") if line.startswith(":")]
 	for attr in possibleAttributes:
-		m = re.search("^:(.*):(.*)$", attr)
+		m = re.search("^:([^:|=]*):(.*)$", attr)
 		if m:
 			result[m.group(1).strip()] = m.group(2).strip();
 	try:
