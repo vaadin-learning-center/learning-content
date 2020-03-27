@@ -10,7 +10,7 @@ ifndef::print[:imagesdir: ./images]
 
 In the https://vaadin.com/learn/tutorials/java-web-app/customizing-UI-components[previous tutorial], we started building a reusable form component. In this tutorial, we define the form component API and use data binding to make the form functional.
 
-You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/07-data-binding[GitHub].
+You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/06-creating-components[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
 video::k-DxZ1reIdM[youtube]
@@ -232,3 +232,5 @@ private void validateAndSave() {
 <5> Only fires a save event if the form is valid.
 
 In the next tutorial, we'll connect the form to the main view so that the selected contact in the form can be edited.
+
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/07-data-binding[GitHub].

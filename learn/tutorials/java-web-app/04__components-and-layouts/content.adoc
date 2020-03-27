@@ -13,7 +13,7 @@ In the previous two tutorials, you learned to set up a Java development environm
 
 In this chapter we introduce you to core Vaadin concepts and get our project ready for coding.
 
-Remember, you can always find the source code for each individual chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[GitHub].
+You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/01-project-import[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
 video::vmh5coL-nKs[youtube]
@@ -134,3 +134,5 @@ You should see an empty window in the browser, and no errors in the console.
 image::empty-window.png[empty browser window]
 
 Before we can start building the UI, we need data to work with. In the next chapter, we'll set up a database and populate it with test data.
+
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[GitHub].

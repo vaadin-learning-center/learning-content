@@ -10,7 +10,7 @@ ifndef::print[:imagesdir: ./images]
 
 In the https://vaadin.com/learn/tutorials/java-web-app/filtering-the-grid[previous tutorial], we added filtering to the grid that lists contacts stored in a database. In this tutorial, we build a form component to add, remove, and edit contacts. 
 
-You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/06-creating-components[GitHub].
+You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/05-filtering-grid[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
 video::ttuBu8dYNn0[youtube]
@@ -182,3 +182,5 @@ public class MainView extends VerticalLayout {
 image::main-view-with-form.png[main view with form component]
 
 The visual part of the form is now complete. In the next tutorial, we'll make it functional.
+
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/06-creating-components[GitHub].

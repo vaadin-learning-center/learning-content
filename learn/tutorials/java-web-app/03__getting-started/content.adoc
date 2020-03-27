@@ -225,3 +225,5 @@ Vaadin shares many class names (like Button) with Swing, AWT, and JavaFX.
 * sun.plugin
 
 Now that you have a working development environment, we can start building a web app.
+
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/01-project-import[GitHub].
