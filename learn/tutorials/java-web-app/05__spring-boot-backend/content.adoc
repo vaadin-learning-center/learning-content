@@ -1,4 +1,4 @@
-:title: "Building a backend with Spring Boot: database, repositories and services"
+:title: Building a backend with Spring Boot: database, repositories and services
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to set up a database, JPA entities, Spring Data repositories, and service classes

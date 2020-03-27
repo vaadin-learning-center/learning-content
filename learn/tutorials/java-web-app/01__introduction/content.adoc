@@ -70,3 +70,6 @@ You can find the full source code for this guide on https://github.com/vaadin-le
 In addition, the individual chapters include links to download the code both before and after the changes in the chapter, so you can easily get your project working again, if something does go wrong. 
 You can also jump straight to a specific chapter by downloading the full project when starting the guide.
 
+== Video tutorials
+
+You can find video tutorials of each chapter on the https://www.youtube.com/watch?v=quiQg9bgFs8&list=PLcRrh9hGNallPtT2VbUAsrWqvkQ-XE22h[Vaadin YouTube Channel].
