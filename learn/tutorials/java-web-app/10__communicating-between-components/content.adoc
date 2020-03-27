@@ -15,7 +15,7 @@ In the https://vaadin.com/learn/tutorials/java-web-app/data-binding-and-validati
 * Be hidden when no contact is selected.
 * Save and delete contacts in the database.
 
-You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/08-component-communication[GitHub].
+You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/07-data-binding[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
 video::H86oKt5qbSs[youtube]
@@ -206,3 +206,5 @@ Build the application and verify that you are now able to add new contacts. New 
 image::new-contact.png[form with new contact]
 
 In the next tutorial, we'll add a second screen to the application and learn how to navigate between views. 
+
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/08-component-communication[GitHub].

@@ -10,7 +10,7 @@ ifndef::print[:imagesdir: ./images]
 
 So far in this tutorial series, we've built a CRM application for listing and editing contacts. In this chapter, we add a dashboard view to the application. We also add a responsive application layout, with a header and a navigation sidebar that can be toggled on small screens. 
 
-You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/09-routing[GitHub].
+You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/08-component-communication[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
 video::-J4RZXfgLRc[youtube]
@@ -273,3 +273,5 @@ private void createDrawer() {
 image::dashboard-completed.png[Complete dashboard view]
 
 In the next tutorial, we'll secure the application by adding a login screen.
+
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/09-routing[GitHub].

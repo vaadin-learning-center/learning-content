@@ -12,6 +12,8 @@ In this final tutorial in the series, we show you how to deploy the Spring Boot 
 
 So far in this series, the application has used an in-memory H2 database. For the deployed application, we will use a MySQL server for persistent storage instead. 
 
+You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/13-end-to-end-testing[here], if you want to jump directly into this chapter.
+
 ifndef::print[]
 video::EtDSJRdpJM4[youtube]
 endif::[]
@@ -127,6 +129,8 @@ image::aws-eb-deploy.png[Deploy the built JAR file]
 image::aws-eb-open.png[Open the deployed application through the URL at the top of the dashboard]
 +
 image::aws-eb-running.png[The Spring Boot and Vaadin application running on AWS]
+
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/14-production-deployment[GitHub].
 
 == Next steps
 Good job on completing the tutorial series! You now have all the skills you need to get started building real-life applications with Spring Boot and Vaadin.
