@@ -6,10 +6,7 @@ async function generatePDF() {
   console.log("Copying images...");
   await fs.mkdir(imageDir);
   try {
-    fs.copyFile(
-      "./pdf-assets/ModernJavaWeb-GuideCover.pdf",
-      `${imageDir}/ModernJavaWeb-GuideCover.pdf`
-    );
+    fs.copyFile("./pdf-assets/covers.pdf", `${imageDir}/covers.pdf`);
 
     for (const path of await fs.readdir(".")) {
       const stat = await fs.lstat(path);
