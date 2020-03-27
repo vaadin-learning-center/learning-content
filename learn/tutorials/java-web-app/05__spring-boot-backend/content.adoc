@@ -12,7 +12,7 @@ Most real-life applications need to persist and retrieve data from a database. I
 
 There are a fair number of classes to copy and paste to set up your backend. You can make your life easier by downloading a project with all the changes, if you prefer. The download link is at the end of this chapter. 
 
-You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[here], if you want to jump directly into this chapter.
+The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
 video::KepUsaX-yag[youtube]
