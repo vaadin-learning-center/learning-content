@@ -16,10 +16,7 @@ async function generatePDF() {
       if (path.match(/\d\d.+/) && stat.isDirectory()) {
         if ((await fs.readdir(path)).includes("images")) {
           for (const image of await fs.readdir(`${path}/images`)) {
-            await fs.copyFile(
-              `${path}/images/${image}`,
-              `${imageDir}/${image}`
-            );
+            fs.copyFile(`${path}/images/${image}`, `${imageDir}/${image}`);
           }
         }
       }

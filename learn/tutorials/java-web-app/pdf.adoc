@@ -3,7 +3,7 @@
 :print:
 :source-highlighter: coderay
 :toc:
-:front-cover-image: image:ModernJavaWeb-GuideCover.pdf[]
+:front-cover-image: image:ModernJavaWeb-GuideCover.pdf[page=1]
 :imagesdir: ./pdf-images
 :notitle:
 
@@ -43,3 +43,6 @@ include::14__unit-and-integration-tests/content.adoc[]
 include::15__end-to-end-tests/content.adoc[]
 
 include::16__deploy-spring-boot-on-aws-elastic-beanstalk/content.adoc[]
+
+<<<
+image::ModernJavaWeb-GuideCover.pdf[page=2]
