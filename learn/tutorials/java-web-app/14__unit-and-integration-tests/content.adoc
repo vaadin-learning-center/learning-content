@@ -20,7 +20,7 @@ End-to-end tests require the application to be deployed and are run in a browser
 
 In this chapter, we write and run unit and integration tests. We cover end-to-end tests in the next chapter.
 
-You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/12-unit-testing[GitHub].
+You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/11-pwa[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
 video::zz3AcFpXSFI[youtube]
@@ -257,3 +257,4 @@ private Contact getFirstItem(Grid<Contact> grid) {
 
 You now know how to test the application logic both in isolation with unit tests and by injecting dependencies to test the integration between several components. In the next chapter, we cover how to test the entire application in the browser. 
 
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/12-unit-testing[GitHub].

@@ -10,7 +10,7 @@ ifndef::print[:imagesdir: ./images]
 
 Now that your back end is in place, you're ready to begin building the UI. We start by listing all contacts in a data grid. To do this, we need to create the necessary UI components and hook them up to the back end.
 
-You can find the completed source code for this chapter on https://github.com/vaadin-learning-center/crm-tutorial/tree/04-listing-entities[GitHub].
+You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/03-database-and-backend[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
 video::_109sgFRgA0[youtube]
@@ -164,3 +164,5 @@ private void configureGrid() {
 image::contacts-grid-auto-width.png[contact grid with correctly sized columns]
 
 In the next tutorial, we'll add filtering to the application, so it's easier to find the right contact.
+
+You can find the completed source code for this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/04-listing-entities[GitHub].
