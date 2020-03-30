@@ -8,32 +8,28 @@
 :imagesdir: ./images
 :related_tutorials:
 
-
-== Build an app from scratch with Vaadin Designer
-
 In this tutorial, we will show how to build an application with Vaadin Designer. You will learn to orchestrate of views and components, adjust CSS, and integrate views to the backend.
 
 This is a hands-on tutorial, so you can read the explanation and join the steps right on your computer. 
 
-Let's start with the first step and download a starter project from https://vaadin.com/start and build it with `mvn install` to download all necessary components to our workspace. After the project has been successfully initialized, you can import the project into your preferred IDE (IntelliJ or Eclipse).
+== Setting up a Java development environment
+
+Before you can start developing your Java app, you need to install the necessary development tools and set up your development environment. You can follow the tutorial https://vaadin.com/learn/tutorials/java-web-app/setting-up-a-java-development-environment[Web App Development in Java: A practical guide - Setting up a Java development environment] to get your Java development environment in place.
+
+If you already have a working Java development environment, including a JDK, Maven, Git, Node.js, and an IDE, you can skip this step and proceed to set up a Vaadin project.
+
+== Set up a Vaadin project
+
+The first step in any development project is to set up the project and get a base app running. The tutorial https://vaadin.com/learn/tutorials/java-web-app/getting-started[Web App Development in Java: A practical guide - Importing, running, and debugging a Java web app project] shows you how to get a Vaadin project up and running on your computer, ready to be developed on.
+
+If you already have a working set up a new Vaadin project, or want to add Designer to your existing Vaadin project, you can skip this step and proceed to Installing Vaadin Designer. 
 
 == Installing Vaadin Designer
-Follow these steps to install the Designer either in IntelliJ or Eclipse:
 
+Vaadin Designer is a plug-in for your Integrated development environment (IDE). It exists for both IntelliJ IDEA and Eclipse. You can follow the instructions below on how to install the plug-in. If you followed the "Setting up a Java development environment" tutorial above, then you have the IntelliJ IDEA as your IDE.
 
-=== IntelliJ
-1. Open "Preferences" in the main menu
-2. click on "Plugin" in the side menu
-3. search for "Vaadin Designer" and install the plugin
-
-=== Eclipse
-1. open "Help" and "Install New Software..." in the submenu
-2. add "https://vaadin.com/eclipse" as "Work with"
-3. open the main item Vaadin and select "Vaadin Designer" to install it
-
-After restart the IDE of your choice you are ready to use the Vaadin Designer.
-
-TIP: You find more information about the installation process on our https://vaadin.com/docs/v14/designer/getting-started/designer-overview.html[webpage].
+* https://vaadin.com/docs/v14/designer/getting-started/designer-installing-idea.html[Installing Vaadin Designer in IntelliJ IDEA]
+* https://vaadin.com/docs/v14/designer/getting-started/designer-installing-eclipse.html[Installing Vaadin Designer in Eclipse]
 
 == First steps with Vaadin designer
 
