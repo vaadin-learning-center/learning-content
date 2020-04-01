@@ -1,4 +1,4 @@
-:title: Communicating between components using events and properties
+:title: Passing data and events between Vaadin components 
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to communicate between components in a Vaadin view using events and properties. 
@@ -6,7 +6,7 @@
 :linkattrs: // enable link attributes, like opening in a new window
 ifndef::print[:imagesdir: ./images]
 
-= Communicating between components using events and properties
+= Passing data and events between Vaadin components 
 
 
 In the https://vaadin.com/learn/tutorials/java-web-app/data-binding-and-validation[previous tutorial], we created a reusable form component to edit contacts. In this tutorial we'll hook it up to our application. Our form will:
