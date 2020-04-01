@@ -1,4 +1,4 @@
-:title: Importing, running, and debugging Maven projects in IntelliJ
+:title: Importing, running, and debugging Maven projects in IntelliJ IDEA
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to import and start a Maven-based Java project in IntelliJ IDEA Community or Ultimate edition. Use the debugger to step through code and find bugs.
@@ -6,7 +6,7 @@
 :linkattrs:
 ifndef::print[:imagesdir: ./images]
 
-= Importing, running, and debugging a Maven-base Java project in IntelliJ IDEA
+= Importing, running, and debugging Maven projects in IntelliJ IDEA
 
 The first step in any project is to set up the project and get a base app running. 
 
@@ -217,12 +217,12 @@ Vaadin shares many class names (like Button) with Swing, AWT, and JavaFX.
 
 . If you don't use Swing, AWT, or JavaFX in other projects, add the following packages to the *Exclude from import and completion* list to help IntelliJ select the correct classes automatically.
 
-* com.sun
-* java.awt
-* javafx.scene
-* javax.swing
-* jdk.internal
-* sun.plugin
+* `com.sun`
+* `java.awt`
+* `javafx.scene`
+* `javax.swing`
+* `jdk.internal`
+* `sun.plugin`
 
 Now that you have a working development environment, we can start building a web app.
 
