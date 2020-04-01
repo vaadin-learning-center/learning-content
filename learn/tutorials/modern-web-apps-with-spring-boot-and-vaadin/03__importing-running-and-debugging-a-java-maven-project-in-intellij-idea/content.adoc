@@ -1,4 +1,4 @@
-:title: Importing, running, and debugging Maven projects IntelliJ
+:title: Importing, running, and debugging Maven projects in IntelliJ
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to import and start a Maven-based Java project in IntelliJ IDEA Community or Ultimate edition. Use the debugger to step through code and find bugs.

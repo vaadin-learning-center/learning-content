@@ -140,6 +140,7 @@ You can find more information about both in the respective frameworks' documenta
 - https://spring.io/projects/spring-boot#learn[Spring Boot documentation]
 - https://vaadin.com/docs/index.html[Vaadin documentation]
 
-
+ifndef::print[]
 == Share your experience 
 Please let us know what you thought of the tutorial series and if you have ideas for other topics you want us to cover. You can reach us on https://twitter.com/vaadin[Twitter] or by posting a comment below. 
+endif::[]
