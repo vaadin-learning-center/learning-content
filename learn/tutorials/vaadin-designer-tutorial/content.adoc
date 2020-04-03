@@ -24,6 +24,12 @@ The first step in any development project is to set up the project and get a bas
 
 If you already have a working set up a new Vaadin project, or want to add Designer to your existing Vaadin project, you can skip this step and proceed to Installing Vaadin Designer. 
 
+== Obtaining a trial license for Vaadin Designer
+Vaadin Designer is a commercial tool, which part of the Vaadin Pro subscription. To test out the product, you need to start a trial. The trial is 14 days long and gives you access to everything within Pro, including TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more info on what is included, as well as pricing details.
+
+Starting a trial is done by starting using the product. Start by following the instructions below on how to install Vaadin Designer. When you start up Designer for the first time, you will be prompted to log in with your vaadin.com credentials or create new ones if you do not have any yet. After log-in, Designer will offer to start a trial if you do not have a commercial subscription or an ongoing trial. Customers with an active Pro or higher subscription will have direct access to the product.
+
+
 == Installing Vaadin Designer
 
 Vaadin Designer is a plug-in for your Integrated development environment (IDE). It exists for both IntelliJ IDEA and Eclipse. You can follow the instructions below on how to install the plug-in. If you followed the "Setting up a Java development environment" tutorial above, then you have the IntelliJ IDEA as your IDE.
