@@ -8,28 +8,25 @@
 :imagesdir: ./images
 :related_tutorials:
 
-In this tutorial, we will show how to build an application with Vaadin Designer. You will learn to orchestrate of views and components, adjust CSS, and integrate views to the backend.
+In this tutorial, we will show you how to build an application with Vaadin Designer. You will learn how to create new views, lay out components, adjust CSS, and integrate the views to the backend.
 
-This is a hands-on tutorial, so you can read the explanation and join the steps right on your computer. 
+This is a hands-on tutorial, so you can read the explanation and follow the steps the build the same application.
 
+[#set-up-development-environment]
 == Setting up a Java development environment
 
-Before you can start developing your Java app, you need to install the necessary development tools and set up your development environment. You can follow the tutorial https://vaadin.com/learn/tutorials/java-web-app/setting-up-a-java-development-environment[Web App Development in Java: A practical guide - Setting up a Java development environment] to get your Java development environment in place.
+Before you can start developing your Java app, you need to install the necessary tools and set up your development environment. You can follow the tutorial https://vaadin.com/learn/tutorials/java-web-app/setting-up-a-java-development-environment[Web App Development in Java: A practical guide - Setting up a Java development environment] to get your Java development environment in place.
 
-If you already have a working Java development environment, including a JDK, Maven, Git, Node.js, and an IDE, you can skip this step and proceed to set up a Vaadin project.
+If you already have a working Java development environment, including a JDK, Maven, Git, Node.js, and an IDE, you can skip this step and proceed to set up a Vaadin project. This tutorial expects that you are using IntelliJ IDEA, but everything is available for Eclipse as well.
 
+[#set-up-vaadin-project]
 == Set up a Vaadin project
 
 The first step in any development project is to set up the project and get a base app running. The tutorial https://vaadin.com/learn/tutorials/java-web-app/getting-started[Web App Development in Java: A practical guide - Importing, running, and debugging a Java web app project] shows you how to get a Vaadin project up and running on your computer, ready to be developed on.
 
-If you already have a working set up a new Vaadin project, or want to add Designer to your existing Vaadin project, you can skip this step and proceed to Installing Vaadin Designer. 
+If you already have a new Vaadin project, or want to add Designer to your existing Vaadin project, you can skip this step and proceed to Installing Vaadin Designer. 
 
-== Obtaining a trial license for Vaadin Designer
-Vaadin Designer is a commercial tool, which part of the Vaadin Pro subscription. To test out the product, you need to start a trial. The trial is 14 days long and gives you access to everything within Pro, including TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more info on what is included, as well as pricing details.
-
-Starting a trial is done by starting using the product. Start by following the instructions below on how to install Vaadin Designer. When you start up Designer for the first time, you will be prompted to log in with your vaadin.com credentials or create new ones if you do not have any yet. After log-in, Designer will offer to start a trial if you do not have a commercial subscription or an ongoing trial. Customers with an active Pro or higher subscription will have direct access to the product.
-
-
+[#install-designer]
 == Installing Vaadin Designer
 
 Vaadin Designer is a plug-in for your Integrated development environment (IDE). It exists for both IntelliJ IDEA and Eclipse. You can follow the instructions below on how to install the plug-in. If you followed the "Setting up a Java development environment" tutorial above, then you have the IntelliJ IDEA as your IDE.
@@ -37,13 +34,24 @@ Vaadin Designer is a plug-in for your Integrated development environment (IDE). 
 * https://vaadin.com/docs/v14/designer/getting-started/designer-installing-idea.html[Installing Vaadin Designer in IntelliJ IDEA]
 * https://vaadin.com/docs/v14/designer/getting-started/designer-installing-eclipse.html[Installing Vaadin Designer in Eclipse]
 
+[#install-chrome]
+== Installing Google Chrome
+
+When you open up a design file with Designer, the source code is shown in the IDE, while the visual editor is opened up in the Chrome browser. If you do not have Chrome installed, follow https://www.google.com/chrome/[the instructions to install it on your computer].
+
+== Licensing and using Vaadin Designer
+Vaadin Designer is a commercial tool included as part of the Vaadin Pro, Prime and Enterprise subscriptions. 
+
+*If you already have an active subscription or ongoing trial:* When you open up Designer the first time, Designer will request you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials. You can follow the next section, <<#first-steps,First steps with Vaadin designer>> to open Designer and create your first design.
+
+*If you do not have an active subscription or trial:* We offer a free 14 day trial for our commercial products. When you open up Designer the first time, Designer will request you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. You can follow the next section, <<#first-steps,First steps with Vaadin designer>> to open Designer and create your first design.
+
+The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro and more. See the https://vaadin.com/pricing[pricing page] for more details. 
+
+[#first-steps]
 == First steps with Vaadin designer
 
 You can create both individual components and complete views comprising with Vaadin Designer. You can build UIs with Vaadin components and components you have designed. 
-
-Designer runs either integrated in your IDE or in a separate browser. To activate the browser integration, please follow the instructions on this https://vaadin.com/labs/designer-chrome[webpage].
-
-Both approaches allow you to assemble layouts visually.  Drag and drop components from the side menu to the view. Align and configure the elements to see the results right away on the screen.
 
 Let's create our first component:
 
