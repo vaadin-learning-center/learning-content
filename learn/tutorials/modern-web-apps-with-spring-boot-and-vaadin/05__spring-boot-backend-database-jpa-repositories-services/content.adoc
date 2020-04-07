@@ -70,7 +70,7 @@ Our application is a customer relationship management (CRM) system that manages 
 
 To create your entity classes:
 
-. Create a new package: `com.vaadin.tutoria.crm.backend.entity`.
+. Create a new package: `com.vaadin.tutorial.crm.backend.entity`.
 . Create three classes, `AbstractEntity`, `Contact`, and `Company`, in the new package, using the code detailed below.
 +
 The easiest way to do this is to copy the full class and paste it into the package in the project view. IntelliJ (and most other IDEs) will automatically create the Java file for you.
@@ -443,7 +443,7 @@ public void populateTestData() {
 <2> Creates 3 test companies.
 <3> Creates test contacts.
 
-== Finalizing the back end
+== Restart the server to pick up all the new dependencies
 
 You need to stop and restart the application to make sure all the new POM dependencies are picked up correctly.
 
