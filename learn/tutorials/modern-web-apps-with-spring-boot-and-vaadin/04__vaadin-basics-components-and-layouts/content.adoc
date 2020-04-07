@@ -86,7 +86,7 @@ To define packages:
 +
 image::create-package.png[create new package]
 
-. Drag `MainView` and `GreetService` classes  into the `ui` package. If IntelliJ asks you if you want to refactor the code, say yes.
+. Drag `MainView` into the `ui` package. If IntelliJ asks you if you want to refactor the code, say yes.
 
 +
 Your project structure should now look like this:
