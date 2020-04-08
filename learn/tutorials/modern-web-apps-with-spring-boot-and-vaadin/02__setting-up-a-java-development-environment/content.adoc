@@ -13,11 +13,11 @@ Before you can start developing your Java app, you need to install the necessary
 
 For web app development in Java, you need a: 
 
-* Java Development Kit (JDK)
-* Build tool (Maven)
-* Version control system (Git)
-* Front-end build tool (Node.js)
-* Integrated development environment (IDE). 
+* *Java Development Kit (JDK)*: This is the foundation of your Java development environment. It contains the various tools required to develop a working Java application. Chief among them are the Java Runtime Environment (JRE), which allows you to run a Java application and the Java compiler.
+* *Build/project management tool (Maven)*: We will use this to import our project into the IDE and install any dependencies the project needs to function.
+* *Version control system (Git)*:  Git lets you track and manage your web application’s source code. For example, a correctly set-up Git repo would allow you to easily undo any app breaking mistakes. 
+* *Front-end build tool (Node.js)*: Node.js is a JavaScript run-time environment (much like Java’s JRE). Vaadin uses Node internally to build an optimized version of your app.  
+* *Integrated development environment (IDEA)*: The IDE is the tool you use to write and run your code during development. 
 
 You can complete this guide using any IDE, but for the sake of simplicity, we use https://www.jetbrains.com/idea/[IntelliJ Idea] throughout. The IntelliJ Community Edition is free to use and a great choice if you don't already have an IDE setup. 
 

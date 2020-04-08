@@ -12,7 +12,7 @@ ifndef::print[]
 video::quiQg9bgFs8[youtube]
 endif::[]
 
-This guide is specifically designed as a *practical* introduction to web application development with Spring Boot and Vaadin.
+This guide is a *practical* introduction to web application development with Spring Boot and Vaadin.
 
 It covers the entire development process, from setup to deployment, following a step-by-step approach. 
 You can replicate each section at your own pace as you follow along. 
@@ -36,7 +36,7 @@ The application is a customer relationship management (CRM) system for managing 
 * Data import from a REST API.
 * A dashboard view.
 * Cloud deployment.
-* User installation. 
+* App installation on mobile and desktop. 
 
 image::app-complete.png[A web application with a listing of contacts and an editor open.]
 
