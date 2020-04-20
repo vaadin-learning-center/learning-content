@@ -2,6 +2,7 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: Windows, Linux, and macOS instructions for installing a Java development environment: JDK, Maven, Git, Node, and IntelliJ IDEA IDE
+:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs:
 ifndef::print[:imagesdir: ./images]
