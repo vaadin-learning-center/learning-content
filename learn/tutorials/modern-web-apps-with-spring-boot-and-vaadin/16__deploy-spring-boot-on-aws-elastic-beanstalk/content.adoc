@@ -2,6 +2,7 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: How to set up a production build with a MySQL database and deploy it to AWS Elastic Beanstalk. 
+:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
 ifndef::print[:imagesdir: ./images]

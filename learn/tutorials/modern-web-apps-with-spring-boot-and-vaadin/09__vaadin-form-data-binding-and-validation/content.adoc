@@ -2,6 +2,7 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to bind form fields to a model object and perform validations. Create an API for populating the form and notifying users of updates.
+:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: 
 ifndef::print[:imagesdir: ./images]
