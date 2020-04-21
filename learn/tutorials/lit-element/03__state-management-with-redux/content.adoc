@@ -156,7 +156,7 @@ Begin by defining the actions of our application.
 .`*src/redux/actions.js*`
 [source,javascript]
 ----
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 <1>
 export const ADD_TODO = 'ADD_TODO';
