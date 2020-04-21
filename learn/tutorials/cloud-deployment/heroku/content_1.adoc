@@ -1,0 +1,49 @@
+= Deploy to Heroku Cloud
+
+:title: Deploy to Heroku Cloud
+:authors: Anastasia Smirnova, Mikael Sukoinen
+:type: text
+:tags: Backend, Cloud, Deploy, Heroku, App
+:description: Learn how to deploy a Vaadin app to Heroku cloud
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:hidden:
+
+
+The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Heroku Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Heroku cloud as a potential host platform for your applications.
+
+To get started, sign up for a free https://signup.heroku.com/[Heroku account] then follow those steps:
+
+== Prepare the project
+
+Your project needs to be prepared for Heroku. Since we are talking about a demo and not a production app, we also will need some sort of application server runner to initiate the application server. I've used https://www.eclipse.org/jetty/documentation/9.4.x/runner.html[jetty-runner] and placed https://github.com/amahdy/java-pwa/commit/ff99087e5a1d99fab0ffb8f4c497f742f0d3d6b9#diff-600376dffeb79835ede4a0b285078036[some dependencies] in the `pom.xml` file.
+We will also need the so called https://github.com/amahdy/java-pwa/blob/ff99087e5a1d99fab0ffb8f4c497f742f0d3d6b9/Procfile[`Procfile`] to tell Heroku the nature of the app, and how to run it in its servers.
+
+== Create a Heroku app
+
+You have a Heroku account, you have a Java project ready, let's mix them together. After logging into Heroku, click on *New*, then choose *Create new app* and give it a name:
+
+image::create-new.png[Create New]
+
+Once the app has been created, you get redirected to the deploy section. Scroll a bit down and select the location of your source code. It would be ideal if it's a Git repository for smooth continuous deployment. Here I'm using Github, search for the repo:
+
+image::add-repo.png[Add Repo]
+
+Then connect it:
+
+image::connect-repo.png[Connect Repo]
+
+And now automatic deployment comes handy. Everytime you push something into the specified branch, it will get re-deployed on Heroku so your app will always be up to date:
+
+image::auto-repo.png[Auto Repo]
+
+If you can't wait, and you want to test it out right away, or if you want manual deployment, then all you have to do is to scroll a bit more down and select the Git branch, then click on *Deploy Branch*.
+
+image::manual-deploy.png[Manual Deploy]
+
+That's it! Once deployment is successful, you can open the app right away using the given subdomain under `herokuapp.com`.
+
+== Limitation
+
+JavaEE based applications won't be that easy to deploy since jetty-runner is not enough. A container might be needed in this case.

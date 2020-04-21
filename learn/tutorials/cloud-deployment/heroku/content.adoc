@@ -9,39 +9,82 @@
 :linkattrs:
 :imagesdir: ./images
 
-The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Heroku Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Heroku cloud as a potential host platform for your applications.
+This tutorial shows how to deploy a Vaadin web application to Heroku cloud. We're using the latest https://vaadin.com/start/latest[Spring Boot starter app] as an example. You can see the app running on Heroku cloud https://starter-vaadin.herokuapp.com/[here].
 
-To get started, sign up for a free https://signup.heroku.com/[Heroku account] then follow those steps:
+The tutorial shows how an app can be deployed:
 
-== Prepare the project
+. As a `.jar` file
+. As a `.war` file
+. Directly from *GitHub*.
 
-Your project needs to be prepared for Heroku. Since we are talking about a demo and not a production app, we also will need some sort of application server runner to initiate the application server. I've used https://www.eclipse.org/jetty/documentation/9.4.x/runner.html[jetty-runner] and placed https://github.com/amahdy/java-pwa/commit/ff99087e5a1d99fab0ffb8f4c497f742f0d3d6b9#diff-600376dffeb79835ede4a0b285078036[some dependencies] in the `pom.xml` file.
-We will also need the so called https://github.com/amahdy/java-pwa/blob/ff99087e5a1d99fab0ffb8f4c497f742f0d3d6b9/Procfile[`Procfile`] to tell Heroku the nature of the app, and how to run it in its servers.
+== Deploying a JAR file
 
-== Create a Heroku app
+A *JAR* (Java ARchive) is a package file that merges Java class files and assiociated metadata and resources, such as text and images, into one distributable file. This is the default format for the Spring Boot starter app.
 
-You have a Heroku account, you have a Java project ready, let's mix them together. After logging into Heroku, click on *New*, then choose *Create new app* and give it a name:
+. Create a Heroku account at https://www.heroku.com/home.
+. Check if you have git installed by running the command `git --version` in your terminal. If no git version is found, download and install the https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[latest version] on your computer.
+. Install https://devcenter.heroku.com/articles/heroku-cli#download-and-install[Heroku CLI] and login to your Heroku account.
+. Install the Java CLI plugin by running the command `heroku plugins:install java` in your terminal.
+. Download a starter project from http://vaadin.com/start/latest. Select *Spring Boot* as the Technology Stack and fill the *Maven Group ID* and *Project Name* as you see fit (or leave them at default).
+. Change the `server.port` in your Spring project’s `application.properties` file (residing in src/main/resources) to: `server.port=${port:8080}`
+. Generate a jar from your application using the maven goal `mvn package -Pproduction`
+. Navigate to the folder with the generated `.jar`.
+. Create a Heroku application by either:
+.. Running `heroku create --no-remote` in the Java CLI plugin
+.. By selecting *New* in the UI under https://dashboard.heroku.com/apps.
+. Name the application. You will need the name in the next step.
+. Deploy the `.jar` using the command: `heroku deploy:jar my-app.jar --app APP NAME`
+. Run `heroku open --app APP NAME` or check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings.
 
-image::create-new.png[Create New]
+The demo is running as a JAR on Heroku at: https://starter-vaadin.herokuapp.com/
 
-Once the app has been created, you get redirected to the deploy section. Scroll a bit down and select the location of your source code. It would be ideal if it's a Git repository for smooth continuous deployment. Here I'm using Github, search for the repo:
+== Deploying a WAR file
 
-image::add-repo.png[Add Repo]
+A `.war` file is a Web Application Archive which runs inside an application server while a `.jar` is Java Application Archive that runs a desktop application on a user's machine. Deploying the app as a `.war` is done in the same way as a the previous `.jar` example with two exceptions:
 
-Then connect it:
+. Change the package to from `.jar` to `.war` in the `pom.xml`
+. The command to execute in step 11 is: `heroku war:deploy myapp.war --app APP_NAME`
 
-image::connect-repo.png[Connect Repo]
+Link to documentation: https://devcenter.heroku.com/articles/configuring-war-deployment-with-the-heroku-toolbelt[Configuring WAR Deployment with the Heroku CLI]
 
-And now automatic deployment comes handy. Everytime you push something into the specified branch, it will get re-deployed on Heroku so your app will always be up to date:
+The demo is running as a WAR on Heroku at: https://starter-vaadin-war.herokuapp.com/
 
-image::auto-repo.png[Auto Repo]
+== Deploying from GitHub
 
-If you can't wait, and you want to test it out right away, or if you want manual deployment, then all you have to do is to scroll a bit more down and select the Git branch, then click on *Deploy Branch*.
+You can deploy an application directly from GitHub, but two additional configuration files should be added for it to work: 
 
-image::manual-deploy.png[Manual Deploy]
+. Procfile
++
+* Content:
++
+`web: java -jar target/starter_app-2.0-SNAPSHOT.jar $PORT`
++
+. heroku-settings.xml
+* Content:
++
+.`*pom.xml*`
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-That's it! Once deployment is successful, you can open the app right away using the given subdomain under `herokuapp.com`.
+    <!-- activate by setting the MAVEN_SETTINGS_PATH config var to heroku-settings.xml in Heroku project settings tab.
+    See https://devcenter.heroku.com/articles/using-a-custom-maven-settings-xml for more details.
+     -->
 
-== Limitation
+    <activeProfiles>
+        <activeProfile>production</activeProfile>
+        <activeProfile>npm</activeProfile>
+    </activeProfiles>
+</settings>
+----
++
+NOTE: If you are using a Vaadin version below version 14.2, apart from configuring Heroku itself, the *frontend-maven plugin* should be used to download node. It’s better to configure it as a separate profile in the `pom.xml` of the project (Frontend-maven-plugin.) Starting from Vaadin 14.2, npm is downloaded automatically.
 
-JavaEE based applications won't be that easy to deploy since jetty-runner is not enough. A container might be needed in this case.
+You can find the source code on https://github.com/mvysny/vaadin14-embedded-jetty#heroku-integration[GitHub].
+
+The demo is running at: https://github.com/anasmi/herokuTest
+
+_Co-authored by Anastasia Smirnova and Mikael Sukoinen_
