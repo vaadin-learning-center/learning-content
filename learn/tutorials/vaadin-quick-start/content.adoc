@@ -30,7 +30,7 @@ To continue make sure that at least the following tools are installed:
 ++++
 
 ++++
-<a href="https://gitpod.io/#/https://github.com/vaadin/skeleton-starter-flow-spring/tree/v14" class="button button--bordered">Open in online IDE</a>
+<a href="https://gitpod.io/#/https://github.com/vaadin/skeleton-starter-flow-spring/tree/v14" class="button button--bordered" target="_blank" rel="noreferrer noopener">Open in online IDE</a>
 ++++
 Once you have the project downloaded, unzip the file e.g. to your home directory.
 
