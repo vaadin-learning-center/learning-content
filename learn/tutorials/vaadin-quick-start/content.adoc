@@ -29,6 +29,9 @@ To continue make sure that at least the following tools are installed:
  onClick="function test(){ _hsq && _hsq.push(['trackEvent', { id: '000007517662', value: null }]); } test(); return true;">Download</a>
 ++++
 
+++++
+<a href="https://gitpod.io/#/https://github.com/vaadin/skeleton-starter-flow-spring/tree/v14" class="button button--bordered">Open in online IDE</a>
+++++
 Once you have the project downloaded, unzip the file e.g. to your home directory.
 
 Next, you should import the project into your IDE. For IntelliJ IDEA, you can follow the steps described in https://vaadin.com/learn/tutorials/import-maven-project-intellij-idea#_import_the_project[import the project] tutorial.
