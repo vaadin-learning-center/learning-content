@@ -1,0 +1,307 @@
+= A practical introduction to unit and integration testing
+
+:type: text
+:tags: Testbench, Testing, jUnit5,
+:description: Learn the basics of unit and integration testing using JUnit, Mockito, and Vaadin Test Bench.
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+== A practical introduction to unit and integration testing
+
+In this article, I cover the basics of _unit testing_ and _integration testing_ in Vaadin applications.
+First I go through the basics of unit testing in Java and then look into testing Vaadin applications with Vaadin TestBench.
+This is a beginner-friendly introduction that will show you the basic steps you need to get started with testing.
+After reading this article, you'll have a clear understanding of what unit tests and integration tests are, what they look like in practice, how to run them, and how to start using them in your projects.
+
+NOTE: You can find the complete https://github.com/alejandro-du/community-answers/tree/master/unit-testing[source code on GitHub].
+
+=== Using JUnit to implement a simple test
+
+Unit testing is a powerful tool that you should have in your toolbox.
+As you add unit tests to your application, you immediately start to understand their value—you feel more confident that your app works correctly and that it won't break when you make changes.
+So I suggest you start adding unit tests to your apps as soon as you are done with this introduction.
+You don't need to cover all your app code by unit tests, even a few tests have the potential to save your neck later on!
+And if you already have unit tests in place, that’s awesome!
+I hope you find the rest of the article useful, or at least, inspiring.
+
+Enough talk. Let's see some code.
+
+video::36yUqc0tMrU[youtube]
+
+Let's say we just coded this service class:
+
+[source,java]
+----
+public class AgeService {
+    public int getAgeByBirthDate(LocalDate date) {
+        return Period.between(date, LocalDate.now()).getYears();
+    }
+}
+----
+
+Maybe it is used from a view or another service.
+To check whether the method works or not, we could run the app and see the outcome.
+This sometimes means compiling the whole app, possibly deploying it to a server, requesting it in the browser, and doing a lot of clicking and typing to see the result on the screen.
+This, of course, depends on your development environment and the tools you use, but you get the point.
+So let's do something different, let's implement a unit test that, yeah, will take a bit more of time to implement, but will pay off in the future as we develop the app and introduce changes to it.
+
+A unit test, well, tests a piece of code.
+And the test itself is implemented as code.
+The piece of code to test is called a _unit_.
+Sometimes a unit could be a module or a class, but most frequently it's a method.
+In the previous example, the unit we’ll test is the `AgeService::getAgeByBirthDate(LocalDate)` method.
+
+The Java way of implementing unit tests is to use the JUnit library.
+If you created a Vaadin project online, the library is in the classpath automatically.
+If not, you can add it to a https://vaadin.com/learn/tutorials/learning-maven-concepts[Maven] project as follows (check the latest version):
+
+[source,xml]
+----
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13</version>
+    <scope>test</scope>
+</dependency>
+----
+
+We use the `test` scope to make it available only in the classes in the `src/test directory` of the Maven project.
+The code in this directory and it's dependencies won't be included in the final artifacts when you build the app.
+And, this is the directory where we can add the implementation of the unit test that we are going to code next.
+
+Here's a simplistic unit test to get you familiar with the concept:
+
+[source,java]
+----
+public class AgeServiceTest {
+
+    @Test
+    public void thisTestIsAlwaysSuccessful() {
+    }
+
+}
+
+----
+
+This is the simplest unit test you can implement with JUnit—a Java class with one method marked with `@Test`.
+Nothing happens inside the method, so the test never fails.
+To check this, let's run the test with Maven as follows:
+
+----
+mvn test
+----
+
+Most Java IDEs have excellent support for JUnit, so check their documentation to learn how to run unit tests in your IDE. Typically, you run only the test you are developing or the tests corresponding to the class or classes you are changing.
+Regardless of the method you use to run the unit test, you should clearly see that the test succeeded.
+
+Let's implement a test that fails, just to illustrate how that works:
+
+[source,java]
+----
+public class AgeServiceTest {
+
+    @Test
+    public void thisTestAlwaysFails() {
+        throw new RuntimeException();
+    }
+
+}
+----
+
+With this knowledge, we can implement a test that throws an exception when a certain condition is not met.
+Getting back to the `AgeService::getAgeByBirthDate(LocalDate)` example, we can implement a test that gets the value this method returns for a certain known date and compare it to a value we know for sure is correct.
+Here's how:
+
+[source,java]
+----
+public class AgeServiceTest {
+
+    @Test
+    public void shouldReturnCorrectAge() {
+        AgeService ageService = new AgeService();
+        int expectedAge = 44;
+        LocalDate date = LocalDate.now().minusYears(expectedAge);
+
+        int actualAge = ageService.getAgeByBirthDate(date);
+        if (actualAge != expectedAge) {
+            throw new RuntimeException();
+        }
+    }
+
+}
+----
+
+Since throwing exceptions on conditions is a common thing to do while writing unit tests, JUnit includes handy methods to help with this in the `Assert` class.
+For example, we can change the if clause with the following:
+
+[source, java]
+----
+Assert.assertTrue(actualAge == expectedAge);
+----
+
+And even better, we can use the expressive `Assert::assertThat(T, Matcher<? super T>)` method to improve readability.
+Also, we can import the method statically to improve readability even more:
+
+[source,java]
+----
+import static org.junit.Assert.assertThat;
+...
+assertThat(actualAge, is(expectedAge));
+----
+
+If we run the test and it passes, then we can be pretty sure the tested method works as expected.
+In the future, when we modify the method, the unit test will catch potential bugs for us.
+
+=== Using mocks to isolate code
+
+The most common definition of a _unit_ in unit testing is a method.
+A unit test should test only the code inside a single method.
+The value of this definition is that, if you adhere to it, when a unit test fails, you know the exact method you need to fix.
+
+video::_rGfSKjCPb8[youtube]
+
+Suppose you have this Vaadin class:
+
+[source,java]
+----
+public class MainView extends Composite<VerticalLayout> {
+
+    private final AgeService ageService;
+
+    public MainView(AgeService ageService) {
+        this.ageService = ageService;
+
+        DatePicker datePicker = new DatePicker("Birth date");
+        Button button = new Button("Calculate age");
+        getContent().add(datePicker, button);
+
+        button.addClickListener(event -> calculateAge(datePicker.getValue()));
+    }
+
+    protected void calculateAge(LocalDate date) {
+        if (date == null) {
+            showError();
+        } else {
+            showAge(date);
+        }
+    }
+
+    protected void showError() {
+        Notification.show("Please enter a date.");
+    }
+
+    protected void showAge(LocalDate date) {
+        int age = ageService.getAgeByBirthDate(date);
+        String text = String.format("Age: %s years old", age);
+        getContent().add(new Paragraph(text));
+    }
+
+}
+----
+
+Let's say we want to implement a unit test for the `calculateAge(LocalDate)` method that guarantees that `showError()` is called when we pass a `null` date.
+If we go ahead and implement a unit test that creates a new instance of the MainView class and then calls the `calculateAge(LocalDate)` method, we end up indirectly testing the `showError()` method and the constructor of the `MainView` class.
+If the test fails, we won't be able to immediately tell whether the test failed because of a problem in the `calculateAge(LocalDate)` method, the `showError()` method, or the constructor.
+
+You can avoid calling the code inside the `showError()` method by using a _stub_ and overriding the method we are not interested in testing.
+Something like this:
+
+[source,java]
+----
+MainView mainView = new MainView(new AgeService()) {
+    @Override
+    protected void showError() {
+        // do nothing to make sure this method won't ever fail
+    }
+----
+
+}; +
+However, this still invokes the constructor.
+Not to mention that we also pass an instance of `AgeService`, which we might end up indirectly testing as well.
+You could use more _infrastructural code_ (probably with the help of the Java Reflection API) to get around these challenges, but as you would expect from the Java ecosystem, there are libraries to do exactly this.
+The ones I've tried include https://easymock.org/[EasyMock], https://jmockit.github.io/[JMockit], and my favorite, https://site.mockito.org/[Mockito].
+
+Here's an example of a unit test that completely isolates the `MainView::calculateAge(LocalDate)` method for testing using the Mockito framework:
+
+[source,java]
+----
+import org.junit.Test;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.*;
+
+public class MainViewTest {
+
+    @Test
+    public void shouldShowErrorAndNoAgeOnNullDate() {
+        MainView mainView = mock(MainView.class);
+        doCallRealMethod().when(mainView).calculateAge(anyObject());
+
+        mainView.calculateAge(null);
+        verify(mainView).showError();
+        verify(mainView, never()).showAge(anyObject());
+    }
+
+}
+----
+
+We first create a _mock_ of type `MainView`.
+A mock is a replacement of a target class.
+In this case, the mock has the _shape_ of the `MainView` class, but it's not that class.
+When you call the methods on the mock, you won't execute the lines in the actual `MainView` class.
+Now, in this case we do want to call the lines inside the `calculateAge(LocalDate)` method.
+We can convert the mock to a stub by telling Mockito to call the real method when we call `calculateAge(LocalDate)`.
+I'm sure you can see the line that configures this as it reads almost in plain English.
+After calling the method, we can verify whether other methods were called or not.
+
+If, in the future, we need to change the implementation of the `MainView::calculateAge(LocalDate)` method and we introduce a bug, the unit test will fail.
+By quickly looking at the test we can be sure that the problem resides inside the tested method and not elsewhere.
+This is highly valuable in projects with many classes collaborating together to fulfill their function.
+
+=== Implementing integration tests for Vaadin applications
+
+Integration testing takes several parts of a system and tests whether they work together or not.
+Let's say we want to make sure that when the user clicks the button in the example application, they get a notification on the screen if they don't select a date.
+Sure, we could go ahead and run the app ourselves and manually click the button to see if we get the expected behavior, but we can automate this with an integration test using https://vaadin.com/testbench[Vaadin TestBench].
+
+video::XtWaLY8Q0hA[youtube]
+
+Here's how we implement an integration test to automate the process of running the web application, invoking it in a web browser, clicking the button, and checking whether a notification appears:
+
+[source,java]
+----
+public class MainViewIT extends AbstractViewTest {
+
+    @Test
+    public void shouldShowNotificationOnNullDate() {
+        DatePickerElement datePicker = $(DatePickerElement.class).first();
+        datePicker.clear();
+        ButtonElement button = $(ButtonElement.class).first();
+        button.click();
+
+        NotificationElement notification = $(NotificationElement.class).waitForFirst();
+        boolean isOpen = notification.isOpen();
+        assertThat(isOpen, is(true));
+    }
+
+}
+
+----
+
+Notice how the name of the class implementing the test ends in IT for Integration Test.
+To run the test, you need to execute the Maven verify lifecycle phase with the integration-tests profile active (if you created the project at https://vaadin.com/start[https://vaadin.com/start]):
+
+----
+mvn verify -Pintegration-tests
+----
+
+Once you run the command, you'll see how Vaadin TestBench opens a browser window, requests the web application and executes whatever you coded in the test itself.
+In the previous example, we _select_ a date picker, clear its value, select a button and click it, wait for a possible notification to appear in the page, and assert if the notification is visible (or open).
+You can learn more about how to implement this kind of test in the https://vaadin.com/docs/testbench/testbench-creating-tests.html[documentation site].
+
+To be able to run integration tests like this in real-life applications, you probably need to set up a database and any external services that your Vaadin application depends on.
+It's very likely that you have this already set up in your development machine.
+If you use a continuous integration server that builds and runs all unit and integration tests automatically when you commit changes to a repository, you also need to make these external services available to the server.
+
+https://vaadin.com/docs/testbench/testbench-getting-started.html[Try Vaadin TestBench today!]
