@@ -122,10 +122,10 @@ Vaadin apps also support styling with CSS. Any style can be applied, but for the
 
 [source,java]
 ----
-@CssImport("styles/styles.css")
+@CssImport("styles/shared-styles.css")
 ----
 
-Since this style file does not yet exist, we need to create it. The `@CssImport` annotation looks in a folder in the project root called `frontend`, so the full path of the file would be `{project root}/frontend/styles/styles.css`. You can add multiple style files if you want, but one is enough for now. Here is the content to put into our styles.css file:
+The `@CssImport` annotation looks in a folder in the project root called `frontend`, so the full path of the file is `{project root}/frontend/styles/shared-styles.css`. This file is already created for you, but you can add additional style files if you wish. In case of our demo, one is enough for now. The file already contains some styles, but you can add the one below after that :
 
 [source,css]
 ----
@@ -137,10 +137,12 @@ vaadin-checkbox {
 Save all files, close the server and run the application again. The Button should now be blue, and the text for all CheckBoxes is bolded. 
 
 == Next steps
-- In a real application, you would have some backend and use the Vaadin data binding APIs.
-- Before deploying your application to production, the assets should be minified and bundled.
+- In a real application, you would have some backend and use the Vaadin data binding APIs. An example form with cross-field validation and form error handling can be found at [Vaadin Form Example](https://github.com/vaadin/vaadin-form-example)
+- Make a custom look and feel of your application [Application Theming Basics](https://vaadin.com/docs/flow/theme/application-theming-basics.html)
+- Once you have developed your app you want to deploy it somewhere. Further documentation on the topic can be found at the official documentation [Deploying Vaadin Applications](https://vaadin.com/docs/flow/production/tutorial-production-mode-basic.html)
 
-These topics and many more are covered in our tutorials and video courses:
+These topics and many more are covered in our documentation, tutorials and video courses:
 
+- [Core concepts](https://vaadin.com/docs/flow/introduction/introduction-concepts.html)
 - link:/learn/tutorials/getting-started-with-flow[CRUD application tutorial] 
 - link:/learn/training[Free online video course covering Vaadin basics]
