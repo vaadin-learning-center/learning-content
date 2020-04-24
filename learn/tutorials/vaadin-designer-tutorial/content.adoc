@@ -29,13 +29,14 @@ Vaadin Designer is a plug-in for your Integrated development environment (IDE). 
 == Licensing and using Vaadin Designer
 Vaadin Designer is a commercial tool included as part of the Vaadin Pro, Prime, and Enterprise subscriptions. 
 
+*If you do not have an active subscription or trial:* We offer a free 14 day trial for our commercial products. When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details. 
+
+You can follow the next section, First steps with Vaadin designer, to open Designer and create your first design.
+
 *If you already have an active subscription or ongoing trial:* When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials. 
 
 You can follow the next section, First steps with Vaadin designer, to open Designer and create your first design.
 
-*If you do not have an active subscription or trial:* We offer a free 14 day trial for our commercial products. When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details. 
-
-You can follow the next section, First steps with Vaadin designer, to open Designer and create your first design.
 
 [#install-chrome]
 == Installing Google Chrome
