@@ -14,7 +14,7 @@ This tutorial shows how to deploy a Vaadin web application to Heroku cloud. Hero
 
 We're using the latest https://vaadin.com/start/latest[Spring Boot starter app] as an example. You can see the app running on Heroku cloud https://starter-vaadin.herokuapp.com/[here]. You can deploy the application directly from your command line or from a GitHub repository.
 
-*PREREQUISITIES:*
+*PREREQUISITES:*
 
 * Create a Heroku account at https://www.heroku.com/home.
 * Verify that you have Java installed by running the command `java --version` in your terminal. If no Java version is found, https://www.java.com/en/download/[download] and install the latest version on your computer it and configure it to the https://www.java.com/en/download/help/path.xml[*PATH*] if you're running Windows.
