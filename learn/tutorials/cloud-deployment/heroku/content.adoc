@@ -13,12 +13,11 @@ This tutorial shows how to deploy a Vaadin web application to Heroku cloud. Hero
 
 We're using the latest https://vaadin.com/start/latest[Spring Boot starter app] as an example. You can see the app running on Heroku cloud https://starter-vaadin.herokuapp.com/[here]. You can deploy the application directly from your command line or from a GitHub repository.
 
-NOTE: 
+NOTE: Verify that you hava Java installed by running the command `java --version` in your terminal. If no Java version is found, https://www.java.com/en/download/[download] and install the latest version on your computer it and configure it to the https://www.java.com/en/download/help/path.xml[*PATH*] if you're running Windows.
 
-* Verify that you hava Java installed by running the command `java --version` in your terminal. If no Java version is found, https://www.java.com/en/download/[download] and install the latest version on your computer it and configure it to the https://www.java.com/en/download/help/path.xml[*PATH*] if you're running Windows.
-* Verify that you have Git installed by running the command `git --version` in your terminal. If no Git version is found, download and install the https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[latest version] on your computer.
+NOTE: Verify that you have Git installed by running the command `git --version` in your terminal. If no Git version is found, download and install the https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[latest version] on your computer.
 
-== Deploying from command line
+== 1. Deploying from command line
 
 === Generating a JAR
 
@@ -37,34 +36,33 @@ A *JAR* (Java ARchive) is a package file that merges Java class files and assioc
 . Create a Heroku application by either:
 +
 .. Running `heroku create APP_NAME` in the Java CLI plugin
-+
-or
-+
-.. By selecting *New* in the UI under https://dashboard.heroku.com/apps.
+.. Selecting *New* in the UI under https://dashboard.heroku.com/apps.
 . Name your Heroku application. You will need the name in the next step.
 . Deploy the `.jar` using the command: `heroku deploy:jar my-app.jar --app APP_NAME` by replacing "APP_NAME" with the name you provided in the previous step.
 . Run `heroku open --app APP_NAME` or check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings.
 
 You can find the demo running at: https://starter-vaadin.herokuapp.com/
 
-NOTE: You can open the application log by running the command: `heroku logs --tail --app APP_NAME` in your terminal for troubleshooting any possible errors.
+TIP: You can open the application log by running the command: `heroku logs --tail --app APP_NAME` in your terminal for troubleshooting any possible errors.
 
-=== Deploying WAR file
+=== Deploying a WAR file (optional)
 
-You can also choose to deploy the application in the `.war` format instead of the `.jar`. The process is similar with two exceptions:
+You can also choose to deploy the application in the `.war` format instead of a `.jar`. The process is similar with two exceptions:
 
 . Change the package to from `.jar` to `.war` in the `pom.xml`
 . The command to execute in step 11 is: `heroku war:deploy myapp.war --app APP_NAME`
 
-Link to documentation: https://devcenter.heroku.com/articles/configuring-war-deployment-with-the-heroku-toolbelt[Configuring WAR Deployment with the Heroku CLI]
+TIP: You can find detailed instructions on the Heroku https://devcenter.heroku.com/articles/configuring-war-deployment-with-the-heroku-toolbelt[documentation page].
 
 You can find the demo running at: https://starter-vaadin-war.herokuapp.com/
 
-== Setting up a GitHub CI pipeline
+== 2. Setting up a GitHub CI pipeline
 
-You can deploy an application directly from GitHub repository with some tweaks. 
+You can deploy an application directly from a GitHub repository instead of uploading it as a `.jar`. However, this approach requires some tweaks to your project.
 
-=== Configuring the project
+NOTE: You need to have a Heroku account created. Head to the https://www.heroku.com/home[Heroku website] if you don't have one yet.
+
+=== Configuring the project for GitHub
 
 . Start by creating a `heroku-settings.xml` file that instructs Maven what profiles should be enabled by default. Add the following content to the file:
 +
@@ -127,9 +125,9 @@ You can deploy an application directly from GitHub repository with some tweaks.
 +
 and add it to the folder with the `pom.xml` file. In our case the `PROJECT_NAME-PROJECT_VERSION.jar` is called `starter_app-2.0-SNAPSHOT.jar`, but this will change based on your version and name defined in the `pom.xml` file.
 
-. Finally, push the code to your Github repository.
+. Push the code to your Github repository.
 
-=== Deploying to Heroku
+=== Deploying from GitHub
 
 . Head over to Heroku and create a new app by selecting *New* in the UI under https://dashboard.heroku.com/apps.
 
