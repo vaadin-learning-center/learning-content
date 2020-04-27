@@ -1,29 +1,33 @@
+
 = Deploy to Heroku Cloud
 
 :title: Deploy to Heroku Cloud
-:authors: amahdy
+:authors: anasmi, mikaelsu
 :type: text
-:tags: Backend, Cloud, Deploy, Flow, Java
-:description: Learn how to deploy Java app to Heroku cloud
-:repo:
+:tags: cloud, deploy, Java, tutorial
+:description: Learn how to deploy a Vaadin app to Heroku Cloud
+:repo:  https://github.com/anasmi/herokuTest
 :linkattrs:
 :imagesdir: ./images
 
-This tutorial shows how to deploy a Vaadin web application to Heroku cloud. Heroku provides free cloud deployment for up to 5 Vaadin Java applications. You can find more infromation on their https://www.heroku.com/[website].
+This tutorial shows how to deploy a Vaadin web application to Heroku cloud. Heroku provides free cloud deployment for up to 5 applications. You can find more information on their https://www.heroku.com/[website].
 
 We're using the latest https://vaadin.com/start/latest[Spring Boot starter app] as an example. You can see the app running on Heroku cloud https://starter-vaadin.herokuapp.com/[here]. You can deploy the application directly from your command line or from a GitHub repository.
 
-NOTE: Verify that you hava Java installed by running the command `java --version` in your terminal. If no Java version is found, https://www.java.com/en/download/[download] and install the latest version on your computer it and configure it to the https://www.java.com/en/download/help/path.xml[*PATH*] if you're running Windows.
+==== 
+Prerequisites:
 
-NOTE: Verify that you have Git installed by running the command `git --version` in your terminal. If no Git version is found, download and install the https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[latest version] on your computer.
+* Create a Heroku account at https://www.heroku.com/home.
+* Verify that you have Java installed by running the command `java --version` in your terminal. If no Java version is found, https://www.java.com/en/download/[download] and install the latest version on your computer it and configure it to the https://www.java.com/en/download/help/path.xml[*PATH*] if you're running Windows.
+* Verify that you have Git installed by running the command `git --version` in your terminal. If no Git version is found, download and install the https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[latest version] on your computer.
+====
 
 == 1. Deploying from command line
 
 === Generating a JAR
 
-A *JAR* (Java ARchive) is a package file that merges Java class files and assiociated metadata and resources, such as text and images, into one distributable file. This is the default format for you Vaadin app if you have created it from https://vaadin.com/start. To upload the `.jar` to Heroku cloud:
+A *JAR* (Java Archive) is a package file that merges Java class files and associated metadata and resources, such as text and images, into one distributable file. This is the default format for your Vaadin app if you have created it from https://vaadin.com/start. To upload the `.jar` to Heroku cloud:
 
-. Create a Heroku account at https://www.heroku.com/home.
 . Install https://devcenter.heroku.com/articles/heroku-cli#download-and-install[Heroku CLI] and login to your Heroku account.
 . Install the *Java CLI plugin* by running the command `heroku plugins:install java` in your terminal.
 . Download and open the starter project from http://vaadin.com/start/latest. Select *Spring Boot* as the Technology Stack and fill the *Maven Group ID* and *Project Name* as you see fit (or leave them at default).
@@ -60,11 +64,9 @@ You can find the demo running at: https://starter-vaadin-war.herokuapp.com/
 
 You can deploy an application directly from a GitHub repository instead of uploading it as a `.jar`. However, this approach requires some tweaks to your project.
 
-NOTE: You need to have a Heroku account created. Head to the https://www.heroku.com/home[Heroku website] if you don't have one yet.
-
 === Configuring the project for GitHub
 
-. Start by creating a `heroku-settings.xml` file that instructs Maven what profiles should be enabled by default. Add the following content to the file:
+. Start by creating a `heroku-settings.xml` file that will be used to instruct Maven what profiles should be enabled by default. Add the following content to the file:
 +
 .`*heroku-settings.xml*`
 [source,xml]
