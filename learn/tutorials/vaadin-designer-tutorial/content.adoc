@@ -119,6 +119,7 @@ For the toolbar, we have to configure the texts to be correct.
 . Click on the text field for filtering values, vaadin-text-field
 . In the properties view, under attributes, find the attribute called "label". Remove the value from it. We do not have a separate label as we have the description as the placeholder value for the field.
 . In the properties view, under attributes, find the placeholder attribute. Remove the "Placeholder" value and replace it with "Filter by name..."
+. In the properties view, under attributes, find the clear-button-visible attribute. Enable the checkbox. This will give the users to clear the filter in the UI.
 . Click on the button, vaadin-button.
 . In the properties view, find the text panel at the top. Remove the default text "Button" and replace it with "Add contact".
 
@@ -227,3 +228,113 @@ Let's run the project and see how the new layout looks like.
 . Build the project build either pressing the green hammer in the top right, or by selecting Build -> Build Project from the menu.
 . If you do not have the server running anymore, run the application by pressing the green bug in the top right, or by selecting Run -> Debug 'Application' from the menu.
 . Point your browser towards http://localhost:8080/ to see the result.
+
+== Connect your view to Java 
+
+Designer uses two 
+
+Next up we will export the components that you needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the buttton for adding new contacts.
+
+. Open main-view in Designer.
+. Select the text field.
+. In properties view, under the attributes panel, find the attribute id. Give the text field the id "filterText". This is what the component will be called in the Java companion file.
+. In the outline, hover your mouse above the selected vaadin-text-field. A button will appear on the same row to allow you to connect the component to Java. Click on the icon. The field is now available from Java code.
+. In the same way, select the button, give it an id called "addContactButton", and click on the connect icon.
+. In the same way, select the grid, give it an id called "grid", and click on the connect icon.
+
+You should now have all the fields available from Java code. Let's go check it up.
+
+. Go back to IntelliJ.
+. Open up the class src/main/java/com.vaadin.tutorial.crm.ui.MainView.
+
+.`*MainView.java*`
+[source,java]
+----
+@Tag("main-view")
+@JsModule("./src/views/main-view.js")
+@Route("")
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
+
+    @Id("filterText") <1>
+    private TextField filterText; <2>
+    @Id("addContactButton")
+    private Button addContactButton; <3>
+    @Id("grid")
+    private Grid grid; <4>
+
+    /**
+     * Creates a new MainView.
+     */
+    public MainView() {
+        // You can initialise any data required for the connected UI components here.
+    }
+
+    /**
+     * This model binds properties between MainView and main-view
+     */
+    public interface MainViewModel extends TemplateModel {
+        // Add setters and getters for template properties here.
+    }
+}
+----
+<1> Field are connected to the template id with a @Id("identifer") annotation
+<2> The text field, with same name as id, and correct Java class
+<3> The button
+<4> The grid
+
+=== Add data into the grid
+
+Let's start by loading data from the backend and showing them in the grid. First task would be to configure the columns. We want to show contacts, and from each contact first name, last name, email and status.
+
+We take advantage of Spring’s dependency injection to get hold of the back end service, by adding it as a parameter to the constructor. Spring passes it in when MainView is created.
+
+
+.`*MainView.java*`
+[source,java]
+----
+
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
+
+    @Id("filterText")
+    private TextField filterText;
+    @Id("addContactButton")
+    private Button addContactButton;
+    @Id("grid")
+    private Grid<Contact> grid;
+
+    private ContactService contactService; <1>
+    /**
+     * Creates a new MainView.
+     */
+
+    public MainView(ContactService contactService) { <2>
+        this.contactService = contactService; <3>
+        // You can initialise any data required for the connected UI components here.
+        grid.addColumn(Contact::getFirstName).setHeader("First name"); <4>
+        grid.addColumn(Contact::getLastName).setHeader("Last name");
+        grid.addColumn(Contact::getEmail).setHeader("Email");
+        grid.addColumn(Contact::getStatus).setHeader("Status");
+        grid.addColumn(contact -> {  <5>
+            Company company = contact.getCompany();
+            return company == null ? "-" : company.getName();
+        }).setHeader("Company")
+        grid.getColumns().forEach(col -> col.setAutoWidth(true)); <6>
+        grid.setItems(contactService.findAll()); <7>
+    }
+
+    /**
+     * This model binds properties between MainView and main-view
+     */
+    public interface MainViewModel extends TemplateModel {
+        // Add setters and getters for template properties here.
+    }
+}
+----
+<1> A field for storing the service for future access
+<2> Spring passes in the service when the view is created
+<3> The passed reference to the service is stored in the field
+<4> Columns to grid are added and configured
+<5> A custom column is created for fetching the name of the company the contact belongs to.
+<6> All columns are configured to be sized based on the content of the columns
+<7> Items are fetched from the service and passed to the Grid
+
