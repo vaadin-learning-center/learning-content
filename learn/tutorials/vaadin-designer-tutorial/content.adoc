@@ -8,7 +8,13 @@
 :imagesdir: ./images
 :related_tutorials:
 
+Vaadin Designer is a commercial tool included as part of the Vaadin Pro, Prime, and Enterprise subscriptions. We offer a free 14 day trial for our commercial products. You do not need to give any credit card information to be able to start a trial. 
+
 In this tutorial, you learn how to build an application with Vaadin Designer, including how to create new views, layout components, adjust CSS, and integrate the views to the backend. This is a hands-on tutorial, so you can read the explanation and follow the steps to build the same application.
+
+NOTE: When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details. 
+
+*If you already have an active subscription or ongoing trial:* When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials. 
 
 [#set-up-development-environment]
 == Setting up a Java development environment
@@ -16,13 +22,6 @@ In this tutorial, you learn how to build an application with Vaadin Designer, in
 Before you can start developing your Java app, you need to install the necessary tools and set up your development environment. You can follow the tutorial https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/setting-up-a-java-development-environment[Building Modern Web Apps with Spring Boot and Vaadin - Setting up a Java development environment] to get your Java development environment in place.
 
 If you already have a working Java development environment, including a JDK, Maven, Git, Node.js, and an IDE, you can skip this step and proceed to set up a Vaadin project. This tutorial expects that you are using IntelliJ IDEA, but everything is available for Eclipse as well.
-
-[#set-up-vaadin-project]
-== Set up a Vaadin project
-
-The first step in any development project is to set up the project and get a base app running. The tutorial https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/importing-running-and-debugging-a-java-maven-project-in-intellij-idea[Building Modern Web Apps with Spring Boot and Vaadin - Importing, running, and debugging a Java web app project] shows you how to get a Vaadin project up and running on your computer, ready to be developed further.
-
-If you already have a new Vaadin project, or want to add Designer to your existing Vaadin project, you can skip this step and proceed to Installing Vaadin Designer. 
 
 [#install-designer]
 == Installing Vaadin Designer
@@ -37,226 +36,335 @@ Vaadin Designer is a plug-in for your Integrated development environment (IDE). 
 
 When you open up a design file with Designer, the source code is shown in the IDE, while the visual editor opens up in the Chrome browser. If you do not have Chrome installed, follow https://www.google.com/chrome/[the instructions to install it on your computer].
 
-[#licensing]
-== Licensing and using Vaadin Designer
-Vaadin Designer is a commercial tool included as part of the Vaadin Pro, Prime, and Enterprise subscriptions. 
+[#set-up-vaadin-project]
+== Set up a Vaadin project
 
-*If you already have an active subscription or ongoing trial:* When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials. 
+The first step in any development project is to set up a project and get it running. The tutorial https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Building Modern Web Apps with Spring Boot and Vaadin], chapters 3-5, shows you how to get a Vaadin project up and running on your computer, ready to be developed further.
 
-You can follow the next section, First steps with Vaadin designer, to open Designer and create your first design.
+Follow chapters 3-5 in the tutorial to get the project that we will continue using with Vaadin Designer.
 
-*If you do not have an active subscription or trial:* We offer a free 14 day trial for our commercial products. When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details. 
+. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/setting-up-a-java-development-environment[Chatper 3: Importing, running, and debugging Maven projects in IntelliJ IDEA]
+. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[Chapter 4: Vaadin basics: building UIs with components and layouts]
+. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/spring-boot-backend-database-jpa-repositories-services[Chapter 5: Creating a Spring Boot backend: database, JPA repositories, and services]
 
-You can follow the next section, First steps with Vaadin designer, to open Designer and create your first design.
-
-[#first-steps]
-== First steps with Vaadin designer
-
-You can create both individual components and complete views comprising with Vaadin Designer. You can build UIs with Vaadin components and components you have designed. 
-
-Let's create our first component:
-
-1. Right-click on your project folder and select  "Vaadin 10+ design."
-2. Enable the "Create Java companion file" option for creating a corresponding Java class
-3. Choose a name for your element ("my-first-component" in this example)
-4. Press "okay" to finish the process and create the new component
-
-[[figure.designer.tutorial.new.vaadin.design]]
-.New Component created with Vaadin Designer
-image::designer-4-new-element.png[300, 400]
-
-When you double click on the `my-first-component.js` it will open the file with the Vaadin Designer. In the center area, you see the empty view, which can be initialized with different basic designs. The first column on the right contains the component library with default components provided by the Vaadin Framework, your custom components from the workspace and standard HTML elements. These can be dragged and dropped onto the view and aligned as preferred. The boxes on the far right contain a hierarchy view of the components and below a table to change the properties of selected components.
-
-[[figure.designer.tutorial.new.vaadin.design]]
-.Vaadin Designer integrated in your IDE
-image::designer-4-ui.png[600, 800]
-
-After creating the component, you will see two generated files in the project explorer. `MyFirstComponent` is the companion Java class for the component, and `my-first-component.js` is the corresponding template.
-
-In the `MyFirstComponent` class, you will find a  generated code stub for the component, which can be extended programmatically. The `my-first-component.js` is located in the `frontend` folder and extends a `PolymerElement.`
+Alternatively, if you want to skip following the Vaadin tutorial, and continue with the Vaadin Designer tutorial, you can download the end result of Chapter 5 directly. You can https://github.com/vaadin-learning-center/crm-tutorial/archive/03-database-and-backend.zip[download the project as a zip from GitHub].
 
 
-== Create a Component with Vaadin Designer
 
-We are going to start with a simple component which let the user input their name. After they click a submit button, a personal greeting message will be displayed on the screen.
+[#start-building]
+== Start building the application
 
-After opening the JS file, you can select the `Vertical` as a base layout and drag a `Vaadin Text Field,` `Primary Button` and a `label` on the view. 
+With IntelliJ running and a project available, we can take our first steps towards building our first views with Designer.
 
-The elements from the component menu have names like `Primary Button,` `Icon Text Field` or `Horizontal Layout Margin.` The naming might be a bit different from the terminology you known from Vaadin because these are pre-styled components. After adding all components to the view, you might already notice, all components are arranged on the upper left side. 
+. Delete the file MainView.java in src/main/java/com/vaadin/tutorial/crm/ui
+. In the Project tree, expand the frontend and src folders
+. Right click on the src folder, and select New > Directory. Give the directory name "views" and press ok. 
+. Right click on the newly created view folder, select New > Vaadin 10+ Design.
+. Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
+. In the "Java package" field, press the folder selection button and navigate to com.vaadin.tutorial.crm.ui.
+. In the "Name" field, type `main-view`.
+. Press ok to generate the files.
 
-[[figure.designer.tutorial.new.vaadin.design]]
-.all components are added to the main layout
-image::designer-4-first-design.png[300, 400]
+Designer opens up in Google Chrome.
 
-To align the `vaadin-text-field` and the `vaadin-button` horizontally, we need to add an additional `horizontal-layout` on top of the existing `vertical-layout` and add the text field and the button to it.
+// video::create-first-view.mp4[]
 
-[[figure.designer.tutorial.new.vaadin.design]]
-.add theme as property to main layout
-image::designer-4-change-hierarchy.gif[200, 400]
+[#getting-familiar-with-the-ui]
+== Getting familiar with the UI
+Designer consists of four main parts: paper, palette, outline and properties.
 
-In the next step, we detach the components from the edge of the main layout and bring some margin space between them. Add a `margin` theme attribute to the main layout by selecting the `vaadin-vertical-layout` item in the "Outline" box and click on the "+" in the properties box to add an additional item with the name "theme" and the value `margin`.
+*Paper* is where the UI you are building is rendered. It shows you what your view will look like. Before you have any components added to your view, the paper will propose a set of starting points for your newly created view.
 
-[[figure.designer.tutorial.new.vaadin.design]]
-.add theme as property to main layout
-image::designer-4-add-margin-property.png[200, 250]
+*Palette* is a list of components that you have available for use. The list is divided in multiple sections:
 
-In the next step, we are going to change some of the component properties to adjust the styles accordingly. If you click on the `vaadin-text-field` in the "Outline" box, it will open the associated component properties in the "Properties" box. Let's add a hint the text-field what the user should input by setting the value of the "placeholder" item, for example, to "input your name." After changing the value, you will see the result right away in the Designer. Next, let's set the theme of the button to "secondary" to make it stand out less and change the text of the button to "Submit." Last but not least, remove the default value of the label.
+- HTML elements are the built in elements of the HTML language, like <p>, <h1> and <div>.
+- Parts is a list of all the web components available in your project. These are scanned from the node_modules folder in your project automatically. If you add a new 3rd party web component to your project, it will show up in the parts list and be available for use.
+- Components are snippets for Vaadin's components that give you handy commonly used configurations, like having a button with an icon and caption. 
+- Patterns are preconfigured view parts  
 
-[[figure.designer.tutorial.new.vaadin.design]]
-.final design of the component
-image::designer-4-final-design-component.png[200, 250]
+*Outline* shows you what components are in use in the view as well as their hierarchy.
 
-Let's add some functionality to display the input value together with the current time in the label. If you open the class `MyFirstComponent.java,` you will find a stub of the component with a default constructor and an interface of the template model.
+*Properties* is where you modify how a single component will look and behave.
 
-[source, java]
-.Content of MyFirstComponent 
+[#create-the-main-layout]
+== Creating the main layout
+
+image::app-complete.png[A web application with a listing of contacts and an editor open.]
+
+This is the layout that we are going to build.
+
+We can note that at the root of the view we need vertical layout. At the top is a horizontal layout with for a filtering text field as well as a button to add new entries. Below we have a horizontal layout for a grid of data entries and a form. Let's disregard the form for now, as we will will build it separately, and add the rest of the components to the view.
+
+[#add-the-components]
+=== Adding all the components.
+. On the paper, click on "Vertical" to get a vertical layout as your starting point. Your view constists now of an empty layout.
+. Find "Horizontal Layout Spacing" in the palette. Drag it twice on top of the vaadin-vertical-layout on the paper.
+. Find "Vaadin Text Field" in the palette.  An easy way to find components is to use the search field at the top of the palette. Drag "Vaadin Text Field" on top of the *first* vaadin-horizontal-layout.
+. Find "Button" in the palette.  Drag "Button" on top of the *first* vaadin-horizontal-layout.
+. Find "vaadin-grid" in the palette. Drag it on top of the *second* vaadin-horizontal-layout.
+
+image::adding-all-the-components.png[Components added to the view.]
+
+Our view is not looking like planned yet, but it has the components we need. Let's continue with configuring the components to look correct.
+
+[#configure-main-layout]
+=== Configuring the main layout
+For the main layout, we want to add a bit of space between the components as well as around the layout to make it look nicer. 
+
+. Select the top level layout, by clicking on any of the empty space of the vertical layout.
+. In the properties view, under Size and space panel, find the padding selector and select "M". This will add some space around the main layout, letting the design breath a bit.
+. In the same panel, open the spacing selector and select "M". This will add space between the toolbar and the grid.
+
+image::configuring-the-main-layout.png[Spacing and padding added to the main layout.]
+
+[#configure-toolbar]
+=== Configuring the toolbar
+For the toolbar, we have to configure the texts to be correct. 
+
+. Select the text field.
+. In the properties view, under attributes, find the attribute called "label". Remove the value from it. We do not have a separate label as we have the description as the placeholder value for the field.
+. In the properties view, under attributes, find the placeholder attribute. Remove the "Placeholder" value and replace it with "Filter by name..."
+. In the properties view, under attributes, find the clear-button-visible attribute. Enable the checkbox. This will give the users to clear the filter in the UI.
+. Select the button.
+. In the properties view, find the text panel at the top. Remove the default text "Button" and replace it with "Add contact".
+
+image::configuring-the-toolbar.png[Toolbar has the correct texts.]
+
+[#space-for-grid]
+=== Make the Grid take all the space available
+We want to give the Grid the rest of the screen space, to show as much data as possible.
+
+. Select the lower horizontal layout, vaadin-horizontal-layout. 
+. In the properties view, under Size and space panel, find the width and height fields. Choose "100%" in both of them to expand the layout to take all the space available.
+. Select the Grid, vaadin-grid.
+. In the properties view, under Size and space panel, put width and height fields to "100%" to give all the space from the layout to the grid.
+
+image::space-for-grid.png[Toolbar has the correct texts.]
+
+Now our main layout looks great, but it is still missing the form.
+
+[#create-form]
+== Creating the form
+It is good to keep designs focused on one thing and split them up to smaller things if there starts to be too much focus areas in one view. Let's create the form for the view in an own design. In it we want to create a Form Layout for our Contact entity.
+
+[#form-create-design]
+=== Create a new Design file.
+
+. Switch back to IntelliJ.
+. In the Project window, right click on the frontend/src/views folder. Select New > Vaadin 10+ Design.
+. Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
+. Verify that the Java package is com.vaadin.tutorial.crm.ui.
+. In the "Name" field, type `contact-form`.
+. Press ok to generate the files.
+. The design opens up in the browser. In the Palette view, Search for "vaadin-form". Drag  vaadin-form-layout on top of the drop section in the canvas.
+
+image::form-create-design.png[New design for the form.]
+
+Our form component will have:
+
+* Text fields for the first and last name.
+* An email field.
+* Two select fields: one to select the company and the other to select the contact status.
+
+[#form-add-text-fields]
+=== Add two text fields for the name
+
+. Find "Vaadin Text Field" in the palette.  Drag "Vaadin Text Field" twice, on top of vaadin-form-layout.
+. Select the first vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "First name". Find the placeholder attribute and remove the value.
+. Select the second vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "Last name". Find the placeholder attribute and remove the value.
+
+[#form-add-email-field]
+=== Add the email field
+
+. Find "vaadin-email-field" in the palette.  Drag it on top of the vaadin-form-layout.
+. In the properties view, go to the attirubtes panel. Find the label attribute and type in "Email".
+
+[#form-add-combo-boxes]
+=== Add company and status fields
+
+. Find "vaadin-combo-box" in the palette.  Drag it, twice, on top of the vaadin-form-layout.
+. Select the first vaadin-combo-box in the design. In the properties view, go to the attirubtes panel. Find the label attribute and add the value "Company".
+. Select the first vaadin-combo-box in the design. In the properties view, go to the attirubtes panel. Find the label attribute and add the value "Status".
+
+[#form-add-buttons]
+=== Add buttons
+
+We want to add buttons for save, delete and close to the form. Save is the primary action and should be highlighted. Delete can be a dangerous action and should be marked as error. Close button is not an important action and can be downlplayed with a tertiary styling.
+
+. Find "Horizontal Layout Spacing" in the palette.  Drag it on top of the vaadin-form-layout.
+. Find the Vaadin button -section in the palette.  Under it drag three different buttons on top of the horizontal layout. First a "Primary Button", then a "Primary Error Button" next to it, and finally a "Tertiary Button" next to it.
+. Select the Primary button. Replace the text of the button to "Save".
+. Select the Primary Error button. Replace the text of the button to "Delete". 
+. Under Attributes, change the theme attribute from "primary error" to "error".
+. Select the Tertiary button. Replace the text of the button to "Close".
+
+Now our form is done.
+
+image::form-create-design-finished.png[Finished form.]
+
+[#add-form-to-main-view]
+== Add the form to the main view
+
+We can go back to our main view and add it next to the Grid. You should have the main-view Design open in a second tab in Chrome. If you do not, reopen the main-view.js file again in IntelliJ.
+
+In the palette, there should now be a secion called Project Components. Under it are listed other designs that you have created. By dragging from here, you can embed other designs into the one that is currently open.
+
+. With main-view Designer open, locate contact-form in Project Components in the palette.
+. Drag contact-form on top of the second vaadin-horizontal-layout.
+
+image::add-form-to-main-view.png[Form embedded in main view.]
+
+[#size-grid-and-form]
+=== Sizing grid and form
+
+We want to give most of the space to the grid. We will use flex sizing for it, to give a 2:1 ratio between the grid and the form.
+
+. Select vaadin-grid. Under properties view, under the Attributes panel, find the style attribute. Add to the end of the value "flex: 2;".
+. Select contact-form. Under properties view, under the Attributes panel, find the style attribute. Set the value to "flex: 1;".
+
+Now our layout is done.
+
+image::size-grid-and-form.png[Form embedded in main view.]
+
+[#add-route-to-main-view]
+== Add the route to the main view.
+
+As we replaced the MainView with our own, it doesn't have a route annotation anymore. Let's add back the root route to point towards MainView.
+
+. Switch back to IntelliJ
+. Expand the package src/main/java/com.vaadin.tutorial.crm.ui and open the file MainView.
+. Add `@Route("")` annotation to the top MainView class.
+
+
+.`*MainView.java*`
+[source,java]
 ----
-@Tag("my-first-component")
-@JsModule("./my-first-component.js")
-public class MyFirstComponent extends PolymerTemplate<MyFirstComponent.MyFirstComponentModel> {
+@Tag("main-view")
+@JsModule("./src/views/main-view.js")
+@Route("") <1>
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
+    // The rest of the file is omitted from the code snippet
+}
+----
+<1> Route annotation mapping http://localhost:8080/ to MainView
 
-    //Creates a new MyFirstComponent.
-    public MyFirstComponent() {
-        // You can initialize any data required for the connected UI components here.
+[#layout-finished-run-the-project]
+== Run the project
+
+Let's run the project and see how the new layout looks like.
+
+. Build the project build either pressing the green hammer in the top right, or by selecting Build -> Build Project from the menu.
+. If you do not have the server running anymore, run the application by pressing the green bug in the top right, or by selecting Run -> Debug 'Application' from the menu.
+. Point your browser towards http://localhost:8080/ to see the result.
+
+image::layout-finished-run-the-project.png[The application running in the browser.]
+
+== Connect your view to Java 
+
+Designer uses two 
+
+Next up we will export the components that you needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the buttton for adding new contacts.
+
+. Open main-view in Designer.
+. Select the text field.
+. In properties view, under the attributes panel, find the attribute id. Give the text field the id "filterText". This is what the component will be called in the Java companion file.
+. In the outline, hover your mouse above the selected vaadin-text-field. A button will appear on the same row to allow you to connect the component to Java. Click on the icon. The field is now available from Java code.
+. In the same way, select the button, give it an id called "addContactButton", and click on the connect icon.
+. In the same way, select the grid, give it an id called "grid", and click on the connect icon.
+
+You should now have all the fields available from Java code. Let's go check it up.
+
+. Go back to IntelliJ.
+. Open up the class src/main/java/com.vaadin.tutorial.crm.ui.MainView.
+
+.`*MainView.java*`
+[source,java]
+----
+@Tag("main-view")
+@JsModule("./src/views/main-view.js")
+@Route("")
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
+
+    @Id("filterText") <1>
+    private TextField filterText; <2>
+    @Id("addContactButton")
+    private Button addContactButton; <3>
+    @Id("grid")
+    private Grid grid; <4>
+
+    /**
+     * Creates a new MainView.
+     */
+    public MainView() {
+        // You can initialise any data required for the connected UI components here.
     }
 
-    ...
+    /**
+     * This model binds properties between MainView and main-view
+     */
+    public interface MainViewModel extends TemplateModel {
+        // Add setters and getters for template properties here.
+    }
 }
 ----
+<1> Field are connected to the template id with a @Id("identifer") annotation
+<2> The text field, with same name as id, and correct Java class
+<3> The button
+<4> The grid
 
-To create a Java representation for a component in Designer, we need to click on the icon on the right side of the outline box.
+=== Add data into the grid
 
-[[figure.designer.tutorial.new.vaadin.design]]
-.icon to add component representation in Java class
-image::designer-4-create-java-representation.png[200, 250]
+Let's start by loading data from the backend and showing them in the grid. First task would be to configure the columns. We want to show contacts, and from each contact first name, last name, email and status.
 
-This will create a field in the `MyFirstComponent.java` class and can be used as a regular Vaadin Java component.
+We take advantage of Spring’s dependency injection to get hold of the back end service, by adding it as a parameter to the constructor. Spring passes it in when MainView is created.
 
-[source, java] 
-----
-@Id("vaadinTextField")
-private TextField vaadinTextField;
-----
-.Representation of component in Java class
 
-Next, we'll look at interacting with the backend. Let's add the value of the `text-field` to the label and add a "Hello" String as well as the current date. In `MyFirstComponent.java` add the following lines of code to the constructor:
-
-[source, java] 
-----
-label.setText(String.format("Hello %s, it is %s", //<1>
-                        vaadinTextField.getValue(), //<2>
-                        LocalDate.now().toString()))); //<3>
+.`*MainView.java*`
+[source,java]
 ----
 
-<1> Define a string format with a placeholder for the value of the text field and the current date.  
-<2> Value of the text field.
-<3> Current date as text.
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
-After adding the new component you view, you will see the following:
+    @Id("filterText")
+    private TextField filterText;
+    @Id("addContactButton")
+    private Button addContactButton;
+    @Id("grid")
+    private Grid<Contact> grid;
 
-[[figure.designer.tutorial.new.vaadin.design]]
-.component after styling
-image::designer-4-first-styled-design.png[200, 250]
+    private ContactService contactService; <1>
+    /**
+     * Creates a new MainView.
+     */
 
-Let's summarize what we did in the first part of this article. We created a new component, defined a basic design, added UI Elements to it, and changed the hierarchy and the styling.
-
-In the next step, we are going to create our own view and add our previously created component on it.
-
-=== Create a View with Vaadin Designer
-Since Vaadin 10 any UI component can be a view when it has the `@Route` annotation. To create a new view, we basically do the same steps when creating a component. Right-click in the project explorer and add a new "Vaadin 10+ Design". As you might remember, the Vaadin Designer provides basic layouts to make the view building faster.
-
-As an example, we create a component with a Java companion file called "MyFirstView" and select the "Header & footer" as a basic layout. It will create a `vertical-layout` with 3 sub-layouts for the header, footer and the content in it. In the design area, the header and footer will be displayed in gray. Let's add an `h1`-element to the header and an `h4`-element to the footer. We can change the text of the `h4`-element by clicking on the subelement "text" and change the value of the text area to "My First View."
-
-[[figure.designer.tutorial.new.vaadin.design]]
-.first view after styling
-image::designer-4-first-view.png[200, 500]
-
-In the next step, we need to open the Java companion file and add the @Route annotation above the class name.
-
-[source, java]
-----
-@Tag("my-first-view")
-@JsModule("./my-first-view.js")
-@Route("first-view")
-public class MyFirstView extends PolymerTemplate<MyFirstView.MyFirstViewModel> {
-    ...
-}
-----
-.add Route annotation to the view class
-
-After starting the application server, you can check the result calling http://localhost:8080/first-view in your browser. Now we can add our previously created component `my-first-component` to the center layout as well as a `vaadin-grid.` 
-
-To use the full strength of the `vaadin-grid` we need to set a type of the item we want to show in the grid. In our example, we want to show the name, date, and time when somebody submits their name. Therefore we need to create a Java bean with a String for the name and a DateTime for the login time as instance variables. We can do it with a small inner class inside in the `MyFirstView` looking like this:
-
-[source, java] 
-----
- private class PersonDTO {
-    private String name;
-    private LocalDateTime time;
-
-    //constructor, getter, setter
- }
-----
-.inner class for grid component
-
-After creating the DTO class, we create a component link for the `vaadin-grid` and `my-first-component` in the view class by clicking on the icon in the outline box.
-
-[[figure.designer.tutorial.new.vaadin.design]]
-.connect component in designer in view class
-image::designer-4-connect-component.png[200, 300]
-
-Now we can add columns for the "name" and the "submit-time" programmatically by using the API of the grid component. The columns won't be visible in the design view, because they are initialized during runtime and the design is not showing the changes made in the code. In the second part of this article, we will go into more details about how to create a listing component with the Designer. 
-
-To show the results of the input in the `vaadin-grid,` we will create a consumer in the `my-first-component` and add a code block which will run when the submit button is clicked. All added items will be kept in a Set.
-
-[source, java] 
-----
-public class MyFirstView ... {
-    
-    //Component definitions
-    ...
-
-    private List<PersonDTO> personDTOSet = new ArrayList<>();
-
-    public MyFirstView() {
-
-        //add columns for "name" and "submit time" to grid
-        vaadinGrid.addColumn(PersonDTO::getName).setHeader("Name");
-        vaadinGrid.addColumn(PersonDTO::getSubmitTime).setHeader("Submit Time");
-
-        //set code block which is applied after button click
-        myFirstComponent.setPersonDTOConsumer(personDTO -> {
-            personDTOSet.add(personDTO);
-            vaadinGrid.getDataProvider().refreshAll();
-        });
-        vaadinGrid.setItems(personDTOSet);
+    public MainView(ContactService contactService) { <2>
+        this.contactService = contactService; <3>
+        // You can initialise any data required for the connected UI components here.
+        grid.addColumn(Contact::getFirstName).setHeader("First name"); <4>
+        grid.addColumn(Contact::getLastName).setHeader("Last name");
+        grid.addColumn(Contact::getEmail).setHeader("Email");
+        grid.addColumn(Contact::getStatus).setHeader("Status");
+        grid.addColumn(contact -> {  <5>
+            Company company = contact.getCompany();
+            return company == null ? "-" : company.getName();
+        }).setHeader("Company")
+        grid.getColumns().forEach(col -> col.setAutoWidth(true)); <6>
+        grid.setItems(contactService.findAll()); <7>
     }
 
-    public interface MyFirstViewModel extends TemplateModel { ... }
-
-    public static class PersonDTO { ... }
+    /**
+     * This model binds properties between MainView and main-view
+     */
+    public interface MainViewModel extends TemplateModel {
+        // Add setters and getters for template properties here.
+    }
 }
 ----
-.add columns to grid and set consumer to component
+<1> A field for storing the service for future access
+<2> Spring passes in the service when the view is created
+<3> The passed reference to the service is stored in the field
+<4> Columns to grid are added and configured
+<5> A custom column is created for fetching the name of the company the contact belongs to.
+<6> All columns are configured to be sized based on the content of the columns
+<7> Items are fetched from the service and passed to the Grid
 
-In the `my-first-component` we define a field for the consumer and an appropriate set-method. Inside the submit button click handler, we need to accept the value in the consumer.
-
-[source, java] 
-----
-vaadinButton.addClickListener(buttonClickEvent -> {
-            ...
-            if (personDTOConsumer != null) {
-                personDTOConsumer.accept(personDTO);
-            }
-        });
-----
-.accept the value in the consumer to add it the grid
-
-After finishing the last step and starting the application again, you can add items to the grid by entering names into the text field and submit it. And et voilà we created our first application with the Vaadin Designer.
-
-
-[[figure.designer.tutorial.new.vaadin.design]]
-.final design of the view
-image::designer-4-final-view.png[200, 300]
-
-In this tutorial, we learned how to create components and views with the Vaadin Designer and configure its properties.
