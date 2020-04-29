@@ -1,24 +1,24 @@
 
 = Deploy to Heroku Cloud
 
-:title: Deploy to Heroku Cloud
-:authors: anasmi, mikaelsu
+:title: Deploy a Java web app to Heroku Cloud
+:authors: mikaelsu
 :type: text
-:tags: cloud, deploy, Java, tutorial
-:description: Learn how to deploy a Vaadin app to Heroku Cloud
-:repo:  https://github.com/anasmi/herokuTest
+:tags: Backend, Cloud, Deploy, Java
+:description: Learn how to deploy your Java web application to Heroku Cloud or try it with our starter app!
+:repo:  https://github.com/anasmi/herokuTest
 :linkattrs:
 :imagesdir: ./images
 
-This tutorial shows how to deploy a Vaadin web application to Heroku cloud. Heroku provides free cloud deployment for up to 5 applications. You can find more information on their https://www.heroku.com/[website].
+This tutorial shows how to deploy a Java web application to Heroku cloud. Heroku provides free cloud deployment for up to 5 applications. You can find more information on their https://www.heroku.com/[website].
 
 We're using the latest https://vaadin.com/start/latest[Spring Boot starter app] as an example. You can see the app running on Heroku cloud https://starter-vaadin.herokuapp.com/[here]. You can deploy the application directly from your command line or from a GitHub repository.
 
 *PREREQUISITES:*
 
 * Create a Heroku account at https://www.heroku.com/home.
-* Verify that you have Java installed by running the command `java --version` in your terminal. If no Java version is found, https://www.java.com/en/download/[download] and install the latest version on your computer it and configure it to the https://www.java.com/en/download/help/path.xml[*PATH*] if you're running Windows.
-* Verify that you have Git installed by running the command `git --version` in your terminal. If no Git version is found, download and install the https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[latest version] on your computer.
+* Verify that you have Java installed by running the command `java --version` in your terminal. If no Java version is found, https://aws.amazon.com/corretto/[download] and install the latest version on your computer.
+* Verify that you have Git installed by running the command `git --version` in your terminal. If no Git version is found, https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[download] and install the latest version on your computer.
 
 
 == 1. Deploying from command line
@@ -39,25 +39,17 @@ A *JAR* (Java Archive) is a package file that merges Java class files and associ
 . Create a Heroku application by either:
 +
 .. Running `heroku create APP_NAME` in the Java CLI plugin
-.. Selecting *New* in the UI under https://dashboard.heroku.com/apps.
+.. Selecting *Create new app* under *New* in the UI at https://dashboard.heroku.com/apps.
++
+image::new-app-heroku.png[Create new app]
++
 . Name your Heroku application. You will need the name in the next step.
 . Deploy the `.jar` using the command: `heroku deploy:jar my-app.jar --app APP_NAME` by replacing "APP_NAME" with the name you provided in the previous step.
 . Run `heroku open --app APP_NAME` or check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings.
 
-You can find the demo running at: https://starter-vaadin.herokuapp.com/
-
 TIP: You can open the application log by running the command: `heroku logs --tail --app APP_NAME` in your terminal for troubleshooting any possible errors.
 
-=== Deploying a WAR file (optional)
-
-You can also choose to deploy the application in the `.war` format instead of a `.jar`. The process is similar with two exceptions:
-
-. Change the package to from `.jar` to `.war` in the `pom.xml`
-. The command to execute in step 11 is: `heroku war:deploy myapp.war --app APP_NAME`
-
-TIP: You can find detailed instructions on the Heroku https://devcenter.heroku.com/articles/configuring-war-deployment-with-the-heroku-toolbelt[documentation page].
-
-You can find the demo running at: https://starter-vaadin-war.herokuapp.com/
+TIP: If your application is packaged as WAR you can do the deployment using command `heroku war:deploy myapp.war --app APP_NAME` instead. You can find detailed instructions on the Heroku https://devcenter.heroku.com/articles/configuring-war-deployment-with-the-heroku-toolbelt[documentation page].
 
 == 2. Setting up a GitHub CI pipeline
 
@@ -72,17 +64,17 @@ You can deploy an application directly from a GitHub repository instead of uploa
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-    <!-- activate by setting the MAVEN_SETTINGS_PATH config var to heroku-settings.xml in Heroku project settings tab.
-    See https://devcenter.heroku.com/articles/using-a-custom-maven-settings-xml for more details.
-     -->
+    <!-- activate by setting the MAVEN_SETTINGS_PATH config var to heroku-settings.xml in Heroku project settings tab.
+    See https://devcenter.heroku.com/articles/using-a-custom-maven-settings-xml for more details.
+     -->
 
-    <activeProfiles>
-        <activeProfile>production</activeProfile>
-        <activeProfile>npm</activeProfile>
-    </activeProfiles>
+    <activeProfiles>
+        <activeProfile>production</activeProfile>
+        <activeProfile>npm</activeProfile>
+    </activeProfiles>
 </settings>
 ----
 +
@@ -92,32 +84,32 @@ You can deploy an application directly from a GitHub repository instead of uploa
 [source,xml]
 ----
 <profile>
-            <id>npm</id>
-            <build>
-                <plugins>
-                 <plugin>
-                    <groupId>com.github.eirslett</groupId>
-                    <artifactId>frontend-maven-plugin</artifactId>
-                    <!-- Use the latest released version:
-                    https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-                    <version>1.9.1</version>
-                    <executions>
-                        <execution>
-                            <id>install node and npm</id>
-                            <goals>
-                                <goal>install-node-and-npm</goal>
-                            </goals>
-                            <!-- optional: default phase is "generate-resources" -->
-                            <phase>generate-resources</phase>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <nodeVersion>v12.13.0</nodeVersion>
-                    </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+            <id>npm</id>
+            <build>
+                <plugins>
+                 <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <!-- Use the latest released version:
+                    https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+                    <version>1.9.1</version>
+                    <executions>
+                        <execution>
+                            <id>install node and npm</id>
+                            <goals>
+                                <goal>install-node-and-npm</goal>
+                            </goals>
+                            <!-- optional: default phase is "generate-resources" -->
+                            <phase>generate-resources</phase>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <nodeVersion>v12.13.0</nodeVersion>
+                    </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 ----
 +
 . You then need to create a `Procfile` to the root directory of your application to instruct Heroku what to run on start-up. Create a file named `Procfile` with the following content:
@@ -131,14 +123,21 @@ and add it to the folder with the `pom.xml` file. In our case the `PROJECT_NAME-
 === Deploying from GitHub
 
 . Head over to Heroku and create a new app by selecting *New* in the UI under https://dashboard.heroku.com/apps.
-
+Selecting *Create new app* under *New* in the UI at https://dashboard.heroku.com/apps.
++
+image::new-app-heroku.png[Create new app]
++
 . Connect the GitHub repository where your application is uploaded to the app you just created.
-
++
+image::connect-to-github.png[Connect to GitHub]
++
 . Set the `MAVEN_SETTINGS_PATH` Config Var to `heroku-settings`.xml in Heroku project settings tab.
 +
 image::maven-settings-path.png[Project settings tab]
 +
 . Check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings. The application should be running there.
++
+image::domain-name.png[Application URL]
 
 You can find the source code on https://github.com/anasmi/herokuTest[GitHub].
 
