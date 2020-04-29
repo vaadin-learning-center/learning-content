@@ -103,6 +103,8 @@ We can note that at the root of the view we need vertical layout. At the top is 
 . Find "Button" in the palette.  Drag "Button" on top of the *first* vaadin-horizontal-layout.
 . Find "vaadin-grid" in the palette. Drag it on top of the *second* vaadin-horizontal-layout.
 
+image::adding-all-the-components.png[Components added to the view.]
+
 Our view is not looking like planned yet, but it has the components we need. Let's continue with configuring the components to look correct.
 
 [#configure-main-layout]
@@ -112,6 +114,8 @@ For the main layout, we want to add a bit of space between the components as wel
 . Select the top level layout, by clicking on any of the empty space of the vertical layout.
 . In the properties view, under Size and space panel, find the padding selector and select "M". This will add some space around the main layout, letting the design breath a bit.
 . In the same panel, open the spacing selector and select "M". This will add space between the toolbar and the grid.
+
+image::configuring-the-main-layout.png[Spacing and padding added to the main layout.]
 
 [#configure-toolbar]
 === Configuring the toolbar
@@ -124,14 +128,18 @@ For the toolbar, we have to configure the texts to be correct.
 . Select the button.
 . In the properties view, find the text panel at the top. Remove the default text "Button" and replace it with "Add contact".
 
+image::configuring-the-toolbar.png[Toolbar has the correct texts.]
+
 [#space-for-grid]
 === Make the Grid take all the space available
 We want to give the Grid the rest of the screen space, to show as much data as possible.
 
-. Click on the lower horizontal layout, vaadin-horizontal-layout. 
+. Select the lower horizontal layout, vaadin-horizontal-layout. 
 . In the properties view, under Size and space panel, find the width and height fields. Choose "100%" in both of them to expand the layout to take all the space available.
-. Click on the Grid, vaadin-grid.
+. Select the Grid, vaadin-grid.
 . In the properties view, under Size and space panel, put width and height fields to "100%" to give all the space from the layout to the grid.
+
+image::space-for-grid.png[Toolbar has the correct texts.]
 
 Now our main layout looks great, but it is still missing the form.
 
@@ -139,18 +147,18 @@ Now our main layout looks great, but it is still missing the form.
 == Creating the form
 It is good to keep designs focused on one thing and split them up to smaller things if there starts to be too much focus areas in one view. Let's create the form for the view in an own design. In it we want to create a Form Layout for our Contact entity.
 
-The view we want to create looks like this.
-
 [#form-create-design]
 === Create a new Design file.
 
-. Switch window back to IntelliJ.
+. Switch back to IntelliJ.
 . In the Project window, right click on the frontend/src/views folder. Select New > Vaadin 10+ Design.
 . Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
 . Verify that the Java package is com.vaadin.tutorial.crm.ui.
 . In the "Name" field, type `contact-form`.
 . Press ok to generate the files.
 . The design opens up in the browser. In the Palette view, Search for "vaadin-form". Drag  vaadin-form-layout on top of the drop section in the canvas.
+
+image::form-create-design.png[New design for the form.]
 
 Our form component will have:
 
@@ -159,11 +167,11 @@ Our form component will have:
 * Two select fields: one to select the company and the other to select the contact status.
 
 [#form-add-text-fields]
-=== Addi two text fields for the name
+=== Add two text fields for the name
 
 . Find "Vaadin Text Field" in the palette.  Drag "Vaadin Text Field" twice, on top of vaadin-form-layout.
-. Click on the first vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "First name". Find the placeholder attribute and remove the value.
-. Click on the second vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "Last name". Find the placeholder attribute and remove the value.
+. Select the first vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "First name". Find the placeholder attribute and remove the value.
+. Select the second vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "Last name". Find the placeholder attribute and remove the value.
 
 [#form-add-email-field]
 === Add the email field
@@ -175,8 +183,8 @@ Our form component will have:
 === Add company and status fields
 
 . Find "vaadin-combo-box" in the palette.  Drag it, twice, on top of the vaadin-form-layout.
-. Click on the first vaadin-combo-box in the design. In the properties view, go to the attirubtes panel. Find the label attribute and add the value "Company".
-. Click on the first vaadin-combo-box in the design. In the properties view, go to the attirubtes panel. Find the label attribute and add the value "Status".
+. Select the first vaadin-combo-box in the design. In the properties view, go to the attirubtes panel. Find the label attribute and add the value "Company".
+. Select the first vaadin-combo-box in the design. In the properties view, go to the attirubtes panel. Find the label attribute and add the value "Status".
 
 [#form-add-buttons]
 === Add buttons
@@ -185,11 +193,14 @@ We want to add buttons for save, delete and close to the form. Save is the prima
 
 . Find "Horizontal Layout Spacing" in the palette.  Drag it on top of the vaadin-form-layout.
 . Find the Vaadin button -section in the palette.  Under it drag three different buttons on top of the horizontal layout. First a "Primary Button", then a "Primary Error Button" next to it, and finally a "Tertiary Button" next to it.
-. Click on the Primary button. Replace the text of the button to "Save".
-. Click on the Primary Error button. Replace the text of the button to "Delete". Under Attributes, change the theme attribute from "primary error" to "error".
-. Click on the Tertiary button. Replace the text of the button to "Close".
+. Select the Primary button. Replace the text of the button to "Save".
+. Select the Primary Error button. Replace the text of the button to "Delete". 
+. Under Attributes, change the theme attribute from "primary error" to "error".
+. Select the Tertiary button. Replace the text of the button to "Close".
 
 Now our form is done.
+
+image::form-create-design-finished.png[Finished form.]
 
 [#add-form-to-main-view]
 == Add the form to the main view
@@ -201,16 +212,19 @@ In the palette, there should now be a secion called Project Components. Under it
 . With main-view Designer open, locate contact-form in Project Components in the palette.
 . Drag contact-form on top of the second vaadin-horizontal-layout.
 
+image::add-form-to-main-view.png[Form embedded in main view.]
+
 [#size-grid-and-form]
 === Sizing grid and form
 
 We want to give most of the space to the grid. We will use flex sizing for it, to give a 2:1 ratio between the grid and the form.
 
-. Select vaadin-grid from the outline. Under properties view, under the Attributes panel, find the style attribute. Add to the end of the value "flex: 2;".
-. Select contact-form from the outline. Under properties view, under the Attributes panel, find the style attribute. Set the value to "flex: 1;".
-
+. Select vaadin-grid. Under properties view, under the Attributes panel, find the style attribute. Add to the end of the value "flex: 2;".
+. Select contact-form. Under properties view, under the Attributes panel, find the style attribute. Set the value to "flex: 1;".
 
 Now our layout is done.
+
+image::size-grid-and-form.png[Form embedded in main view.]
 
 [#add-route-to-main-view]
 == Add the route to the main view.
@@ -221,7 +235,20 @@ As we replaced the MainView with our own, it doesn't have a route annotation any
 . Expand the package src/main/java/com.vaadin.tutorial.crm.ui and open the file MainView.
 . Add `@Route("")` annotation to the top MainView class.
 
-[#run-the-project]
+
+.`*MainView.java*`
+[source,java]
+----
+@Tag("main-view")
+@JsModule("./src/views/main-view.js")
+@Route("") <1>
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
+    // The rest of the file is omitted from the code snippet
+}
+----
+<1> Route annotation mapping http://localhost:8080/ to MainView
+
+[#layout-finished-run-the-project]
 == Run the project
 
 Let's run the project and see how the new layout looks like.
@@ -229,6 +256,8 @@ Let's run the project and see how the new layout looks like.
 . Build the project build either pressing the green hammer in the top right, or by selecting Build -> Build Project from the menu.
 . If you do not have the server running anymore, run the application by pressing the green bug in the top right, or by selecting Run -> Debug 'Application' from the menu.
 . Point your browser towards http://localhost:8080/ to see the result.
+
+image::layout-finished-run-the-project.png[The application running in the browser.]
 
 == Connect your view to Java 
 
