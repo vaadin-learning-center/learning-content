@@ -12,7 +12,8 @@ Vaadin Designer is a commercial tool included as part of the Vaadin Pro, Prime, 
 
 In this tutorial, you learn how to build an application with Vaadin Designer, including how to create new views, layout components, adjust CSS, and integrate the views to the backend. This is a hands-on tutorial, so you can read the explanation and follow the steps to build the same application.
 
-When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details. 
++
+NOTE: When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details. 
 
 *If you already have an active subscription or ongoing trial:* When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials. 
 
