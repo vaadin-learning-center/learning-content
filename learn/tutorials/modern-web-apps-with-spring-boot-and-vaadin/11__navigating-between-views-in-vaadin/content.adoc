@@ -14,7 +14,7 @@ So far in this tutorial series, we've built a CRM application for listing and ed
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/08-component-communication[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
-image::https://website.vaadin.com/hubfs/gitpod.svg[Open in GitPod, an online IDE, link="https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/08-component-communication"]
+https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/08-component-communication[Open in online IDE^, role="button button--bordered"]
 
 video::-J4RZXfgLRc[youtube]
 endif::[]

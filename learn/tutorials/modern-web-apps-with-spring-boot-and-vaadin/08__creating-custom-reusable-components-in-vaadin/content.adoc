@@ -14,7 +14,7 @@ In the https://vaadin.com/learn/tutorials/java-web-app/filtering-the-grid[previo
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/05-filtering-grid[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
-image::https://website.vaadin.com/hubfs/gitpod.svg[Open in GitPod, an online IDE, link="https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/05-filtering-grid"]
+https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/05-filtering-grid[Open in online IDE^, role="button button--bordered"]
 
 video::ttuBu8dYNn0[youtube]
 endif::[]

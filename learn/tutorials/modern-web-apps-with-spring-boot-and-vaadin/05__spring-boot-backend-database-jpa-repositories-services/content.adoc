@@ -16,7 +16,8 @@ There are a fair number of classes to copy and paste to set up your backend. You
 The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
-image::https://website.vaadin.com/hubfs/gitpod.svg[Open in GitPod, an online IDE, link="https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts"]
+https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/02-components-and-layouts[Open in online IDE^, role="button button--bordered"]
+
 video::KepUsaX-yag[youtube]
 
 endif::[]

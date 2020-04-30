@@ -16,7 +16,7 @@ In this tutorial we set up Spring Security and add a login screen to limit acces
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/09-routing[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
-image::https://website.vaadin.com/hubfs/gitpod.svg[Open in GitPod, an online IDE, link="https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/09-routing"]
+https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/09-routing[Open in online IDE^, role="button button--bordered"]
 
 video::_VLuaavfD20[youtube]
 endif::[]

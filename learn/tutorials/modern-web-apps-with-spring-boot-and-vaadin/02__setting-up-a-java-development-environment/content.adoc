@@ -22,7 +22,7 @@ For web app development in Java, you need a:
 
 You can complete this guide using any IDE, but for the sake of simplicity, we use https://www.jetbrains.com/idea/[IntelliJ Idea] throughout. The IntelliJ Community Edition is free to use and a great choice if you don't already have an IDE setup. 
 
-If you have the necessary tools installed on your computer, you're ready to start the tutorial, and can skip ahead to the next chapter. You also have the option of coding the application in your browser using GitPod, an online IDE: 
+If you have the necessary tools installed on your computer, or if you prefer to code using the online IDE below, you can skip ahead to the link:/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[Vaadin basics chapter].
 
 https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/01-project-import[Open in online IDE^, role="button button--bordered"]
 

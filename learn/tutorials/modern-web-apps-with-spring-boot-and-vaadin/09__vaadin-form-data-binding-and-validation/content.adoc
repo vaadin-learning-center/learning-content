@@ -14,7 +14,7 @@ In the https://vaadin.com/learn/tutorials/java-web-app/customizing-UI-components
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/06-creating-components[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
-image::https://website.vaadin.com/hubfs/gitpod.svg[Open in GitPod, an online IDE, link="https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/06-creating-components"]
+https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/06-creating-components[Open in online IDE^, role="button button--bordered"]
 
 video::k-DxZ1reIdM[youtube]
 endif::[]
