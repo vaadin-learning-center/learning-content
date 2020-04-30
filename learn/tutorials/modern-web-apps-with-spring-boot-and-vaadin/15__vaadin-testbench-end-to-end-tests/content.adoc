@@ -19,11 +19,14 @@ End-to-end tests are executed in a browser window, controlled by a web driver an
 
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/12-unit-testing[here], if you want to jump directly into this chapter.
 
-NOTE: The end-to-end tests use https://vaadin.com/testbench[Vaadin TestBench], which is a commercial tool that is a part of the Vaadin Pro Subscription. You can get a free trial at https://vaadin.com/trial. All Vaadin Pro tools and components are free for students through the https://education.github.com/pack[GitHub Student Developer Pack].
-
 ifndef::print[]
+https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/12-unit-testing[Open in online IDE^, role="button button--bordered"]
+
 video::W-IT96DX8WI[youtube]
 endif::[]
+
+NOTE: The end-to-end tests use https://vaadin.com/testbench[Vaadin TestBench], which is a commercial tool that is a part of the Vaadin Pro Subscription. You can get a free trial at https://vaadin.com/trial. All Vaadin Pro tools and components are free for students through the https://education.github.com/pack[GitHub Student Developer Pack].
+
 
 == Configuring Maven to start the server
 
