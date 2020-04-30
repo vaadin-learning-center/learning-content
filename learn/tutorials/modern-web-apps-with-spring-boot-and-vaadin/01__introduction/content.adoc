@@ -39,6 +39,8 @@ The application is a customer relationship management (CRM) system for managing 
 * Cloud deployment.
 * App installation on mobile and desktop. 
 
+https://crm.demo.vaadin.com/[Try the completed app here.]
+
 image::app-complete.png[A web application with a listing of contacts and an editor open.]
 
 == Tools and frameworks
@@ -91,8 +93,9 @@ Advantages of using Vaadin:
 
 You can find the full source code for this guide on https://github.com/vaadin-learning-center/crm-tutorial/[GitHub]. Each chapter is in a separate branch.
 In addition, the individual chapters include links to download the code both before and after the changes in the chapter, so you can easily get your project working again, if something does go wrong. 
-You can also jump straight to a specific chapter by downloading the full project when starting the guide.
+Each chapter has a link to the source code from the previous chapter so you can start the tutorial at any chapter. 
 
 == Video tutorials
 
 You can find video tutorials of each chapter on the https://www.youtube.com/watch?v=quiQg9bgFs8&list=PLcRrh9hGNallPtT2VbUAsrWqvkQ-XE22h[Vaadin YouTube Channel].
+

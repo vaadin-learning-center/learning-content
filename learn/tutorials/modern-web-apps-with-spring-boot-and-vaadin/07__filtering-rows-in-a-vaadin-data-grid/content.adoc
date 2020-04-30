@@ -14,6 +14,8 @@ In the https://vaadin.com/learn/tutorials/java-web-app/populating-the-grid[previ
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/04-listing-entities[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
+image::https://website.vaadin.com/hubfs/gitpod.svg[Open in GitPod, an online IDE, link="https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/04-listing-entities"]
+
 video::Ty3dhCkQP1E[youtube]
 endif::[]
 

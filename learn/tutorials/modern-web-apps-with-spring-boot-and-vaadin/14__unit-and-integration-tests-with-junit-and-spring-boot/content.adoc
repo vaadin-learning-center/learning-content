@@ -24,6 +24,8 @@ In this chapter, we write and run unit and integration tests. We cover end-to-en
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/11-pwa[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
+image::https://website.vaadin.com/hubfs/gitpod.svg[Open in GitPod, an online IDE, link="https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/11-pwa"]
+
 video::zz3AcFpXSFI[youtube]
 endif::[]
 
