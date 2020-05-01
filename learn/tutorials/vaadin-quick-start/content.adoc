@@ -1,6 +1,6 @@
 = Vaadin quick start tutorial
 :tags: Java, Flow, Spring, Spring Boot
-:author: Marcus Hellberg
+:author: Vaadin
 :description: Learn the basics of Vaadin development with a simple example application.  
 :repo: https://github.com/vaadin-learning-center/vaadin-todo
 :linkattrs: 
