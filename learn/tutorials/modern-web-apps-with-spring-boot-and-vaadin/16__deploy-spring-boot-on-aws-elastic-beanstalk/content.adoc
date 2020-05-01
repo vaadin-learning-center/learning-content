@@ -16,7 +16,7 @@ So far in this series, the application has used an in-memory H2 database. For th
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/13-end-to-end-testing[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
-https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/13-end-to-end-testing[here][Open in online IDE^, role="button button--bordered"]
+https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/13-end-to-end-testing[Open in online IDE^, role="button button--bordered"]
 
 video::EtDSJRdpJM4[youtube]
 endif::[]
