@@ -17,7 +17,8 @@ In this chapter we introduce you to core Vaadin concepts and get our project rea
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/01-project-import[here], if you want to jump directly into this chapter.
 
 ifndef::print[]
-image::https://website.vaadin.com/hubfs/gitpod.svg[Open in GitPod, an online IDE, link="https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/01-project-import"]
+https://gitpod.io/#https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/01-project-import[Open in online IDE^, role="button button--bordered"]
+
 
 video::vmh5coL-nKs[youtube]
 endif::[]
