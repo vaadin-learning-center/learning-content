@@ -362,7 +362,7 @@ private void createHeader() {
     H1 logo = new H1("Vaadin CRM");
     logo.addClassName("logo");
 
-    Anchor logout = new Anchor("/logout", "Log out"); <1> 
+    Anchor logout = new Anchor("logout", "Log out"); <1> 
 
     HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout); <2> 
     header.expand(logo); <3>
