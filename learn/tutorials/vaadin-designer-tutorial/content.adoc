@@ -259,6 +259,7 @@ Let's run the project and see how the new layout looks like.
 
 image::layout-finished-run-the-project.png[The application running in the browser.]
 
+[#java-connect]
 == Connect your view to Java 
 
 When building a view with Java, you have two main files per view. One is the template file main-view.js, where you lay out the components and define everything that is static. The other part is MainView.java, which uses the template and adds UI logic as well as configures all parts that are dynamic. We call this file as the companion file for the template. When creating the views before, in the "New Vaadin 10+ Design" dialog, we checked the field "Create Java Componanion file". That gave us the files MainView.java and ContactForm.java. Adding Java code to your views will not be visible in the template when run in Designer, but it will be used when you run your application.
@@ -277,6 +278,7 @@ In the contact form, we need to
 
 Let's start with loading data into the Grid.
 
+[#java-export-components]
 === Export components to Java
 
 Next up we will export the components that needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the buttton for adding new contacts.
@@ -328,6 +330,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 <3> The button
 <4> The grid
 
+[#java-data-to-grid]
 === Add data into the grid
 
 Let's start by loading data from the backend and showing them in the grid. First task would be to configure the columns. We want to show contacts, and from each contact first name, last name, email and status.
