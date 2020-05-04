@@ -96,7 +96,7 @@ This is the layout that we are going to build.
 We can note that at the root of the view we need vertical layout. At the top is a horizontal layout with for a filtering text field as well as a button to add new entries. Below we have a horizontal layout for a grid of data entries and a form. Let's disregard the form for now, as we will will build it separately, and add the rest of the components to the view.
 
 [#add-the-components]
-=== Adding all the components.
+=== Adding all the components
 . On the paper, click on "Vertical" to get a vertical layout as your starting point. Your view constists now of an empty layout.
 . Find "Horizontal Layout Spacing" in the palette. Drag it twice on top of the vaadin-vertical-layout on the paper.
 . Find "Vaadin Text Field" in the palette.  An easy way to find components is to use the search field at the top of the palette. Drag "Vaadin Text Field" on top of the *first* vaadin-horizontal-layout.
@@ -148,7 +148,7 @@ Now our main layout looks great, but it is still missing the form.
 It is good to keep designs focused on one thing and split them up to smaller things if there starts to be too much focus areas in one view. Let's create the form for the view in an own design. In it we want to create a Form Layout for our Contact entity.
 
 [#form-create-design]
-=== Create a new Design file.
+=== Create a new Design for the form
 
 . Switch back to IntelliJ.
 . In the Project window, right click on the frontend/src/views folder. Select New > Vaadin 10+ Design.
@@ -261,9 +261,25 @@ image::layout-finished-run-the-project.png[The application running in the browse
 
 == Connect your view to Java 
 
-Designer uses two 
+When building a view with Java, you have two main files per view. One is the template file main-view.js, where you lay out the components and define everything that is static. The other part is MainView.java, which uses the template and adds UI logic as well as configures all parts that are dynamic. We call this file as the companion file for the template. When creating the views before, in the "New Vaadin 10+ Design" dialog, we checked the field "Create Java Componanion file". That gave us the files MainView.java and ContactForm.java. Adding Java code to your views will not be visible in the template when run in Designer, but it will be used when you run your application.
 
-Next up we will export the components that you needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the buttton for adding new contacts.
+For the main view, in the companion file, we need to
+
+. load data to the Grid
+. filter data based on the text field
+. enable adding new rows via the button
+. populate the editor component when user selects a row in the grid
+
+In the contact form, we need to
+
+. bind fields with a contact object given by main view
+. implement the buttons save, discard and close.
+
+Let's start with loading data into the Grid.
+
+=== Export components to Java
+
+Next up we will export the components that needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the buttton for adding new contacts.
 
 . Open main-view in Designer.
 . Select the text field.
