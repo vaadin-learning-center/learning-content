@@ -154,12 +154,11 @@ image::app-name-and-region.png[App name and region]
 +
 . Connect to the GitHub repository to which you uploaded your application. 
 +
-image::connect-repo.png[Connect to GitHub]
+image::connect-github-repo.png[Connect to GitHub]
 +
 . Set the `MAVEN_SETTINGS_PATH` configuration variable to `heroku-settings.xml` in the Heroku project settings tab.
 +
 image::maven-settings-path.png[Project settings tab]
-
 +
 . Check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings. The application should be running there.
 +
