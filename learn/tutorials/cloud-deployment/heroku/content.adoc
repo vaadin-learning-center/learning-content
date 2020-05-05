@@ -155,7 +155,7 @@ image::app-name-and-region.png[App name and region]
 +
 . Connect to the GitHub repository to which you uploaded your application. 
 +
-image::connect-to-github.png[Connect to GitHub]
+image::connect-repo.png[Connect to GitHub]
 
 +
 . Set the `MAVEN_SETTINGS_PATH` configuration variable to `heroku-settings.xml` in the Heroku project settings tab.
