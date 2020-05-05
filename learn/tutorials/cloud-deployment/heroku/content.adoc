@@ -53,11 +53,11 @@ To create and deploy an application in your Heroku dashboard:
 image::new-app-heroku.png[Create new app]
 +
 . Name your Heroku application.
-. . Check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings. The application should be running there.
+. Check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings. The application should be running there.
 +
 image::domain-name.png[Application URL]
 
-To create and deploy an application using the Java CLI plugin:
+==== To create and deploy an application using the Java CLI plugin:
 
 . Run the ‘heroku create APP_NAME` command.
 . Deploy the JAR file using the `heroku deploy:jar my-app.jar --app APP_NAME` command. Replace `my-app.jar` with your actual filename.
