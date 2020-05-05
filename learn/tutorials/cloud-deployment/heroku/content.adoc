@@ -12,7 +12,7 @@
 
 This tutorial shows how to deploy a Java web application to the Heroku cloud. Heroku provides free cloud deployment for up to 5 applications. However, due to their automatic dyno restarts, this platform is best suited to quick demo uploads, rather than full production deployments. You can find more information about this on their https://devcenter.heroku.com/articles/dynos#automatic-dyno-restarts[website].
 
-We use the latest https://vaadin.com/start/latest[Spring Boot starter app] in our example. You can see the example app running on the Heroku cloud at https://starter-vaadin.herokuapp.com/[here]. 
+We use the latest https://vaadin.com/start/latest[Spring Boot starter app] in our example. You can see the example app running on the Heroku cloud https://starter-vaadin.herokuapp.com/[here]. 
 
 You can deploy the application directly from your command line or from a GitHub repository.
 
@@ -53,6 +53,7 @@ NOTE: Replace all instances of `APP_NAME` with the real name of your application
 image::new-app-heroku.png[Create new app]
 +
 . Name your Heroku application.
+. Deploy the JAR file using the `heroku deploy:jar my-app.jar --app APP_NAME` command. Replace `my-app.jar` with your actual filename.
 . Check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings. The application should be running there.
 +
 image::domain-name.png[Application URL]
