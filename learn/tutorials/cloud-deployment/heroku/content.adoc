@@ -137,8 +137,8 @@ You can deploy an application directly from a GitHub repository instead of uploa
 +
 `web: java -jar target/PROJECT_NAME-PROJECT_VERSION.jar $PORT`
 +
-** Substitute your project name and details for the JAR name. In our case it is `starter_app-2.0-SNAPSHOT.jar`.
-** This file must reside in the same folder as your `pom.xml`.
+* Substitute your project name and details for the JAR name. In our case it is `starter_app-2.0-SNAPSHOT.jar`.
+* This file must reside in the same folder as your `pom.xml`.
 
 . Push the code to your Github repository.
 
