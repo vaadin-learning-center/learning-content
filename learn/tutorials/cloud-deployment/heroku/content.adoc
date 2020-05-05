@@ -46,7 +46,7 @@ You can create and deploy a Heroku application in your Heroku dashboard or using
 
 NOTE: Replace all instances of `APP_NAME` with the real name of your application.
 
-To create and deploy an application in your Heroku dashboard:
+==== To create and deploy an application in your Heroku dashboard:
 
 . Go to *New > Create new app*.
 +
@@ -166,6 +166,8 @@ You can find the source code on https://github.com/anasmi/herokuTest[GitHub].
 
 ====
 Our https://vaadin.com/learn/v14[Learning Center] contains tutorials and videos on how to build your next Java web application with the Vaadin framework. Try our https://vaadin.com/learn/tutorials/vaadin-quick-start[Quick start tutorial] to learn more!
+
+Any questions? Please let us know by commenting below.
 ====
 
 _Co-authored by Anastasia Smirnova and Mikael Sukoinen_
