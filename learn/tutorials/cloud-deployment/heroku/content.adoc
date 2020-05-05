@@ -48,11 +48,14 @@ NOTE: Replace all instances of `APP_NAME` with the real name of your application
 
 ==== To create and deploy an application in your Heroku dashboard:
 
-. Go to *New > Create new app*.
+. Go to your Heroku dashboard (https://dashboard.heroku.com/apps) and create a new app by selecting *New* > *Create new app*.
 +
 image::new-app-heroku.png[Create new app]
 +
-. Name your Heroku application.
+. Name your Heroku application and choose a region. Then click on *Create app*.
++
+image::app-name-and-region.png[App name and region]
++
 . Deploy the JAR file using the `heroku deploy:jar my-app.jar --app APP_NAME` command. Replace `my-app.jar` with your actual filename.
 . Check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings. The application should be running there.
 +
@@ -62,7 +65,7 @@ image::domain-name.png[Application URL]
 
 . Run the ‘heroku create APP_NAME` command.
 . Deploy the JAR file using the `heroku deploy:jar my-app.jar --app APP_NAME` command. Replace `my-app.jar` with your actual filename.
-. Open the app using the `heroku open --app APP_NAME`. 
+. Open the app using the `heroku open --app APP_NAME` command. 
 
 TIP: You can open the application log by running the `heroku logs --tail --app APP_NAME` command in your terminal to troubleshoot any possible errors.
 
@@ -144,7 +147,11 @@ You can deploy an application directly from a GitHub repository instead of uploa
 . In your Heroku dashboard (https://dashboard.heroku.com/apps), create a new app by selecting *New* > *Create new app*.
 +
 image::new-app-heroku.png[Create new app]
-
++
+. Name your Heroku application and choose a region. Then click on *Create app*.
++
+image::app-name-and-region.png[App name and region]
++
 +
 . Connect to the GitHub repository to which you uploaded your application. 
 +
