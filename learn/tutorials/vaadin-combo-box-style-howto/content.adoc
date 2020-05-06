@@ -1,0 +1,211 @@
+= Vaadin combo-box styling guide
+
+:title: Vaadin combo-box styling guide
+:tags: CSS, Java
+:description: Step by step guide about how to style each part of the vaadin-combo-box web component
+:linkattrs:
+:sectnums:
+:imagesdir: ./images
+
+[.introText]
+Step by step guide about how to style each part of the vaadin-combo-box web component
+
+Web components offer awesome possibilities to isolate implementations and styles in the containers that represent components. But, they also present challenges for the developers who need to style these components. In this short guide, I show you how to style the Vaadin https://vaadin.com/components/vaadin-combo-box[Combo Box] web component. Because I prefer Java, I will show you how to do it in a Java-only Vaadin application :).
+
+NOTE: you can find the sources on https://github.com/tdq/vaadin-combobox-style-guide[GitHub]. I recommend you try to launch it in https://gitpod.io[GitPod] so you don’t need to launch it on your local machine.
+
+Our base application is the https://vaadin.com/start/v15[Vaadin Spring Boot starter] with an added ComboBox. Let’s say our ComboBox should adapt to the application theme, and that in my example I have light and dark custom themes.
+
+By default, the `vaadin-combo-box` looks like this, which is fine for the light theme
+
+image::default-light.png[Default Vaadin combo-box theme]
+
+But in the case of dark background it’s not really acceptable.
+
+image::dark-background.png[Vaadin combo-box on dark background]
+
+The key to changing the design of Vaadin web components is to provide styles for different parts of the component. If you expand the `vaadin-combo-box` tag in Developer Tools of your browser, you will see that it contains two children (excluding styles): `vaadin-text-field` and `vaadin-combo-box-dropdown-wrapper`.
+
+image::combo-box-structure.png[Vaadin combo-box structure]
+
+`vaadin-text-field` is the content of our combo box. It contains a label, text field, error message placeholder and toggle button that displays or hides the dropdown panel. Each of these parts has a `part` attribute. For example, the toggle button has the `part=”toggle-button”` attribute. This is what we need to select our web component parts in CSS.
+
+First, I declare a CSS variable with colors for the theme:
+
+.`*shared-styles.css*`
+[source,css]
+----
+body {
+    --background-color: #202D36;
+    --panel-background-color: #2B3743;
+    --text-color: #E8EFEF;
+    --label-text-color: #BCC9D2;
+    --shadow: 0 0 5px 0 rgba(20,20,50,0.5);
+
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: all 0.5s;
+}
+
+body[mode=”light” i] {
+    --background-color: #FAFAFA;
+    --panel-background-color: #FFFFFF;
+    --text-color: #18181A;
+    --label-text-color: #3B3B3B;
+    --shadow: 0px 0px 5px 0px rgba(200,200,200,1);
+}
+----
+
+The reason for this is that CSS variables are visible through the shadow DOM and we can easily change their values to suit the content.
+
+Now, we need to use these variables to style different components.
+Let’s create a file, `vaadin-combo-box-styles.css`, in the `frontend/styles` folder and provide a style for the toggle button:
+
+.`*vaadin-combo-box-styles.css*`
+[source,css]
+----
+[part="toggle-button"] {
+    color: var(--text-color);
+}
+----
+
+Next, we need to import this style into our application, while specifying that it should be imported into a specific component (`vaadin-combo-box`):
+
+.`*MainView.java*`
+[source,java]
+----
+@CssImport("./styles/shared-styles.css")
+@CssImport(value = "./styles/vaadin-combo-box-styles.css", themeFor = "vaadin-combo-box")
+public class MainView extends VerticalLayout {..}
+----
+
+We need this because in the case of shadow DOM-based web components, styles should be injected, and Vaadin web components fall into this category. 
+
+When we now launch our application and expand `vaadin-combo-box/#shadow-root/styles`, we find our style at the end:
+
+image::injected-style.png[Injected style]
+
+We have to do the same thing for the `input-field` part. We create a CSS file, `vaadin-text-field-styles.css`, and apply it to the`vaadin-text-field` tag, because it’s part of `vaadin-combo-box`:
+
+.`*MainView.java*`
+[source,java]
+----
+@CssImport("./styles/shared-styles.css")
+@CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
+@CssImport(value = "./styles/vaadin-combo-box-styles.css", themeFor = "vaadin-combo-box")
+public class MainView extends VerticalLayout {..}
+----
+
+And we provide some styling:
+
+.`*vaadin-text-field-styles.css*`
+[source,css]
+----
+[part="input-field"] {
+    background: var(--panel-background-color);
+    color: var(--text-color);
+    box-shadow: var(--shadow);
+}
+ 
+[part="clear-button"] {
+    color: var(--text-color);
+}
+ 
+[part="label"] {
+    color: var(--text-color);
+}
+ 
+:host(:hover:not([readonly]):not([focused])) [part="label"] {
+    color: var(--text-color);
+}
+----
+
+A reasonable question is: why not query the `input-field` part in `vaadin-combo-box-styles.css`? Well, the problem with that is the`input-field` is an encapsulated part of `vaadin-text-field`, so we have to inject our styles into this component explicitly.
+
+Another thing, how should we query the modifiers of our component? For example, if the cursor hovers over our text field, `:hover`. We need to use a selector, like https://developer.mozilla.org/en-US/docs/Web/CSS/:host[:host]:
+
+.`*vaadin-text-field-styles.css*`
+[source,css]
+----
+:host(:hover:not([readonly]):not([focused])) [part="label"] {...}
+----
+
+The reason is that injected styles don’t have access to our web component tag, they can only access it’s content, and to select the parent tag we need to use the `:host` selector.
+
+The next thing we need to style is the combo box dropdown. It’s also a separate web component, so we need to inject styles into it:
+
+.`*MainView.java*`
+[source,java]
+----
+@CssImport("./styles/shared-styles.css")
+@CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
+@CssImport(value = "./styles/vaadin-combo-box-styles.css", themeFor = "vaadin-combo-box")
+@CssImport(value = "./styles/vaadin-combo-box-overlay-styles.css", themeFor = "vaadin-combo-box-overlay")
+public class MainView extends VerticalLayout {...}
+----
+
+Why don't we inject it into `vaadin-combo-box-dropdown-wrapper` or `vaadin-combo-box-dropdown`? This is because they do not store actual dropdown content. Because our content displays in a popup, it’s stored in `vaadin-combo-box-overlay`, which extends the `vaadin-overlay` component, but has a different tag to allow us to inject styles related to combo box.
+
+Now we can simply style the popup panel and set a shadow for the `overlay`:
+
+.`*vaadin-combo-box-overlay-styles.css*`
+[source,css]
+----
+:host [part="content"] {
+    background-color: var(--panel-background-color);
+    color: var(--text-color);
+}
+ 
+:host [part="overlay"] {
+    box-shadow: var(--shadow);
+}
+----
+
+The last thing that may require styling is the items.  Following the same logic, we inject styles into `vaadin-combo-box-item`:
+
+.`*MainView.java*`
+[source,java]
+----
+@CssImport("./styles/shared-styles.css")
+@CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
+@CssImport(value = "./styles/vaadin-combo-box-styles.css", themeFor = "vaadin-combo-box")
+@CssImport(value = "./styles/vaadin-combo-box-overlay-styles.css", themeFor = "vaadin-combo-box-overlay")
+@CssImport(value = "./styles/vaadin-combo-box-items-styles.css", themeFor = "vaadin-combo-box-item")
+public class MainView extends VerticalLayout {...}
+----
+
+And the content of the CSS file:
+
+.`*vaadin-combo-box-items-styles.css*`
+[source,css]
+----
+:host {
+    padding-left: 1rem;
+}
+ 
+:host([selected]) {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+ 
+:host::before {
+    display: none !important;
+}
+----
+
+This removes the icon from the `selected` item and sets the background as slightly shaded. 
+
+The https://vaadin.com/components/vaadin-combo-box/html-api/elements/Vaadin.ComboBoxItemElement[Combo Box HTML API] documentation includes a description of all parts and attributes of this element.
+
+So, let’s have a look at the final result.
+
+Light theme: 
+
+image::new-light-theme.png[New Vaadin combo-box light theme]
+
+And the dark theme:
+
+image::new-dark-theme.png[New Vaadin combo-box dark theme]
+
+If you want to play with the code, you can find it on https://github.com/tdq/vaadin-combobox-style-guide[GitHub].
+
+https://vaadin.com/docs/v14/flow/theme/theming-overview.html[Learn more about theming Vaadin applications].
