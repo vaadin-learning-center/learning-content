@@ -290,7 +290,7 @@ Next up we will export the components that needs data or interaction to Java. Fo
 . In the same way, select the button, give it an id called "addContactButton", and click on the connect icon.
 . In the same way, select the grid, give it an id called "grid", and click on the connect icon.
 
-You should now have all the fields available from Java code. Let's go check it up.
+You should now have all the fields available from Java code. Let's go check it out.
 
 . Go back to IntelliJ.
 . Open up the class src/main/java/com.vaadin.tutorial.crm.ui.MainView.
@@ -368,6 +368,10 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
             return company == null ? "-" : company.getName();
         }).setHeader("Company")
         grid.getColumns().forEach(col -> col.setAutoWidth(true)); <6>
+        updateList();
+    }
+
+    private void updateList() {
         grid.setItems(contactService.findAll()); <7>
     }
 
@@ -387,3 +391,88 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 <6> All columns are configured to be sized based on the content of the columns
 <7> Items are fetched from the service and passed to the Grid
 
+
+[#java-enable-filtering]
+=== Enable filtering
+
+We would like to filter the grid based on first name and last name when the user types in a value in the textfield. For that, we need a value change listener to the textfield, and we need to pass the value of the text field to the contact service. The contact service and repository don't support filtering right now, so we need ot add that support as well.
+
+Let's start with changing MainView.
+
+.`*MainView.java*`
+[source,java]
+----
+
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
+
+    // Fields omitted
+    ...
+    
+
+    public MainView(ContactService contactService) {
+        this.contactService = contactService;
+        // You can initialise any data required for the connected UI components here.
+        grid.addColumn(Contact::getFirstName).setHeader("First name");
+        grid.addColumn(Contact::getLastName).setHeader("Last name");
+        grid.addColumn(Contact::getEmail).setHeader("Email");
+        grid.addColumn(Contact::getStatus).setHeader("Status");
+        grid.addColumn(contact -> {  <5>
+            Company company = contact.getCompany();
+            return company == null ? "-" : company.getName();
+        }).setHeader("Company")
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));
+        updateList();
+
+        filterText.setValueChangeMode(ValueChangeMode.LAZY); <1>
+        filterText.addValueChangeListener(e -> updateList()); <2>
+    }
+
+    private void updateList() {
+        grid.setItems(contactService.findAll(filterText.getValue())); <3>
+    }
+
+    // Template model omitted
+    ...
+}
+----
+
+<1> Put text field value changes into lazy mode, so that we don't query the database on each keystroke
+<2> Add value change listener to text field that tells the grid items to be updated
+<3> Pass the value of the text field to the service findAll method. This will not compile yet as the method does not exist.
+
+
+Let's update the service to also accept a findAll method that also takes in a String as a filter.
+.`*ContactService.java*`
+[source,java]
+----
+public List<Contact> findAll() { <1>
+    return contactRepository.findAll();
+}
+
+public List<Contact> findAll(String stringFilter) { <2>
+    if (stringFilter == null || stringFilter.isEmpty()) {
+        return contactRepository.findAll();
+    } else {
+        return contactRepository.search(stringFilter);
+    }
+}
+----
+
+<1> Existing findAll method that we do not need to touch
+<2> New method for filtering based on String
+
+Finally we need to add the method to search contacts to `ContactRepository`
+
+.`*ContactRepository.java*`
+[source,java]
+----
+public interface ContactRepository extends JpaRepository<Contact, Long> {
+
+    @Query("select c from Contact c " +
+            "where lower(c.firstName) like lower(concat('%', :searchTerm, '%')) " +
+            "or lower(c.lastName) like lower(concat('%', :searchTerm, '%'))")
+    List<Contact> search(@Param("searchTerm") String searchTerm);
+}
+----
+
+Run the application. Now the Grid is searchable based on name with the help of the text field.
