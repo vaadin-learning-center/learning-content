@@ -133,7 +133,7 @@ You can deploy an application directly from a GitHub repository instead of uploa
         </profile>
 ----
 +
-. Create a new file `Procfile.txt` in the root directory of your application and add the following content. This file tells Heroku what to run on startup. 
+. Create a new file `Procfile` (without a file extension) in the root directory of your application and add the following content. This file tells Heroku what to run on startup. 
 +
 `web: java -jar target/PROJECT_NAME-PROJECT_VERSION.jar $PORT`
 +
