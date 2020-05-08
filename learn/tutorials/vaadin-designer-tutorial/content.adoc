@@ -268,13 +268,13 @@ For the main view, in the companion file, we need to
 
 . load data to the Grid
 . filter data based on the text field
-. enable adding new rows via the button
-. populate the editor component when user selects a row in the grid
+. populate the contact form when user selects a row in the grid
+. enable adding new contacts using the "Add contact" button
 
 In the contact form, we need to
 
-. bind fields with a contact object given by main view
-. implement the buttons save, discard and close.
+. bind fields with a contact object given by the main view
+. implement the buttons save, delete and close.
 
 Let's start with loading data into the Grid.
 
