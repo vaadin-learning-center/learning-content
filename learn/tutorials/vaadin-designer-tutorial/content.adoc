@@ -395,7 +395,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 [#java-enable-filtering]
 === Enable filtering
 
-We would like to filter the grid based on first name and last name when the user types in a value in the textfield. For that, we need a value change listener to the textfield, and we need to pass the value of the text field to the contact service. The contact service and repository don't support filtering right now, so we need ot add that support as well.
+We would like to filter the grid based on first name and last name when the user types in a value in the textfield. For that, we need a value change listener to the textfield, and we need to pass the value of the text field to the contact service. The contact service and repository don't support filtering right now, so we need to add that support as well.
 
 Let's start with changing MainView.
 
