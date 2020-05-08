@@ -337,7 +337,6 @@ Let's start by loading data from the backend and showing them in the grid. First
 
 We take advantage of Spring’s dependency injection to get hold of the back end service, by adding it as a parameter to the constructor. Spring passes it in when MainView is created.
 
-
 .`*MainView.java*`
 [source,java]
 ----
@@ -391,6 +390,9 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 <6> All columns are configured to be sized based on the content of the columns
 <7> Items are fetched from the service and passed to the Grid
 
+Run the application. Now the Grid shows the contacts from the service.
+
+image::grid-populated-run-the-project.png[Grid configured and populated with items from the service.]
 
 [#java-enable-filtering]
 === Enable filtering
@@ -440,8 +442,8 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 <2> Add value change listener to text field that tells the grid items to be updated
 <3> Pass the value of the text field to the service findAll method. This will not compile yet as the method does not exist.
 
-
 Let's update the service to also accept a findAll method that also takes in a String as a filter.
+
 .`*ContactService.java*`
 [source,java]
 ----
@@ -461,7 +463,7 @@ public List<Contact> findAll(String stringFilter) { <2>
 <1> Existing findAll method that we do not need to touch
 <2> New method for filtering based on String
 
-Finally we need to add the method to search contacts to `ContactRepository`
+Finally, we need to add the method to search contacts to `ContactRepository`.
 
 .`*ContactRepository.java*`
 [source,java]
@@ -476,3 +478,5 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 ----
 
 Run the application. Now the Grid is searchable based on name with the help of the text field.
+
+image::grid-filtered-run-the-project.png[Grid filtered based on text field contents.]
