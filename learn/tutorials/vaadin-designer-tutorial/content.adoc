@@ -353,6 +353,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     private Grid<Contact> grid; <1>
 
     private ContactService contactService; <2>
+
     /**
      * Creates a new MainView.
      */
@@ -407,12 +408,10 @@ Let's start with changing MainView.
 .`*MainView.java*`
 [source,java]
 ----
-
 public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
     // Fields omitted
     ...
-    
 
     public MainView(ContactService contactService) {
         this.contactService = contactService;
