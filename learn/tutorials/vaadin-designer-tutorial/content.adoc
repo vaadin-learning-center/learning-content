@@ -54,11 +54,11 @@ Alternatively, if you want to skip following the Vaadin tutorial, and continue w
 [#start-building]
 == Start building the application
 
-With IntelliJ running and a project available, we can take our first steps towards building our first views with Designer.
+With IntelliJ IDEA running and a project available, we can take our first steps towards building our first views with Designer.
 
 . Delete the file MainView.java in src/main/java/com/vaadin/tutorial/crm/ui
-. In the Project tree, expand the frontend and src folders
-. Right click on the src folder, and select New > Directory. Give the directory name "views" and press ok. 
+. In the Project tree, expand the frontend/src folder
+. Right click on the frontend/src folder, and select New > Directory. Give the directory name "views" and press ok.
 . Right click on the newly created view folder, select New > Vaadin 10+ Design.
 . Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
 . In the "Java package" field, press the folder selection button and navigate to com.vaadin.tutorial.crm.ui.
@@ -80,6 +80,7 @@ Designer consists of four main parts: paper, palette, outline and properties.
 - HTML elements are the built in elements of the HTML language, like <p>, <h1> and <div>.
 - Parts is a list of all the web components available in your project. These are scanned from the node_modules folder in your project automatically. If you add a new 3rd party web component to your project, it will show up in the parts list and be available for use.
 - Components are snippets for Vaadin's components that give you handy commonly used configurations, like having a button with an icon and caption. 
+- Project components are the other designs in your project. You can include them into your current view.
 - Patterns are preconfigured view parts  
 
 *Outline* shows you what components are in use in the view as well as their hierarchy.
@@ -93,7 +94,7 @@ image::app-complete.png[A web application with a listing of contacts and an edit
 
 This is the layout that we are going to build.
 
-We can note that at the root of the view we need vertical layout. At the top is a horizontal layout with for a filtering text field as well as a button to add new entries. Below we have a horizontal layout for a grid of data entries and a form. Let's disregard the form for now, as we will will build it separately, and add the rest of the components to the view.
+We can note that at the root of the view we need a vertical layout. At the top is a horizontal layout with a text field for filtering as well as a button to add new entries. Below we have a horizontal layout for a grid of data entries and a form. Let's disregard the form for now, as we will will build it separately, and add the rest of the components to the view.
 
 [#add-the-components]
 === Adding all the components
@@ -124,7 +125,7 @@ For the toolbar, we have to configure the texts to be correct.
 . Select the text field.
 . In the properties view, under attributes, find the attribute called "label". Remove the value from it. We do not have a separate label as we have the description as the placeholder value for the field.
 . In the properties view, under attributes, find the placeholder attribute. Remove the "Placeholder" value and replace it with "Filter by name..."
-. In the properties view, under attributes, find the clear-button-visible attribute. Enable the checkbox. This will give the users to clear the filter in the UI.
+. In the properties view, under attributes, find the clear-button-visible attribute. Enable the checkbox. This will give the users an easy way to clear the filter.
 . Select the button.
 . In the properties view, find the text panel at the top. Remove the default text "Button" and replace it with "Add contact".
 
@@ -145,12 +146,12 @@ Now our main layout looks great, but it is still missing the form.
 
 [#create-form]
 == Creating the form
-It is good to keep designs focused on one thing and split them up to smaller things if there starts to be too much focus areas in one view. Let's create the form for the view in an own design. In it we want to create a Form Layout for our Contact entity.
+It is good to keep designs focused on one thing and split them up to smaller things if there starts to be too many focus areas in one view. Let's create the form for the view in an own design. In it we want to create a Form Layout for editing a single contact's information.
 
 [#form-create-design]
 === Create a new Design for the form
 
-. Switch back to IntelliJ.
+. Switch back to IntelliJ IDEA.
 . In the Project window, right click on the frontend/src/views folder. Select New > Vaadin 10+ Design.
 . Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
 . Verify that the Java package is com.vaadin.tutorial.crm.ui.
@@ -170,8 +171,10 @@ Our form component will have:
 === Add two text fields for the name
 
 . Find "Vaadin Text Field" in the palette.  Drag "Vaadin Text Field" twice, on top of vaadin-form-layout.
-. Select the first vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "First name". Find the placeholder attribute and remove the value.
+. Select the first vaadin-text-field in the design. In the properties view, go to the attributes panel. Find the label attribute and replace the text with "First name". Find the placeholder attribute and remove the value.
 . Select the second vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "Last name". Find the placeholder attribute and remove the value.
+
+NOTE: If your paper is wide, the text fields will line up horizontally. You can make the paper narrower by dragging its left or right edge. When the paper is narrow enough, the form fields will stack vertically.
 
 [#form-add-email-field]
 === Add the email field
@@ -205,9 +208,9 @@ image::form-create-design-finished.png[Finished form.]
 [#add-form-to-main-view]
 == Add the form to the main view
 
-We can go back to our main view and add it next to the Grid. You should have the main-view Design open in a second tab in Chrome. If you do not, reopen the main-view.js file again in IntelliJ.
+We can go back to our main view and add the contact form next to the Grid. You should have the main-view design open in a second tab in Chrome. If you do not, reopen the main-view.js file again in IntelliJ IDEA.
 
-In the palette, there should now be a secion called Project Components. Under it are listed other designs that you have created. By dragging from here, you can embed other designs into the one that is currently open.
+In the palette, there is now a section called Project Components. Under it are listed other designs that you have created. By dragging from there, you can embed other designs into the one that is currently open.
 
 . With main-view Designer open, locate contact-form in Project Components in the palette.
 . Drag contact-form on top of the second vaadin-horizontal-layout.
@@ -227,14 +230,13 @@ Now our layout is done.
 image::size-grid-and-form.png[Form embedded in main view.]
 
 [#add-route-to-main-view]
-== Add the route to the main view.
+== Add the route to the main view
 
 As we replaced the MainView with our own, it doesn't have a route annotation anymore. Let's add back the root route to point towards MainView.
 
-. Switch back to IntelliJ
+. Switch back to IntelliJ IDEA
 . Expand the package src/main/java/com.vaadin.tutorial.crm.ui and open the file MainView.
 . Add `@Route("")` annotation to the top MainView class.
-
 
 .`*MainView.java*`
 [source,java]
@@ -262,7 +264,7 @@ image::layout-finished-run-the-project.png[The application running in the browse
 [#java-connect]
 == Connect your view to Java 
 
-When building a view with Java, you have two main files per view. One is the template file main-view.js, where you lay out the components and define everything that is static. The other part is MainView.java, which uses the template and adds UI logic as well as configures all parts that are dynamic. We call this file as the companion file for the template. When creating the views before, in the "New Vaadin 10+ Design" dialog, we checked the field "Create Java Componanion file". That gave us the files MainView.java and ContactForm.java. Adding Java code to your views will not be visible in the template when run in Designer, but it will be used when you run your application.
+When building a view with Designer, you have two main files per view. One is the template file main-view.js, where you lay out the components and define everything that is static. The other part is MainView.java, which uses the template and adds UI logic as well as configures all parts that are dynamic. We call this file as the companion file for the template. When we created the views earlier in this tutorial, in the "New Vaadin 10+ Design" dialog, we checked the field "Create Java Componanion file". That gave us the files MainView.java and ContactForm.java. Adding Java code to your views will not be visible in the template when run in Designer, but it will be used when you run your application.
 
 For the main view, in the companion file, we need to
 
@@ -284,7 +286,7 @@ Let's start with loading data into the Grid.
 Next up we will export the components that needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the buttton for adding new contacts.
 
 . Open main-view in Designer.
-. Select the text field.
+. Select the "Filter by name..." text field.
 . In properties view, under the attributes panel, find the attribute id. Give the text field the id "filterText". This is what the component will be called in the Java companion file.
 . In the outline, hover your mouse above the selected vaadin-text-field. A button will appear on the same row to allow you to connect the component to Java. Click on the icon. The field is now available from Java code.
 . In the same way, select the button, give it an id called "addContactButton", and click on the connect icon.
@@ -292,7 +294,7 @@ Next up we will export the components that needs data or interaction to Java. Fo
 
 You should now have all the fields available from Java code. Let's go check it out.
 
-. Go back to IntelliJ.
+. Go back to IntelliJ IDEA.
 . Open up the class src/main/java/com.vaadin.tutorial.crm.ui.MainView.
 
 .`*MainView.java*`
@@ -348,30 +350,30 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     @Id("addContactButton")
     private Button addContactButton;
     @Id("grid")
-    private Grid<Contact> grid;
+    private Grid<Contact> grid; <1>
 
-    private ContactService contactService; <1>
+    private ContactService contactService; <2>
     /**
      * Creates a new MainView.
      */
 
-    public MainView(ContactService contactService) { <2>
-        this.contactService = contactService; <3>
+    public MainView(ContactService contactService) { <3>
+        this.contactService = contactService; <4>
         // You can initialise any data required for the connected UI components here.
-        grid.addColumn(Contact::getFirstName).setHeader("First name"); <4>
+        grid.addColumn(Contact::getFirstName).setHeader("First name"); <5>
         grid.addColumn(Contact::getLastName).setHeader("Last name");
         grid.addColumn(Contact::getEmail).setHeader("Email");
         grid.addColumn(Contact::getStatus).setHeader("Status");
-        grid.addColumn(contact -> {  <5>
+        grid.addColumn(contact -> {  <6>
             Company company = contact.getCompany();
             return company == null ? "-" : company.getName();
-        }).setHeader("Company")
-        grid.getColumns().forEach(col -> col.setAutoWidth(true)); <6>
+        }).setHeader("Company");
+        grid.getColumns().forEach(col -> col.setAutoWidth(true)); <7>
         updateList();
     }
 
     private void updateList() {
-        grid.setItems(contactService.findAll()); <7>
+        grid.setItems(contactService.findAll()); <8>
     }
 
     /**
@@ -382,13 +384,14 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     }
 }
 ----
-<1> A field for storing the service for future access
-<2> Spring passes in the service when the view is created
-<3> The passed reference to the service is stored in the field
-<4> Columns to grid are added and configured
-<5> A custom column is created for fetching the name of the company the contact belongs to.
-<6> All columns are configured to be sized based on the content of the columns
-<7> Items are fetched from the service and passed to the Grid
+<1> Add bean type as type parameter to the grid
+<2> A field for storing the service for future access
+<3> Spring passes in the service when the view is created
+<4> The passed reference to the service is stored in the field
+<5> Columns to grid are added and configured
+<6> A custom column is created for fetching the name of the company the contact belongs to.
+<7> All columns are configured to be sized based on the content of the columns
+<8> Items are fetched from the service and passed to the Grid
 
 Run the application. Now the Grid shows the contacts from the service.
 
@@ -397,7 +400,7 @@ image::grid-populated-run-the-project.png[Grid configured and populated with ite
 [#java-enable-filtering]
 === Enable filtering
 
-We would like to filter the grid based on first name and last name when the user types in a value in the textfield. For that, we need a value change listener to the textfield, and we need to pass the value of the text field to the contact service. The contact service and repository don't support filtering right now, so we need to add that support as well.
+We would like to filter the grid based on first name and last name when the user types in a value in the filter textfield. For that, we need a value change listener to the textfield, and we need to pass the value of the text field to the contact service. The contact service and repository don't support filtering right now, so we need to add that support as well.
 
 Let's start with changing MainView.
 
@@ -418,19 +421,20 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
         grid.addColumn(Contact::getLastName).setHeader("Last name");
         grid.addColumn(Contact::getEmail).setHeader("Email");
         grid.addColumn(Contact::getStatus).setHeader("Status");
-        grid.addColumn(contact -> {  <5>
+        grid.addColumn(contact -> {
             Company company = contact.getCompany();
             return company == null ? "-" : company.getName();
-        }).setHeader("Company")
+        }).setHeader("Company");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-        updateList();
 
-        filterText.setValueChangeMode(ValueChangeMode.LAZY); <1>
-        filterText.addValueChangeListener(e -> updateList()); <2>
+        updateList(); <1>
+
+        filterText.setValueChangeMode(ValueChangeMode.LAZY); <2>
+        filterText.addValueChangeListener(e -> updateList()); <3>
     }
 
     private void updateList() {
-        grid.setItems(contactService.findAll(filterText.getValue())); <3>
+        grid.setItems(contactService.findAll(filterText.getValue())); <4>
     }
 
     // Template model omitted
@@ -438,11 +442,12 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 }
 ----
 
-<1> Put text field value changes into lazy mode, so that we don't query the database on each keystroke
-<2> Add value change listener to text field that tells the grid items to be updated
-<3> Pass the value of the text field to the service findAll method. This will not compile yet as the method does not exist.
+<1> Extract the call to grid.setItems into a new method
+<2> Put text field value changes into lazy mode, so that we don't query the database on each keystroke
+<3> Add value change listener to text field that tells the grid items to be updated
+<4> Pass the value of the text field to the service findAll method. This will not compile yet as the method does not exist.
 
-Let's update the service to also accept a findAll method that also takes in a String as a filter.
+The contact service does not have a findAll method that takes a filter String as a parameter, so let's add one.
 
 .`*ContactService.java*`
 [source,java]
@@ -469,7 +474,6 @@ Finally, we need to add the method to search contacts to `ContactRepository`.
 [source,java]
 ----
 public interface ContactRepository extends JpaRepository<Contact, Long> {
-
     @Query("select c from Contact c " +
             "where lower(c.firstName) like lower(concat('%', :searchTerm, '%')) " +
             "or lower(c.lastName) like lower(concat('%', :searchTerm, '%'))")
