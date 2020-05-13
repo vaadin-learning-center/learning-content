@@ -1,0 +1,187 @@
+= Using OAuth 2  and Google Sign-in for a Vaadin 14 application
+
+:title: Using OAuth 2  and Google Sign-in for a Vaadin 14 application
+:authors: shadi
+:type: text
+:tags: Backend, Cloud, Deploy, Java
+:description: In this tutorial you’ll learn how to use Google Sign-in with OAuth 2 in a Vaadin Spring Boot starter. 
+:repo: https://github.com/shadikhani/GoogleLoginWithOAuth
+:linkattrs:
+:imagesdir: ./images
+
+Most web applications need an authentication mechanism. In this article, I create a simple example of how to use Google Sign-in with OAuth 2.
+
+Previously, Matti Tahvonen covered the topic in link:https://vaadin.com/blog/implementing-sign-in-with-google-s-oauth-2-services[Implementing sign-in with Google's OAuth 2 services], but that targets Vaadin 7. This post updates it for Vaadin 14. 
+
+I implement link:https://developers.google.com/identity/sign-in/web/server-side-flow[Google Sign-In] in a link:https://vaadin.com/start/v14[Vaadin Spring Boot starter] using Spring Security. Although OAuth 2 is not the simplest way to tackle authentication, the procedure is actually pretty straightforward. The end user can skip registration and password hassles, and you don’t need to worry about the security of your password-hashing algorithms. 
+
+To try my example, you need to create an application in the link:https://console.developers.google.com/[Google developer console]. 
+
+Then create a OAuth 2.0 Client ID in the *APIs & Services* > *Credentials* section. Also, remember to register a proper redirect URL for your development server (for example http://localhost:8080/).
+
+image::login-screen.png[Login screen]
+
+== Creating a Google OAuth 2.0 Client ID
+
+First, you need to sign in to link:https://console.developers.google.com/[Google APIs & Services console] and create an OAuth 2.0 Client ID for your web app in the Credentials area. You can find instructions on how to do this in link:https://developers.google.com/adwords/api/docs/guides/authentication[OAuth2 Authentication] in the Google documentation.
+
+Next, you need to register an authorized redirect URIs for your application. You can register localhost versions of your app URI to make development and debugging easier. However, when going to production, you need to use the final URI of your app. For example, the localhost version of the authorized redirect URI of my app is https://localhost:8080/login/oauth2/code/google. And, if I deploy it on Heroku, the URI will be https://myapp.herokuapp.com/login/oauth2/code/google. 
+
+== Adding Spring Security settings
+
+Spring Security facilitates the security of the application. To use a Spring Security OAUTH 2 client, I add the following dependency to my `pom.xml`. 
+
+.`*pom.xml*`
+[source,xml]
+----
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-oauth2-client</artifactId>
+</dependency>
+----
+Next, I add Google OAUTH 2 client settings (a client-id and client-secret), to my `application.properties` as follows:
+
+.`*application.properties*`
+[source,java]
+----
+spring.security.oauth2.client.registration.google.client-id=<your client id>
+spring.security.oauth2.client.registration.google.client-secret=<your client secret>
+----
+Finally, I do the rest of the Spring Security configuration in a Spring Configuration class like the following: 
+
+.`*SecurityConfiguration.java*`
+[source,java]
+----
+package com.vaadin.example;
+
+import com.vaadin.flow.server.ServletHelper;
+import com.vaadin.flow.shared.ApplicationConstants;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Stream;
+
+/**
+ * Configures Spring Security, doing the following:
+ * <li>Bypass security checks for static resources,</li>
+ * <li>Restrict access to the application, allowing only logged in users,</li>
+ * <li>Set up the login form,</li>
+ */
+@EnableWebSecurity
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private static final String LOGIN_URL = "/login";
+    private static final String LOGOUT_URL = "/logout";
+    private static final String LOGOUT_SUCCESS_URL = "/";
+
+    /**
+     * Registers our UserDetailsService and the password encoder to be used on
+     * login attempts.
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // @formatter:off
+        http
+
+            // Allow all flow internal requests.
+            .authorizeRequests().requestMatchers(SecurityConfiguration::isFrameworkInternalRequest).permitAll()
+
+            // Restrict access to our application.
+            .and().authorizeRequests().anyRequest().authenticated()
+
+            // Not using Spring CSRF here to be able to use plain HTML for the login page
+            .and().csrf().disable()
+
+            // Configure logout
+            .logout().logoutUrl(LOGOUT_URL).logoutSuccessUrl(LOGOUT_SUCCESS_URL)
+
+            // Configure the login page.
+            .and().oauth2Login().loginPage(LOGIN_URL).permitAll();
+        // @formatter:on
+    }
+
+    /**
+     * Allows access to static resources, bypassing Spring Security.
+     */
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers(
+                // client-side JS code
+                "/VAADIN/**",
+
+                // the standard favicon URI
+                "/favicon.ico",
+
+                // web application manifest
+                "/manifest.webmanifest", "/sw.js", "/offline-page.html",
+
+                // icons and images
+                "/icons/**", "/images/**");
+    }
+
+    /**
+     * Tests if the request is an internal framework request. The test consists
+     * of checking if the request parameter is present and if its value is
+     * consistent with any of the request types know.
+     *
+     * @param request
+     *            {@link HttpServletRequest}
+     * @return true if is an internal framework request. False otherwise.
+     */
+    static boolean isFrameworkInternalRequest(HttpServletRequest request) {
+        final String parameterValue = request
+                .getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
+        return parameterValue != null
+                && Stream.of(ServletHelper.RequestType.values()).anyMatch(
+                        r -> r.getIdentifier().equals(parameterValue));
+    }
+}
+----
+In the above code, I’ve included the address of the login page, the address of the page to which the user is directed after successful login, the logout address, as well as the resources that can be accessed without authentication, like the specified JavaScript and image files. 
+
+== Linking to Google Sign-in
+
+To add the Google sign-in form (/oauth2/authorization/google), I use an explicit link that the user should click to access the application. Spring Security redirects the user to the Google Authentication page. 
+
+.`*LoginScreen.java*`
+[source,java]
+----
+/**
+ * Adds an explicit link that the user has to click to login.
+ */
+@Route("login")
+@PageTitle("Login")
+public class LoginScreen extends FlexLayout {
+
+    private static final String URL = "/oauth2/authorization/google";
+
+    /**
+     * This methods gets the user into google sign in page.
+     */
+    public LoginScreen() {
+        Anchor googleLoginButton = new Anchor(URL, "Login with Google");
+        add(googleLoginButton);
+        setSizeFull();
+    }
+}
+----
+=== Adding a logout
+
+Spring Security has built-in support for a `/logout` endpoint, which will do what we want it to (clear the session and invalidate the cookie). 
+
+To configure the endpoint, I simply extend the existing `configure()` method in `WebSecurityConfigurerAdapter`:
+
+.`*Security.Configuration.java*`
+[source,java]
+----
+  // Configure logout
+            .logout().logoutUrl(LOGOUT_URL).logoutSuccessUrl(LOGOUT_SUCCESS_URL)
+----
+We can now identify the user and provide the correct user-specific data, without registration or worrying about low-quality passwords chosen by the end user.
+
+link:https://github.com/shadikhani/GoogleLoginWithOAuth[Check out the full example app on GitHub ]
