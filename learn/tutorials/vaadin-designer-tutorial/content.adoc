@@ -630,3 +630,33 @@ public class ContactForm extends PolymerTemplate<ContactForm.ContactFormModel> {
 If you run the application now, you'll see that when you select a contact the form will be opened. And, if you click on the selected contact, it becomes deselected and the form is closed. The form remains empty, though, because we didn't bind its fields to the given contact just yet. 
 
 Next, let's populate the form with the selected contact's details.
+
+=== Binding form fields to a Contact object
+
+To make the contact's details visible and editable in the form, we will need to bind the contact bean to the form. This can be done by using an object called binder. We'll use a validating binder that gives us simple validation based the member fields of the contact bean.
+
+First, let's add the binder and use it to bind the given contact's fields to the form.
+
+.`*ContactForm.java*`
+[source,java]
+----
+// Other fields omitted
+Binder<Contact> binder = new BeanValidationBinder<>(Contact.class); <1>
+
+public ContactForm() {
+    // You can initialise any data required for the connected UI components here.
+    binder.bindInstanceFields(this); <2>
+    // Rest of constructor omitted
+}
+
+public void setContact(Contact contact) {
+    binder.setBean(contact); <3>
+}
+----
+<1> BeanValidationBinder is a Binder that is aware of bean validation annotations. By passing it the Contact.class, we define the type of object we are binding to.
+<2> bindInstanceFields matches fields in Contact and ContactForm based on their names.
+<3> Set the given contact to the binder.
+
+The binder will look for fields in the Contact class and in ContactForm and bind those whose names match.
+
+WARNING: If you run the application now, the binder will throw an exception because it won't find a single field to bind to. We'll add the fields shortly using Designer.
