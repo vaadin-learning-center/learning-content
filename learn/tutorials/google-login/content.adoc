@@ -8,6 +8,7 @@
 :repo: https://github.com/shadikhani/GoogleLoginWithOAuth
 :linkattrs:
 :imagesdir: ./images
+:og_image: V14_Oauth_Google_Login.jpg
 
 Most web applications need an authentication mechanism. In this article, I create a simple example of how to use Google Sign-in with OAuth 2.
 
