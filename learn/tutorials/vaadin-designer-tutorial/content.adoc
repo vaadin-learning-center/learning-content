@@ -610,7 +610,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 <2> A new method to show or hide the form depending on whether there's a selection or not.
 <3> Pass the contact to the form. This is a new method that needs to be added to ContactForm.
 
-Let's add setContact method to ContactForm. It is a placeholder for now, and will be implemented in the next section.
+Let's add setContact method to ContactForm. For now, it is sufficient that the project compiles, so we'll leave the method empty. It will be implemented in the next section.
 
 .`*ContactForm.java*`
 [source,java]
@@ -637,7 +637,7 @@ Next, let's populate the form with the selected contact's details.
 
 To make the contact's details visible and editable in the form, we will need to bind the contact bean to the form. This can be done by using an object called binder. We'll use a validating binder that gives us simple validation based the member fields of the contact bean.
 
-First, let's add the binder and use it to bind the given contact's fields to the form.
+First, let's add the binder to the ContactForm class and use it to bind the given contact's fields to the form.
 
 .`*ContactForm.java*`
 [source,java]
@@ -646,9 +646,7 @@ First, let's add the binder and use it to bind the given contact's fields to the
 Binder<Contact> binder = new BeanValidationBinder<>(Contact.class); <1>
 
 public ContactForm() {
-    // You can initialise any data required for the connected UI components here.
     binder.bindInstanceFields(this); <2>
-    // Rest of constructor omitted
 }
 
 public void setContact(Contact contact) {
@@ -671,7 +669,7 @@ Next, let's add the fields that the binder can bind to.
 To make it possible for the binder to bind a contact bean's fields to the form fields, the fields must be present as members in the ContactForm class. We can add the fields to the class using Designer. We'll need to be careful with naming the fields because the binder works by matching the bean and field names. The bean contains fields called: firstName, lastName, email, company, and status. When we connect the fields from contact-form, we need to use these exact names.
 
 . Open contact-form in Designer
-. Connect the first name field with id "firstName" by select the field for first name, giving it the id "firstName" and connect it using the outline.
+. Connect the first name field with id "firstName" by selecting the field for first name, giving it the id "firstName" and connecting it using the outline.
 . Connect the last name field with id "lastName".
 . Connect the email field with id "email".
 . Connect the company field with id "company".
@@ -696,7 +694,7 @@ When done with Designer, you should have the following fields in the ContactForm
     private ComboBox<String> status;
 ----
 
-Now, this will again raise an exception when run, because the types of the combo boxes do not match the types in the Contact bean. Let's fix the types:
+Now, this will again raise an exception when run, because the types of the combo boxes do not match the types in the Contact bean. Let's fix the types by editing them directly in the Java file:
 
 .`*ContactForm.java*`
 [source,java]
@@ -707,18 +705,49 @@ Now, this will again raise an exception when run, because the types of the combo
     private ComboBox<Contact.Status> status;
 ----
 
-There's one more thing to fix, and that's the rendering of the value of the company field. Currently, the contact object is printed as the value of the combo box. Instead, we want to see the name of the company.
+There's a couple more things to fix. One is the texts you see in the company combo box. Currently, the contact object is printed as the value of the combo box. Instead of the object, we want to see the name of the company. The other issue is that the items in the combo boxes are yet to be set. We can get the companies from the CompanyService, and the statuses from the Status enumeration.
+
+Here's the full ContactForm class that implements the above changes.
 
 .`*ContactForm.java*`
 [source,java]
 ----
-    public ContactForm() {
-      // Omitted
+public class ContactForm extends PolymerTemplate<ContactForm.ContactFormModel> {
 
-      company.setItemLabelGenerator(Company::getName); 
+    Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
+    @Id("firstName")
+    private TextField firstName;
+    @Id("lastName")
+    private TextField lastName;
+    @Id("email")
+    private EmailField email;
+    @Id("company")
+    private ComboBox<Company> company;
+    @Id("status")
+    private ComboBox<Contact.Status> status;
+
+    public ContactForm(CompanyService companyService) { <1>
+        binder.bindInstanceFields(this);
+
+        company.setItems(companyService.findAll()); <2>
+        company.setItemLabelGenerator(Company::getName); <3>
+        status.setItems(Contact.Status.values()); <4>
     }
-----
 
-When the app is run now, there are no exceptions, and all form fields are filled correctly.
+    public void setContact(Contact contact) {
+        binder.setBean(contact);
+    }
+
+    // TemplateModel omitted
+}
+----
+<1> Add companyService as parameter. Spring framework will inject it here.
+<2> Set the company combo box items by getting them from the service.
+<3> Set item label generator so that we see company names in the combo box instead of company objects.
+<4> Set the items of the status combo box.
+
+When the app is run now, there are no exceptions, and all form fields are filled correctly, and items in the combo boxes are populated.
 
 image::form-populated-run-the-project.png[Form populated with the selected contact's details.]
+
+Next, we'll need to make the changes we make in the form to presist.
