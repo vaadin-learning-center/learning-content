@@ -482,3 +482,89 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 Run the application. Now the Grid is searchable based on name with the help of the text field.
 
 image::grid-filtered-run-the-project.png[Grid filtered based on text field contents.]
+
+[#java-contact-form]
+== Implement the contact form
+
+Now that the work with the grid is complete, let's turn our attention to the contact form.
+
+We want the following behaviour:
+. The form is hidden when it is not needed
+. The form can be used to add a new contact
+. The form can be used to edit or delete an existing contact
+
+Let's start by hiding the form.
+
+[#java-hiding-the-form]
+=== Hiding the form
+
+The MainView class knows when the form is needed. So, we'll use that to hide and show the form.
+
+First, we'll connect the form to the MainView class, and then call setVisible on the form to hide it.
+
+. Open main-view in Designer.
+. Select the contact form.
+. Give the contact form an id with value "form".
+. Click the java connection icon for contact-form in the outline.
+
+The contact form is now accessible from the MainView class.
+
+Now, open the MainView class and do the following changes to hide the form initially.
+
+.`*MainView.java*`
+[source,java]
+----
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
+
+    // Previous fields omitted
+
+    @Id("form")
+    private ContactForm form; <1>
+
+    public MainView(ContactService contactService) {
+      // Previous lines omitted
+
+      closeEditor(); <2>
+    }
+
+    private void closeEditor() { <3>
+      form.setVisible(false);
+    }
+
+    // Rest of the class omitted
+}
+----
+
+<1> Field created by Designer.
+<2> Call closeEditor on the last line of constructor to initially hide the form.
+<3> A new method that calls setVisible to close the form.
+
+WARNING: Unfortunately, a https://github.com/vaadin/flow/issues/8256[bug] prevents setVisible from working correctly in our case. A workaround is presented below. Without the workaround, the form won't be hidden.
+
+To work around the https://github.com/vaadin/flow/issues/8256[bug]:
+. Open contact-form.js in IntelliJ IDEA.
+. Edit the source by adding the following CSS rule into the style element.
+
+.`*contact-form.js*`
+[source,javascript]
+----
+    static get template() {
+        return html`
+<style include="shared-styles">
+                :host {
+                    display: block;
+                    height: 100%;
+                }
+                /* Workaround for https://github.com/vaadin/flow/issues/8256 */
+                :host([hidden]) { <1>
+                  display: none !important;
+                }
+            </style>
+`;
+    }
+----
+<1> CSS that will be applied when the hidden attribute is present on the contact-form element.
+
+Now, the contact form will be hidden when the application is started.
+
+image::form-hidden-run-the-project.png[Form hidden when initially starting the application.]
