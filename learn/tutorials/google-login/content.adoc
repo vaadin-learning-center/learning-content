@@ -3,7 +3,7 @@
 :title: Using OAuth 2  and Google Sign-in for a Vaadin 14 application
 :authors: shadi
 :type: text
-:tags: Backend, Cloud, Deploy, Java
+:tags: Java, Security, Spring Boot
 :description: In this tutorial you’ll learn how to use Google Sign-in with OAuth 2 in a Vaadin Spring Boot starter. 
 :repo: https://github.com/shadikhani/GoogleLoginWithOAuth
 :linkattrs:
