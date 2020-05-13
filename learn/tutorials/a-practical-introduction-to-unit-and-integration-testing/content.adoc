@@ -1,7 +1,7 @@
 = A practical introduction to unit and integration testing
 
 :type: text
-:tags: Testbench, Testing, jUnit5,
+:tags: Testbench, Testing, jUnit5
 :description: Learn the basics of unit and integration testing using JUnit, Mockito, and Vaadin Test Bench.
 :repo:
 :linkattrs:
