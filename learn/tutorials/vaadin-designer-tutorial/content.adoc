@@ -174,7 +174,7 @@ Our form component will have:
 . Select the first vaadin-text-field in the design. In the properties view, go to the attributes panel. Find the label attribute and replace the text with "First name". Find the placeholder attribute and remove the value.
 . Select the second vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "Last name". Find the placeholder attribute and remove the value.
 
-NOTE: If your paper is wide, the text fields will line up horizontally. You can make the paper narrower by dragging its left or right edge. When the paper is narrow enough, the form fields will stack vertically.
+NOTE: If your paper is wide, the text fields will line up horizontally. You can make the paper narrower by dragging its left or right edge. When the paper is narrow enough, the form fields will stack vertically. This behaviour comes from vaadin-form-layout which, by default, arranges its fields into one or two columns depending on its width.
 
 [#form-add-email-field]
 === Add the email field
