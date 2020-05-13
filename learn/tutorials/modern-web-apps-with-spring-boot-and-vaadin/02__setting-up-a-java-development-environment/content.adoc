@@ -12,6 +12,8 @@ ifndef::print[:imagesdir: ./images]
 
 Before you can start developing your Java app, you need to install the necessary development tools and set up your development environment. 
 
+TIP: You can skip to link:/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[chapter 4] if you prefer to code using the online IDE.
+
 For web app development in Java, you need a: 
 
 * *Java Development Kit (JDK)*: This is the foundation of your Java development environment. It contains the various tools required to develop a working Java application. Chief among them are the Java Runtime Environment (JRE), which allows you to run a Java application and the Java compiler.
