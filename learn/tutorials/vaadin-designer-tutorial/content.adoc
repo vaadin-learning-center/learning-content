@@ -571,6 +571,7 @@ image::form-hidden-run-the-project.png[Form hidden when initially starting the a
 
 Next, we'll open the form when a contact is selected in the grid, and pass that contact to the form.
 
+[#java-open-form-with-selected]
 == Opening the form with selected contact
 
 When the user clicks on a contact in the grid, the contact becomes selected. At that point, we want to open the form and fill the form with the contact's data. Let's start by listening for selection event in the grid, and in the event, passing the contact to the form.
@@ -631,7 +632,8 @@ If you run the application now, you'll see that when you select a contact the fo
 
 Next, let's populate the form with the selected contact's details.
 
-=== Binding form fields to a Contact object
+[#java-add-binder-to-contact-form]
+=== Adding a binder
 
 To make the contact's details visible and editable in the form, we will need to bind the contact bean to the form. This can be done by using an object called binder. We'll use a validating binder that gives us simple validation based the member fields of the contact bean.
 
@@ -660,3 +662,63 @@ public void setContact(Contact contact) {
 The binder will look for fields in the Contact class and in ContactForm and bind those whose names match.
 
 WARNING: If you run the application now, the binder will throw an exception because it won't find a single field to bind to. We'll add the fields shortly using Designer.
+
+Next, let's add the fields that the binder can bind to.
+
+[#java-connect-contact-form-fields]
+== Connecting the fields from contact-form
+
+To make it possible for the binder to bind a contact bean's fields to the form fields, the fields must be present as members in the ContactForm class. We can add the fields to the class using Designer. We'll need to be careful with naming the fields because the binder works by matching the bean and field names. The bean contains fields called: firstName, lastName, email, company, and status. When we connect the fields from contact-form, we need to use these exact names.
+
+. Open contact-form in Designer
+. Connect the first name field with id "firstName" by select the field for first name, giving it the id "firstName" and connect it using the outline.
+. Connect the last name field with id "lastName".
+. Connect the email field with id "email".
+. Connect the company field with id "company".
+. Connect the status field with id "status".
+
+image::form-connect-fields-designer.png[Connect the form fields in Designer.]
+
+When done with Designer, you should have the following fields in the ContactForm class:
+
+.`*ContactForm.java*`
+[source,java]
+----
+    @Id("firstName")
+    private TextField firstName;
+    @Id("lastName")
+    private TextField lastName;
+    @Id("email")
+    private EmailField email;
+    @Id("company")
+    private ComboBox<String> company;
+    @Id("status")
+    private ComboBox<String> status;
+----
+
+Now, this will again raise an exception when run, because the types of the combo boxes do not match the types in the Contact bean. Let's fix the types:
+
+.`*ContactForm.java*`
+[source,java]
+----
+    @Id("company")
+    private ComboBox<Company> company;
+    @Id("status")
+    private ComboBox<Contact.Status> status;
+----
+
+There's one more thing to fix, and that's the rendering of the value of the company field. Currently, the contact object is printed as the value of the combo box. Instead, we want to see the name of the company.
+
+.`*ContactForm.java*`
+[source,java]
+----
+    public ContactForm() {
+      // Omitted
+
+      company.setItemLabelGenerator(Company::getName); 
+    }
+----
+
+When the app is run now, there are no exceptions, and all form fields are filled correctly.
+
+image::form-populated-run-the-project.png[Form populated with the selected contact's details.]
