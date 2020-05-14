@@ -883,6 +883,11 @@ Add the following changes to MainView to handle the contact form events, as well
         updateList();
         closeEditor();
     }
+
+    private void closeEditor() {
+        form.setVisible(false);
+        grid.asSingleSelect().clear(); <7>
+    }
 ----
 <1> Call saveContact when save event received from the contact form.
 <2> Call deleteContact when delete event received from the contact form.
@@ -890,5 +895,6 @@ Add the following changes to MainView to handle the contact form events, as well
 <4> Handle add button click by opening the form with a new Contact object.
 <5> A new method to save the contact to the service, refresh the grid, and close the form.
 <6> A new method to delete the contact to the service, refresh the grid, and close the form.
+<7> Clear selection when closing from the form to keep behaviour consistent.
 
 Now, the functionality of the application in this tutorial is complete.
