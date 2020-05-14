@@ -758,10 +758,12 @@ So far, we've only displayed existing contact data in the application without th
 
 In this section, we'll make adding and modifying contacts work.
 
-First, let's make the Save, Delete and Close buttons work in the contact form. To add functionality to the buttons, we'll need to make them available in the ContactForm class.
+First, let's make the Save, Delete and Close buttons work in the contact form. To add functionality to the buttons, we'll first need to make them available in the ContactForm class using Designer.
 
 . Open contact-form in Designer
-. Give the three buttons id's "save", "delete", and "close", and connect them using the outline.
+. Select the save button. Give it the id "save", and connect using the outline.
+. Select the delete button. Give it the id "delete", and connect using the outline.
+. Select the close button. Give it the id "close", and connect using the outline.
 
 Now you've added the following fields to ContactForm.
 
@@ -780,7 +782,7 @@ When any of the above buttons is pressed, we want to execute the corresponding a
 
 Vaadin comes with an event-handling system for components. We’ve already used it to listen to value-change events from the filter text field. We want the form component to have a similar way of letting MainView know what is happening in the form.
 
-To do this, add the following at the end of the ContactForm class:
+To do this, add the following event definitions at the end of the ContactForm class:
 
 .`*ContactForm.java*`
 [source,java]
@@ -824,7 +826,7 @@ public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType
 }
 ----
 <1> ContactFormEvent is a common superclass for all the events. It contains the contact that was edited or deleted.
-<2> The addListener method uses Vaadin’s event bus to register the custom event types. Select the com.vaadin import for Registration if IntelliJ asks.
+<2> The addListener method uses Vaadin’s event bus to register the custom event types. Select the com.vaadin import for Registration if IntelliJ IDEA asks.
 
 With the above events, we can now implement the click listeners. Add the following to the ContactForm class:
 
@@ -855,7 +857,7 @@ With the above events, we can now implement the click listeners. Add the followi
 
 Now, the events are sent. Next, we'll need to listen to and handle them in MainView.
 
-Add the following changes to MainView to handle the events:
+Add the following changes to MainView to handle the contact form events, as well as the still missing "add contact" button click:
 
 .`*MainView.java*`
 [source,java]
@@ -889,4 +891,4 @@ Add the following changes to MainView to handle the events:
 <5> A new method to save the contact to the service, refresh the grid, and close the form.
 <6> A new method to delete the contact to the service, refresh the grid, and close the form.
 
-Now, the functionality of the application is ready.
+Now, the functionality of the application in this tutorial is complete.
