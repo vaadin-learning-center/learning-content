@@ -750,7 +750,7 @@ When the app is run now, there are no exceptions, and all form fields are filled
 
 image::form-populated-run-the-project.png[Form populated with the selected contact's details.]
 
-Next, we'll need to make the changes we make in the form to presist.
+Next, we'll need to make the changes we make in the form to persist.
 
 == Adding, saving and deleting contacts
 
