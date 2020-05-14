@@ -750,4 +750,151 @@ When the app is run now, there are no exceptions, and all form fields are filled
 
 image::form-populated-run-the-project.png[Form populated with the selected contact's details.]
 
-Next, we'll need to make the changes we make in the form to presist.
+Next, we'll need to make the changes we make in the form to persist.
+
+== Adding, saving and deleting contacts
+
+So far, we've only displayed existing contact data in the application without the ability to add or modify them.
+
+In this section, we'll make adding and modifying contacts work.
+
+First, let's make the Save, Delete and Close buttons work in the contact form. To add functionality to the buttons, we'll first need to make them available in the ContactForm class using Designer.
+
+. Open contact-form in Designer
+. Select the save button. Give it the id "save", and connect using the outline.
+. Select the delete button. Give it the id "delete", and connect using the outline.
+. Select the close button. Give it the id "close", and connect using the outline.
+
+Now you've added the following fields to ContactForm.
+
+.`*ContactForm.java*`
+[source,java]
+----
+    @Id("save")
+    private Button save;
+    @Id("delete")
+    private Button delete;
+    @Id("close")
+    private Button close;
+----
+
+When any of the above buttons is pressed, we want to execute the corresponding action. In order to not add a circular dependency between MainView and ContactForm, and to keep ContactForm reusable, we'll make ContactForm to send an event on a button press. MainView will capture the events and perform the actual actions.
+
+Vaadin comes with an event-handling system for components. We’ve already used it to listen to value-change events from the filter text field. We want the form component to have a similar way of letting MainView know what is happening in the form.
+
+To do this, add the following event definitions at the end of the ContactForm class:
+
+.`*ContactForm.java*`
+[source,java]
+----
+// Events
+public static abstract class ContactFormEvent extends ComponentEvent<ContactForm> {
+  private Contact contact;
+
+  protected ContactFormEvent(ContactForm source, Contact contact) { <1>
+    super(source, false);
+    this.contact = contact;
+  }
+
+  public Contact getContact() {
+    return contact;
+  }
+}
+
+public static class SaveEvent extends ContactFormEvent {
+  SaveEvent(ContactForm source, Contact contact) {
+    super(source, contact);
+  }
+}
+
+public static class DeleteEvent extends ContactFormEvent {
+  DeleteEvent(ContactForm source, Contact contact) {
+    super(source, contact);
+  }
+
+}
+
+public static class CloseEvent extends ContactFormEvent {
+  CloseEvent(ContactForm source) {
+    super(source, null);
+  }
+}
+
+public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
+    ComponentEventListener<T> listener) { <2>
+  return getEventBus().addListener(eventType, listener);
+}
+----
+<1> ContactFormEvent is a common superclass for all the events. It contains the contact that was edited or deleted.
+<2> The addListener method uses Vaadin’s event bus to register the custom event types. Select the com.vaadin import for Registration if IntelliJ IDEA asks.
+
+With the above events, we can now implement the click listeners. Add the following to the ContactForm class:
+
+.`*ContactForm.java*`
+[source,java]
+----
+    public ContactForm(CompanyService companyService) {
+        // Omitted
+
+        save.addClickListener(e -> validateAndSave()); <1>
+        delete.addClickListener(e -> fireEvent(new DeleteEvent(this, binder.getBean()))); <2>
+        close.addClickListener(e -> fireEvent(new CloseEvent(this))); <3>
+        
+        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid())); <4>
+    }
+
+    private void validateAndSave() {
+        if (binder.isValid()) { <5>
+            fireEvent(new SaveEvent(this, binder.getBean()));
+        }
+    }
+----
+<1> The save button calls the validateAndSave method
+<2> The delete button fires a delete event and passes the currently-edited contact.
+<3> The cancel button fires a close event.
+<4> Validates the form every time it changes. If it is invalid, it disables the save button to avoid invalid submissions.
+<5> Only fires a save event if the form is valid.
+
+Now, the events are sent. Next, we'll need to listen to and handle them in MainView.
+
+Add the following changes to MainView to handle the contact form events, as well as the still missing "add contact" button click:
+
+.`*MainView.java*`
+[source,java]
+----
+    public MainView(ContactService contactService) {
+        // omitted
+
+        form.addListener(ContactForm.SaveEvent.class, this::saveContact); <1>
+        form.addListener(ContactForm.DeleteEvent.class, this::deleteContact); <2>
+        form.addListener(ContactForm.CloseEvent.class, e -> closeEditor()); <3>
+
+        addContactButton.addClickListener(e -> editContact(new Contact())); <4>
+    }
+
+    private void saveContact(ContactForm.SaveEvent event) { <5>
+        contactService.save(event.getContact());
+        updateList();
+        closeEditor();
+    }
+
+    private void deleteContact(ContactForm.DeleteEvent event) { <6>
+        contactService.delete(event.getContact());
+        updateList();
+        closeEditor();
+    }
+
+    private void closeEditor() {
+        form.setVisible(false);
+        grid.asSingleSelect().clear(); <7>
+    }
+----
+<1> Call saveContact when save event received from the contact form.
+<2> Call deleteContact when delete event received from the contact form.
+<3> Close the form when close event received from the contact form.
+<4> Handle add button click by opening the form with a new Contact object.
+<5> A new method to save the contact to the service, refresh the grid, and close the form.
+<6> A new method to delete the contact to the service, refresh the grid, and close the form.
+<7> Clear selection when closing from the form to keep behaviour consistent.
+
+Now, the functionality of the application in this tutorial is complete.
