@@ -897,4 +897,13 @@ Add the following changes to MainView to handle the contact form events, as well
 <6> A new method to delete the contact to the service, refresh the grid, and close the form.
 <7> Clear selection when closing from the form to keep behaviour consistent.
 
-Now, the functionality of the application in this tutorial is complete.
+Congratulations, you have now completed the tutorial!
+
+You can find the complete source code of this tutorial on https://github.com/anssit/crm-tutorial/tree/designer-tutorial[GitHub].
+
+You can find more information about Vaadin Designer, Vaadin, and Spring Boot here:
+https://spring.io/projects/spring-boot#learn[Spring Boot documentation]
+https://vaadin.com/docs/index.html[Vaadin documentation]
+https://vaadin.com/docs/v14/designer/getting-started/designer-overview.html[Vaadin Designer documentation]
+
+Please let us know what you thought of the Vaadin Designer tutorial and if you have ideas for other Designer related topics you want us to cover. You can reach us on Twitter, through Vaadin Designer Help menu, or by posting a comment below.
