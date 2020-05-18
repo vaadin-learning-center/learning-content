@@ -899,7 +899,7 @@ Add the following changes to MainView to handle the contact form events, as well
 
 Congratulations, you have now completed the tutorial!
 
-You can find the complete source code of this tutorial on https://github.com/anssit/crm-tutorial/tree/designer-tutorial[GitHub].
+You can find the complete source code of this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/designer-tutorial[GitHub].
 
 You can find more information about Vaadin Designer, Vaadin, and Spring Boot here:
 https://spring.io/projects/spring-boot#learn[Spring Boot documentation]
