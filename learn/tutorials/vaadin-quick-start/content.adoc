@@ -137,12 +137,12 @@ vaadin-checkbox {
 Save all files, close the server and run the application again. The Button should now be blue, and the text for all CheckBoxes is bolded. 
 
 == Next steps
-- In a real application, you would have some backend and use the Vaadin data binding APIs. An example form with cross-field validation and form error handling can be found at [Vaadin Form Example](https://github.com/vaadin/vaadin-form-example)
-- Make a custom look and feel of your application [Application Theming Basics](https://vaadin.com/docs/flow/theme/application-theming-basics.html)
-- Once you have developed your app you want to deploy it somewhere. Further documentation on the topic can be found at the official documentation [Deploying Vaadin Applications](https://vaadin.com/docs/flow/production/tutorial-production-mode-basic.html)
+- In a real application, you would have some backend and use the Vaadin data binding APIs. An example form with cross-field validation and form error handling can be found at link:https://github.com/vaadin/vaadin-form-example[Vaadin Form Example]
+- Make a custom look and feel of your application link:https://vaadin.com/docs/flow/theme/application-theming-basics.html[Application Theming Basics]
+- Once you have developed your app you want to deploy it somewhere. Further documentation on the topic can be found at the official documentation link:https://vaadin.com/docs/flow/production/tutorial-production-mode-basic.html[Deploying Vaadin Applications]
 
 These topics and many more are covered in our documentation, tutorials and video courses:
 
-- [Core concepts](https://vaadin.com/docs/flow/introduction/introduction-concepts.html)
+- link:https://vaadin.com/docs/flow/introduction/introduction-concepts.html[Core concepts]
 - link:/learn/tutorials/getting-started-with-flow[CRUD application tutorial] 
 - link:/learn/training[Free online video course covering Vaadin basics]
