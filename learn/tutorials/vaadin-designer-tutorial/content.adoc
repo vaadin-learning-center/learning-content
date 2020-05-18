@@ -99,8 +99,8 @@ We can note that at the root of the view we need a vertical layout. At the top i
 [#add-the-components]
 === Adding all the components
 . On the paper, click on "Vertical" to get a vertical layout as your starting point. Your view constists now of an empty layout.
-. Find "Horizontal Layout Spacing" in the palette. Drag it twice on top of the vaadin-vertical-layout on the paper.
-. Find "Vaadin Text Field" in the palette.  An easy way to find components is to use the search field at the top of the palette. Drag "Vaadin Text Field" on top of the *first* vaadin-horizontal-layout.
+. Find "Horizontal Layout Spacing" in the palette. An easy way to find components is to use the search field at the top of the palette. Drag it twice on top of the vaadin-vertical-layout on the paper.
+. Find "Vaadin Text Field" in the palette.  Drag "Vaadin Text Field" on top of the *first* vaadin-horizontal-layout.
 . Find "Button" in the palette.  Drag "Button" on top of the *first* vaadin-horizontal-layout.
 . Find "vaadin-grid" in the palette. Drag it on top of the *second* vaadin-horizontal-layout.
 
