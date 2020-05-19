@@ -58,7 +58,7 @@ With IntelliJ IDEA running and a project available, we can take our first steps 
 
 . Delete the file MainView.java in src/main/java/com/vaadin/tutorial/crm/ui
 . In the Project tree, expand the frontend/src folder
-. Right click on the frontend/src folder, and select New > Directory. Give the directory name "views" and press ok.
+. Right click on the frontend/src folder, and select New > Directory. Give the new directory the name "views".
 . Right click on the newly created view folder, select New > Vaadin 10+ Design.
 . Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
 . In the "Java package" field, press the folder selection button and navigate to com.vaadin.tutorial.crm.ui.
