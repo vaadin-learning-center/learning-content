@@ -65,9 +65,9 @@ With IntelliJ IDEA running and a project available, we can take our first steps 
 . In the "Name" field, type `main-view`.
 . Press ok to generate the files.
 
-Designer opens up in Google Chrome.
+image::create-view.png[Creating the main view.]
 
-// video::create-first-view.mp4[]
+Designer opens up in Google Chrome.
 
 [#getting-familiar-with-the-ui]
 == Getting familiar with the UI
