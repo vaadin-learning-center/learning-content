@@ -12,9 +12,9 @@ Vaadin Designer is a commercial tool included as part of the Vaadin Pro, Prime, 
 
 In this tutorial, you learn how to build an application with Vaadin Designer, including how to create new views, layout components, adjust CSS, and integrate the views to the backend. This is a hands-on tutorial, so you can read the explanation and follow the steps to build the same application.
 
-NOTE: Designer needs a trial or subscription. When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details. 
+NOTE: Designer needs a trial or subscription. When you open Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details.
 
-*If you already have an active subscription or ongoing trial:* When you open up Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials. 
+*If you already have an active subscription or ongoing trial:* When you open Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials.
 
 [#set-up-development-environment]
 == Setting up a Java development environment
@@ -34,7 +34,7 @@ Vaadin Designer is a plug-in for your Integrated development environment (IDE). 
 [#install-chrome]
 == Installing Google Chrome
 
-When you open up a design file with Designer, the source code is shown in the IDE, while the visual editor opens up in the Chrome browser. If you do not have Chrome installed, follow https://www.google.com/chrome/[the instructions to install it on your computer].
+When you open a design file with Designer, the source code is shown in the IDE, while the visual editor opens up in the Chrome browser. If you do not have Chrome installed, follow https://www.google.com/chrome/[the instructions to install it on your computer].
 
 [#set-up-vaadin-project]
 == Set up a Vaadin project
@@ -58,16 +58,19 @@ With IntelliJ IDEA running and a project available, we can take our first steps 
 
 . Delete the file MainView.java in src/main/java/com/vaadin/tutorial/crm/ui
 . In the Project tree, expand the frontend/src folder
-. Right click on the frontend/src folder, and select New > Directory. Give the directory name "views" and press ok.
+. Right click on the frontend/src folder, and select New > Directory. Give the new directory the name "views".
 . Right click on the newly created view folder, select New > Vaadin 10+ Design.
 . Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
 . In the "Java package" field, press the folder selection button and navigate to com.vaadin.tutorial.crm.ui.
 . In the "Name" field, type `main-view`.
-. Press ok to generate the files.
 
-Designer opens up in Google Chrome.
+Now, the "New Vaadin 10+ design" dialog should look as in the following image.
 
-// video::create-first-view.mp4[]
+image::create-view.png[Creating the main view.]
+
+Press OK to generate the files.
+
+Next, Vaadin Designer will open in Google Chrome.
 
 [#getting-familiar-with-the-ui]
 == Getting familiar with the UI
@@ -99,8 +102,8 @@ We can note that at the root of the view we need a vertical layout. At the top i
 [#add-the-components]
 === Adding all the components
 . On the paper, click on "Vertical" to get a vertical layout as your starting point. Your view constists now of an empty layout.
-. Find "Horizontal Layout Spacing" in the palette. Drag it twice on top of the vaadin-vertical-layout on the paper.
-. Find "Vaadin Text Field" in the palette.  An easy way to find components is to use the search field at the top of the palette. Drag "Vaadin Text Field" on top of the *first* vaadin-horizontal-layout.
+. Find "Horizontal Layout Spacing" in the palette. An easy way to find components is to use the search field at the top of the palette. Drag it twice on top of the vaadin-vertical-layout on the paper.
+. Find "Vaadin Text Field" in the palette.  Drag "Vaadin Text Field" on top of the *first* vaadin-horizontal-layout.
 . Find "Button" in the palette.  Drag "Button" on top of the *first* vaadin-horizontal-layout.
 . Find "vaadin-grid" in the palette. Drag it on top of the *second* vaadin-horizontal-layout.
 
@@ -238,6 +241,8 @@ As we replaced the MainView with our own, it doesn't have a route annotation any
 . Expand the package src/main/java/com.vaadin.tutorial.crm.ui and open the file MainView.
 . Add `@Route("")` annotation to the top MainView class.
 
+Our MainView class should now look like this:
+
 .`*MainView.java*`
 [source,java]
 ----
@@ -295,7 +300,7 @@ Next up we will export the components that needs data or interaction to Java. Fo
 You should now have all the fields available from Java code. Let's go check it out.
 
 . Go back to IntelliJ IDEA.
-. Open up the class src/main/java/com.vaadin.tutorial.crm.ui.MainView.
+. Open the class src/main/java/com.vaadin.tutorial.crm.ui.MainView.
 
 .`*MainView.java*`
 [source,java]
@@ -899,7 +904,7 @@ Add the following changes to MainView to handle the contact form events, as well
 
 Congratulations, you have now completed the tutorial!
 
-You can find the complete source code of this tutorial on https://github.com/anssit/crm-tutorial/tree/designer-tutorial[GitHub].
+You can find the complete source code of this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/designer-tutorial[GitHub].
 
 You can find more information about Vaadin Designer, Vaadin, and Spring Boot here:
 https://spring.io/projects/spring-boot#learn[Spring Boot documentation]
