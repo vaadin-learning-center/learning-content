@@ -238,6 +238,8 @@ As we replaced the MainView with our own, it doesn't have a route annotation any
 . Expand the package src/main/java/com.vaadin.tutorial.crm.ui and open the file MainView.
 . Add `@Route("")` annotation to the top MainView class.
 
+Our MainView class should now look like this:
+
 .`*MainView.java*`
 [source,java]
 ----
