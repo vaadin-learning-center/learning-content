@@ -283,10 +283,10 @@ image:application_status.png[application status]
 Clicking on *Visit App URL* will show you the app’s website:
 +
 image:finished_app.png[finished application]
-====
+
 by Barbaros Özdemir
 
 For questions about deployments on IBM Cloud please feel free to contact barbaros.oezdemir@at.ibm.com
-====
+
 _Thank you Barbaros Özdemir from IBM for authoring the tutorial!_
 
