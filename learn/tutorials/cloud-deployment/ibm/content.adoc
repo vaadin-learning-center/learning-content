@@ -10,7 +10,7 @@
 :imagesdir: ./images
 :og_image: cloud_deployment_featured_image_IBM.png
 
-This tutorial shows how to deploy a Java web application to IBM Cloud. You can upload a Cloud foundry application to IBM Cloud for free. More details on the IBM web page https://www.ibm.com/cloud/free
+This tutorial shows how to deploy a Java web application to IBM Cloud. You can upload a Cloud foundry application to IBM Cloud for free. More details on the IBM web page https://www.ibm.com/cloud/free.
 
 You can deploy the application directly from your command line or from a GitHub repository as a CI pipeline. Skip to “Option 2” after the prerequisites, if you prefer to only set up the latter.
 
@@ -26,7 +26,7 @@ image::vaadin_website.png[vaadin website]
 +
 . Click on *GET STARTED*.
 +
-image:download_starter.png[download starter]
+image::download_starter.png[download starter]
 +
 . Pick any of the three technology stacks, download the project and follow the instructions on the right to import the Vaadin project into your IDE (e.g. Eclipse).
 . Once you have imported your project you will need to build it in production mode (i.e. run `mvn clean package -Pproduction`). For more details please have a look at https://vaadin.com/docs/flow/production/tutorial-production-mode-basic.html.
@@ -41,15 +41,15 @@ To create an IBMid:
 
 . Go to https://myibm.ibm.com and click on *Create an IBMid*.
 +
-image:ibm_login.png[ibm login]
+image::ibm_login.png[ibm login]
 +
 . Create your IBMid by filling in the details.
 +
-image:create_ibm_account.png[create ibm account]
+image::create_ibm_account.png[create ibm account]
 +
 . Then use your IBMid to sign in on IBM Cloud at https://cloud.ibm.com.
 +
-image:ibmid_login.png[ibmid login]
+image::ibmid_login.png[ibmid login]
 +
 NOTE: You can deploy 1 CF (Cloud Foundry Application) with a free account.
 
@@ -57,17 +57,17 @@ To create a CF Organization and space:
 
 . select *Manage* *→* *Account*.
 +
-image:manage_account.png[manage account]
+image::manage_account.png[manage account]
 +
 . Click on *Cloud Foundry Orgs* in the *Account* window.
 . Create a Cloud Foundry organization (e.g. “Vaadin14”) and a space (e.g. “dev”) in one of the regions listed (e.g. “US South”). Note that the Cloud Foundry organization name must be unique.
 +
-image:create_new_cf.png[create new cf]
+image::create_new_cf.png[create new cf]
 
 
 When you return to your IBM Cloud Dashboard you should be able to see the Cloud Foundry Organization and its space(s).
 
-image:resource_list.png[resource list]
+image::resource_list.png[resource list]
 
 Please note that you can do these steps alternatively by using CF or IBM Cloud CLI only, e.g. you might use following CF CLI commands to login to the region US South and create an organization and space:
 
@@ -123,7 +123,7 @@ Once you are logged in you are ready for the final step before pushing your appl
 
 . Navigate to the root folder of your Vaadin project and create a new file `manifest.yml`. Open the `manifest.yml` file and enter your desired application name, number of instances you want to deploy, amount of memory you want to provide for each instance, the cloud foundry buildpack you want to use and the path to your `.war` or `.jar` file similar as shown below:
 +
-image:manifest.png[manifest file]
+image::manifest.png[manifest file]
 +
 Please note that you can give less than 2G memory for your application, i.e. 528M. Once you are done you can proceed to the final step to deploy your application on IBM Cloud.
 
@@ -169,7 +169,7 @@ This is an alternative way to deploy your application which will allow you to pu
 
 . Provision a Continuous Delivery service on IBM Cloud by clicking on *Catalog* and selecting the service.
 +
-image:provision_cd.png[provision a cd]
+image::provision_cd.png[provision a cd]
 +
 TIP: You can also use the search field to find the service you are looking for.
 +
@@ -177,7 +177,7 @@ TIP: You can also use the search field to find the service you are looking for.
 +
 In this tutorial "Dallas" (i.e. "US South") has been selected.
 +
-image:region.png[region selection]
+image::region.png[region selection]
 
 === Create a Toolchain
 
@@ -187,46 +187,46 @@ You can create a Toolchain by:
 
 . Selecting your Continuous Delivery service from *Resource List* on *Dashboard* and clicking on *Getting Started*.
 +
-image:toolchain_start.png[toolchain getting started]
+image::toolchain_start.png[toolchain getting started]
 +
 . At this point you will have the option to create a toolchain or view existing toolchains. Click on *view existing toolchains* (or click on *create a toolchain* if you want to skip the overview of toolchains).
 +
-image:toolchains_view.png[toolchains view]
+image::toolchains_view.png[toolchains view]
 +
 TIP: If you haven’t created a dedicated "Resource Group" for your project, you can create one by visiting your *Dashboard (IBM Cloud)* *→* *Manage* *→* *Account* *→* *Resource Groups*.
 +
 . Next, you will be able to pick the "Resource Group" and the "Location" for your toolchain. Click on *Create toolchain*.
 +
-image:create_toolchain.png[create toolchain]
+image::create_toolchain.png[create toolchain]
 +
 . Scroll down the page until you see *Other templates*.
 +
-image:templates.png[toolchain templates]
+image::templates.png[toolchain templates]
 +
 . Select *Build your own toolchain*.
 +
-image:build_toolchain.png[build toolchain]
+image::build_toolchain.png[build toolchain]
 +
 . Give your toolchain a name, select a region, a resource group and click on *Create*.
 
 === Configure tools
-image:add_tool.png[add tool]
+image::add_tool.png[add tool]
 
 You will need two tools: “Git Repos and Issue Tracking” -which is a Gitlab clone on IBM Cloud- and “Delivery Pipeline”.
 
-image:tools.png[tools]
+image::tools.png[tools]
 
 . First, add the git repository and make sure that *Track deployment of code changes* is checked.
 +
-image:add_git.png[add git]
+image::add_git.png[add git]
 +
 . You can provision a private git repository on IBM Cloud for free. Next you need to provision a *Delivery Pipeline*.
 +
-image:configure_pipeline.png[configure pipeline]
+image::configure_pipeline.png[configure pipeline]
 +
 After provisioning both tools, your toolchain should be looking like this:
 +
-image:toolchain.png[toolchain]
+image::toolchain.png[toolchain]
 
 === Deploy your application
 
@@ -237,7 +237,7 @@ Now, you need to push your Vaadin 14 project to the git repository.
 . You will need to create a new “Stage”.
 The “Input” of the Stage will be automatically filled with information from the Git repository you added to your toolchain. Make sure that you configure the “Build” Job as shown below and save. This will be your “BuildStage”.
 +
-image:build_stage.png[build stage]
+image::build_stage.png[build stage]
 +
 Here is the Deploy script:
 +
@@ -252,7 +252,7 @@ echo $(ls)
 +
 . Next you need to create a new stage “DeployStage”. The input will be automatically configured as Build artifacts from the previous stage. Configure the “Deploy” Job similar as shown below:
 +
-image:deploy_stage.png[deploy]
+image::deploy_stage.png[deploy]
 +
 Here is the Deploy script:
 +
@@ -274,15 +274,15 @@ cf push
 +
 . Finally, click on the *Play* icon and run the stage.
 +
-image:run_stage.png[run stage]
+image::run_stage.png[run stage]
 +
 After successful deployment when you click on *View console* you will be forwarded to deployment page of the application, where you can check its status:
 +
-image:application_status.png[application status]
+image::application_status.png[application status]
 +
 Clicking on *Visit App URL* will show you the app’s website:
 +
-image:finished_app.png[finished application]
+image::finished_app.png[finished application]
 
 by Barbaros Özdemir
 
