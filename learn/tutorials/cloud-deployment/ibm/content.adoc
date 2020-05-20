@@ -287,6 +287,6 @@ image:finished_app.png[finished application]
 by Barbaros Özdemir
 
 For questions about deployments on IBM Cloud please feel free to contact barbaros.oezdemir@at.ibm.com
-
+====
 _Thank you Barbaros Özdemir from IBM for authoring the tutorial!_
 
