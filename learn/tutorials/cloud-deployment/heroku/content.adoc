@@ -11,7 +11,7 @@
 :imagesdir: ./images
 :og_image: cloud_deployment_featured_image.png
 
-This tutorial shows how to deploy a Java web application to the Heroku cloud. Heroku provides free cloud deployment for up to 5 applications. However, due to their automatic dyno restarts, this platform is best suited to quick demo uploads, rather than full production deployments. You can find more information about this on their https://devcenter.heroku.com/articles/dynos#automatic-dyno-restarts[website].
+This tutorial shows how to deploy a Java web application to the Heroku cloud. Heroku provides free cloud deployment for up to 5 applications. However, due to their automatic dyno restarts, this platform is best suited to quick demo uploads, rather than full production deployments of Vaadin applications. You can find more information about this on their https://devcenter.heroku.com/articles/dynos#automatic-dyno-restarts[website].
 
 We use the latest https://vaadin.com/start/latest[Spring Boot starter app] in our example. You can see the example app running on the Heroku cloud https://starter-vaadin.herokuapp.com/[here]. 
 
