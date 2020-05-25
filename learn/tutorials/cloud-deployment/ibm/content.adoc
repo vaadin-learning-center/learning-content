@@ -49,7 +49,7 @@ image::create_ibm_account.png[create ibm account]
 +
 . Then use your IBMid to sign in on IBM Cloud at https://cloud.ibm.com.
 +
-image::ibmid_login.png[ibmid login]
+image::IBM_cloud_login.png[ibmid login]
 +
 NOTE: You can deploy 1 CF (Cloud Foundry Application) with a free account.
 
