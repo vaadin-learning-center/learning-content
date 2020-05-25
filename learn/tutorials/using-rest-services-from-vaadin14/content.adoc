@@ -1,6 +1,6 @@
 = Consuming REST services from Java applications
 
-:tags: Java, REST
+:tags: Java, REST, Flow
 :author: Thomas Mattsson
 :description: Learn how to call REST services in Vaadin 14 apps and Convert the REST response to Java objects.
 :repo: https://github.com/vaadin/vaadin-rest-example
@@ -12,7 +12,7 @@ Using REST services is still the de-facto way of providing data to traditional f
 
 A typical mistake among us Java developers is to do-it-all by ourselves. One way to do this by hand is to do a URL.openStream(), read the response into a string and parse data from the string manually. Completely possible and quite easy even with core JDK libraries; but there are much better ways to do this.
 
-The Java ecosystem has lots of excellent libraries, many really well-designed standards and often even multiple competing implementations for them. A link:/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[previous version of this blog post] highlighted https://jax-rs-spec.java.net/[JAX-RS], for example. Nowadays most Java web apps are based on Spring, so that is what we will use as an example here.
+The Java ecosystem has lots of excellent libraries, many really well-designed standards and often even multiple competing implementations for them. A link:/consuming-rest-services-from-java-applications[previous version of this blog post] highlighted https://jax-rs-spec.java.net/[JAX-RS], for example. Nowadays most Java web apps are based on Spring, so that is what we will use as an example here.
 
 My https://github.com/vaadin/vaadin-rest-example[example application] is a small Spring Boot application that collects data from various REST services and displays them in the browser using a very simple Vaadin UI. You can also download the example from https://vaadin.com/start/v14[our start page]. The real meat of the example is by no means specific to Spring Boot or even Vaadin, but they’ll let us avoid a lot of boilerplate code to focus on the essential stuff. In particular, we’ll use the https://docs.spring.io/spring-boot/docs/2.0.3.RELEASE/reference/html/boot-features-webclient.html[WebClient API] that lets us call external REST services and use the results in any way we need.
 
@@ -21,7 +21,7 @@ The process can be broken down into three steps: Model, Process, and Consume.
 == Step 1: Model the data
 Most commonly your service provides its data in a JSON format. Unless the responses are really trivial (e.g. lists of strings), you generally don’t save time by accessing them directly. While using low-level APIs or a map based representation for JSON is possible, going that way doesn’t really improve the readability of your code. Sometimes it is possible to get your hands on the original Java model they use at the providing end, but reverse engineering POJO data transfer objects (DTOs) from both XML and JSON is fast and dead simple as well.
 
-Smaller models can be reverse engineered manually in no time, but tooling can improve your productivity a lot in this step. To generate https://github.com/mstahv/consuming-rest-apis/tree/master/src/main/java/org/example/domain[the model] for a REST response you can use an excellent online service, http://www.jsonschema2pojo.org/[www.jsonschema2pojo.org]. All you do is copy-paste an example JSON response from the service, adapt the checkboxes for your needs, and copy the generated artifacts to your project. In many cases with well-crafted data, proper naming conventions are enough to get a usable model. The underlying tools used by the service are also available for https://github.com/joelittlejohn/jsonschema2pojo/wiki/Getting-Started[local usage].
+Smaller models can be reverse engineered manually in no time, but tooling can improve your productivity a lot in this step. To generate the model for a REST response you can use an excellent online service, http://www.jsonschema2pojo.org/[www.jsonschema2pojo.org]. All you do is copy-paste an example JSON response from the service, adapt the checkboxes for your needs, and copy the generated artifacts to your project. In many cases with well-crafted data, proper naming conventions are enough to get a usable model. The underlying tools used by the service are also available for https://github.com/joelittlejohn/jsonschema2pojo/wiki/Getting-Started[local usage].
 
 In some cases generating a static model won’t be possible; maybe the data structure is dynamic and depends on the input. Instead of trying to generate dynamic Java class structures, it might be easier to just use the raw JSON of the response. You can find an example of this in the example application as well.
 
