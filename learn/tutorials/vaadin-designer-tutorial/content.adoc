@@ -649,7 +649,7 @@ Next, let's populate the form with the selected contact's details.
 [#java-add-binder-to-contact-form]
 === Adding a binder
 
-To make the contact's details visible and editable in the form, we will need to bind the contact bean to the form. This can be done by using an object called binder. We'll use a validating binder that gives us simple validation based the member fields of the contact bean.
+To make the contact's details visible and editable in the form, we will need to bind the contact bean to the form. This can be done by using a binder object. We'll use a validating binder that gives us simple validation based the member fields of the contact bean.
 
 First, let's add the binder to the ContactForm class and use it to bind the given contact's fields to the form.
 
