@@ -43,7 +43,7 @@ The first step in any development project is to set up a project and get it runn
 
 Follow chapters 3-5 in the tutorial to get the project that we will continue using with Vaadin Designer.
 
-. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/setting-up-a-java-development-environment[Chatper 3: Importing, running, and debugging Maven projects in IntelliJ IDEA]
+. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/importing-running-and-debugging-a-java-maven-project-in-intellij-idea[Chapter 3: Importing, running, and debugging Maven projects in IntelliJ IDEA]
 . https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[Chapter 4: Vaadin basics: building UIs with components and layouts]
 . https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/spring-boot-backend-database-jpa-repositories-services[Chapter 5: Creating a Spring Boot backend: database, JPA repositories, and services]
 
