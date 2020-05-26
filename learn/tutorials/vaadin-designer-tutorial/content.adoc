@@ -49,8 +49,6 @@ Follow chapters 3-5 in the tutorial to get the project that we will continue usi
 
 Alternatively, if you want to skip following the Vaadin tutorial, and continue with the Vaadin Designer tutorial, you can download the end result of Chapter 5 directly. You can https://github.com/vaadin-learning-center/crm-tutorial/archive/03-database-and-backend.zip[download the project as a zip from GitHub].
 
-
-
 [#start-building]
 == Start building the application
 
@@ -260,9 +258,18 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
 Let's run the project and see how the new layout looks like.
 
-. Build the project build either pressing the green hammer in the top right, or by selecting Build -> Build Project from the menu.
-. If you do not have the server running anymore, run the application by pressing the green bug in the top right, or by selecting Run -> Debug 'Application' from the menu.
-. Point your browser towards http://localhost:8080/ to see the result.
+The easiest way to run the project for the first time is to:
+
+. Open the Application Java class in src/main/java/com/vaadin/tutorial/crm/Application.java
+. Click the green play button next to the line that starts with "public class Application".
++
+image::running-the-app-for-the-first-time.png[Running the project from the Application class.]
+
+This will start the application, as well as automatically add a run configuration for it into IntelliJ IDEA. Later, when you want to run or restart the application, you can build, run/restart, stop and debug the application from IDEA's toolbar:
+
+image::intellij-toolbar-run-configurations.png[Running the project from the toolbar.]
+
+When the build is finished, and the application is running, point your browser towards http://localhost:8080/ to see the result.
 
 image::layout-finished-run-the-project.png[The application running in the browser.]
 
@@ -401,7 +408,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 <7> All columns are configured to be sized based on the content of the columns
 <8> Items are fetched from the service and passed to the Grid
 
-Run the application. Now the Grid shows the contacts from the service.
+Now, <<#layout-finished-run-the-project, run the application>>, or if it was already running, restart it. The Grid shows the contacts from the service.
 
 image::grid-populated-run-the-project.png[Grid configured and populated with items from the service.]
 
