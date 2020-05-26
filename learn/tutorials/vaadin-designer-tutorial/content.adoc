@@ -288,9 +288,9 @@ Let's start with loading data into the Grid.
 [#java-export-components]
 === Export components to Java
 
-Next up we will export the components that needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the buttton for adding new contacts.
+Next up we will export the components that needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the button for adding new contacts.
 
-. Open main-view in Designer.
+. Open main-view.js in Designer.
 . Select the "Filter by name..." text field.
 . In properties view, under the attributes panel, find the attribute id. Give the text field the id "filterText". This is what the component will be called in the Java companion file.
 . In the outline, hover your mouse above the selected vaadin-text-field. A button will appear on the same row to allow you to connect the component to Java. Click on the icon. The field is now available from Java code.
