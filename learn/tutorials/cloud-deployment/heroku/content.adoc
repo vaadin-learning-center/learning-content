@@ -29,10 +29,8 @@ You can deploy the application directly from your command line or from a GitHub 
 
 A JAR (Java Archive) is a package file that merges Java class files and associated metadata and resources, such as text and images, into one distributable file. This is the default file format for your Vaadin app if you created it on https://vaadin.com/start. 
 
-To upload the `.jar` to the Heroku cloud:
+To generate a `.jar` file from the downloaded project:
 
-. Install the https://devcenter.heroku.com/articles/heroku-cli#download-and-install[Heroku CLI] and login to your Heroku dashboard.
-. Install the Java CLI plugin by running the `heroku plugins:install java` command in your terminal.
 . Download and open the starter project from http://vaadin.com/start/latest. Select *Spring Boot* as the technology stack and fill the *Maven Group ID* and *Project Name* as you see fit (or leave them at the defaults).
 +
 image::download-starter.png[Download starter app]
@@ -57,6 +55,8 @@ image::new-app-heroku.png[Create new app]
 +
 image::app-name-and-region.png[App name and region]
 +
+. Install the https://devcenter.heroku.com/articles/heroku-cli#download-and-install[Heroku CLI] and login to your Heroku dashboard `heroku login`.
+. Install the Java CLI plugin by running the `heroku plugins:install java` command in your terminal.
 . Deploy the JAR file using the `heroku deploy:jar my-app.jar --app APP_NAME` command. Replace `my-app.jar` with your actual filename.
 . Check the URL of the deployed app under *Domains*: https://dashboard.heroku.com/apps/APP_NAME/settings. The application should be running there.
 +
@@ -64,6 +64,8 @@ image::domain-name.png[Application URL]
 
 ==== To create and deploy an application using the Java CLI plugin:
 
+. Install the https://devcenter.heroku.com/articles/heroku-cli#download-and-install[Heroku CLI] and login to your Heroku dashboard `heroku login`.
+. Install the Java CLI plugin by running the `heroku plugins:install java` command in your terminal.
 . Run the ‘heroku create APP_NAME` command.
 . Deploy the JAR file using the `heroku deploy:jar my-app.jar --app APP_NAME` command. Replace `my-app.jar` with your actual filename.
 . Open the app using the `heroku open --app APP_NAME` command. 
@@ -106,32 +108,32 @@ You can deploy an application directly from a GitHub repository instead of uploa
 [source,xml]
 ----
 <profile>
-            <id>npm</id>
-            <build>
-                <plugins>
-                 <plugin>
-                    <groupId>com.github.eirslett</groupId>
-                    <artifactId>frontend-maven-plugin</artifactId>
-                    <!-- Use the latest released version:
-                    https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-                    <version>1.9.1</version>
-                    <executions>
-                        <execution>
-                            <id>install node and npm</id>
-                            <goals>
-                                <goal>install-node-and-npm</goal>
-                            </goals>
-                            <!-- optional: default phase is "generate-resources" -->
-                            <phase>generate-resources</phase>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <nodeVersion>v12.13.0</nodeVersion>
-                    </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+  <id>npm</id>
+  <build>
+      <plugins>
+       <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <!-- Use the latest released version:
+          https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+          <version>1.9.1</version>
+          <executions>
+              <execution>
+                  <id>install node and npm</id>
+                  <goals>
+                      <goal>install-node-and-npm</goal>
+                  </goals>
+                  <!-- optional: default phase is "generate-resources" -->
+                  <phase>generate-resources</phase>
+              </execution>
+          </executions>
+          <configuration>
+              <nodeVersion>v12.13.0</nodeVersion>
+          </configuration>
+          </plugin>
+      </plugins>
+  </build>
+</profile>
 ----
 +
 . Create a new file `Procfile` (without a file extension) in the root directory of your application and add the following content. This file tells Heroku what to run on startup. 
