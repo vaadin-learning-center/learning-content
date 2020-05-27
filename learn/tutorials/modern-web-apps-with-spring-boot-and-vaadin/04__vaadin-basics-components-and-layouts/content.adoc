@@ -16,6 +16,8 @@ In this chapter we introduce you to core Vaadin concepts and get our project rea
 
 You can download the completed source code at the bottom. The code from the previous tutorial chapter can be found https://github.com/vaadin-learning-center/crm-tutorial/tree/01-project-import[here], if you want to jump directly into this chapter.
 
+TIP: If you prefer to use a drag and drop editor to build the UI, check out the link:https://vaadin.com/learn/tutorials/vaadin-designer-tutorial[Vaadin Designer] version of this tutorial.
+
 ifndef::print[]
 https://gitpod.io/#https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/01-project-import[Open in online IDE^, role="button button--bordered"]
 
