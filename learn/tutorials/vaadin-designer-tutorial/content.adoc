@@ -8,142 +8,160 @@
 :imagesdir: ./images
 :related_tutorials:
 
-Vaadin Designer is a commercial tool included as part of the Vaadin Pro, Prime, and Enterprise subscriptions. We offer a free 14 day trial for our commercial products. You do not need to give any credit card information to be able to start a trial. 
+NOTE: Vaadin Designer is a commercial tool included in Vaadin Pro, Prime, and Enterprise subscriptions. We offer a free, 14-day trial for our commercial products and you do not need to provide any credit card information to get started. 
 
-In this tutorial, you learn how to build an application with Vaadin Designer, including how to create new views, layout components, adjust CSS, and integrate the views to the backend. This is a hands-on tutorial, so you can read the explanation and follow the steps to build the same application.
+In this tutorial, you learn how to build an application with Vaadin Designer, including how to create new views, create layout components, adjust CSS, and integrate views with the backend. This is a hands-on tutorial, so you can read the explanations and follow the steps to build the same application.
 
-NOTE: Designer needs a trial or subscription. When you open Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details.
+When you open Vaadin Designer the first time, you need to log in to vaadin.com to validate your license:
 
-*If you already have an active subscription or ongoing trial:* When you open Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials.
+* If you do not have an active subsciption or trial: Click *Start free trial* and log in with your credentials. This will give you access to Vaadin Designer, as well as other useful development tools, such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details.
+
+* If you have an active subscription or trial: Click *Have a subscription?* and log in with your credentials.
 
 [#set-up-development-environment]
 == Setting up a Java development environment
 
-Before you can start developing your Java app, you need to install the necessary tools and set up your development environment. You can follow the tutorial https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/setting-up-a-java-development-environment[Building Modern Web Apps with Spring Boot and Vaadin - Setting up a Java development environment] to get your Java development environment in place.
+Before you can start developing your Java app, you need to install the necessary tools and set up your development environment. 
 
-If you already have a working Java development environment, including a JDK, Maven, Git, Node.js, and an IDE, you can skip this step and proceed to set up a Vaadin project. This tutorial expects that you are using IntelliJ IDEA, but everything is available for Eclipse as well.
+If you need to set up your Java development environment, follow the steps in the https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/setting-up-a-java-development-environment[Building Modern Web Apps with Spring Boot and Vaadin - Setting up a Java development environment] tutorial.
+
+If you already have a working Java development environment, including a JDK, Maven, Git, Node.js, and an IDE, you can skip this step and proceed to set up a Vaadin project. The tutorial uses IntelliJ IDEA, but everything demonstrated is also available in Eclipse.
 
 [#install-designer]
 == Installing Vaadin Designer
 
-Vaadin Designer is a plug-in for your Integrated development environment (IDE). It exists for both IntelliJ IDEA and Eclipse. You can follow the instructions below on how to install the plug-in. If you followed the "Setting up a Java development environment" tutorial above, then you have the IntelliJ IDEA as your IDE.
+Vaadin Designer is a plug-in for your integrated development environment (IDE). It is available for both IntelliJ IDEA and Eclipse. 
+
+Follow the instructions below to install the plug-in in your IDE: 
 
 * https://vaadin.com/docs/v14/designer/getting-started/designer-installing-idea.html[Installing Vaadin Designer in IntelliJ IDEA]
 * https://vaadin.com/docs/v14/designer/getting-started/designer-installing-eclipse.html[Installing Vaadin Designer in Eclipse]
 
+TIP: If you followed the tutorial mentioned in the previous section to set up your environment, you will have installed IntelliJ IDEA as your IDE.
+
 [#install-chrome]
 == Installing Google Chrome
 
-When you open a design file with Designer, the source code is shown in the IDE, while the visual editor opens up in the Chrome browser. If you do not have Chrome installed, follow https://www.google.com/chrome/[the instructions to install it on your computer].
+When you open a design file with Designer, the source code shows in your IDE, while the visual editor opens up in the Chrome browser. If you do not have Chrome, follow https://www.google.com/chrome/[these instructions] to install it on your computer.
 
 [#set-up-vaadin-project]
 == Set up a Vaadin project
 
-The first step in any development project is to set up a project and get it running. The tutorial https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Building Modern Web Apps with Spring Boot and Vaadin], chapters 3-5, shows you how to get a Vaadin project up and running on your computer, ready to be developed further.
+The first step in any development project is to set up a project and get it running. When this is done, we will continue using the project with Vaadin Designer.  
 
-Follow chapters 3-5 in the tutorial to get the project that we will continue using with Vaadin Designer.
+Follow chapters 3-5 of the https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Building Modern Web Apps with Spring Boot and Vaadin] guide to set up a Vaadin project: 
 
 . https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/importing-running-and-debugging-a-java-maven-project-in-intellij-idea[Chapter 3: Importing, running, and debugging Maven projects in IntelliJ IDEA]
 . https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[Chapter 4: Vaadin basics: building UIs with components and layouts]
 . https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/spring-boot-backend-database-jpa-repositories-services[Chapter 5: Creating a Spring Boot backend: database, JPA repositories, and services]
 
-Alternatively, if you want to skip following the Vaadin tutorial, and continue with the Vaadin Designer tutorial, you can download the end result of Chapter 5 directly. You can https://github.com/vaadin-learning-center/crm-tutorial/archive/03-database-and-backend.zip[download the project as a zip from GitHub].
+As an alternative, you can skip the steps above and download the end result of Chapter 5 directly: https://github.com/vaadin-learning-center/crm-tutorial/archive/03-database-and-backend.zip[download the project as a zip from GitHub].
 
 [#start-building]
 == Start building the application
 
-With IntelliJ IDEA running and a project available, we can take our first steps towards building our first views with Designer.
+Now that you have IntelliJ IDEA running and a project available, we can take start building our first view with Designer.
 
-. Delete the file `MainView.java` in `src/main/java/com/vaadin/tutorial/crm/ui`
-. In the Project tree, expand the `frontend/src` folder
-. Right click on the `frontend/src` folder, and select New > Directory. Give the new directory the name `views`.
-. Right click on the newly created view folder, select New > Vaadin 10+ Design.
-. Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
-. In the "Java package" field, press the folder selection button and navigate to `com.vaadin.tutorial.crm.ui`.
-. In the "Name" field, type `main-view`.
+To do this:
 
-Now, the "New Vaadin 10+ design" dialog should look as in the following image.
+. Delete `MainView.java` in `src/main/java/com/vaadin/tutorial/crm/ui`.
+. In the Project tree, expand the `frontend/src` folder.
+. Right click the `frontend/src` folder and select *New > Directory*. Name the new folder `views`.
+. Right click the newly-created `views` folder and select *New > Vaadin 10+ Design*.
+. Check the *Create Java companion file* checkbox. This allows us to bind data and add listners in Java to our view. 
+. In the *Java package* field, click the folder selection button and navigate to `com.vaadin.tutorial.crm.ui`.
+. In the *Name* field, type `main-view`.
+
+The *New Vaadin 10+ design* dialog should now look like this.
 
 image::create-view.png[Creating the main view.]
 
-Press OK to generate the files.
+Click *OK* to generate the files.
 
-Next, Vaadin Designer will open in Google Chrome.
+Vaadin Designer will open in Google Chrome.
 
 [#getting-familiar-with-the-ui]
 == Getting familiar with the UI
-Designer consists of four main parts: paper, palette, outline and properties.
+Designer consists of four main parts:
 
-*Paper* is where the UI you are building is rendered. It shows you what your view will look like. Before you have any components added to your view, the paper will propose a set of starting points for your newly created view.
+* *Paper* is where the UI you are building renders. It shows you what your view will look like. Before you add components to your view, the paper proposes a set of starting points for your newly-created view.
 
-*Palette* is a list of components that you have available for use. The list is divided in multiple sections:
+* *Palette* is a list of components that are available for use. The list is divided into multiple sections:
 
-- HTML elements are the built in elements of the HTML language, like `<p>`, `<h1>` and `<div>`.
-- Parts is a list of all the web components available in your project. These are scanned from the node_modules folder in your project automatically. If you add a new 3rd party web component to your project, it will show up in the parts list and be available for use.
-- Components are snippets for Vaadin's components that give you handy commonly used configurations, like having a button with an icon and caption. 
-- Project components are the other designs in your project. You can include them into your current view.
-- Patterns are preconfigured view parts  
+- HTML elements are the built-in elements of the HTML language, like `<p>`, `<h1>` and `<div>`.
+- Parts is a list of all available web components in your project. These are scanned automatically from the `node_modules` folder in your project. When you add new 3rd-party web components to your project, they show up in the list and are available for use.
+- Components are snippets for Vaadin's components that give you handy, commonly-used configurations, like having a button with an icon and caption. 
+- Project components are the other designs in your project. You can include them in your current view.
+- Patterns are preconfigured view parts.  
 
-*Outline* shows you what components are in use in the view as well as their hierarchy.
+* *Outline* shows you what components are in use in the view and their hierarchy.
 
-*Properties* is where you modify how a single component will look and behave.
+* *Properties* is where you modify how a single component looks and behaves.
 
 [#create-the-main-layout]
 == Creating the main layout
+This is the layout that we will build.
 
 image::app-complete.png[A web application with a listing of contacts and an editor open.]
 
-This is the layout that we are going to build.
+From the image, you can see we need:
 
-We can note that at the root of the view we need a vertical layout. At the top is a horizontal layout with a text field for filtering as well as a button to add new entries. Below we have a horizontal layout for a grid of data entries and a form. Let's disregard the form for now, as we will will build it separately, and add the rest of the components to the view.
+* A vertical layout at the root of the view.
+* A horizontal layout with a text field for filtering, as well as a button to add new entries, at the top. 
+* A horizontal layout for a grid of data entries and a form below. 
+
+We'll disregard the form for now, as we will build it separately after adding the other components to the view.
 
 [#add-the-components]
-=== Adding all the components
-. On the paper, click on "Vertical" to get a vertical layout as your starting point. Your view constists now of an empty layout.
-. Find "Horizontal Layout Spacing" in the palette. An easy way to find components is to use the search field at the top of the palette. Drag it twice on top of the vaadin-vertical-layout on the paper.
-. Find "Vaadin Text Field" in the palette.  Drag "Vaadin Text Field" on top of the *first* vaadin-horizontal-layout.
-. Find "Button" in the palette.  Drag "Button" on top of the *first* vaadin-horizontal-layout.
-. Find "vaadin-grid" in the palette. Drag it on top of the *second* vaadin-horizontal-layout.
+=== Adding the components
+
+To add the components:
+
+. On the paper, click *Vertical* to get a vertical layout as your starting point. Your view now constists of an empty layout.
+. Find *Horizontal Layout Spacing* in the palette and drag it onto the vaadin-vertical-layout on the paper twice. You can use the search field at the top to find components easily.
+. Find *Vaadin Text Field* in the palette and drag it onto the *first* vaadin-horizontal-layout.
+. Find *Button* in the palette and drag it onto the *first* vaadin-horizontal-layout.
+. Find *vaadin-grid* in the palette and drag it onto the *second* vaadin-horizontal-layout.
 
 image::adding-all-the-components.png[Components added to the view.]
 
-Our view is not looking like planned yet, but it has the components we need. Let's continue with configuring the components to look correct.
+Our view does not look as planned yet, but it does have the components we need. We'll now continue to configure the components to get it looking like we want.
 
 [#configure-main-layout]
 === Configuring the main layout
-For the main layout, we want to add a bit of space between the components as well as around the layout to make it look nicer. 
+In the main layout, we need to add a bit of space between the components, as well as around the layout, to make it look better: 
 
-. Select the top level layout, by clicking on any of the empty space of the vertical layout.
-. In the properties view, under Size and space panel, find the padding selector and select "M". This will add some space around the main layout, letting the design breath a bit.
-. In the same panel, open the spacing selector and select "M". This will add space between the toolbar and the grid.
+. Select the top-level layout, by clicking anywhere in the empty space of the vertical layout.
+. In the properties view, in the *Size and space* panel, open the *Padding* selector and select *M*. This adds some space around the main layout, giving the design room to "breath".
+. In the same panel, open the *Spacing* selector and select *M*. This adds space between the toolbar and the grid.
 
 image::configuring-the-main-layout.png[Spacing and padding added to the main layout.]
 
 [#configure-toolbar]
 === Configuring the toolbar
-For the toolbar, we have to configure the texts to be correct. 
+For the toolbar, we need to configure a text field: 
 
 . Select the text field.
-. In the properties view, under attributes, find the attribute called "label". Remove the value from it. We do not have a separate label as we have the description as the placeholder value for the field.
-. In the properties view, under attributes, find the placeholder attribute. Remove the "Placeholder" value and replace it with "Filter by name..."
-. In the properties view, under attributes, find the clear-button-visible attribute. Enable the checkbox. This will give the users an easy way to clear the filter.
+. In the properties view, under attributes, find the *label* attribute and remove the value from it. We do not need a separate label as we have the description as the placeholder value for the field.
+. In the properties view, under attributes, find the placeholder attribute and replace "Placeholder" with "Filter by name...".
+. In the properties view, under attributes, find the clear-button-visible attribute and enable the checkbox. This gives the user an easy way to clear the filter.
 . Select the button.
-. In the properties view, find the text panel at the top. Remove the default text "Button" and replace it with "Add contact".
+. In the properties view, find the text panel at the top and replace the default "Button" text with "Add contact".
 
 image::configuring-the-toolbar.png[Toolbar has the correct texts.]
 
 [#space-for-grid]
-=== Make the Grid take all the space available
-We want to give the Grid the rest of the screen space, to show as much data as possible.
+=== Make the Grid fill all the available space
+To show as much data as possible, we want to give the Grid the rest of the screen space:
 
 . Select the lower horizontal layout, vaadin-horizontal-layout. 
-. In the properties view, under Size and space panel, find the width and height fields. Choose "100%" in both of them to expand the layout to take all the space available.
+. In the properties view, in the *Size and space* panel find the width and height fields and choose "100%" in both. This expands the layout to take all the available space.
 . Select the Grid, vaadin-grid.
-. In the properties view, under Size and space panel, put width and height fields to "100%" to give all the space from the layout to the grid.
+. In the properties view, in the *Size and space* panel set the width and height fields to "100%". This gives all the space in the layout to the grid.
 
 image::space-for-grid.png[Toolbar has the correct texts.]
 
-Now our main layout looks great, but it is still missing the form.
+Our main layout is now looking great, but it is still missing the form.
 
 [#create-form]
 == Creating the form
