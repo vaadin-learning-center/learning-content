@@ -8,238 +8,254 @@
 :imagesdir: ./images
 :related_tutorials:
 
-Vaadin Designer is a commercial tool included as part of the Vaadin Pro, Prime, and Enterprise subscriptions. We offer a free 14 day trial for our commercial products. You do not need to give any credit card information to be able to start a trial. 
+NOTE: Vaadin Designer is a commercial tool included in Vaadin Pro, Prime, and Enterprise subscriptions. We offer a free, 14-day trial for our commercial products and you do not need to provide any credit card information to get started. 
 
-In this tutorial, you learn how to build an application with Vaadin Designer, including how to create new views, layout components, adjust CSS, and integrate the views to the backend. This is a hands-on tutorial, so you can read the explanation and follow the steps to build the same application.
+In this tutorial, you learn how to build an application with Vaadin Designer, including how to create new views, create layout components, adjust CSS, and integrate views with the backend. This is a hands-on tutorial, so you can read the explanations and follow the steps to build the same application.
 
-NOTE: Designer needs a trial or subscription. When you open Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Start free trial" button and log in with your credentials. The trial includes access to Vaadin Designer, along with some other useful development tools such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details.
+When you open Vaadin Designer the first time, you need to log in to vaadin.com to validate your license:
 
-*If you already have an active subscription or ongoing trial:* When you open Designer the first time, Designer requests you to log into vaadin.com to validate the license. Press the "Have a subscription?" button and log in with your credentials.
+* If you do not have an active subsciption or trial: Click *Start free trial* and log in with your credentials. This will give you access to Vaadin Designer, as well as other useful development tools, such as TestBench, Charts, CRUD, Grid Pro, and more. See the https://vaadin.com/pricing[pricing page] for more details.
+
+* If you have an active subscription or trial: Click *Have a subscription?* and log in with your credentials.
 
 [#set-up-development-environment]
 == Setting up a Java development environment
 
-Before you can start developing your Java app, you need to install the necessary tools and set up your development environment. You can follow the tutorial https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/setting-up-a-java-development-environment[Building Modern Web Apps with Spring Boot and Vaadin - Setting up a Java development environment] to get your Java development environment in place.
+Before you can start developing your Java app, you need to install the necessary tools and set up your development environment. 
 
-If you already have a working Java development environment, including a JDK, Maven, Git, Node.js, and an IDE, you can skip this step and proceed to set up a Vaadin project. This tutorial expects that you are using IntelliJ IDEA, but everything is available for Eclipse as well.
+If you need to set up your Java development environment from scratch, follow the steps in the https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/setting-up-a-java-development-environment[Building Modern Web Apps with Spring Boot and Vaadin - Setting up a Java development environment] tutorial.
+
+If you already have a working Java development environment, including a JDK, Maven, Git, Node.js, and an IDE, you can skip this step and proceed to set up a Vaadin project. The tutorial uses IntelliJ IDEA, but everything demonstrated is also available in Eclipse.
 
 [#install-designer]
 == Installing Vaadin Designer
 
-Vaadin Designer is a plug-in for your Integrated development environment (IDE). It exists for both IntelliJ IDEA and Eclipse. You can follow the instructions below on how to install the plug-in. If you followed the "Setting up a Java development environment" tutorial above, then you have the IntelliJ IDEA as your IDE.
+Vaadin Designer is a plug-in for your integrated development environment (IDE). It is available for both IntelliJ IDEA and Eclipse. 
 
-* https://vaadin.com/docs/v14/designer/getting-started/designer-installing-idea.html[Installing Vaadin Designer in IntelliJ IDEA]
-* https://vaadin.com/docs/v14/designer/getting-started/designer-installing-eclipse.html[Installing Vaadin Designer in Eclipse]
+Follow the instructions below to install the plug-in in your IDE: 
+
+* https://vaadin.com/docs/v14/designer/getting-started/designer-installing-idea.html[Installing Vaadin Designer in IntelliJ IDEA].
+* https://vaadin.com/docs/v14/designer/getting-started/designer-installing-eclipse.html[Installing Vaadin Designer in Eclipse].
+
+TIP: If you followed the tutorial mentioned in the previous section to set up your environment, you will have installed IntelliJ IDEA as your IDE.
 
 [#install-chrome]
 == Installing Google Chrome
 
-When you open a design file with Designer, the source code is shown in the IDE, while the visual editor opens up in the Chrome browser. If you do not have Chrome installed, follow https://www.google.com/chrome/[the instructions to install it on your computer].
+When you open a design file with Designer, the source code shows in your IDE, while the visual editor opens up in the Chrome browser. If you do not have Chrome, follow https://www.google.com/chrome/[these instructions] to install it on your computer.
 
 [#set-up-vaadin-project]
-== Set up a Vaadin project
+== Setting up a Vaadin project
 
-The first step in any development project is to set up a project and get it running. The tutorial https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Building Modern Web Apps with Spring Boot and Vaadin], chapters 3-5, shows you how to get a Vaadin project up and running on your computer, ready to be developed further.
+The first step in any development project is to set up a project and get it running. When this is done, we will continue using the project with Vaadin Designer.  
 
-Follow chapters 3-5 in the tutorial to get the project that we will continue using with Vaadin Designer.
+Follow chapters 3-5 of the https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Building Modern Web Apps with Spring Boot and Vaadin] guide to set up a Vaadin project: 
 
 . https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/importing-running-and-debugging-a-java-maven-project-in-intellij-idea[Chapter 3: Importing, running, and debugging Maven projects in IntelliJ IDEA]
 . https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[Chapter 4: Vaadin basics: building UIs with components and layouts]
 . https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/spring-boot-backend-database-jpa-repositories-services[Chapter 5: Creating a Spring Boot backend: database, JPA repositories, and services]
 
-Alternatively, if you want to skip following the Vaadin tutorial, and continue with the Vaadin Designer tutorial, you can download the end result of Chapter 5 directly. You can https://github.com/vaadin-learning-center/crm-tutorial/archive/03-database-and-backend.zip[download the project as a zip from GitHub].
+As an alternative, you can skip the steps above and download the end result of Chapter 5 directly: https://github.com/vaadin-learning-center/crm-tutorial/archive/03-database-and-backend.zip[download the project as a zip from GitHub].
 
 [#start-building]
-== Start building the application
+== Building the application
 
-With IntelliJ IDEA running and a project available, we can take our first steps towards building our first views with Designer.
+Now that you have IntelliJ IDEA running and a project available, we can take start building our first view with Designer.
 
-. Delete the file `MainView.java` in `src/main/java/com/vaadin/tutorial/crm/ui`
-. In the Project tree, expand the `frontend/src` folder
-. Right click on the `frontend/src` folder, and select New > Directory. Give the new directory the name `views`.
-. Right click on the newly created view folder, select New > Vaadin 10+ Design.
-. Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
-. In the "Java package" field, press the folder selection button and navigate to `com.vaadin.tutorial.crm.ui`.
-. In the "Name" field, type `main-view`.
+To do this:
 
-Now, the "New Vaadin 10+ design" dialog should look as in the following image.
+. Delete `MainView.java` in `src/main/java/com/vaadin/tutorial/crm/ui`.
+. In the Project tree, expand the `frontend/src` folder.
+. Right click the `frontend/src` folder and select *New > Directory*. Name the new folder `views`.
+. Right click the newly-created `views` folder and select *New > Vaadin 10+ Design*.
+. Check the *Create Java companion file* checkbox. This allows us to bind data and add listeners to our view in Java. 
+. In the *Java package* field, click the folder selection button and navigate to `com.vaadin.tutorial.crm.ui`.
+. In the *Name* field, type `main-view`.
+
+The *New Vaadin 10+ design* dialog should now look like this.
 
 image::create-view.png[Creating the main view.]
 
-Press OK to generate the files.
+Click *OK* to generate the files.
 
-Next, Vaadin Designer will open in Google Chrome.
+Vaadin Designer will open in Google Chrome.
 
 [#getting-familiar-with-the-ui]
 == Getting familiar with the UI
-Designer consists of four main parts: paper, palette, outline and properties.
+Designer consists of four main parts:
 
-*Paper* is where the UI you are building is rendered. It shows you what your view will look like. Before you have any components added to your view, the paper will propose a set of starting points for your newly created view.
+* *Paper* is where the UI you are building renders. It shows you what your view will look like. Before you add components to your view, the paper proposes a set of starting points for your newly-created view.
 
-*Palette* is a list of components that you have available for use. The list is divided in multiple sections:
+* *Palette* is a list of components that are available for use. The list is divided into multiple sections:
 
-- HTML elements are the built in elements of the HTML language, like `<p>`, `<h1>` and `<div>`.
-- Parts is a list of all the web components available in your project. These are scanned from the node_modules folder in your project automatically. If you add a new 3rd party web component to your project, it will show up in the parts list and be available for use.
-- Components are snippets for Vaadin's components that give you handy commonly used configurations, like having a button with an icon and caption. 
-- Project components are the other designs in your project. You can include them into your current view.
-- Patterns are preconfigured view parts  
+- HTML elements are the built-in elements of the HTML language, like `<p>`, `<h1>` and `<div>`.
+- Parts is a list of all available web components in your project. These are scanned automatically from the `node_modules` folder in your project. When you add new 3rd-party web components to your project, they show up in the list and are available for use.
+- Components are snippets for Vaadin's components that give you handy, commonly-used configurations, like having a button with an icon and caption. 
+- Project components are the other designs in your project. You can include them in your current view.
+- Patterns are preconfigured view parts.  
 
-*Outline* shows you what components are in use in the view as well as their hierarchy.
+* *Outline* shows you what components are in use in the view and their hierarchy.
 
-*Properties* is where you modify how a single component will look and behave.
+* *Properties* is where you modify how a single component looks and behaves.
 
 [#create-the-main-layout]
 == Creating the main layout
+This is the layout that we will build.
 
 image::app-complete.png[A web application with a listing of contacts and an editor open.]
 
-This is the layout that we are going to build.
+From the image, you can see we need:
 
-We can note that at the root of the view we need a vertical layout. At the top is a horizontal layout with a text field for filtering as well as a button to add new entries. Below we have a horizontal layout for a grid of data entries and a form. Let's disregard the form for now, as we will will build it separately, and add the rest of the components to the view.
+* A vertical layout at the root of the view.
+* A horizontal layout with a text field for filtering, as well as a button to add new entries, at the top. 
+* A horizontal layout for a grid of data entries and a form below. 
+
+We'll disregard the form for now, as we build it separately after adding the other components to the view.
 
 [#add-the-components]
-=== Adding all the components
-. On the paper, click on "Vertical" to get a vertical layout as your starting point. Your view constists now of an empty layout.
-. Find "Horizontal Layout Spacing" in the palette. An easy way to find components is to use the search field at the top of the palette. Drag it twice on top of the vaadin-vertical-layout on the paper.
-. Find "Vaadin Text Field" in the palette.  Drag "Vaadin Text Field" on top of the *first* vaadin-horizontal-layout.
-. Find "Button" in the palette.  Drag "Button" on top of the *first* vaadin-horizontal-layout.
-. Find "vaadin-grid" in the palette. Drag it on top of the *second* vaadin-horizontal-layout.
+=== Adding the components
+
+. On the paper, click *Vertical* to get a vertical layout as your starting point. Your view now constists of an empty layout.
+. Find *Horizontal Layout Spacing* in the palette and drag it onto the vaadin-vertical-layout on the paper twice. You can use the search field at the top to find components easily.
+. Find *Vaadin Text Field* in the palette and drag it onto the *first* vaadin-horizontal-layout.
+. Find *Button* in the palette and drag it onto the *first* vaadin-horizontal-layout.
+. Find *vaadin-grid* in the palette and drag it onto the *second* vaadin-horizontal-layout.
 
 image::adding-all-the-components.png[Components added to the view.]
 
-Our view is not looking like planned yet, but it has the components we need. Let's continue with configuring the components to look correct.
+Our view does not look as planned yet, but it does have the components we need. We'll now continue to configure the components to get it looking like we want.
 
 [#configure-main-layout]
 === Configuring the main layout
-For the main layout, we want to add a bit of space between the components as well as around the layout to make it look nicer. 
+In the main layout, we need to add a bit of space between the components, as well as around the layout, to make it look better: 
 
-. Select the top level layout, by clicking on any of the empty space of the vertical layout.
-. In the properties view, under Size and space panel, find the padding selector and select "M". This will add some space around the main layout, letting the design breath a bit.
-. In the same panel, open the spacing selector and select "M". This will add space between the toolbar and the grid.
+. Select the top-level layout, by clicking anywhere in the empty space of the vertical layout.
+. In the properties view, in the *Size and space* panel, open the *Padding* selector and select *M*. This adds some space around the main layout, giving the design room to "breath".
+. In the same panel, open the *Spacing* selector and select *M*. This adds space between the toolbar and the grid.
 
 image::configuring-the-main-layout.png[Spacing and padding added to the main layout.]
 
 [#configure-toolbar]
 === Configuring the toolbar
-For the toolbar, we have to configure the texts to be correct. 
+For the toolbar, we need to configure a text field: 
 
 . Select the text field.
-. In the properties view, under attributes, find the attribute called "label". Remove the value from it. We do not have a separate label as we have the description as the placeholder value for the field.
-. In the properties view, under attributes, find the placeholder attribute. Remove the "Placeholder" value and replace it with "Filter by name..."
-. In the properties view, under attributes, find the clear-button-visible attribute. Enable the checkbox. This will give the users an easy way to clear the filter.
+. In the properties view, under attributes, find the label attribute and remove the value from it. We do not need a separate label as we have the description as the placeholder value for the field.
+. In the properties view, under attributes, find the placeholder attribute and replace "Placeholder" with "Filter by name...".
+. In the properties view, under attributes, find the clear-button-visible attribute and enable the checkbox. This gives the user an easy way to clear the filter.
 . Select the button.
-. In the properties view, find the text panel at the top. Remove the default text "Button" and replace it with "Add contact".
+. In the properties view, find the text panel at the top and replace the default "Button" text with "Add contact".
 
 image::configuring-the-toolbar.png[Toolbar has the correct texts.]
 
 [#space-for-grid]
-=== Make the Grid take all the space available
-We want to give the Grid the rest of the screen space, to show as much data as possible.
+=== Making the Grid fill the available space
+To show as much data as possible, we want to give the Grid the rest of the screen space:
 
 . Select the lower horizontal layout, vaadin-horizontal-layout. 
-. In the properties view, under Size and space panel, find the width and height fields. Choose "100%" in both of them to expand the layout to take all the space available.
+. In the properties view, in the *Size and space* panel find the width and height fields and choose "100%" in both. This expands the layout to take up all the available space.
 . Select the Grid, vaadin-grid.
-. In the properties view, under Size and space panel, put width and height fields to "100%" to give all the space from the layout to the grid.
+. In the properties view, in the *Size and space* panel set the width and height fields to "100%". This gives all the space in the layout to the grid.
 
 image::space-for-grid.png[Toolbar has the correct texts.]
 
-Now our main layout looks great, but it is still missing the form.
+Our main layout is now looking great, but it is still missing the form.
 
 [#create-form]
 == Creating the form
-It is good to keep designs focused on one thing and split them up to smaller things if there starts to be too many focus areas in one view. Let's create the form for the view in an own design. In it we want to create a Form Layout for editing a single contact's information.
+It is good to keep your designs focused on one thing. When there are too many focus areas in one view, splitting them into smaller parts helps to keep things clear. We create the form in its own design with a Form Layout for editing the information of a single contact in it.
 
 [#form-create-design]
-=== Create a new Design for the form
+=== Creating a new design for the form
 
 . Switch back to IntelliJ IDEA.
-. In the Project window, right click on the `frontend/src/views` folder. Select New > Vaadin 10+ Design.
-. Check the "Create Java companion file" checkbox. This will allow us to bind data and add listners in Java to our view. 
+. In the Project tree, right click the `frontend/src/views` folder and select *New > Vaadin 10+ Design*.
+. Check the *Create Java companion file* checkbox. This allows you to bind data and add listeners to the view in Java . 
 . Verify that the Java package is `com.vaadin.tutorial.crm.ui`.
-. In the "Name" field, type `contact-form`.
-. Press ok to generate the files.
-. The design opens up in the browser. In the Palette view, Search for "vaadin-form". Drag vaadin-form-layout on top of the drop section in the canvas.
+. In the *Name* field, type `contact-form`.
+. Click *OK* to generate the files.
+. The design opens in the browser. 
+. In the palette, search for "vaadin-form" and drag vaadin-form-layout onto the drop section in the canvas.
 
 image::form-create-design.png[New design for the form.]
 
 Our form component will have:
 
-* Text fields for the first and last name.
+* Two text fields for the first and last name.
 * An email field.
 * Two select fields: one to select the company and the other to select the contact status.
 
 [#form-add-text-fields]
-=== Add two text fields for the name
+=== Adding two text fields for the name
 
-. Find "Vaadin Text Field" in the palette.  Drag "Vaadin Text Field" twice, on top of vaadin-form-layout.
+. Find *Vaadin Text Field* in the palette and drag it onto vaadin-form-layout.
 . Select the first vaadin-text-field in the design. In the properties view, go to the attributes panel. Find the label attribute and replace the text with "First name". Find the placeholder attribute and remove the value.
-. Select the second vaadin-text-field in the design. In the properties view, go to the attirubtes panel. Find the label attribute and replace the text with "Last name". Find the placeholder attribute and remove the value.
+. Select the second vaadin-text-field in the design. In the properties view, go to the attributes panel. Find the label attribute and replace the text with "Last name". Find the placeholder attribute and remove the value.
 
-NOTE: If your paper is wide, the text fields will line up horizontally. You can make the paper narrower by dragging its left or right edge. When the paper is narrow enough, the form fields will stack vertically. This behaviour comes from vaadin-form-layout which, by default, arranges its fields into one or two columns depending on its width.
+NOTE: If your paper is wide, the text fields will line up horizontally. You can drag the left and right paper edges to make it narrower. This will make the form fields stack vertically. This behavior comes from vaadin-form-layout that, by default, arranges its fields into one or two columns, depending on the width.
 
 [#form-add-email-field]
-=== Add the email field
+=== Adding the email field
 
-. Find "vaadin-email-field" in the palette.  Drag it on top of the vaadin-form-layout.
-. In the properties view, go to the attirubtes panel. Find the label attribute and type in "Email".
+. In the palette, find *vaadin-email-field* and drag it onto the vaadin-form-layout.
+. In the properties view, go to the attributes panel. Find the label attribute and type in "Email".
 
 [#form-add-combo-boxes]
-=== Add company and status fields
+=== Adding company and status fields
 
-. Find "vaadin-combo-box" in the palette.  Drag it, twice, on top of the vaadin-form-layout.
-. Select the first vaadin-combo-box in the design. In the properties view, go to the attirubtes panel. Find the label attribute and add the value "Company".
-. Select the first vaadin-combo-box in the design. In the properties view, go to the attirubtes panel. Find the label attribute and add the value "Status".
+. In the palette, find *vaadin-combo-box* and drag it onto the vaadin-form-layout twice.
+. Select the first vaadin-combo-box in the design. In the properties view, go to the attributes panel. Find the label attribute and add the value "Company".
+. Select the second vaadin-combo-box in the design. In the properties view, go to the attributes panel. Find the label attribute and add the value "Status".
 
 [#form-add-buttons]
-=== Add buttons
+=== Adding buttons
 
-We want to add buttons for save, delete and close to the form. Save is the primary action and should be highlighted. Delete can be a dangerous action and should be marked as error. Close button is not an important action and can be downlplayed with a tertiary styling.
+We need to add save, delete and close buttons to the form. Save is the primary action and should be highlighted. Delete can be a dangerous action and should be marked as an error. Close is not an important action and can be downplayed with a tertiary styling.
 
-. Find "Horizontal Layout Spacing" in the palette.  Drag it on top of the vaadin-form-layout.
-. Find the Vaadin button -section in the palette.  Under it drag three different buttons on top of the horizontal layout. First a "Primary Button", then a "Primary Error Button" next to it, and finally a "Tertiary Button" next to it.
-. Select the Primary button. Replace the text of the button to "Save".
-. Select the Primary Error button. Replace the text of the button to "Delete". 
-. Under Attributes, change the theme attribute from "primary error" to "error".
-. Select the Tertiary button. Replace the text of the button to "Close".
+. In the palette, find *Horizontal Layout Spacing* and drag it onto the vaadin-form-layout.
+. In the Vaadin button section of the palette, drag the following three buttons onto the horizontal layout: *Primary Button*, then *Primary Error Button* next to it, and finally *Tertiary Button* next to that.
+. Select the Primary button and change the button text to "Save".
+. Select the Primary Error button and change the button text to "Delete". In the attributes panel, change the theme attribute from "primary error" to "error".
+. Select the Tertiary button and change the button text to "Close".
 
-Now our form is done.
+Now, our form is done.
 
 image::form-create-design-finished.png[Finished form.]
 
 [#add-form-to-main-view]
-== Add the form to the main view
+== Adding the form to the main view
 
-We can go back to our main view and add the contact form next to the Grid. You should have the `main-view` design open in a second tab in Chrome. If you do not, reopen the `main-view.js` file again in IntelliJ IDEA.
+We can now go back to our main view and add the contact form next to the Grid. The `main-view` design should be open in a second Chrome tab. If it is not, reopen the `main-view.js` file again in IntelliJ IDEA.
 
-In the palette, there is now a section called Project Components. Under it are listed other designs that you have created. By dragging from there, you can embed other designs into the one that is currently open.
+In the palette, you should now see a section called *Project Components* that lists all designs you have created. By dragging items from this list, you can embed other designs into the one that is currently open.
 
-. With `main-view` Designer open, locate contact-form in Project Components in the palette.
-. Drag contact-form on top of the second vaadin-horizontal-layout.
+. In the `main-view` Designer, in the palette locate *contact-form* in *Project Components*.
+. Drag contact-form onto the second vaadin-horizontal-layout.
 
 image::add-form-to-main-view.png[Form embedded in main view.]
 
 [#size-grid-and-form]
-=== Sizing grid and form
+=== Sizing the grid and form
 
-We want to give most of the space to the grid. We will use flex sizing for it, to give a 2:1 ratio between the grid and the form.
+We want to give most of the space to the grid. For this, we use flex sizing to set a 2:1 ratio between the grid and the form.
 
-. Select vaadin-grid. Under properties view, under the Attributes panel, find the style attribute. Add to the end of the value "flex: 2;".
-. Select contact-form. Under properties view, under the Attributes panel, find the style attribute. Set the value to "flex: 1;".
+. Select the vaadin-grid. In the properties view, find the style attribute in the attributes panel and add the value "flex: 2;" at the end.
+. Select contact-form. In the properties view, find the style attribute in the attributes panel and set the value to "flex: 1;".
 
-Now our layout is done.
+Now, our layout is done.
 
 image::size-grid-and-form.png[Form embedded in main view.]
 
 [#add-route-to-main-view]
-== Add the route to the main view
+== Adding the route to the main view
 
-As we replaced the MainView with our own, it doesn't have a route annotation anymore. Let's add back the root route to point towards MainView.
+We previously replaced the original `MainView` with our own. The new one does not have an `@Route` annotation that we need set our view as the the root route.
 
-. Switch back to IntelliJ IDEA
-. Expand the package `src/main/java/com.vaadin.tutorial.crm.ui` and open the file `MainView.java`.
-. Add `@Route("")` annotation to the top MainView class.
+. Switch back to IntelliJ IDEA.
+. Expand the `src/main/java/com.vaadin.tutorial.crm.ui` package and open `MainView.java`.
+. Add the `@Route("")` annotation at the beginning of the `MainView` class.
 
-Our `MainView` class should now look like this:
+Your `MainView` class should now look like this:
 
 .`*MainView.java*`
 [source,java]
@@ -251,65 +267,71 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     // The rest of the file is omitted from the code snippet
 }
 ----
-<1> Route annotation mapping http://localhost:8080/ to MainView
+<1> The `@Route` annotation maps http://localhost:8080/ to `MainView`.
 
 [#layout-finished-run-the-project]
-== Run the project
+== Running the project
 
-Let's run the project and see how the new layout looks like.
+Next, we run the project to see what the new layout looks like.
 
 The easiest way to run the project for the first time is to:
 
-. Open the Application Java class in `src/main/java/com/vaadin/tutorial/crm/Application.java`
+. Open the `Application` Java class in `src/main/java/com/vaadin/tutorial/crm/Application.java`
 . Click the green play button next to the line that starts with "public class Application".
 +
 image::running-the-app-for-the-first-time.png[Running the project from the Application class.]
-
-This will start the application, as well as automatically add a run configuration for it into IntelliJ IDEA. Later, when you want to run or restart the application, you can build, run/restart, stop and debug the application from IDEA's toolbar:
-
++
+This starts the application and automatically adds a run configuration for it in IntelliJ IDEA. Later, when you want to run or restart the application, you can build, run/restart, stop and debug the application the toolbar:
++
 image::intellij-toolbar-run-configurations.png[Running the project from the toolbar.]
 
-When the build is finished, and the application is running, point your browser towards `http://localhost:8080/` to see the result.
+When the build is finished and the application is running open `http://localhost:8080/` in your browser to see the result.
 
 image::layout-finished-run-the-project.png[The application running in the browser.]
 
 [#java-connect]
-== Connect your view to Java 
+== Connecting your view to Java 
 
-When building a view with Designer, you have two main files per view. One is the template file `main-view.js`, where you lay out the components and define everything that is static. The other part is `MainView.java`, which uses the template and adds UI logic as well as configures all parts that are dynamic. We call this file as the companion file for the template. When we created the views earlier in this tutorial, in the "New Vaadin 10+ Design" dialog, we checked the field "Create Java Componanion file". That gave us the files `MainView.java` and `ContactForm.java`. Adding Java code to your views will not be visible in the template when run in Designer, but it will be used when you run your application.
+When you build a view with Designer, there are two main files for each view:
+
+* `main-view.js`: This is the template file where you lay out the components and define everything that is static. 
+* `MainView.java`: This is the Java class that uses the template, adds UI logic, and configures all parts that are dynamic. We refer to this file as the companion file for the template. 
+
+When we created the views earlier in the tutorial, we checked the *Create Java Companion file* option in the *New Vaadin 10+ Design* dialog. This is why the `MainView.java` and `ContactForm.java` files were generated automatically. Adding Java code to your views is not visible in the template in Designer, but it is used when you run your application.
 
 For the main view, in the companion file, we need to
 
-. load data to the Grid
-. filter data based on the text field
-. populate the contact form when user selects a row in the grid
-. enable adding new contacts using the "Add contact" button
+. Load data to the grid.
+. Filter data based on the text field.
+. Populate the contact form when the user selects a row in the grid.
+. Enable adding new contacts using the *Add contact* button.
 
 In the contact form, we need to
 
-. bind fields with a contact object given by the main view
-. implement the buttons save, delete and close.
+. Bind fields with a contact object given by the main view.
+. Implement the save, delete and close buttons.
 
-Let's start with loading data into the Grid.
+We start with loading data into the grid.
 
 [#java-export-components]
-=== Export components to Java
+=== Exporting components to Java
 
-Next up we will export the components that needs data or interaction to Java. For that we have to tell Designer which components we want to have available from Java code. For the main view, we need the Grid for showing data, the text field for filtering and the button for adding new contacts.
+First, we export the components that need data or to interact to Java. To do this, we need to tell Designer which components should be available from Java code. For the main view, we need the grid to display data, the text field to filter data and the button to add new contacts.
 
-. Open `main-view.js` in Designer.
+. In Designer, open `main-view.js`.
 . Select the "Filter by name..." text field.
-. In properties view, under the attributes panel, find the attribute id. Give the text field the id "filterText". This is what the component will be called in the Java companion file.
-. In the outline, hover your mouse above the selected vaadin-text-field. A button will appear on the same row to allow you to connect the component to Java. Click on the icon. The field is now available from Java code.
+. In the properties view, go to the attributes panel, find the id attribute and give the text field the "filterText" id. This is what the component will be called in the Java companion file.
+. In the outline, hover over the selected vaadin-text-field and click the icon that appears in the row on the right. This allows you to connect the component to Java and makes the field available from your Java code. 
 +
 image::connect-text-field-to-java.png[Connect the text field to java using the outline.]
-. In the same way, select the button, give it an id called "addContactButton", and click on the connect icon.
-. In the same way, select the grid, give it an id called "grid", and click on the connect icon.
+. Repeat this process (steps 2 - 4) for the:
+.. vaadin-button: id attribute = "addContactButton".
+.. vaadin-grid: id attribute = "grid".
 
-You should now have all the fields available from Java code. Let's go check it out.
+All the fields should now be available from your Java code. To check this:
 
 . Go back to IntelliJ IDEA.
-. Open the class `src/main/java/com.vaadin.tutorial.crm.ui.MainView`.
+. Open the `src/main/java/com.vaadin.tutorial.crm.ui.MainView` class.
 
 .`*MainView.java*`
 [source,java]
@@ -341,17 +363,19 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     }
 }
 ----
-<1> Field are connected to the template id with a `@Id("identifer")` annotation
-<2> The text field, with same name as id, and correct Java class
-<3> The button
-<4> The grid
+<1> The fields are now connected to the template in the `@Id("identifier")` annotations.
+<2> The text field uses the `filterText` id.
+<3> The button uses the `addContactButton` id.
+<4> The grid uses the `grid` id.
 
 [#java-data-to-grid]
-=== Add data into the grid
+=== Adding data to the grid
 
-Let's start by loading data from the backend and showing them in the grid. First task would be to configure the columns. We want to show contacts, and from each contact first name, last name, email and status.
+Next, we want to load data from the backend and show it in the grid. The first task is to configure the columns. For each contact we want to show their first name, last name, email and status.
 
-We take advantage of Spring’s dependency injection to get hold of the back end service, by adding it as a parameter to the constructor. Spring passes it in when MainView is created.
+We take advantage of Spring’s dependency injection to get hold of the backend service, by adding it as a parameter in the constructor. Spring passes it in when `MainView` is created.
+
+Modify `MainView` as follows:
 
 .`*MainView.java*`
 [source,java]
@@ -399,25 +423,27 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     }
 }
 ----
-<1> Add bean type as type parameter to the grid
-<2> A field for storing the service for future access
-<3> Spring passes in the service when the view is created
-<4> The passed reference to the service is stored in the field
-<5> Columns to grid are added and configured
-<6> A custom column is created for fetching the name of the company the contact belongs to.
-<7> All columns are configured to be sized based on the content of the columns
-<8> Items are fetched from the service and passed to the Grid
+<1> Adds the bean type as a type parameter to the grid.
+<2> Creates a field for storing the service for future access.
+<3> Spring passes in the service when the view is created.
+<4> The passed reference to the service is stored in the field.
+<5> Adds and configures columns in the grid.
+<6> Creates a custom column for fetching the name of the company the contact works for.
+<7> Configures column sizing: all columns are sized based on their content.
+<8> Fetches items from the service and passes them to the grid.
 
-Now, <<#layout-finished-run-the-project, run the application>>, or if it was already running, restart it. The Grid shows the contacts from the service.
+Next, <<#layout-finished-run-the-project, run the application>>, or restart it if it is already running. 
+
+The grid now shows the contacts from the service.
 
 image::grid-populated-run-the-project.png[Grid configured and populated with items from the service.]
 
 [#java-enable-filtering]
-=== Enable filtering
+=== Enabling filtering
 
-We would like to filter the grid based on first name and last name when the user types in a value in the filter textfield. For that, we need a value change listener to the textfield, and we need to pass the value of the text field to the contact service. The contact service and repository don't support filtering right now, so we need to add that support as well.
+We would like to filter the grid based on the first name and last name when the user types a value in the filter text field. For this, we need a value-change listener on the text field, and a way to pass the value to the contact service. We also need to add filtering support to the contact service and repository
 
-Let's start with changing `MainView`.
+We start be changing `MainView` as follows:
 
 .`*MainView.java*`
 [source,java]
@@ -455,11 +481,11 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 }
 ----
 
-<1> Put text field value changes into lazy mode, so that we don't query the database on each keystroke
-<2> Add value change listener to text field that tells the grid items to be updated
-<3> Pass the value of the text field to the service `findAll` method. This will not compile yet as the method does not exist.
+<1> Puts text field value changes in lazy mode, so that the database is not queried on each keystroke.
+<2> Adds a value-change listener to the text field that tells the grid to update items.
+<3> Passes the value of the text field to the service using the `findAll` method. This will not compile yet because the method does not exist.
 
-The contact service does not have a `findAll` method that takes a filter String as a parameter, so let's add one.
+Next, we add a `findAll` method that takes a filter String as a parameter to the contact service.
 
 .`*ContactService.java*`
 [source,java]
@@ -477,10 +503,10 @@ public List<Contact> findAll(String stringFilter) { <2>
 }
 ----
 
-<1> Existing findAll method that we do not need to touch
-<2> New method for filtering based on String
+<1> This is the existing `findAll` method that we do not need to touch.
+<2> Adds a new method for filtering based on a String.
 
-Finally, we need to add the method to search contacts to `ContactRepository`.
+Finally, we add a method to search contacts to `ContactRepository`:
 
 .`*ContactRepository.java*`
 [source,java]
@@ -493,37 +519,38 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 }
 ----
 
-Run the application. Now the Grid is searchable based on name with the help of the text field.
+Run the application. The grid is now searchable based on the name entered in the text field.
 
 image::grid-filtered-run-the-project.png[Grid filtered based on text field contents.]
 
 [#java-contact-form]
-== Implement the contact form
+== Implementing the contact form
 
-Now that the work with the grid is complete, let's turn our attention to the contact form.
+Now that the work in the grid is complete, we turn our attention to the contact form.
 
-We want the following behaviour:
-. The form is hidden when it is not needed
-. The form can be used to edit or delete an existing contact
-. The form can be used to add a new contact
+We want the following behavior:
 
-Let's start by hiding the form.
+. The form is hidden when it is not needed.
+. The form can be used to edit or delete an existing contact.
+. The form can be used to add a new contact.
+
+We start by hiding the form.
 
 [#java-hiding-the-form]
 === Hiding the form
 
-The `MainView` class knows when the form is needed. So, we'll use that to hide and show the form.
+The `MainView` class knows when the form is needed and we use this to hide and show the form.
 
-First, we'll connect the form to the MainView class, and then call setVisible on the form to hide it.
+First, we connect the form to the `MainView` class, and then call `setVisible` on the form to hide it.
 
 . Open `main-view` in Designer.
-. Select the contact form.
-. Give the contact form an id with value "form".
-. Click the java connection icon for contact-form in the outline.
+. Select the contact-form.
+. Give the contact form an id attribute with the value "form".
+. In the outline, click the Java connection icon to make the component available in the Java code.
 
 The contact form is now accessible from the `MainView` class.
 
-Now, open the `MainView` class and do the following changes to hide the form initially.
+Next, open the `MainView` class and change it as follows to hide the form initially:
 
 .`*MainView.java*`
 [source,java]
@@ -549,13 +576,14 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 }
 ----
 
-<1> Field created by Designer.
-<2> Call closeEditor on the last line of constructor to initially hide the form.
-<3> A new method that calls `setVisible` to close the form.
+<1> This is the field created by Designer.
+<2> Calls `closeEditor` on the last line of the constructor to initially hide the form.
+<3> Adds a new method that calls `setVisible` to close the form.
 
-WARNING: Unfortunately, a https://github.com/vaadin/flow/issues/8256[bug] prevents `setVisible` from working correctly in our case. A workaround is presented below. Without the workaround, the form won't be hidden.
+WARNING: Unfortunately, there is currently a https://github.com/vaadin/flow/issues/8256[bug] that prevents `setVisible` from working correctly in our case. For now, we can use the workaround detailed below. Without this the form won't be hidden.
 
 To work around the https://github.com/vaadin/flow/issues/8256[bug]:
+
 . Open `contact-form.js` in IntelliJ IDEA.
 . Edit the source by adding the following CSS rule into the style element.
 
@@ -577,18 +605,20 @@ To work around the https://github.com/vaadin/flow/issues/8256[bug]:
 `;
     }
 ----
-<1> CSS that will be applied when the hidden attribute is present on the contact-form element.
+<1> This CSS is applied when the hidden attribute is present on the contact-form element.
 
-Now, the contact form will be hidden when the application is started.
+Now, the contact form will be hidden when the application starts.
 
 image::form-hidden-run-the-project.png[Form hidden when initially starting the application.]
 
-Next, we'll open the form when a contact is selected in the grid, and pass that contact to the form.
+Next, we open the form when a contact is selected in the grid, and pass that contact to the form.
 
 [#java-open-form-with-selected]
-== Opening the form with selected contact
+== Opening the form when a contact is selected
 
-When the user clicks on a contact in the grid, the contact becomes selected. At that point, we want to open the form and fill the form with the contact's data. Let's start by listening for selection event in the grid, and in the event, passing the contact to the form.
+When the user clicks a contact in the grid, the contact is selected. At this point, we want to open the form and fill it with the contact's data. 
+
+We start by listening for a selection event in the grid, and when this occurs we pass the contact to the form:
 
 .`*MainView.java*`
 [source,java]
@@ -620,11 +650,11 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 }
 ----
 
-<1> Add listener for selection change in grid.
-<2> A new method to show or hide the form depending on whether there's a selection or not.
-<3> Pass the contact to the form. This is a new method that needs to be added to ContactForm.
+<1> Adds a listener for selection changes in grid.
+<2> Adds a new method to show or hide the form depending on whether there's a selection or not.
+<3> Passes the contact to the form. This is a new method that needs to be added to `ContactForm`.
 
-Let's add `setContact` method to `ContactForm`. For now, it is sufficient that the project compiles, so we'll leave the method empty. It will be implemented in the next section.
+Next, we add the `setContact` method to `ContactForm`. For now, it is sufficient that the project compiles, so we leave the method empty. It will be implemented in the next section.
 
 .`*ContactForm.java*`
 [source,java]
@@ -640,18 +670,18 @@ public class ContactForm extends PolymerTemplate<ContactForm.ContactFormModel> {
 }
 ----
 
-<1> Add a method to set the contact. This will be implemented shortly.
+<1> Adds a method to set the contact. This will be implemented shortly.
 
-If you run the application now, you'll see that when you select a contact the form will be opened. And, if you click on the selected contact, it becomes deselected and the form is closed. The form remains empty, though, because we didn't bind its fields to the given contact just yet. 
+If you run the application now, you'll see that when you select a contact the form is opened. And, if you click the selected contact, it becomes deselected and the form closes. The form remains empty though, because we have not yet bound its fields to the given contact. 
 
-Next, let's populate the form with the selected contact's details.
+Next, we populate the form with the selected contact's details.
 
 [#java-add-binder-to-contact-form]
 === Adding a binder
 
-To make the contact's details visible and editable in the form, we will need to bind the contact bean to the form. This can be done by using a binder object. We'll use a validating binder that gives us simple validation based the member fields of the contact bean.
+To make the contact's details visible and editable in the form, we need to bind the contact bean to the form. This can be done by using a binder object. We use a validating binder that gives us simple validation based on the member fields of the contact bean.
 
-First, let's add the binder to the `ContactForm` class and use it to bind the given contact's fields to the form.
+First, we add the binder to the `ContactForm` class and use it to bind the given contact's fields to the form:
 
 .`*ContactForm.java*`
 [source,java]
@@ -667,31 +697,32 @@ public void setContact(Contact contact) {
     binder.setBean(contact); <3>
 }
 ----
-<1> `BeanValidationBinder` is a `Binder` that is aware of bean validation annotations. By passing it the `Contact.class`, we define the type of object we are binding to.
+<1> `BeanValidationBinder` is a `Binder` that is aware of bean validation annotations. By passing it to `Contact.class`, we define the type of object we are binding to.
 <2> `bindInstanceFields` matches fields in `Contact` and `ContactForm` based on their names.
-<3> Set the given contact to the binder.
+<3> Sets the given contact to the binder.
 
-The binder will look for fields in the `Contact` class and in `ContactForm` and bind those whose names match.
+The binder will look for fields in the `Contact` class and in `ContactForm` and bind those with matching names.
 
-WARNING: If you run the application now, the binder will throw an exception because it won't find a single field to bind to. We'll add the fields shortly using Designer.
+WARNING: If you run the application now, the binder will throw an exception because it won't find a single field to bind to. We'll add the fields shortly in Designer.
 
-Next, let's add the fields that the binder can bind to.
+Next, we add the fields that the binder can bind to.
 
 [#java-connect-contact-form-fields]
 == Connecting the fields from contact-form
 
-To make it possible for the binder to bind a contact bean's fields to the form fields, the fields must be present as members in the ContactForm class. We can add the fields to the class using Designer. We'll need to be careful with naming the fields because the binder works by matching the bean and field names. The bean contains fields called: `firstName`, `lastName`, `email`, `company`, and `status`. When we connect the fields from `contact-form`, we need to use these exact names.
+To make it possible for the binder to bind the fields of a contact bean to the form fields, the fields must be present as members in the `ContactForm` class. We can add the fields to the class using Designer, but need to be careful with naming them because the binder works by matching the bean and field names. The bean contains fields named: `firstName`, `lastName`, `email`, `company`, and `status`. When we connect the fields from `contact-form`, we need to use these exact names.
 
-. Open `contact-form` in Designer
-. Connect the first name field with id "firstName" by selecting the field for first name, giving it the id "firstName" and connecting it using the outline.
-. Connect the last name field with id "lastName".
-. Connect the email field with id "email".
-. Connect the company field with id "company".
-. Connect the status field with id "status".
+. In Designer, open `contact-form`.
+. Select the first name field, give it the "firstName" id attribute, and then connect it by clicking the Java icon in the outline. This connects the first name field with the "firstName" id. 
+. Repeat the procedure in 2 above for the other fields in the form:
+.. Last name field = "lastName" id attribute.
+.. Email field = "email" id attribute.
+.. Company field = "company" id attribute.
+.. Status field = "status" id attribute.
 
 image::form-connect-fields-designer.png[Connect the form fields in Designer.]
 
-When done with Designer, you should have the following fields in the `ContactForm` class:
+When this is done in Designer, you should have the following fields in the `ContactForm` class:
 
 .`*ContactForm.java*`
 [source,java]
@@ -708,7 +739,9 @@ When done with Designer, you should have the following fields in the `ContactFor
     private ComboBox<String> status;
 ----
 
-Now, this will again raise an exception when run, because the types of the combo boxes do not match the types in the `Contact` bean. Let's fix the types by editing them directly in the Java file:
+If you run the application now, it will once again raise an exception, because the types of the combo boxes do not match the types in the `Contact` bean. 
+
+We fix this by editing them directly in the Java file:
 
 .`*ContactForm.java*`
 [source,java]
@@ -719,9 +752,9 @@ Now, this will again raise an exception when run, because the types of the combo
     private ComboBox<Contact.Status> status;
 ----
 
-There's a couple more things to fix. One is the texts you see in the company combo box. Currently, the contact object is printed as the value of the combo box. Instead of the object, we want to see the name of the company. The other issue is that the items in the combo boxes are yet to be set. We can get the companies from the `CompanyService`, and the statuses from the `Status` enumeration.
+There are still a few more things to fix. One is the text displayed in the company combo box. Currently, the contact object is printed as the value of the combo box. Instead of the object, we want to see the name of the company. The other issue is that the items in the combo boxes are still not set. We can get the companies from the `CompanyService`, and the statuses from the `Status` enumeration.
 
-Here's the full `ContactForm` class that implements the above changes.
+Here's the full `ContactForm` class that implements the above changes:
 
 .`*ContactForm.java*`
 [source,java]
@@ -755,31 +788,31 @@ public class ContactForm extends PolymerTemplate<ContactForm.ContactFormModel> {
     // TemplateModel omitted
 }
 ----
-<1> Add `companyService` as parameter. Spring framework will inject it here.
-<2> Set the company combo box items by getting them from the service.
-<3> Set item label generator so that we see company names in the combo box instead of company objects.
-<4> Set the items of the status combo box.
+<1> Adds `companyService` as a parameter. The Spring framework will inject it here.
+<2> Sets the company combo box items by getting them from the service.
+<3> Sets the item label generator so that we see company names in the combo box instead of company objects.
+<4> Sets the items of the status combo box.
 
-When the app is run now, there are no exceptions, and all form fields are filled correctly, and items in the combo boxes are populated.
+When you run the app now, there are no exceptions, all form fields are filled correctly, and items in the combo boxes are populated.
 
 image::form-populated-run-the-project.png[Form populated with the selected contact's details.]
 
-Next, we'll need to make the changes we make in the form to persist.
+Next, we make sure that changes made in the form persist.
 
 == Adding, saving and deleting contacts
 
-So far, we've only displayed existing contact data in the application without the ability to add or modify them.
+So far, we've displayed existing contact data in the application, but still don't have the ability to add or modify data.
 
-In this section, we'll make adding and modifying contacts work.
+In this section, we make adding and modifying contacts work.
 
-First, let's make the Save, Delete and Close buttons work in the contact form. To add functionality to the buttons, we'll first need to make them available in the `ContactForm` class using Designer.
+First, we make the Save, Delete and Close buttons work in the contact form. To add functionality to the buttons, we first need to make them available in the `ContactForm` class using Designer.
 
-. Open `contact-form` in Designer
-. Select the save button. Give it the id "save", and connect using the outline.
-. Select the delete button. Give it the id "delete", and connect using the outline.
-. Select the close button. Give it the id "close", and connect using the outline.
+. In Designer, open `contact-form`.
+. Select the save button, give it the "save" id attribute and connect it using the outline.
+. Select the delete button, give it the "delete" id attribute and connect it using the outline.
+. Select the close button, give it the "close" id attribute and connect using the outline.
 
-Now you've added the following fields to `ContactForm`.
+Now, you've added the following fields to `ContactForm`.
 
 .`*ContactForm.java*`
 [source,java]
@@ -792,7 +825,7 @@ Now you've added the following fields to `ContactForm`.
     private Button close;
 ----
 
-When any of the above buttons is pressed, we want to execute the corresponding action. In order to not add a circular dependency between MainView and ContactForm, and to keep ContactForm reusable, we'll make ContactForm to send an event on a button press. `MainView` will capture the events and perform the actual actions.
+When any of the above buttons is clicked, we want to execute a corresponding action. To avoid a circular dependency between `MainView` and `ContactForm`, and to keep `ContactForm` reusable, we make `ContactForm` send an event on a button click. `MainView` captures the events and performs the actual actions.
 
 Vaadin comes with an event-handling system for components. We’ve already used it to listen to value-change events from the filter text field. We want the form component to have a similar way of letting `MainView` know what is happening in the form.
 
@@ -863,15 +896,15 @@ With the above events, we can now implement the click listeners. Add the followi
         }
     }
 ----
-<1> The save button calls the `validateAndSave` method
+<1> The save button calls the `validateAndSave` method.
 <2> The delete button fires a `delete` event and passes the currently-edited contact.
 <3> The cancel button fires a `close` event.
 <4> Validates the form every time it changes. If it is invalid, it disables the save button to avoid invalid submissions.
 <5> Only fires a `save` event if the form is valid.
 
-Now, the events are sent. Next, we'll need to listen to and handle them in `MainView`.
+Now, the events are sent. Next, we need to listen to and handle them in `MainView`.
 
-Add the following changes to `MainView` to handle the contact form events, as well as the still missing "add contact" button click:
+Add the following changes to `MainView` to handle the contact form events, and the "add contact" button click that is still missing:
 
 .`*MainView.java*`
 [source,java]
@@ -903,21 +936,22 @@ Add the following changes to `MainView` to handle the contact form events, as we
         grid.asSingleSelect().clear(); <7>
     }
 ----
-<1> Call `saveContact` when `save` event received from the contact form.
-<2> Call `deleteContact` when `delete` event received from the contact form.
-<3> Close the form when close event received from the contact form.
-<4> Handle add button click by opening the form with a new `Contact` object.
-<5> A new method to save the contact to the service, refresh the grid, and close the form.
-<6> A new method to delete the contact to the service, refresh the grid, and close the form.
-<7> Clear selection when closing from the form to keep behaviour consistent.
+<1> Calls `saveContact` when a `save` event is received from the contact form.
+<2> Calls `deleteContact` when a `delete` event is received from the contact form.
+<3> Closes the form when a close event is received from the contact form.
+<4> Handles add button clicks by opening the form with a new `Contact` object.
+<5> This new method saves the contact to the service, refreshes the grid, and closes the form.
+<6> This new method deletes the contact in the service, refreshes the grid, and closes the form.
+<7> Clears selection when closing from the form to keep the behavior consistent.
 
 Congratulations, you have now completed the tutorial!
 
 You can find the complete source code of this tutorial on https://github.com/vaadin-learning-center/crm-tutorial/tree/designer-tutorial[GitHub].
 
 You can find more information about Vaadin Designer, Vaadin, and Spring Boot here:
-https://spring.io/projects/spring-boot#learn[Spring Boot documentation]
-https://vaadin.com/docs/index.html[Vaadin documentation]
-https://vaadin.com/docs/v14/designer/getting-started/designer-overview.html[Vaadin Designer documentation]
 
-Please let us know what you thought of the Vaadin Designer tutorial and if you have ideas for other Designer related topics you want us to cover. You can reach us on Twitter, through Vaadin Designer Help menu, or by posting a comment below.
+* https://spring.io/projects/spring-boot#learn[Spring Boot documentation].
+* https://vaadin.com/docs/index.html[Vaadin documentation].
+* https://vaadin.com/docs/v14/designer/getting-started/designer-overview.html[Vaadin Designer documentation].
+
+Please let us know what you think of this Vaadin Designer tutorial and if you have any ideas for other Designer-related topics you would like us to cover. You can reach us on Twitter, through the Vaadin Designer Help menu, or by posting a comment below.
