@@ -7,7 +7,7 @@
 :repo: https://github.com/vaadin-learning-center/flow-docker-app
 :linkattrs:
 :imagesdir: ./images
-:og_image: docker-featured.png
+:og_image: docker--featured.png
 
 In this tutorial you learn to deploy your Java-based Vaadin application in a Docker container and run it locally.
 
