@@ -2,7 +2,7 @@
 
 :title: How to create a Docker container for a Vaadin Java app
 :type: text
-:tags: Java, Deployment, Web
+:tags: Java, Deploy
 :description: Learn how to create a Dockerfile and deploy a Vaadin Java web application in a Docker container.
 :repo: https://github.com/vaadin-learning-center/flow-docker-app
 :linkattrs:
