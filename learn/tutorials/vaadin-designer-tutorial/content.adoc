@@ -115,7 +115,7 @@ We'll disregard the form for now, as we build it separately after adding the oth
 === Adding the components
 
 . On the paper, click *Vertical* to get a vertical layout as your starting point. Your view now constists of an empty layout.
-. Find *Horizontal Layout Spacing* in the palette and drag it onto the vaadin-vertical-layout on the paper twice. You can use the search field at the top to find components easily.
+. Find *Horizontal Layout Spacing* in the palette and drag it onto the vaadin-vertical-layout on the paper *twice*. You can use the search field at the top to find components easily.
 . Find *Vaadin Text Field* in the palette and drag it onto the *first* vaadin-horizontal-layout.
 . Find *Button* in the palette and drag it onto the *first* vaadin-horizontal-layout.
 . Find *vaadin-grid* in the palette and drag it onto the *second* vaadin-horizontal-layout.
@@ -188,7 +188,7 @@ Our form component will have:
 [#form-add-text-fields]
 === Adding two text fields for the name
 
-. Find *Vaadin Text Field* in the palette and drag it onto vaadin-form-layout.
+. Find *Vaadin Text Field* in the palette and drag it *twice* onto vaadin-form-layout.
 . Select the first vaadin-text-field in the design. In the properties view, go to the attributes panel. Find the label attribute and replace the text with "First name". Find the placeholder attribute and remove the value.
 . Select the second vaadin-text-field in the design. In the properties view, go to the attributes panel. Find the label attribute and replace the text with "Last name". Find the placeholder attribute and remove the value.
 
@@ -203,7 +203,7 @@ NOTE: If your paper is wide, the text fields will line up horizontally. You can 
 [#form-add-combo-boxes]
 === Adding company and status fields
 
-. In the palette, find *vaadin-combo-box* and drag it onto the vaadin-form-layout twice.
+. In the palette, find *vaadin-combo-box* and drag it onto the vaadin-form-layout *twice*.
 . Select the first vaadin-combo-box in the design. In the properties view, go to the attributes panel. Find the label attribute and add the value "Company".
 . Select the second vaadin-combo-box in the design. In the properties view, go to the attributes panel. Find the label attribute and add the value "Status".
 
