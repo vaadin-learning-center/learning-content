@@ -68,9 +68,9 @@ To do this:
 . In the Project tree, expand the `frontend/src` folder.
 . Right click the `frontend/src` folder and select *New > Directory*. Name the new folder `views`.
 . Right click the newly-created `views` folder and select *New > Vaadin 10+ Design*.
-. Check the *Create Java companion file* checkbox. This allows us to bind data and add listeners to our view in Java. 
-. In the *Java package* field, click the folder selection button and navigate to `com.vaadin.tutorial.crm.ui`.
 . In the *Name* field, type `main-view`.
+. Make sure the *Create Java companion file* checkbox is checked. This allows us to bind data and add listeners to our view in Java.
+. In the *Java package* field, click the folder selection button and navigate to `com.vaadin.tutorial.crm.ui`.
 
 The *New Vaadin 10+ design* dialog should now look like this.
 
@@ -170,12 +170,13 @@ It is good to keep your designs focused on one thing. When there are too many fo
 
 . Switch back to IntelliJ IDEA.
 . In the Project tree, right click the `frontend/src/views` folder and select *New > Vaadin 10+ Design*.
-. Check the *Create Java companion file* checkbox. This allows you to bind data and add listeners to the view in Java . 
-. Verify that the Java package is `com.vaadin.tutorial.crm.ui`.
 . In the *Name* field, type `contact-form`.
+. Make sure that
+.. the *Create Java companion file* checkbox is checked.
+.. the Java package is `com.vaadin.tutorial.crm.ui`.
 . Click *OK* to generate the files.
 . The design opens in the browser. 
-. In the palette, search for "vaadin-form" and drag vaadin-form-layout onto the drop section in the canvas.
+. In the palette, search for "vaadin-form" and drag vaadin-form-layout onto the drop section in the paper.
 
 image::form-create-design.png[New design for the form.]
 
