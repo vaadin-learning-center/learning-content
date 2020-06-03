@@ -287,7 +287,7 @@ image::intellij-toolbar-run-configurations.png[Running the project from the tool
 
 When the build is finished and the application is running open `http://localhost:8080/` in your browser to see the result.
 
-image::layout-finished-run-the-project.png[The application running in the browser.]
+image::app-layout-finished.png[The application running in the browser.]
 
 [#java-connect]
 == Connecting your view to Java 
@@ -436,7 +436,7 @@ Next, <<#layout-finished-run-the-project, run the application>>, or restart it i
 
 The grid now shows the contacts from the service.
 
-image::grid-populated-run-the-project.png[Grid configured and populated with items from the service.]
+image::app-grid-populated.png[Grid configured and populated with items from the service.]
 
 [#java-enable-filtering]
 === Enabling filtering
@@ -521,7 +521,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 
 Run the application. The grid is now searchable based on the name entered in the text field.
 
-image::grid-filtered-run-the-project.png[Grid filtered based on text field contents.]
+image::app-grid-filtered.png[Grid filtered based on text field contents.]
 
 [#java-contact-form]
 == Implementing the contact form
@@ -609,7 +609,7 @@ To work around the https://github.com/vaadin/flow/issues/8256[bug]:
 
 Now, the contact form will be hidden when the application starts.
 
-image::form-hidden-run-the-project.png[Form hidden when initially starting the application.]
+image::app-form-hidden.png[Form hidden when initially starting the application.]
 
 Next, we open the form when a contact is selected in the grid, and pass that contact to the form.
 
@@ -795,7 +795,7 @@ public class ContactForm extends PolymerTemplate<ContactForm.ContactFormModel> {
 
 When you run the app now, there are no exceptions, all form fields are filled correctly, and items in the combo boxes are populated.
 
-image::form-populated-run-the-project.png[Form populated with the selected contact's details.]
+image::app-form-populated.png[Form populated with the selected contact's details.]
 
 Next, we make sure that changes made in the form persist.
 
