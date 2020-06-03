@@ -434,7 +434,7 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
 Next, <<#layout-finished-run-the-project, run the application>>, or restart it if it is already running. 
 
-The grid now shows the contacts from the service.
+Refresh the `http://localhost:8080/` browser tab. The grid now shows the contacts from the service.
 
 image::app-grid-populated.png[Grid configured and populated with items from the service.]
 
