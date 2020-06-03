@@ -14,7 +14,7 @@ This tutorial shows how to deploy a Java web application to IBM Cloud. You can u
 
 You can deploy the application directly from your command line or from a GitHub repository as a CI pipeline. Skip to “Option 2” after the prerequisites, if you prefer to only set up the latter.
 
-I’m using the latest LTS (Vaadin 14 at the time of writing) starter app as an example. You can download the app from https://vaadin.com/latest if you don’t have your own app to deploy.
+I’m using the latest LTS (Vaadin 14 at the time of writing) starter app as an example. You can download the app from https://vaadin.com/start if you don’t have your own app to deploy.
 
 == Prerequisites:
 
