@@ -2,7 +2,7 @@
 
 :tags: Java, Data entry, Validation
 :author: Marcus Hellberg
-:description: Learn how to build a web form that binds to a POJO, applies validation to fields and dynamically changes based on user input. 
+:description: Learn how to build a dynamic web form that binds to a POJO, applies validation to fields and dynamically changes based on user input. 
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
 :repo: https://github.com/vaadin-learning-center/vaadin-flow-form-example

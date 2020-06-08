@@ -2,7 +2,7 @@
 
 :tags: Java, REST
 :author: Matti Tahvonen
-:description: Learn how to call REST services in Java and Convert the REST response to Java objects.
+:description: Learn how to consume REST services in Java and Convert the REST response to Java objects.
 :repo: https://github.com/mstahv/consuming-rest-apis
 :linkattrs: // enable link attributes, like opening in a new window
 :imagesdir: ./images
@@ -12,7 +12,7 @@ Using REST services has really struck though during the last couple of years. Th
 
 A typical mistake among us Java developers is to do-it-all by ourselves. A typical way to do it by hand is to do a `URL.openStream()`, read the response into a string and parse data from the string manually. Completely possible and quite easy even with core JDK libraries but there are much better ways to do this.
 
-The Java ecosystem has lots of excellent libraries, many really well-designed standards and often even multiple competing implementations for them. https://jax-rs-spec.java.net/[JAX-RS] is one of those and also one that’s well known among Java EE developers for providing https://en.wikipedia.org/wiki/Representational_state_transfer[REST services]. But the specification also contains a bit less known API for consuming REST services. Using it will make your code faster and simpler to write and maintain.
+The Java ecosystem has lots of excellent libraries, many really well-designed standards and often even multiple competing implementations for them. https://jax-rs-spec.java.net/[JAX-RS] is one of those and also one that’s well known among Java EE developers for providing https://en.wikipedia.org/wiki/Representational_state_transfer[REST services]. But the specification also contains a bit less known API for consuming REST services in Java. Using it will make your code faster and simpler to write and maintain.
 
 My https://github.com/mstahv/consuming-rest-apis[example application] is a small Java EE application that collects weather forecasts from http://openweathermap.org/[openweathermap.org] into simple POJOs and displays them in the browser using a very simple Vaadin UI. The real meat of the tutorial is by no means specific to Java EE or even Vaadin, but they’ll let us avoid a lot of boilerplate code to focus on the essential stuff. Although JAX-RS comes as a part of the Java EE specification, it depends on no other specification in Java EE. So, if your Java application isn’t running in a Java EE container, just drop in a JAX-RS implementation, https://jersey.java.net/documentation/latest/modules-and-dependencies.html#client-jdk[like Jersey] and configure an object mapping library to work with it and adapt the example to your needs. If you happen to be working with a Spring-based stack, you might want to look into http://spring.io/guides/gs/consuming-rest/[RestTemplate API] instead that does pretty much the same as a JAX-RS client.
 
