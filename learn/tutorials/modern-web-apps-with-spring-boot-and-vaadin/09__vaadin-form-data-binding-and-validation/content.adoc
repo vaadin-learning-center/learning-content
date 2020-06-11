@@ -145,11 +145,19 @@ To do this, add the following in the `ContactForm` class:
 .`*ContactForm.java*`
 [source,java]
 ----
-public void setContact(Contact contact) {
-  binder.setBean(contact); <1>
+public class ContactForm extends FormLayout {
+    private Contact contact;
+
+    // other methods and fields omitted
+
+    public void setContact(Contact contact) {
+        this.contact = contact; <1>
+        binder.readBean(contact); <2>
+    }
 }
 ----
-<1> Calls `binder.setBean` to bind the values from the contact to the UI fields
+<1> Save a reference to the contact so we can save the form values back into it later.
+<2> Calls `binder.readBean` to bind the values from the contact to the UI fields. `readBen` copies the values from the Contact to an internal model, that way we don't accidentally overwrite values if we cancel editing.
 
 == Setting up events
 
@@ -223,8 +231,11 @@ private Component createButtonsLayout() {
 }
 
 private void validateAndSave() {
-  if (binder.isValid()) { <5>
-    fireEvent(new SaveEvent(this, binder.getBean()));
+  try {
+    binder.writeBean(contact); <5>
+    fireEvent(new SaveEvent(this, contact)); <6>
+  } catch (ValidationException e) {
+    e.printStackTrace();
   }
 }
 ----
@@ -232,7 +243,8 @@ private void validateAndSave() {
 <2> The delete  button fires a delete event and passes the currently-edited contact.
 <3> The cancel button fires a close event.
 <4> Validates the form every time it changes. If it is invalid, it disables the save button to avoid invalid submissions.
-<5> Only fires a save event if the form is valid.
+<5> Write the form contents back to the original `contact`.
+<6> Fire a save event so the parent component can handle the action.
 
 In the next tutorial, we'll connect the form to the main view so that the selected contact in the form can be edited.
 
