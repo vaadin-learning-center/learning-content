@@ -49,11 +49,11 @@ When you open a design file with Designer, the source code shows in your IDE, wh
 
 The first step in any development project is to set up a project and get it running. When this is done, we will continue using the project with Vaadin Designer.  
 
-Follow chapters 3-5 of the https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Building Modern Web Apps with Spring Boot and Vaadin] guide to set up a Vaadin project: 
+Follow chapters 2-4 of the https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Building Modern Web Apps with Spring Boot and Vaadin] guide to set up a Vaadin project: 
 
-. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/importing-running-and-debugging-a-java-maven-project-in-intellij-idea[Chapter 3: Importing, running, and debugging Maven projects in IntelliJ IDEA]
-. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[Chapter 4: Vaadin basics: building UIs with components and layouts]
-. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/spring-boot-backend-database-jpa-repositories-services[Chapter 5: Creating a Spring Boot backend: database, JPA repositories, and services]
+. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/importing-running-and-debugging-a-java-maven-project-in-intellij-idea[Chapter 2: Importing, running, and debugging Maven projects in IntelliJ IDEA]
+. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/vaadin-basics-components-and-layouts[Chapter 3: Vaadin basics: building UIs with components and layouts]
+. https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin/spring-boot-backend-database-jpa-repositories-services[Chapter 4: Creating a Spring Boot backend: database, JPA repositories, and services]
 
 As an alternative, you can skip the steps above and download the end result of Chapter 5 directly: https://github.com/vaadin-learning-center/crm-tutorial/archive/03-database-and-backend.zip[download the project as a zip from GitHub].
 
