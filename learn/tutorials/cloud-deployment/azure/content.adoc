@@ -1,4 +1,4 @@
-= Deploy to Azure Cloud
+= eploying a Java web app to the Azure cloud
 
 :title: Deploying a Java web app to the Azure cloud
 :authors: mikaelsu
@@ -8,7 +8,7 @@
 :repo: https://github.com/Mikaelsu/vaadin-demo-app
 :linkattrs:
 :imagesdir: ./images
-:og_image: cloud-deployment-featured-image.png
+:og_image: cloud-deployment-featured-image-azure.png
 
 This tutorial shows you how to deploy a Java web application to Microsoft’s Azure cloud. Azure offers a 30-day free trial that includes 12 months of free commercial services. You can find details of their free and commercial services on the link:https://azure.microsoft.com/[Azure website].
 
@@ -37,7 +37,7 @@ This method describes how to upload a built JAR file (`.jar`) directly on Micros
 . Go to the Azure portal https://portal.azure.com/#home and log in.
 . Select *Create a resource* under *Azure Services*.
 +
-image::azure-services.png[Azure Services view]
+image::azure-services-home.png[Azure Services view]
 +
 . Go to *Web > Web App*
 . In the *Basics* tab, fill in the details:
@@ -51,7 +51,7 @@ image::azure-services.png[Azure Services view]
 .. *Linux Plan: Create New* and enter a name.
 .. *Sku and size: Free F1* for 1 GB size.
 +
-image::create-web-app.png[wep app example details]
+image::create-web-app-azure.png[wep app example details]
 +
 . Select *Review + create*.
 . Review the details and select *Create*.
@@ -125,7 +125,7 @@ image::vaadin-starter-download.png[Vaadin starter download page]
 . Deploy to Azure using the `mvn azure-webapp:deploy` command.
 . In the Azure portal go to *Home > App Services* and select your application in the list to configure it.
 +
-image::azure-services.png[Azure Services view]
+image::azure-services-home.png[Azure Services view]
 +
 . Open the application URL in your browser.
 +
@@ -144,7 +144,7 @@ Source code on link:https://github.com/Mikaelsu/vaadin-demo-app-azure[GitHub].
 . Go to the Azure portal https://portal.azure.com/#home and log in.
 . Select *Create a resource* under *Azure Services*.
 +
-image::azure-services.png[Azure Services view]
+image::azure-services-home.png[Azure Services view]
 +
 . Search the marketplace for 'API App' and select *Create*.
 +
@@ -162,7 +162,7 @@ NOTE: The *S1* subscription tier is commercial and included in the free 30 day t
 . Select *Create*.
 . In the Azure portal go to *Home > App Services* and select your application in the list to configure it.
 +
-image::azure-services.png[Azure Services view]
+image::azure-services-home.png[Azure Services view]
 +
 . Go to *Settings > Configuration > General settings* and use the following:
 .. *Stack:* Java
@@ -177,7 +177,7 @@ image::azure-services.png[Azure Services view]
 .. *Web sockets:* OFF
 .. *Awlays on:* ON
 +
-image::general-settings.png[general settings view]
+image::general-settings-tab-azure.png[general settings view]
 +
 . Go to *Development Tools > App Service Editor (preview) > Go→* and delete all pre-configuration files in the `WWWROOT` folder (`.html` file pictured below):
 +
