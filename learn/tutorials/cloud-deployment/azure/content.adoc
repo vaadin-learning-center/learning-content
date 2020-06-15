@@ -238,6 +238,4 @@ WARNING: You need to authorize GitHub if you haven’t already done so.
 +
 image::example-app.png[example app from GitHub]
 
-You can view the example application running link:https://newbranchtest2.azurewebsites.net/[here].
-
 Source code on link:https://github.com/Mikaelsu/vaadin-demo-app[GitHub].
