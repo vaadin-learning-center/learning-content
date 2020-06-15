@@ -204,20 +204,22 @@ TIP: You can create a separate 'deployment' branch containing only the deploymen
 === Configure GitHub and deploy your application
 
 . Go to the Azure portal at https://portal.azure.com/#home.
-. Select the application you just created in Recent resources.
-. In the left navigation, select Deployment > Deployment Center.
+. Select the application you just created in *Recent resources*.
+. In the left navigation, select *Deployment > Deployment Center*.
 . In Continuous Deployment (CI / CD) select GitHub. and then Continue.
++
+image::ci.png[CI pipeline setup]
 +
 WARNING: You need to authorize GitHub if you haven’t already done so.
 +
-. Select Continue.
-. Select App Service as the build service.
+. Select *Continue*.
+. Select *App Service* as the build service.
 . Select your organization, repository, branch and then continue. This will automatically configure your app for deployment.
-. Go to Home > App Services and select your application in the list. 
+. Go to *Home > App Services* and select your application in the list. 
 . Open the application URL in your browser.
 +
 image::example-app.png[example app from GitHub]
 
 You can view the example application running link:https://newbranchtest2.azurewebsites.net/[here].
 
-Source code on link:https://github.com/Mikaelsu/vaadin-demo-app[GitHub]
+Source code on link:https://github.com/Mikaelsu/vaadin-demo-app[GitHub].
