@@ -167,7 +167,13 @@ image::azure-services.png[Azure Services view]
 +
 image::general-settings.png[general settings view]
 +
-. Go to *Development Tools > App Service Editor (preview) > Go→* and delete all pre-configuration files in the `WWWROOT` folder.
+. Go to *Development Tools > App Service Editor (preview) > Go→* and delete all pre-configuration files in the `WWWROOT` folder (`.html` file pictured below):
++
+image::before-delete.png[files in wwwroot folder]
++
+Making the folder empty for now.
++
+image::after-delete.png[empty wwwroot folder]
 
 === Prepare the application
 
