@@ -1,4 +1,4 @@
-= eploying a Java web app to the Azure cloud
+= Deploying a Java web app to the Azure cloud
 
 :title: Deploying a Java web app to the Azure cloud
 :authors: mikaelsu
