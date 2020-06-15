@@ -5,7 +5,7 @@
 :type: text
 :tags: Backend, Cloud, Deploy, Java
 :description: A tutorial on how to deploy a Java web app to Microsoft’s Azure cloud service.
-:repo:
+:repo: https://github.com/Mikaelsu/vaadin-demo-app
 :linkattrs:
 :imagesdir: ./images
 :og_image: cloud-deployment-featured-image.png
@@ -82,7 +82,8 @@ image::vaadin-starter-download.png[Vaadin starter download page]
 </plugin>
 ----
 +
-. Add the details of your Azure Web App to the `pom.xml`:
+. Configure the application using the `mvn azure-webapp:config command`.  Select the corresponding number to insert your OS: `Linux` and Java version: `Java 11` and then enter *Y* on your keyboard to confirm.
+. Run the `mvn azure-webapp:config command` again and press *1* on your keyboard to enter the details of your Azure Web app:
 +
 .`*pom.xml*`
 [source,xml]
@@ -92,7 +93,7 @@ image::vaadin-starter-download.png[Vaadin starter download page]
        <region>YOUR_REGION</region>
        <pricingTier>F1</pricingTier>
 ----
-. Configure the application using the `mvn azure-webapp:config command`.  Select the corresponding number to insert your OS: `Linux` and Java version: `Java 11` and then enter *Y* on your keyboard to confirm.
++
 . Add this `<appSettings>` section to the `<configuration>` section in your `pom.xml`:
 +
 .`*pom.xml*`
@@ -118,9 +119,11 @@ image::azure-services.png[Azure Services view]
 +
 image::url-location.png[open URL]
 +
+image::example-app.png[example application]
++
 NOTE: It might take a few minutes for the page to display.
 
-image::example-app.png[example application]
+Source code on link:https://github.com/Mikaelsu/vaadin-demo-app-azure[GitHub].
 
 == Option 2: Setting up a GitHub CI pipeline
 
@@ -213,8 +216,8 @@ WARNING: You need to authorize GitHub if you haven’t already done so.
 . Go to Home > App Services and select your application in the list. 
 . Open the application URL in your browser.
 +
-image:example-app.png[example app from gitHub]
+image::example-app.png[example app from GitHub]
 
-You can view the example application running from GitHub link:https://newbranchtest2.azurewebsites.net/[here].
+You can view the example application running link:https://newbranchtest2.azurewebsites.net/[here].
 
-Source code: https://github.com/Mikaelsu/vaadin-demo-app
+Source code on link:https://github.com/Mikaelsu/vaadin-demo-app[GitHub]
