@@ -99,12 +99,24 @@ image::vaadin-starter-download.png[Vaadin starter download page]
 .`*pom.xml*`
 [source,xml]
 ----
-<appSettings>
-          <property>
-                <name>JAVA_OPTS</name>
-                <value>-Dserver.port=80</value>
-          </property>
-       </appSettings>
+ <configuration> 
+          <schemaVersion>V2</schemaVersion>  
+          <resourceGroup>YOUR_RESOURCE_GROUP</resourceGroup>
+       <appName>YOUR_APP_NAME</appName>
+       <pricingTier>F1</pricingTier>
+       <region>YOUR_REGION</region>
+          <runtime> 
+            <os>linux</os>  
+            <javaVersion>java11</javaVersion>  
+            <webContainer>java11</webContainer> 
+          </runtime>
+          <appSettings>
+            <property>
+              <name>JAVA_OPTS</name>
+              <value>-Dserver.port=80</value>
+            </property>
+          </appSettings>
+          <deployment> 
 ----
 
 === Deploy your application
