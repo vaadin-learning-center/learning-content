@@ -23,7 +23,7 @@ The tutorial includes two options to deploy the application:
 
 *Prerequisites:*
 
-. Create an Azure account at link:signup.azure.com[].
+. Create an Azure account at https://signup.azure.com/.
 . Verify that you have Java installed by running the `java --version` command in your terminal. If not, link:https://aws.amazon.com/corretto/[download] and install the latest version on your computer.
 . Verify that you have Git installed by running the `git --version` command in your terminal. If not, link:https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[download] and install the latest version on your computer.
 . Verify that you have Maven (at least version 3.0) installed by running the `mvn -v` command in your terminal. If not, link:https://maven.apache.org/[download] and install the latest version on your computer.
