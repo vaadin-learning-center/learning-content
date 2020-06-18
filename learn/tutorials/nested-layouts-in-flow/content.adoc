@@ -30,9 +30,7 @@ In total we have three classes that are representing a View now.
 
 The classes are all extending the class `Composite<Div>` and the root element inside the Composite is
 a neutral div itself. If you want to read more about this, have a look at
-the documentation at
-
-https://vaadin.com/docs/flow/creating-components/tutorial-component-composite.html [https://vaadin.com/docs/flow/creating-components/tutorial-component-composite.html]
+the documentation at: https://vaadin.com/docs/flow/creating-components/tutorial-component-composite.html 
 
 Every View class will get an annotation `Route` for an individual path.
 For example the class `ViewA` will get a path called `ViewA`. To access this view you have to go
