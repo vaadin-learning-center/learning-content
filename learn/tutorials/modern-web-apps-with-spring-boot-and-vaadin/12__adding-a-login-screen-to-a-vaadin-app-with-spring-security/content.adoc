@@ -61,7 +61,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 	}
 
 	@Override
-	public void beforeEnter(BeforeEnterEvent event) {
+	public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
 		// inform the user about an authentication error
 		if(beforeEnterEvent.getLocation() <5>
         .getQueryParameters()
