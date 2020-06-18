@@ -222,7 +222,7 @@ private Component createButtonsLayout() {
   // omitted
 
   save.addClickListener(event -> validateAndSave()); <1> 
-  delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean()))); <2>
+  delete.addClickListener(event -> fireEvent(new DeleteEvent(this, contact))); <2>
   close.addClickListener(event -> fireEvent(new CloseEvent(this))); <3>
 
 
