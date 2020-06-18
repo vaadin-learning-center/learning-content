@@ -137,7 +137,7 @@ image::updated-contact.png[updated conctact]
 
 The final step is to add a button to add new contacts. We’ll position the button next to the filter field.
 
-. In `MainView`, create a `HorizontalLayout` that wraps the text field and the button, rename the `configureFilter` method to `configureToolbar`, and replace its contents, as follows:
+. In `MainView`, create a `HorizontalLayout` that wraps the text field and the button, rename the `configureFilter` method to `getToolbar`, and replace its contents, as follows:
 +
 .`*MainView.java*`
 [source,java]
