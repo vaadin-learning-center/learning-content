@@ -8,6 +8,8 @@
 :imagesdir: ./images
 :related: getting-started-with-flow
 
+TIP: This tutorial is for Vaadin 8. For Vaadin 14+, please take a look at our link:/learn/tutorials/using-rest-services-from-vaadin14[updated tutorial] instead.
+
 Using REST services has really struck though during the last couple of years. They often act as a "public API" for third-party solutions like mobile apps or as a "persistence layer" for client-side web apps (GWT, Angular etc.). Java is probably the most common platform for providing REST services, but several Java applications need to consume them as well. And, it might even be that REST services consume other REST services for providing their data.
 
 A typical mistake among us Java developers is to do-it-all by ourselves. A typical way to do it by hand is to do a `URL.openStream()`, read the response into a string and parse data from the string manually. Completely possible and quite easy even with core JDK libraries but there are much better ways to do this.
