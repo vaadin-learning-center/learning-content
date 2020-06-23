@@ -2,10 +2,12 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to import and start a Maven-based Java project in IntelliJ IDEA Community or Ultimate edition. Use the debugger to step through code and find bugs.
-:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs:
-ifndef::print[:imagesdir: ./images]
+ifndef::print[]
+:imagesdir: ./images
+:og_image:../../images/spring-boot-vaadin-tutorial.png
+endif::[]
 
 = Importing, running, and debugging Maven projects in IntelliJ IDEA
 

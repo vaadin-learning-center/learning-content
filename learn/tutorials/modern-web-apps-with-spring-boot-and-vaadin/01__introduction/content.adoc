@@ -2,10 +2,13 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: In this step-by-step tutorial series, you will learn how to build a modern, full-stack, web application with Spring Boot and Vaadin.
-:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs:
-ifndef::print[:imagesdir: ./images]
+ifndef::print[]
+:imagesdir: ./images
+:og_image:../../images/spring-boot-vaadin-tutorial.png
+endif::[]
+
 
 = Introduction: Building modern web apps with Spring Boot and Vaadin
 
