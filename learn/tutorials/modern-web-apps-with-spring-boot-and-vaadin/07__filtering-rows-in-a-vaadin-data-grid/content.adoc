@@ -2,10 +2,12 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to filter entities displayed in a Vaadin grid and implement filtering with Spring Data JPA repositories.
-:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: 
-ifndef::print[:imagesdir: ./images]
+ifndef::print[]
+:imagesdir: ./images
+:og_image:../../images/spring-boot-vaadin-tutorial.png
+endif::[]
 
 = Filtering rows in Vaadin Grid
 

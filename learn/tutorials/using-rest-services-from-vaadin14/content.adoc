@@ -1,0 +1,123 @@
+= Consuming REST services from Java applications
+
+:tags: Java, REST, Flow
+:author: Thomas Mattsson
+:description: Learn how to call REST services in Vaadin 14 apps and Convert the REST response to Java objects.
+:repo: https://github.com/vaadin/vaadin-rest-example
+:linkattrs: // enable link attributes, like opening in a new window
+:imagesdir: ./images
+:related: getting-started-with-flow
+
+Using REST services is still the de-facto way of providing data to traditional frontend applications. They often act as a "public API" for third-party solutions like mobile apps or as a "persistence layer" for client-side web apps (React, Vue etc.). Java is probably the most common platform for providing REST services, but several Java applications need to consume them as well. 
+
+A typical mistake among us Java developers is to do-it-all by ourselves. One way to do this by hand is to do a URL.openStream(), read the response into a string and parse data from the string manually. Completely possible and quite easy even with core JDK libraries; but there are much better ways to do this.
+
+The Java ecosystem has lots of excellent libraries, many really well-designed standards and often even multiple competing implementations for them. A link:/learn/tutorials/consuming-rest-services-from-java-applications[previous version of this blog post] highlighted https://jax-rs-spec.java.net/[JAX-RS], for example. Nowadays most Java web apps are based on Spring, so that is what we will use as an example here.
+
+My https://github.com/vaadin/vaadin-rest-example[example application] is a small Spring Boot application that collects data from various REST services and displays them in the browser using a very simple Vaadin UI. You can also download the example from https://vaadin.com/start/v14[our start page]. The real meat of the example is by no means specific to Spring Boot or even Vaadin, but they’ll let us avoid a lot of boilerplate code to focus on the essential stuff. In particular, we’ll use the https://docs.spring.io/spring-boot/docs/2.0.3.RELEASE/reference/html/boot-features-webclient.html[WebClient API] that lets us call external REST services and use the results in any way we need.
+
+The process can be broken down into three steps: Model, Process, and Consume.
+
+== Step 1: Model the data
+Most commonly your service provides its data in a JSON format. Unless the responses are really trivial (e.g. lists of strings), you generally don’t save time by accessing them directly. While using low-level APIs or a map based representation for JSON is possible, going that way doesn’t really improve the readability of your code. Sometimes it is possible to get your hands on the original Java model they use at the providing end, but reverse engineering POJO data transfer objects (DTOs) from both XML and JSON is fast and dead simple as well.
+
+Smaller models can be reverse engineered manually in no time, but tooling can improve your productivity a lot in this step. To generate the model for a REST response you can use an excellent online service, http://www.jsonschema2pojo.org/[www.jsonschema2pojo.org]. All you do is copy-paste an example JSON response from the service, adapt the checkboxes for your needs, and copy the generated artifacts to your project. In many cases with well-crafted data, proper naming conventions are enough to get a usable model. The underlying tools used by the service are also available for https://github.com/joelittlejohn/jsonschema2pojo/wiki/Getting-Started[local usage].
+
+In some cases generating a static model won’t be possible; maybe the data structure is dynamic and depends on the input. Instead of trying to generate dynamic Java class structures, it might be easier to just use the raw JSON of the response. You can find an example of this in the example application as well.
+
+== Step 2: Fetch the data
+The actual usage of the WebClient client API is dead simple. Still, I wrapped that part into a https://github.com/vaadin/vaadin-rest-example/blob/v14/src/main/java/com/vaadin/example/rest/data/RestClientService.java[service class] to separate it from the actual UI code. Your UI code doesn’t necessarily need to know whether it is accessing a REST service, a Web Service or a DB. The public API reveals just the reverse engineered DTO classes for the actual UI code.
+
+In the service class, I create a WebClient object that does the heavy lifting in each method. For the WebClient object I then specify an endpoint URL with parameters, and what class I would like the response to be parsed into. Finally I call block() that executes the actual query. The method is named like that because it is a blocking operation, meaning that it will wait for the response. 
+
+[source,java]
+----
+public List<CommentDTO> getAllComments() {
+
+    System.out.println("Fetching all Comment objects through REST..");
+
+    // Fetch from 3rd party API; configure fetch
+    RequestHeadersSpec<?> spec = WebClient.create().
+        get().uri("https://jsonplaceholder.typicode.com/comments");
+
+    // do fetch and map result
+    List<CommentDTO> comments = spec.retrieve().
+        toEntityList(CommentDTO.class).block().getBody();
+
+    System.out.println(String.format("...received %d items.", comments.size()));
+
+    return comments;
+}
+----
+
+Note that this is a free 3rd party API that doesn’t use any security, such as tokens. The WebClient API makes it easy to include those if needed.
+
+The example application also includes code for using raw JSON data in your UI code (for when you can’t create a DTO class), using non-blocking queries instead of blocking ones like above, as well as an implementation for a lazy loading DataProvider for easily connecting a Vaadin Grid or ComboBox to a paging REST endpoint.
+
+[source,java]
+----
+public void getAllCommentsAsync(AsyncRestCallback<List<CommentDTO>> callback) {
+
+    // Configure fetch as normal
+    RequestHeadersSpec<?> spec = WebClient.create().get().uri("https://jsonplaceholder.typicode.com/comments");
+
+    // But instead of 'block', do 'subscribe'. This means the fetch will run on a
+    // separate thread and notify us when it's ready by calling our lambda operation.
+    spec.retrieve().toEntityList(CommentDTO.class).subscribe(result -> {
+
+        // get results as usual
+        final List<CommentDTO> comments = result.getBody();
+
+        // call the ui with the data
+        callback.operationFinished(comments);
+    });
+}
+----
+
+Other HTTP methods like POST and PUT are naturally supported as well and you can submit your payload using the same automatic class mapping but in the opposite direction, but I’ve left that as an exercise for the reader.
+
+== Step 3: Consume the data
+Using POJOs with pretty much any Java technology is pretty basic stuff, so too with Vaadin. To complete the example as a runnable application I hooked the service into a Vaadin UI. In the application you can choose one of four demo views that access data in slightly different ways:
+
+* https://github.com/vaadin/vaadin-rest-example/blob/v14/src/main/java/com/vaadin/example/rest/ui/InMemoryDTOView.java[Basic in-memory fetching] of DTOs or raw JSON, fetch all results from the endpoint into application memory.
+* https://github.com/vaadin/vaadin-rest-example/blob/v14/src/main/java/com/vaadin/example/rest/ui/AsyncInMemoryDTOView.java[Asynchronous in-memory fetching] of DTOs using Server Push to populate the Grid once a response arrives, useful when the service is slow and you don’t want to leave the application blocked during the request.
+* https://github.com/vaadin/vaadin-rest-example/blob/v14/src/main/java/com/vaadin/example/rest/ui/LazyDTOView.java[Lazily loading items to a Grid] on demand (using a paging REST service), to optimize memory consumption in your application. The built-in Vaadin DataProvider API makes this a breeze.
+
+Finally, here are a few samples on how to use the fetched data. First, using a simple in-memory list:
+
+[source,java]
+----
+// First example uses a Data Transfer Object (DTO) class that we've created. The
+// Vaadin Grid works well with entity classes, so this is quite straightforward:
+final Grid<CommentDTO> commentsGrid = new Grid<CommentDTO>(CommentDTO.class);
+
+// Button for fetching all entities and showing them
+final Button fetchComments = new Button("Fetch all comments",
+    e -> commentsGrid.setItems(service.getAllComments()));
+
+add(fetchComments, commentsGrid);
+----
+
+And this is how you would create a lazy loading DataProvider.
+
+[source,java]
+----
+final Grid<DataDTO> dataGrid = new Grid<DataDTO>(DataDTO.class);
+
+final Button fetchData = new Button("Create lazy provider", e -> {
+
+    // Here we give the DataProvider our two callback methods. The Grid will call
+    // them on demand. The second type in the declaration (Void) is a filter type;
+    // we won't use filters in this example.
+    final DataProvider<DataDTO, Void> lazyProvider = DataProvider.fromCallbacks(
+        q -> service.fetchData(q.getLimit(), q.getOffset()), 
+        q -> service.fetchCount()
+    );
+
+    dataGrid.setDataProvider(lazyProvider);
+});
+
+add(fetchData, dataGrid);
+----
+
+You should now understand the basics of using Spring's WebClient APIs with Vaadin. You’ll find more details in the https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/reactive/function/client/WebClient.html[JavaDocs] or in implementation specific manuals. An easy way to get more comfortable with this awesome helper is to https://vaadin.com/start/v14[download the example app] from our start page into your favorite IDE and start hacking!

@@ -2,10 +2,12 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to navigate between views in Vaadin by adding a dashboard view and a responsive parent layout. Mark links active by their route. 
-:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: 
-ifndef::print[:imagesdir: ./images]
+ifndef::print[]
+:imagesdir: ./images
+:og_image:../../images/spring-boot-vaadin-tutorial.png
+endif::[]
 
 = Navigating between views in Vaadin
 

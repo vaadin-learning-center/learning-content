@@ -2,10 +2,12 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to catch bugs with JUnit. Create unit and integration tests for Java-based Spring Boot apps and test Autorwired dependencies with SpringRunner.
-:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs: // enable link attributes, like opening in a new window
-ifndef::print[:imagesdir: ./images]
+ifndef::print[]
+:imagesdir: ./images
+:og_image:../../images/spring-boot-vaadin-tutorial.png
+endif::[]
 
 = Testing Spring Boot apps with unit and integration tests
 
