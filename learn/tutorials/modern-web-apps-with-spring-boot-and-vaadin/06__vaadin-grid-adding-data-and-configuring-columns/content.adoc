@@ -2,10 +2,12 @@
 :tags: Java, Spring 
 :author: Vaadin
 :description: Learn how to populate a Vaadin Grid with data from a database and configure the column orders, contents, and widths.
-:og_image:../../images/spring-boot-vaadin-tutorial.png
 :repo: https://github.com/vaadin-learning-center/crm-tutorial
 :linkattrs:
-ifndef::print[:imagesdir: ./images]
+ifndef::print[]
+:imagesdir: ./images
+:og_image:../../images/spring-boot-vaadin-tutorial.png
+endif::[]
 
 = Adding data and configuring columns in Vaadin Grid
 
