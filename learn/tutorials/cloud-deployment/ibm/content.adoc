@@ -100,6 +100,8 @@ This tutorial uses the CF CLI. In case you want to use IBM Cloud CLI, simply add
 TIP: To install IBM Cloud CLI, please visit https://cloud.ibm.com/docs/cli?topic=cloud-cli-install-ibmcloud-cli.
 
 In this example, our Cloud Foundry space is located in the region "US South". The IBM Cloud endpoint for US South region is “api.us-south.cf.cloud.ibm.com”. To lookup endpoints for other regions, please visit https://cloud.ibm.com/docs/cloud-foundry-public?topic=cloud-foundry-public-endpoints#api-endpoint-options.
+
+Login to CF with your endpoint using the command `cf login -a your_api_endpoint`.
 ----
 barbaros@barbaros-ThinkPad-L380-Yoga:~$ cf login -a api.us-south.cf.cloud.ibm.com 
 API endpoint: https://api.us-south.cf.cloud.ibm.com
