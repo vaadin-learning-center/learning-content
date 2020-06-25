@@ -59,7 +59,7 @@ image::create_ibm_account.png[create ibm account]
 +
 image::IBM_cloud_login.png[ibmid login]
 +
-NOTE: You can deploy 1 CF (Cloud Foundry Application) that's max 256MB in size with a Lite account. Upgrade to a link:https://cloud.ibm.com/docs/account?topic=account-upgrading-account#upgrade-paygo[Pay-As-You-Go account] for a 30 day trial of commercial services.
+NOTE: You can deploy 1 CF (Cloud Foundry Application) that's max 256MB in size with a Lite account. Upgrade to a link:https://cloud.ibm.com/docs/account?topic=account-upgrading-account#upgrade-paygo[Pay-As-You-Go account] to deploy larger and more applications, such as the Vaadin Starter used in this tutorial.
 
 === Install the Cloud Foundry CLI
 
