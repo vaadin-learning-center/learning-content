@@ -10,15 +10,23 @@
 :imagesdir: ./images
 :og_image: cloud_deployment_featured_image_IBM.png
 
-This tutorial shows how to deploy a Java web application to IBM Cloud. You can upload a Cloud foundry application to IBM Cloud for free. More details on the IBM web page https://www.ibm.com/cloud/free.
+This tutorial shows how to deploy a Java web application to the IBM Cloud. You can upload one Cloud foundry application with a memory limit of 256MB to IBM Cloud with a free link:https://cloud.ibm.com/docs/account?topic=account-accounts#liteaccount[Lite account]. 
 
-You can deploy the application directly from your command line or from a GitHub repository as a CI pipeline. Skip to “Option 2” after the prerequisites, if you prefer to only set up the latter.
+The tutorial uses a Vaadin Starter application that exceeds the memory limit of the Lite account. Activate a free 30 link:https://cloud.ibm.com/docs/account?topic=account-upgrading-account#upgrade-paygo[Pay-As-You-Go account] trial and get $200 credits to test IBM Cloud's commercial services. 
 
-I’m using the latest LTS (Vaadin 14 at the time of writing) starter app as an example. You can download the app from https://vaadin.com/start if you don’t have your own app to deploy.
+WARNING: Keep track of the remaining time and credits on your trial!
+
+You can deploy the application directly from your command line or from a GitHub repository as a CI pipeline. Skip to *Option 2* after the prerequisites, if you prefer to only set up the latter.
+
+Source code on link:https://github.com/Mikaelsu/ibm-cloud-demo[GitHub].
+
+_Thank you to Barbaros Özdemir form IBM for authoring this tutorial!_
 
 == Prerequisites:
 
 === Prepare your Vaadin application
+
+I’m using the latest LTS (Vaadin 14 at the time of writing) starter app as an example. You can download the app from https://vaadin.com/start if you don’t have your own app to deploy.
 
 . Go to the Vaadin website (vaadin.com).
 +
@@ -51,9 +59,13 @@ image::create_ibm_account.png[create ibm account]
 +
 image::IBM_cloud_login.png[ibmid login]
 +
-NOTE: You can deploy 1 CF (Cloud Foundry Application) with a free account.
+NOTE: You can deploy 1 CF (Cloud Foundry Application) that's max 256MB in size with a Lite account. Upgrade to a link:https://cloud.ibm.com/docs/account?topic=account-upgrading-account#upgrade-paygo[Pay-As-You-Go account] to deploy larger and more applications, such as the Vaadin Starter used in this tutorial.
 
-To create a CF Organization and space:
+=== Install the Cloud Foundry CLI
+
+Install the Cloud Foundry CLI to enable CF command in your terminal. Please visit https://docs.cloudfoundry.org/cf-cli/install-go-cli.html for instructions.
+
+=== Create a CF Organization and space
 
 . select *Manage* *→* *Account*.
 +
@@ -64,8 +76,7 @@ image::manage_account.png[manage account]
 +
 image::create_new_cf.png[create new cf]
 
-
-When you return to your IBM Cloud Dashboard you should be able to see the Cloud Foundry Organization and its space(s).
+When you return to your IBM Cloud Dashboard you should be able to see the Cloud Foundry Organization and its space(s) in the resource list https://cloud.ibm.com/resources.
 
 image::resource_list.png[resource list]
 
@@ -77,9 +88,6 @@ Please note that you can do these steps alternatively by using CF or IBM Cloud C
 
 `cf create-space *your_cf_space_name*`
 
-To install Cloud Foundry CLI please visit https://docs.cloudfoundry.org/cf-cli/install-go-cli.html.
-
-
 == Option 1: Deploy from command line
 
 This is for uploading a `.jar` directly onto IBM Cloud. Skip to the next section if you wish to deploy from GitHub.
@@ -87,11 +95,13 @@ You can either use the default Cloud Foundry CLI or the IBM Cloud CLI to push yo
 
 === Login to IBM Cloud with CF or IBM Cloud CLI
 
-To install IBM Cloud CLI please visit https://cloud.ibm.com/docs/cli?topic=cloud-cli-install-ibmcloud-cli.
-
 This tutorial uses the CF CLI. In case you want to use IBM Cloud CLI, simply add ibmcloud before the cf commands once you are logged in. For logging in, please use the `ibmcloud login` command and follow instructions to select region and cf organization. 
 
+TIP: To install IBM Cloud CLI, please visit https://cloud.ibm.com/docs/cli?topic=cloud-cli-install-ibmcloud-cli.
+
 In this example, our Cloud Foundry space is located in the region "US South". The IBM Cloud endpoint for US South region is “api.us-south.cf.cloud.ibm.com”. To lookup endpoints for other regions, please visit https://cloud.ibm.com/docs/cloud-foundry-public?topic=cloud-foundry-public-endpoints#api-endpoint-options.
+
+Login to CF with your endpoint using the command `cf login -a your_api_endpoint`.
 ----
 barbaros@barbaros-ThinkPad-L380-Yoga:~$ cf login -a api.us-south.cf.cloud.ibm.com 
 API endpoint: https://api.us-south.cf.cloud.ibm.com
@@ -123,19 +133,31 @@ Once you are logged in you are ready for the final step before pushing your appl
 
 . Navigate to the root folder of your Vaadin project and create a new file `manifest.yml`. Open the `manifest.yml` file and enter your desired application name, number of instances you want to deploy, amount of memory you want to provide for each instance, the cloud foundry buildpack you want to use and the path to your `.war` or `.jar` file similar as shown below:
 +
-image::manifest.png[manifest file]
+.`*manifest.yml*`
+[source,yml]
+----
+applications:
+  - name: vaadin-demo
+    instances: 1
+    memory: 2G
+    buildback: java_buildpack
+    path: target/my-starter-project-1.0-SNAPSHOT.jar
+----
 +
-Please note that you can give less than 2G memory for your application, i.e. 528M. Once you are done you can proceed to the final step to deploy your application on IBM Cloud.
+NOTE: Please note that you can give less than 2G memory for your application, i.e. 256M if you use a Lite account.
 
+Once you are done you can proceed to the final step to deploy your application on IBM Cloud.
+
+ 
 === Push your Vaadin application to IBM Cloud
 
 Navigate to the root folder of your Vaadin project and run the `cf push` command:
 ----
 . . .
 Waiting for app to start...
-name:          	my-starter-project-vaadin14-bakery
+name:          	my-starter-project-vaadin14
 requested state:   started
-routes:            my-starter-project-vaadin14-backery.mybluemix.net
+routes:            my-starter-project-vaadin14.mybluemix.net
 last uploaded: 	Sat 02 May 14:57:09 CEST 2020
 stack:         	cflinuxfs3
 buildpacks:    	java_buildpack
@@ -287,6 +309,4 @@ image::finished_app.png[finished application]
 by Barbaros Özdemir
 
 For questions about deployments on IBM Cloud please feel free to contact barbaros.oezdemir@at.ibm.com
-
-_Thank you Barbaros Özdemir from IBM for authoring the tutorial!_
 
