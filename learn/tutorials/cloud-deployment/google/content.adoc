@@ -1,6 +1,6 @@
-= Deploy to Google Cloud
+= Deploy a Java web app to Google Cloud
 
-:title: Deploy to Google Cloud
+:title: Deploy a Java web app to Google Cloud
 :authors: mikaelsu
 :type: text
 :tags: Backend, Cloud, Deploy, Flow, Java
