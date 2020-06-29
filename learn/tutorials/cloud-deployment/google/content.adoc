@@ -42,8 +42,6 @@ The tutorial includes two options to deploy the application:
 +
 image::dashboard-new-project.png[New project in dashboard.]
 +
-image::new-project.png[New Project.]
-+
 . Go to *COMPUTE > App Engine > Dashboard* in the navigation menu on the left:
 +
 image::app-engine-menu.png[Compute APP ENGINE.]
@@ -192,7 +190,7 @@ image::enable-api.png[Enable API.]
 
 === Create a cluster
 
-. Go to COMPUTE > Kubernetes Engine > Clusters in the navigation menu on the left.
+. Go to *COMPUTE > Kubernetes Engine > Clusters* in the navigation menu on the left.
 +
 image::kubernetes-menu.png[Kubernetes Engine in menu.]
 +
