@@ -180,7 +180,7 @@ image::new-project-dashboard.png[New project in dashboard.]
 
 . In your Google Cloud Dashboard, go to *APIs & Services > Dashboard* in the navigation menu on the left.
 +
-image::apis-and-services-menu.png[APIs and Services menu.]
+image::apis-services-menu.png[APIs and Services menu.]
 +
 . Select *+ ENABLE APIS AND SERVICES* in the top bar.
 
