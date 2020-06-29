@@ -9,6 +9,7 @@
 :linkattrs:
 :imagesdir: ./images
 :related_tutorials: /docker-container
+:og_image: cloud_deployment_featured_image.png
 
 This tutorial shows you how to deploy a Java web application to Google Cloud. Google Cloud offers a 12-month free trial that includes $300 of credits to spend and an unlimited ‘Always Free’ tier. You can find details of their free and commercial services on their link:https://cloud.google.com/free/docs/gcp-free-tier[documentation page].
 
@@ -40,6 +41,8 @@ The tutorial includes two options to deploy the application:
 . Create a new project at https://console.cloud.google.com/ and provide a name for it:
 +
 image::new-project-dashboard.png[New project in dashboard.]
++
+image::new-project.png[New Project.]
 +
 . Go to *COMPUTE > App Engine > Dashboard* in the navigation menu on the left:
 +
