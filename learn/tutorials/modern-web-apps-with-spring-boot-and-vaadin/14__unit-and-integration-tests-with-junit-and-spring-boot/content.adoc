@@ -245,7 +245,7 @@ You can improve the startup time by explicitly listing the needed dependencies i
         Assert.assertFalse(form.isVisible());
 		grid.asSingleSelect().setValue(firstContact);
         Assert.assertTrue(form.isVisible());
-        Assert.assertEquals(firstContact, form.binder.getBean());
+        Assert.assertEquals(firstContact.getFirstName(), form.firstName.getValue());
     }
 private Contact getFirstItem(Grid<Contact> grid) {
 		return( (ListDataProvider<Contact>) grid.getDataProvider()).getItems().iterator().next();
@@ -256,7 +256,7 @@ private Contact getFirstItem(Grid<Contact> grid) {
 ** Asserting that the form is initially hidden.
 ** Selecting the first item in the grid and verifying that:
 *** The form is visible.
-*** The form is bound to the correct `Contact`.
+*** The form is bound to the correct `Contact` by ensuring the right name is visible in the field.
 
 . Rerun the tests. They should all pass.
 
