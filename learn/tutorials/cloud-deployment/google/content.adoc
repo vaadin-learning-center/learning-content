@@ -169,7 +169,7 @@ To view your application in the web browser run:
 . Install Google SDK. You can find detailed instructions on how to install on different platforms on the link:https://cloud.google.com/sdk/docs[SDK documentation page].
 . Create a new project at https://console.cloud.google.com/ and provide a name:
 +
-image::new-project-dashboard.png[New project in dashboard.]
+image::dashboard-new-project.png[New project in dashboard.]
 
 === Prepare the application
 
