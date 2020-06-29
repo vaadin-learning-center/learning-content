@@ -1,67 +1,243 @@
-= Deploy to Google Cloud
+= Deploy a Java web app to Google Cloud
 
-:title: Deploy to Google Cloud
-:authors: amahdy
+:title: Deploy a Java web app to Google Cloud
+:authors: mikaelsu
 :type: text
 :tags: Backend, Cloud, Deploy, Flow, Java
-:description: Learn how to deploy Java app to Google cloud
-:repo:
+:description: Follow our step-by-step tutorial on how to deploy your Java web app to the Google Cloud platform.
+:repo: https://github.com/Mikaelsu/google-demo
 :linkattrs:
 :imagesdir: ./images
-:related_tutorials: cloud-deployment/kubernetes
+:related_tutorials: /docker-container
+:og_image: cloud_deployment_featured_image.png
 
-The aim of this tutorial is to show how to deploy a https://vaadin.com/start/latest/simple-ui[Java application] to Google Cloud. It is not an in-depth tutorial, but rather showing the minimum required steps to get things running and try Google cloud as a potential host platform for your applications.
+This tutorial shows you how to deploy a Java web application to Google Cloud. Google Cloud offers a 12-month free trial that includes $300 of credits to spend and an unlimited ‘Always Free’ tier. You can find details of their free and commercial services on their link:https://cloud.google.com/free/docs/gcp-free-tier[documentation page].
 
-To get started, open https://console.cloud.google.com/[Google Cloud console], and log in using a Google account, then set up account information, you will be greeted by a screen similar to this:
+NOTE: You need a credit card to confirm your identity when signing up on Google Cloud. 
 
-image::cloud-console.png[Cloud Console]
+We use the latest Vaadin link:https://vaadin.com/start/latest[Spring Boot starter app] in our example. You can see the example app running on Google Cloud link:https://vaadin-demo-test.ew.r.appspot.com/[here].
 
-== Create a project
+The tutorial includes two options to deploy the application: 
 
-From the top menu, click on *Select a project* then *New Project*.
+. As a JAR file directly from your command line. 
 
-image::new-project.png[New Project]
+. As a Docker container from a GitHub repository using Google’s Kubernetes Engine.
 
-In the following screen, give it a project name then click *Create*.
+== Prerequisites:
 
-Once everything is ready, you will be greeted with a screen similar to this:
+* Create a Google Cloud account at https://cloud.google.com/.
+* Verify that you have Java installed by running the `java --version` command in your terminal. If not, link:https://aws.amazon.com/corretto/[download] and install the latest version on your computer.
+* Verify that you have Git installed by running the `git --version` command in your terminal. If not, link:https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[download] and install the latest version on your computer.
+* Verify that you have Maven (at least version 3.0) installed by running the `mvn -v` command in your terminal. If not, link:https://maven.apache.org/[download] and install the latest version on your computer.
 
-image::project-created.png[Project Created]
+== Option 1: From Command Line
 
-== Using Cloud Shell
+=== Set up Google Cloud
 
-To keep things simple, and without downloading any scripts, we will be using the browser-based cloud console. To activate it click on the console icon on the top-right corner of the page then click on *Start Cloud Shell*:
+. Sign into your Google Cloud account: https://console.cloud.google.com/.
 
-image::online-console.png[Online Console]
+. Install Google SDK. You can find detailed instructions on how to install on different platforms on the lnk:https://cloud.google.com/sdk/docs[SDK documentation page].
 
-After few moments, the console will pop up at the bottom of your project dashboard and ready to use:
+. Create a new project at https://console.cloud.google.com/ and provide a name for it:
++
+image::dashboard-new-project.png[New project in dashboard.]
++
+. Go to *COMPUTE > App Engine > Dashboard* in the navigation menu on the left:
++
+image::app-engine-menu.png[Compute APP ENGINE.]
++
+. Click *Create Application*.
++
+image::app-engine-create.png[Create APP ENGINE application.]
++
+. Choose your region and then select *Create app*.
++
+TIP: You can learn more about choosing a region in the link:https://cloud.google.com/compute/docs/regions-zones#choosing_a_region_and_zone[Google Cloud documentation].
++
+image::region-select-menu.png[Choose region.]
++
+. Select:
+* *Language: Java*
+* *Environment: Flexible* 
 
-image::online-shell.png[Online Shell]
+=== Prepare the application
 
-You can treat the cloud shell as a remote shell, and we can start by cloning the source code repository and package it locally:
+. Download and open a starter project from http://vaadin.com/start/latest. Select *Spring Boot* as the technology stack and fill the *Maven Group ID* and *Project Name* as you see fit (or leave them at the defaults).
+. Change the server port in your Spring project `application.properties` file in src/main/resources to: `server.port=${port:8080}`. You can find more details about this in the link:https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-change-the-location-of-external-properties[Spring documentation]
+. Generate a *JAR* file (``.jar`) of your application using the `mvn package -Pproduction` command.
 
-[source]
+=== Configure Google SDK
+
+Initialize Google SDK with the gcloud init command as follows:
+
 ----
-$ git clone https://github.com/vaadin/beverage-starter-flow
-$ cd beverage-starter-flow/
-$ mvn package
+Welcome! This command will take you through the configuration of gcloud.
+
+Settings from your current configuration [default] are:
+compute:
+  region: europe-west4
+  zone: europe-west4-a
+core:
+  account: youremail@yourcompany.com
+  disable_usage_reporting: 'False'
+  project: vaadin-demo-test
+
+Pick configuration to use:
+ [1] Re-initialize this configuration [default] with new settings 
+ [2] Create a new configuration
+Please enter your numeric choice: 
 ----
+If the current configuration is correct, press 1 to continue.
+To create a new configuration, press 2. We create a new configuration to show the steps:
 
-== Run the application
+* Enter a name
 
-We can run the application using the built-in Jetty server
-
-[source]
+* Choose your account or login with a new account:
 ----
-$ mvn jetty:run
+Choose the account you would like to use to perform operations for 
+this configuration:
+ [1] youremail@yourcompany.com
+ [2] Log in with a new account
+Please enter your numeric choice:  1
 ----
+* Select 1. to use your current account and project. 
+----
+You are logged in as: [youremail@yourcompany.com].
 
-And preview using the *Web preview* icon on the console’s top-right corner, then click *Preview on port 8080*:
+Pick cloud project to use: 
+ [1] project name 1
+ [2] project name 2
+ [3] project name 3
+Please enter numeric choice or text value (must exactly match list 
+item):  1
+----
+* Select the number corresponding to the project you created previously. 
+----
+Your Google Cloud SDK is configured and ready to use!
+----
+* SDK is now configured for deployment.
 
-image::online-preview.png[Online Preview]
+=== Deploy your application
 
-At this point, you can preview how the application is performing on Google cloud, share the session with other https://cloud.google.com/iam/[project collaborators], you can also set up an https://cloud.google.com/storage/docs/object-change-notification[Object Change Notification] to update the local repository automatically once a specific branch gets updated.
+. Navigate to the folder containing the generated *JAR* (``.jar`) file (usually  `/target`) and open a new terminal.
 
-A following excellent step would be, to https://vaadin.com/learn/tutorials/cloud-deployment/kubernetes[deploy your Java application on a Kubernetes container] for actual production.
+. Use the `gcloud app deploy YOUR_APP_NAME.jar` command to deploy the application. 
++
+NOTE: Replace `YOUR_APP_NAME` with the name of your generated JAR file
++
+. Verify the details and confirm by entering Y.
++
+----
+Last login: Wed Jun 24 10:32:43 on ttys000
+mikael@Mikael’s-MacBook-Pro target % gcloud app deploy vaadin-demo-project-1.0-SNAPSHOT.jar
+Services to deploy:
 
-Learn more about https://cloud.google.com/java/[Java on Google cloud] and this interesting https://codelabs.developers.google.com/codelabs/cloud-springboot-cloudshell/index.html[codelab] on how to start a spring boot application from scratch on the platform.
+descriptor:      [/Users/mikael/Documents/target/vaadin-demo-project-1.0-SNAPSHOT.jar]
+source:          [/Users/mikael/Documents/target]
+target project:  [vaadin-demo-project]
+target service:  [default]
+target version:  [20200624t105304]
+target url:      [https://vaadin-demo-project.ew.r.appspot.com]
+
+
+Do you want to continue (Y/n)?  
+
+Beginning deployment of service [default]...
+Created .gcloudignore file. See `gcloud topic gcloudignore` for details.
+╔════════════════════════════════════════════════════════════╗
+╠═ Uploading 2 files to Google Cloud Storage    ═╣
+╚════════════════════════════════════════════════════════════╝
+File upload done.
+Updating service [default]...done.                                             
+Setting traffic split for service [default]...done.                            
+Deployed service [default] to [https://vaadin-demo-project.ew.r.appspot.com]
+
+You can stream logs from the command line by running:
+  $ gcloud app logs tail -s default
+
+To view your application in the web browser run:
+  $ gcloud app browse
+----
++
+. View the deployed app in your default browser using the `gcloud app browse` command.
+
+== Option 2: From GitHub
+
+=== Set up Google Cloud
+
+. Sign into your Google Cloud account: https://console.cloud.google.com/.
+. Install Google SDK. You can find detailed instructions on how to install on different platforms on the link:https://cloud.google.com/sdk/docs[SDK documentation page].
+. Create a new project at https://console.cloud.google.com/ and provide a name:
++
+image::dashboard-new-project.png[New project in dashboard.]
+
+=== Prepare the application
+
+. Create a Docker container for your Java web app. Follow the steps in the link:https://vaadin.com/learn/tutorials/docker-container[Vaadin Docker tutorial].
+. Upload the project to a GitHub repository.
+
+=== Enable the Cloud Source Repositories API
+
+. In your Google Cloud Dashboard, go to *APIs & Services > Dashboard* in the navigation menu on the left.
++
+image::apis-services-menu.png[APIs and Services menu.]
++
+. Select *+ ENABLE APIS AND SERVICES* in the top bar.
+
+. Search for *Cloud Source Repositories API*, open it and select *ENABLE*.
++
+image::enable-api.png[Enable API.]
+
+=== Create a cluster
+
+. Go to *COMPUTE > Kubernetes Engine > Clusters* in the navigation menu on the left.
++
+image::kubernetes-menu.png[Kubernetes Engine in menu.]
++
+. Select *Deploy Container*.
++
+image::create-cluster.png[New container image.]
++
+. Select *New container image*.
+. Select GitHub as the repository provider.
+. Leave the Dockerfile path empty. 
+. Use the premade image name, unless you have reason to change it.
+. Select *CONTINUE*.
+. Provide an application name and select a zone. You can leave the rest of the options at their defaults.
++
+image::cluster-settings.png[Cluster settings.]
++
+. Select *DEPLOY*.
+
+=== Create a Cloud Run service
+
+. Go to *COMPUTE > Cloud Run* in the navigation menu on the left and then select *START USING CLOUD RUN*.
+. Select *CREATE SERVICE* in the top bar.
++
+image::create-service.png[Create service.]
++
+. Configure your service:
+.. Select *Cloud Run (fully managed)* as the deployment platform and select your region. 
+.. Provide a service name.
+.. Select *Allow unauthenticated invocations*.
+.. Select *NEXT*.
++
+image::service-settings.png[Service settings.]
++
+TIP: You can learn more about choosing a region in the link:https://cloud.google.com/compute/docs/regions-zones#choosing_a_region_and_zone[Google Cloud documentation].
++
+. Select the container image URL that you just created and then select *CREATE*.
+
+. Click the name of your service to open it.
++
+image::service-list.png[Services in list.]
++
+. Select the link in the *URL* field to view your deployed application:
++
+image::service-url.png[Service URL location.]
++
+NOTE: It takes a few minutes for the URL to show your app. If you get an Error 403, it’s probably still being prepared. 
++
+TIP: You can go to the LOGS tab of the Cloud Run Dashboard to troubleshoot any errors.
+
+Source code on link:https://github.com/Mikaelsu/google-demo[GitHub].
