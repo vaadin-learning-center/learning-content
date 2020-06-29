@@ -40,7 +40,7 @@ The tutorial includes two options to deploy the application:
 
 . Create a new project at https://console.cloud.google.com/ and provide a name for it:
 +
-image::new-project-dashboard.png[New project in dashboard.]
+image::dashboard-new-project.png[New project in dashboard.]
 +
 image::new-project.png[New Project.]
 +
