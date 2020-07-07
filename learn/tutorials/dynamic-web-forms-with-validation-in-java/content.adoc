@@ -206,7 +206,7 @@ With the UI components in place and snack type selection working, the next task 
         .bind(SnackOrder::getQuantity, SnackOrder::setQuantity);
     binder.forField(snackSelect)
         .asRequired("Please choose a snack")
-        .bind(SnackOrder::getSnack, SnackOrder::setName);
+        .bind(SnackOrder::getSnack, SnackOrder::setSnack);
     binder.readBean(new SnackOrder());
   }
 ----
