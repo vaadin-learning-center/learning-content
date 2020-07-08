@@ -82,8 +82,8 @@ image::vaadin-starter-download.png[Vaadin starter download page]
 </plugin>
 ----
 +
-. Configure the application using the `mvn azure-webapp:config command`.  Select the corresponding number to insert your OS: `Linux` and Java version: `Java 11` and then enter *Y* on your keyboard to confirm.
-. Run the `mvn azure-webapp:config command` again and press *1* on your keyboard to enter the details of your Azure Web app:
+. Configure the application using the `mvn azure-webapp:config` command.  Select the corresponding number to insert your OS: `Linux` and Java version: `Java 11` and then enter *Y* on your keyboard to confirm.
+. Run the `mvn azure-webapp:config` command again and press *1* on your keyboard to enter the details of your Azure Web app:
 +
 .`*pom.xml*`
 [source,xml]
