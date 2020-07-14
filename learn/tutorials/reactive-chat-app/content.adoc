@@ -65,7 +65,7 @@ Also, add a header and a class name so we can style it with CSS.
 .`*MainVew.java*`
 [source,java]
 ----
-@StyleSheet("frontend://styles/styles.css")
+@CssImport("./styles/styles.css")
 public MainView() {
   setSizeFull();
   setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -81,7 +81,7 @@ public MainView() {
 
 Then, create a new CSS file for the styles:
 
-.`*resources/META-INF/resources/frontend/styles/styles.css*`
+.`*frontend/styles/styles.css*`
 [source,css]
 ----
 .main-view h1 {
@@ -365,7 +365,7 @@ messages.subscribe(message -> {
       ));
 });
 ----
-<1> The UI getter returns an optional. It may be empty if the component is not attached at the moment. In our case it will always be attached.
+<1> The UI getter returns an `Optional`. It may be empty if the component is not attached at the moment. In our case it will always be attached.
 <2> Pass the message adding logic into the `access` method.
 
 == Wrapup
