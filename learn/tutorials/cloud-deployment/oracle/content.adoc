@@ -339,7 +339,7 @@ image::triggers_tab.png[Triggers tab.]
 +
 image::build_steps_tab.png[Build steps tab.]
 +
-. In *Post Build* select *Archive the Artifacts*, enter YOUR_APP_NAME/target/*.war and select *GZIP* as the compression type. Replace YOUR_APP_NAME with the actual name of your application.
+. In *Post Build* select *Archive the Artifacts*, enter `YOUR_APP_NAME/target/*.war` and select GZIP* as the compression type. Replace YOUR_APP_NAME with the actual name of your application.
 +
 image::post_build_tab.png[Post build tab.]
 +
