@@ -1,10 +1,10 @@
-= Deploy to Amazon Web Services
+= Deploy a Java web app to Amazon Web Services
 
-:title: Deploy to Amazon Web Services
+:title: Deploy a Java web app to Amazon Web Services
 :authors: amahdy
 :type: text
 :tags: Backend, Cloud, Deploy, Java
-:description: Learn how to deploy Java app to Amazon Web Services
+:description: Learn how to deploy Java app to Amazon Web Services.
 :repo:
 :linkattrs:
 :imagesdir: ./images
