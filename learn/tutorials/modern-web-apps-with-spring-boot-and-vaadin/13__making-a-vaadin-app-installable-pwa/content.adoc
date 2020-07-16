@@ -55,7 +55,7 @@ public class MainLayout extends AppLayout {
 
 . Start by creating a new folder `src/main/webapp`.
 
-. Create a new subfolder  `src/main/webapp/icons`and add your own icon image named `icon.png`. The image resolution should be 512 px x 512 px. This overrides the default image in the starter. 
+. Create a new subfolder  `src/main/webapp/icons` and add your own icon image named `icon.png`. The image resolution should be 512 px x 512 px. This overrides the default image in the starter. 
 
 You can use your own icon, or save the image below, by right clicking and selecting *Save Image*.
 
@@ -65,7 +65,7 @@ image::icon.png[example icon]
 
 Vaadin creates a generic offline fallback page that displays when the application is launched offline. Replacing this default page with a custom page that follows your own design guidelines makes your app more polished. 
 
-. Use the code below to create `offline.html` in the new `src/main/webapp`folder: 
+. Use the code below to create `offline.html` in the new `src/main/webapp` folder: 
 +
 .`*offline.html*`
 [source,html]
