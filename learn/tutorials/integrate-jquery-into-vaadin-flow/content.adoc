@@ -9,6 +9,7 @@
 :related_tutorials:
 
 JQuery used to be one of the top JavaScript libraries and it is still really popular today. This tutorial demonstrates three alternative ways to integrate jQuery in your Vaadin project and check that it's loaded.
+
 NOTE: This tutorial requires Vaadin 14 in npm mode (this is the default mode).
 
 == Option 1. Use a CDN 
