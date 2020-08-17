@@ -441,3 +441,5 @@ To configure the instance, use this on as input for the Builder.
 Now we have all together that is needed for a fluent API for Flow.
 If you want to try it by yourself, get one of our starters you can find link:/start/latest[here] and
 add the dependency for the fluent API from our link:/directory/component/rapidpm-vaadin-fluent-component-api[directory].
+
+source code on link:https://github.com/vaadin-learning-center/fluent-api-for-flow[GitHub].

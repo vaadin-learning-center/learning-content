@@ -56,3 +56,5 @@ In the example above, the `Tree` displays the full name of all `persons`, and if
 image::tree.png[Tree Component]
 
 What other features do you want to have in a `Tree` component? Let us know in the comments section below.
+
+Source code on link:https://github.com/amahdy/vaadin-tree[GitHub].

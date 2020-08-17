@@ -19,7 +19,7 @@ there is no time and budget to create a demo project.
 You don't want to copy paste all small things together.
 Here you will get a HelloWorld-Project that will give you all in a second.
 
-Clone the repo and start editing the class `VaadinApp`.
+link:https://github.com/vaadin-learning-center/flow-helloworld-maven-meecrowave[Clone the repo] and start editing the class `VaadinApp`.
 Nothing more. 
 
 == Used Servlet container?

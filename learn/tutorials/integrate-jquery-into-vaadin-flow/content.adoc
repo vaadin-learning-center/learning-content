@@ -9,6 +9,7 @@
 :related_tutorials:
 
 JQuery used to be one of the top JavaScript libraries and it is still really popular today. This tutorial demonstrates three alternative ways to integrate jQuery in your Vaadin project and check that it's loaded.
+
 NOTE: This tutorial requires Vaadin 14 in npm mode (this is the default mode).
 
 == Option 1. Use a CDN 
@@ -249,3 +250,5 @@ NOTE: Some jQuery plugins need to have `jQuery` and `$` defined globally. You ne
 The Vaadin framework comes with default functionality to manage and optimize frontend dependencies, but some libraries like jQuery require a specific configuration of webpack to be used in Vaadin. 
 
 Have you tried to import a JavaScript library into a Vaadin 14 project?
+
+Source code on link:https://github.com/jcgueriaud1/jquery-integration[GitHub].

@@ -14,7 +14,7 @@ Vaadin Grid is a powerful component for showing a list of data. It allows you to
 
 This tutorial will show you how to bind data from the back end to the Grid and how to add columns to the component. It also shows some basic features of the Grid component, which will be explained more in the next articles of this series.
 
-=== Adding columns to a Vaadin Grid
+== Adding columns to a Vaadin Grid
 The Vaadin Grid is a typed component which brings many benefits to your development. You can instantiate it with a specific class as a constructor parameter. That will scan the given class and add a column for every class field to your Grid. The Grid will use the `toString` method for each value shown by a column.
 
 [source,java]
@@ -33,7 +33,7 @@ TIP: Use `setColumns` to show specific columns in your Grid.
 personGrid.setColumns("name", "firstName");
 ----
 
-==== Manually adding columns
+=== Manually adding columns
 If you need more flexibility regarding design and value appearance, you can also add columns via `addColumn` method. You can either extend a class-based generated Grid as described above or start from scratch with an empty Grid.
 
 There are two options to add columns to the Grid with the `addColumn` method. You can pass the field name of the bean `addColumn("name")` or you simply provide a `ValueProvider` and set the getter method as a lambda `addColumn(item -> item.someMethod())` or a reference `addColumn(Person::getFirstName)`. 
@@ -55,7 +55,7 @@ personGrid
 
 If you have nested properties, you can add the column with the property name via bean notation ``addColumn("address.street")``. Make sure the object (in that case the address) is not null. Otherwise, it will throw an exception.
 
-==== Configuring Grid columns
+=== Configuring Grid columns
 
 To add more configurations to the columns, you can use the fluent API of the component to chain the different features easily. 
 
@@ -79,7 +79,7 @@ Column layout side note: The Grid displays the content in a flex-box layout. Bes
 
 In the next chapter of this tutorial, we will have a look at how to use `renderer` in columns to display individual string like dates and times, charts or components in the way you want it.
 
-=== Selecting rows in a Vaadin Grid
+== Selecting rows in a Vaadin Grid
 To select items in your Grid, you have two options. You can either set the Grid to `SelectionMode.SINGLE` to pick only one item or you set `SelectionMode.MULTI` to select more items.
 
 image::selectmodegrid.png["Single- and MultiSelect",800,400]
@@ -98,7 +98,7 @@ personGrid.addSelectionListener(selectionEvent -> {
 
 With `personGrid.asSingleSelect().getValue()` you will get the selected item straight away from the component. You can also set the selection manually via `personGrid.select(item)` or remove it via `personGrid.deselectAll()`.
 
-=== Adding data to a Vaadin Grid
+== Adding data to a Vaadin Grid
 
 Now we have our grid component configured, we would like to populate data in it. Therefore we will pass a `Collection` of data to the Grid with `setItems`. 
 
@@ -141,10 +141,12 @@ dataProvider.setSortOrder(Person::getName, SortDirection.ASCENDING);
 These are the easiest options to filter and sort data in the Grid. There are further options to sort and filter data, for example, to combine multiple sort orders and filters or to forward customized requests to the back end. We will cover this topic in one of the next articles in this series.
 
 
-=== Summary 
+== Summary 
 
 Today we learned how to create and configure a Grid and its columns with the Java API. We also had a short preview of how to load data into the component and what filtering and sorting options are available. In the next articles, we will have a detailed look on how to render values and components inside columns, how to apply more customized sort and filter options and how to use the lazy loading data provider.
 
 If you want a spoiler, you could have a look here: https://vaadin.com/docs/flow/components/tutorial-flow-grid.html
 
 Otherwise, stay excited about the next article!
+
+Source code on link:https://github.com/vaadin-learning-center/GridTutorial_01_Basics[GitHub].

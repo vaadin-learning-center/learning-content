@@ -261,3 +261,5 @@ function initUI() {
 Web Components behave like any other HTML element once you have imported them. You can set and read attributes and properties for data, and listen to events to add interactivity. 
 
 Web Components are designed to be framework independent. You can use them together with a framework or templating library to cut down on the boilerplate of manually querying elements and setting their values. See any of our other guides on using Web Components in popular frameworks for further information. 
+
+Source code on link:https://github.com/vaadin-learning-center/using-web-components[Github].

@@ -106,3 +106,5 @@ image::toggle-component-theme.gif[Toggle component theme between light and dark.
 == Summary
 
 In this tutorial, you learned how to use the dark Lumo theme variant. You can either enable the dark mode permanently with the `@Theme` annotation's `Lumo.DARK` variant or dynamically by adding or removing the theme variant on the UI or component you want to change.
+
+Source code on link:https://github.com/vaadin-learning-center/toggle-dark-theme[GitHub].
