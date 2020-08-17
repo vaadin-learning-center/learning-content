@@ -146,3 +146,5 @@ These topics and many more are covered in our documentation, tutorials and video
 - link:https://vaadin.com/docs/flow/introduction/introduction-concepts.html[Core concepts]
 - link:/learn/tutorials/getting-started-with-flow[CRUD application tutorial] 
 - link:/learn/training[Free online video course covering Vaadin basics]
+
+Source code on link:https://github.com/vaadin-learning-center/vaadin-todo[GitHub].

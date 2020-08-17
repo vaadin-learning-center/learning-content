@@ -346,4 +346,6 @@ No mocks are needed anymore.
 The increased abstraction also allows more than one component to register on the subcomponent shown here.
 Of course, one should not forget at this point that logoff from a registry needs to be taken into consideration to allow the garbage collector to function correctly.
 
-Happy Coding
+Source code on link:https://github.com/vaadin-learning-center/flow-design-pattern-observer[GitHub].
+
+Happy Coding!

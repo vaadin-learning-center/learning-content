@@ -372,3 +372,5 @@ messages.subscribe(message -> {
 Build the application and refresh your browser. You should now have a working chat application with a reactive backend and web socket support. Open a second window and try chatting with multiple participants. 
 
 image::chat-app.png[The chat app with a header, messages, and an input layout.]
+
+Source code on link:https://github.com/vaadin-learning-center/reactive-chat-app[GitHub].

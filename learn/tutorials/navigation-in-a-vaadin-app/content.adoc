@@ -291,3 +291,5 @@ public class WatermelonView extends Div {
 ----
 
 Now you notice that it overrides the selection action in `FruityView`, if you click on `Watermelon` option, you get redirected to our new view. That's because `fruity/Watermelon` is now registered as part of the router paths and no longer considered as a parameter to `fruity`.
+
+Source code on link:https://github.com/vaadin-learning-center/navigation-tutorial[GitHub].

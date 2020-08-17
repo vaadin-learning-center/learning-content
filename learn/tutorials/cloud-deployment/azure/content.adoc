@@ -193,7 +193,7 @@ image::after-delete.png[empty wwwroot folder]
 +
 image::vaadin-starter-download.png[Vaadin starter download page]
 +
-. Change the server port in your Spring project `application.properties` file in src/main/resources to: `server.port=${port:8080}`. You can find more details about this in the link::https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-change-the-location-of-external-properties[Spring documentation].
+. Change the server port in your Spring project `application.properties` file in src/main/resources to: `server.port=${port:8080}`. You can find more details about this in the link:https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-change-the-location-of-external-properties[Spring documentation].
 . Generate a JAR file (`.jar`) of your application using the `mvn package -Pproduction` command.
 . Create a `web.config` file with the following content. Replace “YOUR_APP_NAME” with the name of your application:
 +

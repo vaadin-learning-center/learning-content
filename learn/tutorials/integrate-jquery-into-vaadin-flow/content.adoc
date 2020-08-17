@@ -249,3 +249,5 @@ NOTE: Some jQuery plugins need to have `jQuery` and `$` defined globally. You ne
 The Vaadin framework comes with default functionality to manage and optimize frontend dependencies, but some libraries like jQuery require a specific configuration of webpack to be used in Vaadin. 
 
 Have you tried to import a JavaScript library into a Vaadin 14 project?
+
+Source code on link:https://github.com/jcgueriaud1/jquery-integration[GitHub].

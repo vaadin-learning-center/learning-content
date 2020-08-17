@@ -18,7 +18,7 @@ If you have to try something out, or you want to make a small POC to demonstrate
 You don't want to copy paste all small things together.
 Here you will get a Hello World-Project that will give you all in a second.
 
-Clone the repo and start editing the class `VaadinApp`.
+link:https://github.com/vaadin-learning-center/flow-helloworld-maven-thorntail[Clone the repo] and start editing the class `VaadinApp`.
 Nothing more.
 
 == Used Servlet container?
@@ -123,7 +123,7 @@ The last needed dependency is the thorntail maven plugin. This will make sure th
 == How to start it
 The Thorntail plugin allows you to run the demo. Run the following maven command inside the folder that was created from git during the cloning process.
 
-```mvn clean install thorntail:run ```
+`mvn clean install thorntail:run`
 
 The command builds the demo from scratch, fetches dependencies from Maven central, and starts Thorntail Swarm.
 You can access the application on http://localhost:8080/[http://localhost:8080/]

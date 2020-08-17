@@ -52,3 +52,5 @@ TIP: You can add "-Dvaadin.version=&#60;vaadin version no.&#62;" to download the
 Note that you need to have an internet connection available if you want to add web components which are not part of the default web-component set to the project later.
 
 To check the content of the npm registry, you can go to localhost:8081 and log in with username "admin" and password "admin."
+
+Source code on link:https://github.com/SebastianKuehnau/docker-nexus-npm-registry[GitHub].
