@@ -211,7 +211,7 @@ private Component getContactStats() {
 +
 [NOTE]
 
-https://vaadin.com/components/vaadin-charts[Vaadin charts] is a collection of data visualization components that is a part of the Vaadin https://vaadin.com/pricing[Vaadin Pro subscription]. Vaadin charts comes with a free trial that you can activate in the browser. All Vaadin Pro tools and components are free for students through the https://education.github.com/pack[GitHub Student Developer Pack]. You can skip the chart if you only want to use free components.
+https://vaadin.com/components/vaadin-charts[Vaadin charts] is a collection of data visualization components that is a part of the Vaadin https://vaadin.com/pricing[Vaadin Pro subscription]. Vaadin charts comes with a free trial that you can activate in the browser. All Vaadin Pro tools and components are free for students through the https://education.github.com/pack?utm_source=github+vaadin[GitHub Student Developer Pack]. You can skip the chart if you only want to use free components.
 +
 .`*CompanyService.java*`
 [source,java]

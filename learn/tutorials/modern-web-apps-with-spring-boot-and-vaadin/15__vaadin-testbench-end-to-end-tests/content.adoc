@@ -27,7 +27,7 @@ https://gitpod.io/#https://github.com/vaadin-learning-center/crm-tutorial/tree/1
 video::W-IT96DX8WI[youtube]
 endif::[]
 
-NOTE: The end-to-end tests use https://vaadin.com/testbench[Vaadin TestBench], which is a commercial tool that is a part of the Vaadin Pro Subscription. You can get a free trial at https://vaadin.com/trial. All Vaadin Pro tools and components are free for students through the https://education.github.com/pack[GitHub Student Developer Pack].
+NOTE: The end-to-end tests use https://vaadin.com/testbench[Vaadin TestBench], which is a commercial tool that is a part of the Vaadin Pro Subscription. You can get a free trial at https://vaadin.com/trial?utm_source=github+vaadin. All Vaadin Pro tools and components are free for students through the https://education.github.com/pack[GitHub Student Developer Pack].
 
 
 == Configuring Maven to start the server
