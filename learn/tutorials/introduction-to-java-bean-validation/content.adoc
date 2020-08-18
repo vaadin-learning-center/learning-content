@@ -1,0 +1,264 @@
+= Introduction to Java Bean Validation
+
+:type: text
+:tags: Validation
+:description: Learn the basics of Jakarta Bean Validation and how to use it in Java applications
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:related_tutorials:
+
+
+Jakarta Bean Validation (previously known as Java Bean Validation) allows you to define data validations using annotations in your Java Beans. Its motto is "constrain once, validate everywhere".
+
+=== Available implementations
+
+Jakarta Bean Validation is an API defined by the https://beanvalidation.org/2.0-jsr380[JSR 380]. Currently, there are two compliant implementations of this API: http://hibernate.org/validator[Hibernate Validator] (the reference implementation), and http://bval.apache.org[Apache BVal]. +
+Before using Jakarta Bean Validation in your project, you have to add one of these implementations to the classpath.
+
+==== Hibernate Validator
+
+To use Hibernate Validator, you have to add the dependencies that match the Java environment you use.
+
+===== Java SE
+
+In Java SE environments, add the following dependencies to the `pom.xml` file: +
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.1.5.Final</version>
+</dependency>
+
+<dependency>
+    <groupId>org.glassfish</groupId>
+    <artifactId>jakarta.el</artifactId>
+    <version>3.0.3</version>
+</dependency>
+----
+
+NOTE: Check for the latest versions at https://hibernate.org/validator/documentation/getting-started/[https://hibernate.org/validator/documentation/getting-started] and https://projects.eclipse.org/projects/ee4j.el[https://projects.eclipse.org/projects/ee4j.el].
+
+===== Spring Boot
+
+If you use Spring Boot, add the following dependency to the `pom.xml` file: +
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+----
+
+===== Java EE
+
+In Java EE environments, add the following dependency to the `pom.xml` file and possibly also configure your server to exclude Apache BVal, if necessary: +
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.1.5.Final</version>
+</dependency>
+----
+
+NOTE: Check for the latest version at https://hibernate.org/validator/documentation/getting-started/[https://hibernate.org/validator/documentation/getting-started]. +
+
+If you want to use the integration points that Jakarta Bean validation has for CDI, add the following dependency as well: +
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator-cdi</artifactId>
+    <version>6.1.5.Final</version>
+</dependency>
+----
+
+==== Apache BVal
+
+To use Apache BVal, add the following dependency to the `pom.xml file: +
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.apache.bval</groupId>
+    <artifactId>bval-jsr</artifactId>
+    <version>2.0.3</version>
+</dependency>
+----
+
+NOTE: Check for the latest version at https://mvnrepository.com/artifact/org.apache.bval/bval-jsr[https://mvnrepository.com/artifact/org.apache.bval/bval-jsr]
+
+=== Understanding the basics
+
+With a Jakarta Bean Validation implementation in the classpath, we can now explore how to use it to validate data. +
+
+Many architectures define a set of classes generally known as the _data model_ or _domain model_. Frequently, these classes are _Java Beans_ (a class that is serializable, has a zero-argument constructor, and allows access to properties using getters and setters) and are typically mapped to one or more tables in an SQL database, like MySQL or PostgreSQL, using a framework, such as JPA (Hibernate, EclipseLink, and Apache OpenJPA) or MyBatis. These classes are used throughout the application to carry data from one layer to another. +
+
+In scenarios like this, different application layers require running validation checks before performing operations or passing the data to another layer. For example, the presentation layer needs to run validations in order to show error messages to the user before passing the entered data to the persistence layer. Sometimes, the persistence layer has to run these same validations before saving the data in a database, since there's no guarantee that the data was validated previously, for example, if it came from external systems, like a web service. +
+
+Jakarta Bean Validation offers a solution to this problem, by providing a set of annotations that can be used directly in the data model and an API to run validation checks. This avoids the need to implement the validation logic in each layer, which is time-consuming and error-prone. +
+
+Take, for example, the following data model class: +
+
+[source,java]
+----
+public class User {
+
+    @NotEmpty
+    private String name;
+
+    @Past
+    private LocalDate birthDate;
+
+    @NotEmpty
+    @Email(message = "${validatedValue} is not a valid email")
+    private String email;
+
+    @NotNull
+    @Size(min = 6, max = 100)
+    private String password;
+
+}
+----
+
+All the Java fields are marked with Jakarta Bean Validation annotations that express constraints that must pass in order to have a valid instance of the class. Since the metadata that defines the constraints (defined through Jakarta Bean Validation annotations) are in the data model, any layer of the application is able to run validations to check if an instance of this class is valid, without having to implement the validations themselves. +
+
+TIP: You can annotate property getters instead of fields. In this case, the value returned by the getter is used during the validation. This is handy in cases in which a getter returns a value different from the one stored in the field. +
+
+These are the constraints declared in the class:
+
+* `name`: Cannot be +null+ or empty.
+* `birthDate`: Must be a date in the past.
+* `email`: Cannot be +null+ or empty and must be a valid email address.
+* `password`: Cannot be +null+ and must be between 6 and 100 characters.
+
+The following method shows how to run the validations: +
+
+[source,java]
+----
+public void validate(User user) {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<User>> violations = validator.validate(user);
+    if (violations.isEmpty()) {
+        ... save data ...
+    } else {
+        ... show error messages ...
+    }
+}
+----
+
+You can use the set of `ConstraintViolation` objects to show messages in the UI. For example: +
+
+[source,java]
+----
+violations.forEach(violation -> {
+    String message = violation.getPropertyPath()
+            + ": " + violation.getMessage();
+    ... show the message in the UI ...
+});
+----
+
+So, If the `name` field of the `user` object is null, the `message` string would be `"name: may not be null"` which can be shown next to the text field where the name was introduced in the UI, for example.
+
+=== Customizing error messages
+
+You can use the +message+ property of the constraint annotation to set the error message. It's also possible to use EL expressions for flexible formatting. For example: +
+
+[source,java]
+----
+@Email(message = "${validatedValue} is not a valid email")
+private String email;
+
+@Size(min = 6, max = 100, message = "Must be between {min} and {max} characters long")
+private String password;
+----
+
+You can externalize messages by adding a `ValidationMessages.properties` file (or its locale variations) in the `src/main/resources/` directory and specifying the key as an expression in the annotation. For example: +
+
+[source,java]
+----
+@Size(min = 6, max = 100, message = "{user.password.size}")
+private String password;
+----
+
+And the following entry in the properties file: +
+
+----
+user.password.size=Must be between {min} and {max} characters long
+----
+
+TIP: You can use custom interpolation algorithms by implementing a `MessageInterpolator` and registering it in the Jakarta Bean Validation XML descriptor, `META-INF/validation.xml`.
+
+=== Available annotations
+
+The Jakarta Bean Validation specification defines the following constraint annotations:
+
+* `@Null``: Must be null.
+* `@NotNull`: Must not be null.
+* `@AssertTrue`: Must be true.
+* `@AssertFalse`: Must be false.
+* `@Min`: Must be a number whose value must be higher or equal to the specified minimum.
+* `@Max`: Must be a number whose value must be lower or equal to the specified maximum.
+* `@DecimalMin`: Must be a number whose value must be higher or equal to the specified minimum.
+* `@DecimalMax`: Must be a number whose value must be lower or equal to the specified maximum.
+* `@Negative`: Must be a strictly negative number (0 is considered as an invalid value).
+* `@NegativeOrZero`: Must be a negative number or 0.
+* `@Positive`: Must be a strictly positive number (0 is considered as an invalid value).
+* `@PositiveOrZero`: Must be a positive number or 0.
+* `@Size`: Must be between the specified boundaries (included).
+* `@Digits`: Must be a number within an accepted range.
+* `@Past`: Must be an instant, date or time in the past.
+* `@PastOrPresent`: Must be an instant, date or time in the past or in the present.
+* `@Future`: Must be an instant, date or time in the future
+* `@FutureOrPresent`: Must be an instant, date or time in the present or in the future.
+* `@Pattern`: Must match the specified regular expression.
+* `@NotEmpty`: Must not be null nor empty.
+* `@NotBlank`: Must not be null and must contain at least one non-whitespace character.
+* `@Email`: Must be a well-formed email address. The exact semantics of what makes up a valid email address are left to the Jakarta Bean Validation providers.
+
+=== Running validations in Vaadin forms
+
+With Vaadin you can use the `BeanValidationBinder` class to automatically run the validations and show the error messages next to each input field in the form. The following example shows how to implement a web form with validations: +
+
+[source,java]
+----
+public class UserForm extends FormLayout {
+
+    private TextField name = new TextField("Name");
+    private TextField email = new TextField("Email");
+    private PasswordField password = new PasswordField("Password");
+    private DatePicker birthDate = new DatePicker("Birth date");
+
+    private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
+
+    public UserForm(User user) {
+        binder.bindInstanceFields(this);
+        binder.setBean(user);
+        add(
+                name, email, password, birthDate,
+                new Button("Save", event -> save())
+        );
+    }
+
+    private void save() {
+        if (binder.validate().isOk()) {
+            User user = binder.getBean();
+            ... save user ...
+        }
+    }
+
+}
+----
+
+The following screenshot shows the error messages in action:
+
+image::web-form.png[Web form implemented with Vaadin]
+
+https://vaadin.com/docs/v14/flow/binding-data/tutorial-flow-components-binder.html[Learn more about data binding with Vaadin]
