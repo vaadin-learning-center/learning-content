@@ -200,7 +200,7 @@ TIP: You can use custom interpolation algorithms by implementing a `MessageInter
 
 The Jakarta Bean Validation specification defines the following constraint annotations:
 
-* `@Null``: Must be null.
+* `@Null`: Must be null.
 * `@NotNull`: Must not be null.
 * `@AssertTrue`: Must be true.
 * `@AssertFalse`: Must be false.
