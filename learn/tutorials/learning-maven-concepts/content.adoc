@@ -164,9 +164,9 @@ A Maven _archetype_ is a tool that generates new Maven projects. You can think o
 
 ```
 mvn archetype:generate  \
-    -DarchetypeGroupId=in.virit  \
-    -DarchetypeArtifactId=viritin-vaadin-flow-archetype  \
-    -DarchetypeVersion=1.0
+    -DarchetypeGroupId=com.vaadin  \
+    -DarchetypeArtifactId=vaadin-archetype-application  \
+    -DarchetypeVersion=LATEST
 ```
 
 Of course, after creating a new project, the next natural step is to import it into an IDE such as https://vaadin.com/learn/tutorials/import-maven-project-intellij-idea[IntelliJ IDEA], https://vaadin.com/learn/tutorials/import-maven-project-eclipse[Eclipse], or https://vaadin.com/learn/tutorials/import-maven-project-netbeans[NetBeans].
