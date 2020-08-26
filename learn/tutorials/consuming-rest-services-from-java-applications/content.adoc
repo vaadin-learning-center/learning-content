@@ -1,6 +1,6 @@
 = Consuming REST services from Java applications
 
-:tags: Java, REST
+:tags: Java, REST, V8
 :author: Matti Tahvonen
 :description: Learn how to call REST services in Java and Convert the REST response to Java objects.
 :repo: https://github.com/mstahv/consuming-rest-apis
