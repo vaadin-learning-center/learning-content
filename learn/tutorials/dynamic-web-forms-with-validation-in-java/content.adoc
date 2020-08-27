@@ -294,4 +294,4 @@ Run the application and test it out. You should now be able to add new orders to
 image::dynamic-web-form-java.gif[The complete application.]
 
 == Conclusion
-You now know how to build a web form for populating a Java object and displaying it. You can find the full source code in GitHub below. 
+You now know how to build a web form for populating a Java object and displaying it. You can find the full source code in link:https://github.com/vaadin-learning-center/vaadin-flow-form-example[GitHub].
