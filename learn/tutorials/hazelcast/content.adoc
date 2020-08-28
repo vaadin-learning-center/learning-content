@@ -9,7 +9,7 @@
 :imagesdir: ./images
 :og_image: hazelcast-featured.png
 
-On my personal blog, I wrote some time ago a lengthy piece listing the reasons link:https://blog.frankel.ch/why-love-vaadin/[why I love Vaadin].
+On my personal blog, I wrote some time ago a lengthy piece listing the reasons https://blog.frankel.ch/why-love-vaadin/[why I love Vaadin^].
 
 However, a technology stack has both pros and cons.
 It fits some contexts better than some others.
@@ -82,12 +82,12 @@ This way, when the node fails, the client will be forwarded to another node that
 Replication needs to be reliable, thus automated.
 
 There are a couple of available solutions:
-when using Spring, the link:https://spring.io/projects/spring-session[Spring Session] library allows to transparently manage this replication.
+when using Spring, the https://spring.io/projects/spring-session[Spring Session^] library allows to transparently manage this replication.
 However, when not, one needs to directly rely on an implementation.
 
 == Hazelcast IMDG
 
-In the rest of this post, I'll be using link:https://hazelcast.org/[Hazelcast In-Memory Data Grid].
+In the rest of this post, I'll be using https://hazelcast.org/[Hazelcast In-Memory Data Grid^].
 
 In short, Hazelcast IMDG offers a bunch of *distributed* data structures.
 Those structures offer an API very similar to the ones that come with the JDK.
@@ -103,17 +103,17 @@ Additionally, at least one node will have the data at hand.
 Client-server mode::
 Deploy dedicated Hazelcast nodes.
 Application instances will be client of those nodes.
-In this case, application don't need to be written in Java, as link:https://hazelcast.org/imdg/clients-languages/[several client libraries are available] (C++, C#, Python, Go, Node.js).
+In this case, application don't need to be written in Java, as https://hazelcast.org/imdg/clients-languages/[several client libraries are available^] (C++, C#, Python, Go, Node.js).
 
 One of the available data structures that Hazelcast provides is the associative array (or dictionary, or hash map).
 In that regard, a session could be stored (and retrieved) through its id.
 
 There are several integrations available:
 
-* A link:https://spring.io/projects/spring-session-hazelcast[Spring Session implementation]
-* A link:https://github.com/hazelcast/hazelcast-tomcat-sessionmanager[Tomcat integration]
-* A link:https://github.com/hazelcast/hazelcast-jetty-sessionmanager[Jetty one]
-* Finally, if none of the above fits your context, it's always possible to use the link:https://github.com/hazelcast/hazelcast-wm[`Filter`-based implementation]
+* A https://spring.io/projects/spring-session-hazelcast[Spring Session implementation^]
+* A https://github.com/hazelcast/hazelcast-tomcat-sessionmanager[Tomcat integration^]
+* A https://github.com/hazelcast/hazelcast-jetty-sessionmanager[Jetty one^]
+* Finally, if none of the above fits your context, it's always possible to use the https://github.com/hazelcast/hazelcast-wm[`Filter`-based implementation^]
 
 == A demo application
 
