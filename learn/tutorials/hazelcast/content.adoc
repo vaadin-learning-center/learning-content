@@ -7,7 +7,7 @@
 :repo: https://github.com/hazelcast-demos/hazelcast-session-replication
 :linkattrs:
 :imagesdir: ./images
-:og_image: Frankel.png
+:og_image: hazelcast-featured.png
 
 On my personal blog, I wrote some time ago a lengthy piece listing the reasons link:https://blog.frankel.ch/why-love-vaadin/[why I love Vaadin].
 
