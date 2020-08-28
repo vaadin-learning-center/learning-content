@@ -384,4 +384,4 @@ performance when the node is working, and reliability when it fails.
 Hazelcast allows to work as if on a single node, and make session replication an infrastructure concern.
 Together with Vaadin, this enables developers to design truly awesome applications.
 
-Source code on link:https://github.com/hazelcast-demos/hazelcast-session-replication[GitHub].
+Source code on https://github.com/hazelcast-demos/hazelcast-session-replication[GitHub^].
