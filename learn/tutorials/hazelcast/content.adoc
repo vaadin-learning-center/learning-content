@@ -207,7 +207,7 @@ public class TaskGrid extends Grid<Task> {
 ----
 
 .Fig 4 - Application screenshot
-image:app-login-ui.png[View of the applicaton UI]
+image::app-login-ui.png[View of the applicaton UI]
 
 We will store the `Grid` itself in the session.
 Hence, every time the user changes the state of the grid, the latter needs to be saved.
