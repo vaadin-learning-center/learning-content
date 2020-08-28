@@ -2,11 +2,12 @@
 
 :type: text
 :author: Nicolas Fränkel
-:tags: Flow, Layout, Java, API, Component
-:description: Learn why storing state on the server-side 
+:tags: Backend, State management
+:description: Learn why storing state on the server-side can cause issues and how Hazelcast can fix them.
 :repo: https://github.com/hazelcast-demos/hazelcast-session-replication
 :linkattrs:
 :imagesdir: ./images
+:og_image: Frankel.png
 
 On my personal blog, I wrote some time ago a lengthy piece listing the reasons link:https://blog.frankel.ch/why-love-vaadin/[why I love Vaadin].
 
@@ -28,7 +29,7 @@ The LB keeps a list of its nodes.
 When it receives a request, it forwards it to a node according to a dedicated policy:
 round-robbin, node with the smallest number of ongoing requests, etc.
 
-image::cluster.svg[Fig. 1 - A client makes a request to a 3-nodes cluster via a LB]
+image::load-balancer-1.png[Fig. 1 - A client makes a request to a 3-nodes cluster via a LB]
 
 When a node quits, it unregisters from the LB;
 when a new node joins, it registers itself to the LB.
@@ -37,7 +38,7 @@ it's not a matter of _if_, but a matter of _when_.
 To handle this failure, production-grade LBs send health checks to nodes at regular intervals.
 When a node fails to respond, he's removed from the list.
 
-image::node-fails.svg[Fig. 2 - A client makes a request to a 2-nodes cluster via a LB]
+image::load-balancer-2.png[Fig. 2 - A client makes a request to a 2-nodes cluster via a LB]
 
 == Sticky sessions
 
@@ -47,7 +48,7 @@ Regarding *stateful* applications this is not the case.
 The LB might forward a request to a node that is not the one that served the previous one.
 Because the applications stores the state server-side, it's as if the state starts from scratch from the client point-of-view.
 
-image::non-sticky.svg[Fig. 3 - State stored on node A is not accessible if LB forwards client to node B on a subsequent request]
+image::load-balancer-3.png[Fig. 3 - State stored on node A is not accessible if LB forwards client to node B on a subsequent request]
 
 To cope with that limitation, the LB needs to be smart.
 It keeps a list of clients, and which node they were forwarded to.
@@ -109,10 +110,10 @@ In that regard, a session could be stored (and retrieved) through its id.
 
 There are several integrations available:
 
-* A https://spring.io/projects/spring-session-hazelcast[Spring Session implementation^]
-* A https://github.com/hazelcast/hazelcast-tomcat-sessionmanager[Tomcat integration^]
-* A https://github.com/hazelcast/hazelcast-jetty-sessionmanager[Jetty one^]
-* Finally, if none of the above fits your context, it's always possible to use the https://github.com/hazelcast/hazelcast-wm[`Filter`-based implementation^]
+* A link:https://spring.io/projects/spring-session-hazelcast[Spring Session implementation]
+* A link:https://github.com/hazelcast/hazelcast-tomcat-sessionmanager[Tomcat integration]
+* A link:https://github.com/hazelcast/hazelcast-jetty-sessionmanager[Jetty one]
+* Finally, if none of the above fits your context, it's always possible to use the link:https://github.com/hazelcast/hazelcast-wm[`Filter`-based implementation]
 
 == A demo application
 
@@ -359,7 +360,7 @@ docker-compose stop node1       <1>
 <1> Replace `node1` by `node2` if the node the session has been stuck to is `node2`
 +
 . Add a new task.
-Enjoy
+Enjoy!
 
 [INFO]
 ____
@@ -382,3 +383,5 @@ performance when the node is working, and reliability when it fails.
 
 Hazelcast allows to work as if on a single node, and make session replication an infrastructure concern.
 Together with Vaadin, this enables developers to design truly awesome applications.
+
+Source code on link:https://github.com/hazelcast-demos/hazelcast-session-replication[GitHub].
