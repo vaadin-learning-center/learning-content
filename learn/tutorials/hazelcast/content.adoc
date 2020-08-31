@@ -29,6 +29,7 @@ The LB keeps a list of its nodes.
 When it receives a request, it forwards it to a node according to a dedicated policy:
 round-robbin, node with the smallest number of ongoing requests, etc.
 
+.- A client makes a request to a 2-nodes cluster via a LB
 image::load-balancer-1.png[Fig. 1 - A client makes a request to a 3-nodes cluster via a LB]
 
 When a node quits, it unregisters from the LB;
@@ -38,6 +39,7 @@ it's not a matter of _if_, but a matter of _when_.
 To handle this failure, production-grade LBs send health checks to nodes at regular intervals.
 When a node fails to respond, he's removed from the list.
 
+.- A client makes a request to a 2-nodes cluster via a LB
 image::load-balancer-2.png[Fig. 2 - A client makes a request to a 2-nodes cluster via a LB]
 
 == Sticky sessions
@@ -48,6 +50,7 @@ Regarding *stateful* applications this is not the case.
 The LB might forward a request to a node that is not the one that served the previous one.
 Because the applications stores the state server-side, it's as if the state starts from scratch from the client point-of-view.
 
+.- State stored on node A is not accessible if LB forwards client to node B on a subsequent request
 image::load-balancer-3.png[Fig. 3 - State stored on node A is not accessible if LB forwards client to node B on a subsequent request]
 
 To cope with that limitation, the LB needs to be smart.
@@ -206,7 +209,10 @@ public class TaskGrid extends Grid<Task> {
 }
 ----
 
-.Fig 4 - Application screenshot
+{sp} +
+{sp} +
+
+.- Application screenshot
 image::app-login-ui.png[View of the applicaton UI]
 
 We will store the `Grid` itself in the session.
