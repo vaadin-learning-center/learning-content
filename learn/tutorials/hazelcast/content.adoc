@@ -24,7 +24,7 @@ In this post, I'd like to describe the context, walk through this issue, and pro
 == Clusters, nodes, and Load Balancers
 
 Because of low costs, contemporary architectures use clustered middleware nodes behind a Load Balancer.
-From a bird's eye view, here's how a +++<abbr title="Load Balancer">LB</abbr>+++ works.
+From a bird's eye view, here's how a LB works.
 The LB keeps a list of its nodes.
 When it receives a request, it forwards it to a node according to a dedicated policy:
 round-robbin, node with the smallest number of ongoing requests, etc.
@@ -209,7 +209,6 @@ public class TaskGrid extends Grid<Task> {
 }
 ----
 
-{sp} +
 {sp} +
 
 .- Application screenshot
