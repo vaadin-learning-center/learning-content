@@ -34,7 +34,10 @@ ifdef::print[]
 Use the following link to download a pre-configured starter: https://vaadin.com/vaadincom/start-service/lts/project-base?appName=Vaadin%20CRM&groupId=com.vaadin.tutorial.crm&techStack=spring
 endif::[]
 ifndef::print[]
-https://vaadin.com/vaadincom/start-service/lts/project-base?appName=Vaadin%20CRM&groupId=com.vaadin.tutorial.crm&techStack=spring[Download starter,class="button button--bordered"]
+++++
+<a href="https://vaadin.com/vaadincom/start-service/lts/project-base?appName=Vaadin%20CRM&groupId=com.vaadin.tutorial.crm&techStack=spring" class="button button--bordered quickstart-download-project"
+ onClick="function test(){ _hsq && _hsq.push(['trackEvent', { id: '000007517662', value: null }]); } test(); return true;">Download</a>
+++++
 endif::[]
 
 . Unzip the downloaded archive to a file location of your choice. 
