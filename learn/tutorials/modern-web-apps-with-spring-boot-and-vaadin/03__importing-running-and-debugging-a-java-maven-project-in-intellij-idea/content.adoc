@@ -28,15 +28,17 @@ endif::[]
 
 https://maven.apache.org/[Maven] is the most popular project management tool for Java. It takes care of managing your project structure and dependencies, and builds runnable artifacts. 
 
-. To start, download a Spring Boot-based Vaadin starter project: 
-.. Go to https://vaadin.com/start[https://vaadin.com/start].
-.. Select the *Spring Boot* technology stack.
-.. Change the group name to com.vaadin.tutorial.crm.
-.. Change the project name to Vaadin CRM.
-.. Click *Download*.
-+
-image::spring-boot-starter.png[CRM download window]
-
+. To start, download a Spring Boot-based Vaadin starter project:
++ 
+ifdef::print[]
+Use the following link to download a pre-configured starter: https://vaadin.com/vaadincom/start-service/lts/project-base?appName=Vaadin%20CRM&groupId=com.vaadin.tutorial.crm&techStack=spring
+endif::[]
+ifndef::print[]
+++++
+<a href="https://vaadin.com/vaadincom/start-service/lts/project-base?appName=Vaadin%20CRM&groupId=com.vaadin.tutorial.crm&techStack=spring" class="button button--bordered quickstart-download-project"
+ onClick="function test(){ _hsq && _hsq.push(['trackEvent', { id: '000007517662', value: null }]); } test(); return true;">Download</a>
+++++
+endif::[]
 
 . Unzip the downloaded archive to a file location of your choice. 
 TIP: Avoid unzipping to the download folder, as you could unintentionally delete your project when clearing out old downloads.
