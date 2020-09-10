@@ -10,7 +10,7 @@
 :imagesdir: ./images
 :og_image: bubblewrap--featured.png
 
-This tutorial shows how you build and submit your progressive web application (https://vaadin.com/pwa[PWA]) to the Google Play Store. We use the PWA from our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Modern Web App] tutorial series and wrap it as a Trusted Web Activity (https://developers.google.com/web/android/trusted-web-activity[TWA]) using the Bubblewrap CLI by Google Chrome Labs. You can find more details about Bubblewrap in their https://github.com/GoogleChromeLabs/bubblewrap/blob/master/README.md[GitHub repository]. 
+This tutorial shows how you build and submit your progressive web application (https://vaadin.com/pwa[PWA^]) to the Google Play Store. We use the PWA from our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Modern Web App] tutorial series and wrap it as a Trusted Web Activity (https://developers.google.com/web/android/trusted-web-activity[TWA^]) using the Bubblewrap CLI by Google Chrome Labs. You can find more details about Bubblewrap in their https://github.com/GoogleChromeLabs/bubblewrap/blob/master/README.md[GitHub repository^]. 
 
 NOTE: Every PWA submitted to Google Play Store must pass their review process before it is published in the store. 
 
@@ -19,8 +19,8 @@ NOTE: Every PWA submitted to Google Play Store must pass their review process be
 === Google accounts
 
 
-* Sign up for, or log in to, a https://accounts.google.com/[Google account].
-* Sign up for a https://play.google.com/apps/publish/signup/[Google Play Developer account].
+* Sign up for, or log in to, a https://accounts.google.com/[Google account^].
+* Sign up for a https://play.google.com/apps/publish/signup/[Google Play Developer account^].
 
 NOTE: There is a one-time *$25* sign-up fee.
 
@@ -32,15 +32,15 @@ At a minimum, you need the following images to upload your application:
 
 * Featured graphic
 
-You can find a full list of requirements, recommendations and guidelines in the https://support.google.com/googleplay/android-developer/answer/1078870?hl=en[Play Console Help documentation].
+You can find a full list of requirements, recommendations and guidelines in the https://support.google.com/googleplay/android-developer/answer/1078870?hl=en[Play Console Help documentation^].
 
 === Tools and software
 
 You need the following software before creating a TWA from your PWA. Install the following tools and make a note of their installation paths for the next step:
 
-* https://developer.android.com/studio[Android SDK] (Windows/Linux/Mac/ChromeOS).
-* https://nodejs.org/en/download/[Node.js] (version 10 or higher).
-* https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html[Java 8 JDK]. 
+* https://developer.android.com/studio[Android SDK^] (Windows/Linux/Mac/ChromeOS).
+* https://nodejs.org/en/download/[Node.js^] (version 10 or higher).
+* https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html[Java 8 JDK^]. 
 
 WARNING: Older or newer Java versions may not be compatible with the Bubblewrap CLI.
 
@@ -48,7 +48,7 @@ WARNING: Older or newer Java versions may not be compatible with the Bubblewrap 
 
 We’ll be using the Bubblewrap CLI to wrap a PWA for deployment to the Google Play Store.
 
-If you don’t have a PWA, we recommend using the PWA created in our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[comprehensive tutorial series] for modern web application development. You can try the finished application https://github.com/vaadin-learning-center/crm-tutorial/tree/11-pwa[here].
+If you don’t have a PWA, we recommend using the PWA created in our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[comprehensive tutorial series] for modern web application development. You can try the finished application https://crm.demo.vaadin.com/login[here^].
 
 Alternatively, follow one of our https://vaadin.com/learn/tutorials/learn-pwa[framework-independent basic tutorials] to turn your web app into a PWA. 
 
@@ -312,16 +312,16 @@ This process outputs 2 files:
 
 . `app-release-sgned.apk`, an Android application that can be tested on a development device and submitted to the Play Store.
 
-The build command also tests the application with Google’s https://developers.google.com/web/tools/lighthouse/[Lighthouse] to validate the build and check for best PWA practises.
+The build command also tests the application with Google’s https://developers.google.com/web/tools/lighthouse/[Lighthouse^] to validate the build and check for best PWA practises.
 
 Finally, add the `assetlinks.json` file to your web application’s root directory at `.well-known/assetlinks.json`.
 
 
-TIP: Run the `bubblewrap install` command with a development device or Android emulator connected to test your app locally. You can find detailed instructions in the https://developer.android.com/studio/run/device[Android Developer documentation].
+TIP: Run the `bubblewrap install` command with a development device or Android emulator connected to test your app locally. You can find detailed instructions in the https://developer.android.com/studio/run/device[Android Developer documentation^].
 
 == Submit to Play Store
 
-You can now sign in to the https://play.google.com/apps/publish/signup/[Google Play Console] to submit your packaged PWA. You can find detailed instructions on how to upload and review your application in the https://support.google.com/googleplay/android-developer/answer/113469?hl=en[Play Console Help documentation].
+You can now sign in to the https://play.google.com/apps/publish/signup/[Google Play Console^] to submit your packaged PWA. You can find detailed instructions on how to upload and review your application in the https://support.google.com/googleplay/android-developer/answer/113469?hl=en[Play Console Help documentation^].
 
 image::android-developer-console.png[Android developer dashboard]
 
