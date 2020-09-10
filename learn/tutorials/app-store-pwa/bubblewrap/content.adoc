@@ -218,7 +218,6 @@ Optional Features (4/5)
 	  theme_color. They will be used for notification icons.
 
 ? Monochrome icon URL: 
-
 ----
 
 == Generate or locate signing keys
@@ -285,7 +284,7 @@ mikael@MacBook-Pro ~ % bubblewrap build
 Installing Android Build Tools. Please, read and accept the license agreement.
 build Installing Build Tools
 License android-sdk-license:            ] 10% Computing updates...              
----------------------------------------
+
 Terms and Conditions
 
 This is the Android Software Development Kit License Agreement
