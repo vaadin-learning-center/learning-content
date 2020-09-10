@@ -10,7 +10,7 @@
 :imagesdir: ./images
 :og_image: bubblewrap--featured.png
 
-This tutorial shows how you build and submit your progressive web application (https://vaadin.com/pwa[PWA^]) to the Google Play Store. We use the PWA from our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Modern Web App] tutorial series and wrap it as a Trusted Web Activity (https://developers.google.com/web/android/trusted-web-activity[TWA^]) using the Bubblewrap CLI by Google Chrome Labs. You can find more details about Bubblewrap in their https://github.com/GoogleChromeLabs/bubblewrap/blob/master/README.md[GitHub repository^]. 
+This tutorial shows how you build and submit your progressive web application (https://vaadin.com/pwa[PWA^]) to the Google Play Store. We use the PWA from our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Modern Web App] tutorial series as an example and wrap it as a Trusted Web Activity (https://developers.google.com/web/android/trusted-web-activity[TWA^]) using the Bubblewrap CLI by Google Chrome Labs. You can find more details about Bubblewrap in their https://github.com/GoogleChromeLabs/bubblewrap/blob/master/README.md[GitHub repository^]. 
 
 NOTE: Every PWA submitted to Google Play Store must pass their review process before it is published in the store. 
 
@@ -48,9 +48,9 @@ WARNING: Older or newer Java versions may not be compatible with the Bubblewrap 
 
 We’ll be using the Bubblewrap CLI to wrap a PWA for deployment to the Google Play Store.
 
-If you don’t have a PWA, we recommend using the PWA created in our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[comprehensive tutorial series] for modern web application development. You can try the finished application https://crm.demo.vaadin.com/login[here^].
+If you don't have a PWA, we recommend getting started with Vaadin. Our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[comprehensive tutorial series], and https://vaadin.com/docs/index.html[technical documentation] make it easy to build your first PWA!
 
-Alternatively, follow one of our https://vaadin.com/learn/tutorials/learn-pwa[framework-independent basic tutorials] to turn your web app into a PWA. 
+Alternatively, follow one of our https://vaadin.com/learn/tutorials/learn-pwa[framework-independent basic tutorials] to turn your existing web app into a PWA. 
 
 == Install the Bubblewrap CLI
 
