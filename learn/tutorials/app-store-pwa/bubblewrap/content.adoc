@@ -105,7 +105,7 @@ Initializing application from Web Manifest:
 ----
 == Convert your PWA to a TWA
 
-Initialize Bubblewrap by running the `bubblewrap init --manifest=https://COMPLETE URL/manifest.json`  command. Replace `COMPLETE_URL` with the URL link of your PWA. This example runs an example app on a local HTTP server:
+Initialize Bubblewrap by running the `bubblewrap init --manifest=https://COMPLETE URL/manifest.json`  command. Replace `COMPLETE_URL` with the URL link of your PWA. The example below is running an app on a local HTTP server:
 [source,shell]
 ----
 
@@ -308,11 +308,11 @@ Building the Android App...
 
 This process outputs 2 files:
 
-. assetlinks.json  that validates the domain within a TWA.
+. `assetlinks.json`  that validates the domain within a TWA.
 
-. app-release-sgned.apk, an Android application that can be tested on a development device and submitted to the Play Store.
+. `app-release-sgned.apk`, an Android application that can be tested on a development device and submitted to the Play Store.
 
-The build command also tests the application with Google’s Lighthouse to validate the build and check for best PWA practises.
+The build command also tests the application with Google’s https://developers.google.com/web/tools/lighthouse/[Lighthouse] to validate the build and check for best PWA practises.
 
 Finally, add the `assetlinks.json` file to your web application’s root directory at `.well-known/assetlinks.json`.
 
@@ -325,6 +325,7 @@ You can now sign in to the https://play.google.com/apps/publish/signup/[Google P
 
 image::android-developer-console.png[Android developer dashboard]
 
+{sp} +
 Source code on https://github.com/vaadin-learning-center/crm-tutorial[GitHub].
 
 == Next steps
