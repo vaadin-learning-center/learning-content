@@ -120,6 +120,7 @@ Initializing application from Web Manifest:
 	-  http://localhost:5000/manifest.json
 
 ----
+{sp} +
 The Bubblewrap CLI client automatically extracts values from the manifest.json file, but you can configure your application details manually, if you like. 
 
 TIP: You can skip the optional details by pressing the Enter key.
@@ -247,6 +248,7 @@ Saving Config to: ./twa-manifest.json
 Generating Android Project.
  >> [████████████████████████████████████████] 100%
 ----
+{sp} +
 Type Y to begin creating signing keys. Fill in the required details and enter separate passwords for the Key Store and the Key. Note the passwords for the next step.
 
 [source,shell]
@@ -288,6 +290,7 @@ Terms and Conditions
 
 This is the Android Software Development Kit License Agreement
 ----
+{sp} +
 . Accept the license and terms by pressing Y
 . Enter your Key Store password:
 +
@@ -302,6 +305,7 @@ Building the Android App...
 	- Generated Android APK at ./app-release-signed.apk
 	- Generated Digital Asset Links file at ./assetlinks.json
 ----
+{sp} +
 +
 This process outputs 2 files:
 
