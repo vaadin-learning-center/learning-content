@@ -55,7 +55,7 @@ Alternatively, follow one of our https://vaadin.com/learn/tutorials/learn-pwa[fr
 == Install the Bubblewrap CLI
 
 After your have installed Node, JDK 8 and Android SDK, run the `npm i -g @bubblewrap/cli`  command in your terminal to download and install the Bubblewrap CLI:
-
+[source,shell]
 ----
 mikael@MacBook-Pro ~ % npm i -g @bubblewrap/cli
 
@@ -66,6 +66,7 @@ added 172 packages from 259 contributors in 13.225s
 
 TIP: If you already have an older version of Bubblewrap installed, you can update to the latest version using the `npm install -g npm` command.
 
+[source,shell]
 ----
    ╭────────────────────────────────────────────────────────────────╮
    │                                                                │
@@ -89,7 +90,10 @@ mikael@MacBook-Pro ~ % bubblewrap init --manifest=/Users/mikael/Downloads/pwa-tu
 `------' `----' `---' `---'`--'`----'--'   '--`--'   `--`--|  |-'
                                                            `--'    
 ----
+{sp} +
 The installer will ask for the installation path for the Java 8 JDK and Android SDK. Enter the installation directory path you noted in the previous step:
+
+[source,shell]
 ----
 
 ? Path to the JDK: /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk
@@ -101,7 +105,8 @@ Initializing application from Web Manifest:
 ----
 == Convert your PWA to a TWA
 
-Initialize Bubblewrap by running the bubblewrap init --manifest=https://COMPLETE URL/manifest.json  command. Replace ‘COMPLETE_URL’ with the URL link of your PWA. This example runs an example app on a local HTTP server:
+Initialize Bubblewrap by running the `bubblewrap init --manifest=https://COMPLETE URL/manifest.json`  command. Replace `COMPLETE_URL` with the URL link of your PWA. This example runs an example app on a local HTTP server:
+[source,shell]
 ----
 
 mikael@MacBook-Pro ~ % bubblewrap init --manifest=http://localhost:5000/manifest.json
@@ -118,6 +123,8 @@ Initializing application from Web Manifest:
 The Bubblewrap CLI client automatically extracts values from the manifest.json file, but you can configure your application details manually, if you like. 
 
 TIP: You can skip the optional details by pressing the Enter key.
+
+[source,shell]
 ----
 
 Web app details (1/5)
@@ -210,11 +217,14 @@ Optional Features (4/5)
 	  theme_color. They will be used for notification icons.
 
 ? Monochrome icon URL: 
+
 ----
 
 == Generate or locate signing keys
 
-You need Android signing keys to deploy to the Play Store. The Bubblewrap CLI client will use an existing key at ./android.keystore, if you already have a key. If you do not, you can generate keys in the terminal window: 
+You need Android signing keys to deploy to the Play Store. The Bubblewrap CLI client will use an existing key at `./android.keystore`, if you already have a key. If you do not, you can generate keys in the terminal window: 
+
+[source,shell]
 ----
 
 Signing key information (5/5)
@@ -238,6 +248,8 @@ Generating Android Project.
  >> [████████████████████████████████████████] 100%
 ----
 Type Y to begin creating signing keys. Fill in the required details and enter separate passwords for the Key Store and the Key. Note the passwords for the next step.
+
+[source,shell]
 ----
 Signing key creation
 
@@ -259,6 +271,7 @@ Project generated successfully. Build it by running bubblewrap build
 
 . Run the bubblewrap build command to build an Android application package (APK) from the project.
 +
+[source,shell]
 ----
 mikael@MacBook-Pro ~ % bubblewrap build
 ,-----.        ,--.  ,--.  ,--.
@@ -278,6 +291,7 @@ This is the Android Software Development Kit License Agreement
 . Accept the license and terms by pressing Y
 . Enter your Key Store password:
 +
+[source,shell]
 ----
 Please, enter passwords for the keystore ./android.keystore and alias android.
 
@@ -290,8 +304,10 @@ Building the Android App...
 ----
 +
 This process outputs 2 files:
-assetlinks.json  that validates the domain within a TWA.
-app-release-sgned.apk, an Android application that can be tested on a development device and submitted to the Play Store.
+
+* assetlinks.json  that validates the domain within a TWA.
+
+* app-release-sgned.apk, an Android application that can be tested on a development device and submitted to the Play Store.
 +
 The build command also tests the application with Google’s Lighthouse to validate the build and check for best PWA practises.
 
