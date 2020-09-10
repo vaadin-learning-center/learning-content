@@ -48,7 +48,7 @@ WARNING: Older or newer Java versions may not be compatible with the Bubblewrap 
 
 We’ll be using the Bubblewrap CLI to wrap a PWA for deployment to the Google Play Store.
 
-If you don’t have a PWA, we recommend using the PWA created in our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[comprehensive tutorial series] for modern web application development. You can try the finished application https://github.com/vaadin-learning-center/crm-tutorial/tree/11-pwa[here].
+If you don’t have a PWA, we recommend using the PWA created in our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[comprehensive tutorial series] for modern web application development. You can try the finished application https://crm.demo.vaadin.com/login[here].
 
 Alternatively, follow one of our https://vaadin.com/learn/tutorials/learn-pwa[framework-independent basic tutorials] to turn your web app into a PWA. 
 
