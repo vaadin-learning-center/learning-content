@@ -271,8 +271,8 @@ Project generated successfully. Build it by running bubblewrap build
 
 == Build the APK
 
-. Run the bubblewrap build command to build an Android application package (APK) from the project.
-+
+Run the `bubblewrap build` command to build an Android application package (APK) from the project.
+
 [source,shell]
 ----
 mikael@MacBook-Pro ~ % bubblewrap build
@@ -291,9 +291,9 @@ Terms and Conditions
 This is the Android Software Development Kit License Agreement
 ----
 {sp} +
-. Accept the license and terms by pressing Y
-. Enter your Key Store password:
-+
+
+Accept the license and terms by pressing Y. Then enter your Key Store password:
+
 [source,shell]
 ----
 Please, enter passwords for the keystore ./android.keystore and alias android.
@@ -306,19 +306,19 @@ Building the Android App...
 	- Generated Digital Asset Links file at ./assetlinks.json
 ----
 {sp} +
-+
+
 This process outputs 2 files:
 
-* assetlinks.json  that validates the domain within a TWA.
+. assetlinks.json  that validates the domain within a TWA.
 
-* app-release-sgned.apk, an Android application that can be tested on a development device and submitted to the Play Store.
-+
+. app-release-sgned.apk, an Android application that can be tested on a development device and submitted to the Play Store.
+
 The build command also tests the application with Google’s Lighthouse to validate the build and check for best PWA practises.
 
-. Add the assetlinks.json file to your web application’s root directory at .well-known/assetlinks.json
+Finally, add the `assetlinks.json` file to your web application’s root directory at `.well-known/assetlinks.json`.
 
 
-TIP: Run the bubblewrap install command with a development device or Android emulator connected to test your app locally. You can find detailed instructions in the https://developer.android.com/studio/run/device[Android Developer documentation].
+TIP: Run the `bubblewrap install` command with a development device or Android emulator connected to test your app locally. You can find detailed instructions in the https://developer.android.com/studio/run/device[Android Developer documentation].
 
 == Submit to Play Store
 
