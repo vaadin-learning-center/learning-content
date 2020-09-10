@@ -121,7 +121,7 @@ Initializing application from Web Manifest:
 
 ----
 {sp} +
-The Bubblewrap CLI client automatically extracts values from the manifest.json file, but you can configure your application details manually, if you like. 
+The Bubblewrap CLI client automatically extracts values from the `manifest.json` file, but you can configure your application details manually, if you like. 
 
 TIP: You can skip the optional details by pressing the Enter key.
 
@@ -222,7 +222,7 @@ Optional Features (4/5)
 
 == Generate or locate signing keys
 
-You need Android signing keys to deploy to the Play Store. The Bubblewrap CLI client will use an existing key at `./android.keystore`, if you already have a key. If you do not, you can generate keys in the terminal window: 
+You need Android signing keys to deploy to the Play Store. The Bubblewrap CLI client will use an existing key at `./android.keystore`, if you already have a key. If you do not, Bubblewrap will prompt you to create new keys: 
 
 [source,shell]
 ----
