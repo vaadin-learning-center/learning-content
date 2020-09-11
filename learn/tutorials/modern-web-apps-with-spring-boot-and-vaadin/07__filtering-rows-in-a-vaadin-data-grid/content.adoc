@@ -105,8 +105,8 @@ public class ContactService {
 }
 ----
 <1> Adds a new `findAll` method that takes a filter text as a parameter. 
-<2> If the filter text is not empty, search the database for that text.
-<3> Otherwise, return all contacts
+<2> If the filter text is  empty, return all contacts.
+<3> Otherwise, search the database for that text.
 
 . Add the `search` method to the contacts repository.
 +
