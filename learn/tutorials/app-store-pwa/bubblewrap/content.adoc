@@ -22,7 +22,7 @@ NOTE: Every PWA submitted to Google Play Store must pass their review process be
 * Sign up for, or log in to, a https://accounts.google.com/[Google account^].
 * Sign up for a https://play.google.com/apps/publish/signup/[Google Play Developer account^].
 
-NOTE: There is a one-time *$25* sign-up fee.
+NOTE: There is a one-time *$25* sign-up fee for a Google Developer account.
 
 === Graphics
 
@@ -68,27 +68,11 @@ TIP: If you already have an older version of Bubblewrap installed, you can updat
 
 [source,shell]
 ----
-   ╭────────────────────────────────────────────────────────────────╮
-   │                                                                │
-   │      New patch version of npm available! 6.14.6 → 6.14.8       │
-   │   Changelog: https://github.com/npm/cli/releases/tag/v6.14.8   │
-   │               Run npm install -g npm to update!                │
-   │                                                                │
-   ╰────────────────────────────────────────────────────────────────╯
-
 mikael@MacBook-Pro ~ % npm install -g npm
 /usr/local/bin/npm -> /usr/local/lib/node_modules/npm/bin/npm-cli.js
 /usr/local/bin/npx -> /usr/local/lib/node_modules/npm/bin/npx-cli.js
 + npm@6.14.8
 added 17 packages from 3 contributors, removed 18 packages and updated 20 packages in 4.452s
-mikael@MacBook-Pro ~ % bubblewrap init --manifest=/Users/mikael/Downloads/pwa-tutorial-basic-master/manifest.json
-
-,-----.        ,--.  ,--.  ,--.
-|  |) /_,--.,--|  |-.|  |-.|  |,---.,--.   ,--,--.--.,--,--.,---.
-|  .-.  |  ||  | .-. | .-. |  | .-. |  |.'.|  |  .--' ,-.  | .-. |
-|  '--' '  ''  | `-' | `-' |  \   --|   .'.   |  |  \ '-'  | '-' '
-`------' `----' `---' `---'`--'`----'--'   '--`--'   `--`--|  |-'
-                                                           `--'    
 ----
 {sp} +
 The installer will ask for the installation path for the Java 8 JDK and Android SDK. Enter the installation directory path you noted in the previous step:
