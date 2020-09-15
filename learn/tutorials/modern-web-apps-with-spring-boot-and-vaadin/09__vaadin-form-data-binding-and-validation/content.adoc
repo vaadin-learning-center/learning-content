@@ -159,7 +159,7 @@ public class ContactForm extends FormLayout {
 }
 ----
 <1> Save a reference to the contact so we can save the form values back into it later.
-<2> Calls `binder.readBean` to bind the values from the contact to the UI fields. `readBen` copies the values from the Contact to an internal model, that way we don't accidentally overwrite values if we cancel editing.
+<2> Calls `binder.readBean` to bind the values from the contact to the UI fields. `readBean` copies the values from the Contact to an internal model, that way we don't accidentally overwrite values if we cancel editing.
 
 == Setting up events
 
