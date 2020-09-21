@@ -128,6 +128,8 @@ INSERT-YOUR-PACKAGE-PROPERTIES-PUBLISHERDISPLAYNAME-HERE
 
 === Option 1: Use the PWA Builder website
 
+You can use the PWA Builder online to create the AppX package if you're running your Windows PWA locally or have it deployed on a server. See Option 2 below, if your Windows app is not deployed yet.
+
 . Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
 +
 image::pwa-builder-console2.png[PWA Builder dashboard]
