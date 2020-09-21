@@ -40,22 +40,24 @@ Alternatively, follow one of our https://vaadin.com/learn/tutorials/learn-pwa[fr
 
 == Run PWA builder
 
-=== Download a Windows 10 application
+=== Build a Windows 10 application
 
 NOTE: You can skip this step if your PWA already runs as a Windows 10 application.
 
-Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
+TIP: You can also build your Windows 10 application in https://docs.microsoft.com/en-us/microsoft-edge/progressive-web-apps-edgehtml/windows-features[Visual Studio^].
 
+. Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
++
 image::pwa-builder-console.png[PWA Builder dashboard]
-
-Wait for PWA Builder to finish processing your application and then select *Windows* in the menu on the left:
-
++
+. Wait for PWA Builder to finish processing your application and then select *Windows* in the menu on the left:
++
 image::option-in-menu.png[Windows option in PWA Builder]
-
-Select *Download* to download a Windows 10 testing application:
-
++
+. Select *Download* to download a Windows 10 application:
++
 image::download-or-generate.png[Download or generate AppX package]
-
++
 TIP: You can test your app with the Microsoft App Certification Kit (Windows 10 required). You can find more details on the App Certification Kit https://developer.microsoft.com/en-gb/windows/downloads/app-certification-kit/[download page^].
 
 == Create an AppX package
@@ -126,29 +128,29 @@ INSERT-YOUR-PACKAGE-PROPERTIES-PUBLISHERDISPLAYNAME-HERE
 
 === Option 1: Use the PWA Builder website
 
-Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
-
+. Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
++
 image::pwa-builder-console.png[PWA Builder dashboard]
-
-Wait for PWA Builder to finish processing your application and then select Windows in the menu on the left:
-
++
+. Wait for PWA Builder to finish processing your application and then select Windows in the menu on the left:
++
 image::option-in-menu.png[Windows option in PWA Builder]
-
-Select *Generate* to build an AppX PWA package:
-
++
+. Select *Generate* to build an AppX PWA package:
++
 image::download-or-generate.png[Download or generate AppX package]
-
-Enter the details in your Microsoft Developer account and `appmanifest.xml` file and click *Submit*:
-
++
+. Enter the details in your Microsoft Developer account and `appmanifest.xml` file and click *Submit*:
++
 image::generate-package.png[Generate App package with PWA Builder]
 
 
 === Option 2: Build from your terminal
 
-Install the https://github.com/pwa-builder/PWABuilder-CLI[PWA Builder CLI^] with the `npm install -g pwabuilder` command.
+. Install the https://github.com/pwa-builder/PWABuilder-CLI[PWA Builder CLI^] with the `npm install -g pwabuilder` command.
 
-Open a terminal window in the downloaded root folder and run the `pwabuilder package -p windows10 -l debug` command to build an AppX package:
-
+. Open a terminal window in the downloaded root folder and run the `pwabuilder package -p windows10 -l debug` command to build an AppX package:
++
 [source, shell]
 ----
 mikael@MacBook-Pro projects 2 % pwabuilder package -p windows10 -l debug
@@ -157,7 +159,7 @@ mikael@MacBook-Pro projects 2 % pwabuilder package -p windows10 -l debug
 [debug] pwabuilder  : Loading platform module: pwabuilder-windows10
 mikael@MacBook-Pro projects 2 % 
 ----
-
++
 Your `.appx` file will be located at `PWA\Store packages\windows10\package\windows.appx`.
 
 == Upload your AppX package
