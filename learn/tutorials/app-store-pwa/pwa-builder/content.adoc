@@ -48,7 +48,7 @@ TIP: You can also build your Windows 10 application in https://docs.microsoft.co
 
 . Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
 +
-image::pwa-builder-console.png[PWA Builder dashboard]
+image::pwa-builder-console2.png[PWA Builder dashboard]
 +
 . Wait for PWA Builder to finish processing your application and then select *Windows* in the menu on the left:
 +
@@ -56,7 +56,7 @@ image::option-in-menu.png[Windows option in PWA Builder]
 +
 . Select *Download* to download a Windows 10 application:
 +
-image::download-or-generate.png[Download or generate AppX package]
+image::download-or-generate2.png[Download or generate AppX package]
 +
 TIP: You can test your app with the Microsoft App Certification Kit (Windows 10 required). You can find more details on the App Certification Kit https://developer.microsoft.com/en-gb/windows/downloads/app-certification-kit/[download page^].
 
@@ -130,7 +130,7 @@ INSERT-YOUR-PACKAGE-PROPERTIES-PUBLISHERDISPLAYNAME-HERE
 
 . Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
 +
-image::pwa-builder-console.png[PWA Builder dashboard]
+image::pwa-builder-console2.png[PWA Builder dashboard]
 +
 . Wait for PWA Builder to finish processing your application and then select Windows in the menu on the left:
 +
@@ -138,11 +138,11 @@ image::option-in-menu.png[Windows option in PWA Builder]
 +
 . Select *Generate* to build an AppX PWA package:
 +
-image::download-or-generate.png[Download or generate AppX package]
+image::download-or-generate2.png[Download or generate AppX package]
 +
 . Enter the details in your Microsoft Developer account and `appmanifest.xml` file and click *Submit*:
 +
-image::generate-package.png[Generate App package with PWA Builder]
+image::generate-package2.png[Generate App package with PWA Builder]
 
 
 === Option 2: Build from your terminal
