@@ -40,7 +40,7 @@ Alternatively, follow one of our https://vaadin.com/learn/tutorials/learn-pwa[fr
 
 == Run PWA builder
 
-=== Download Windows 10 application
+=== Download a Windows 10 application
 
 NOTE: You can skip this step if your PWA already runs as a Windows 10 application.
 
@@ -59,6 +59,8 @@ image::download-or-generate-appx.png[Download or generate AppX package]
 TIP: You can test your app with the Microsoft App Certification Kit (Windows 10 required). You can find more details on the App Certification Kit https://developer.microsoft.com/en-gb/windows/downloads/app-certification-kit/[download page^].
 
 == Create an AppX package
+
+=== Update your app manifest
 
 . In the https://partner.microsoft.com/en-us/dashboard/directory[Dev Center Dashboard^], go to *App management > App Identity*.
 . Navigate to the generated `appxmanifest.xml` file at `windows10/appxmanifest/appxmanifest.xml`.
@@ -143,9 +145,9 @@ image::generate-appx.png[Generate App package with PWA Builder]
 
 === Option 2: Build from your terminal
 
-Install the https://github.com/pwa-builder/PWABuilder-CLI[PWA Builder CLI^] with the `npm install -g pwabuilder`command.
+Install the https://github.com/pwa-builder/PWABuilder-CLI[PWA Builder CLI^] with the `npm install -g pwabuilder` command.
 
-Open a terminal window in the downloaded root folder and run the `pwabuilder package -p windows10 -l debug` command to build an AppX package.
+Open a terminal window in the downloaded root folder and run the `pwabuilder package -p windows10 -l debug` command to build an AppX package:
 
 [source, shell]
 ----
@@ -155,7 +157,6 @@ mikael@MacBook-Pro projects 2 % pwabuilder package -p windows10 -l debug
 [debug] pwabuilder  : Loading platform module: pwabuilder-windows10
 mikael@MacBook-Pro projects 2 % 
 ----
-{sp} +
 
 Your `.appx` file will be located at `PWA\Store packages\windows10\package\windows.appx`.
 
