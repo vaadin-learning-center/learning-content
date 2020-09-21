@@ -8,7 +8,7 @@
 :repo:
 :linkattrs:
 :imagesdir: ./images
-:og_image: pwa-builder--featured.png
+:og_image: pwa-builder--featured-image.png
 
 This tutorial shows how you build and submit your progressive web application (https://vaadin.com/pwa[PWA^]) to the Microsoft Store. We use the PWA from our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Modern Web App] tutorial series and package it as an AppX package using the PWA builder by Microsoft. You can find more details about the PWA Builder in their https://github.com/pwa-builder[GitHub repository^].
 
@@ -46,15 +46,15 @@ NOTE: You can skip this step if your PWA already runs as a Windows 10 applicatio
 
 Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
 
-image::pwa-builder.png[PWA Builder dashboard]
+image::pwa-builder-console.png[PWA Builder dashboard]
 
 Wait for PWA Builder to finish processing your application and then select *Windows* in the menu on the left:
 
-image::left-menu.png[Windows option in PWA Builder]
+image::windows-menu.png[Windows option in PWA Builder]
 
 Select *Download* to download a Windows 10 testing application:
 
-image::download-or-generate-appx.png[Download or generate AppX package]
+image::download-or-generate.png[Download or generate AppX package]
 
 TIP: You can test your app with the Microsoft App Certification Kit (Windows 10 required). You can find more details on the App Certification Kit https://developer.microsoft.com/en-gb/windows/downloads/app-certification-kit/[download page^].
 
@@ -128,19 +128,19 @@ INSERT-YOUR-PACKAGE-PROPERTIES-PUBLISHERDISPLAYNAME-HERE
 
 Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
 
-image::pwa-builder.png[PWA Builder dashboard]
+image::pwa-builder-console.png[PWA Builder dashboard]
 
 Wait for PWA Builder to finish processing your application and then select Windows in the menu on the left:
 
-image::left-menu.png[Windows option in PWA Builder]
+image::windows-menu.png[Windows option in PWA Builder]
 
 Select *Generate* to build an AppX PWA package:
 
-image::download-or-generate-appx.png[Download or generate AppX package]
+image::download-or-generate.png[Download or generate AppX package]
 
 Enter the details in your Microsoft Developer account and `appmanifest.xml` file and click *Submit*:
 
-image::generate-appx.png[Generate App package with PWA Builder]
+image::generate-package.png[Generate App package with PWA Builder]
 
 
 === Option 2: Build from your terminal
