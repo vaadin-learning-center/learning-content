@@ -50,7 +50,7 @@ image::pwa-builder-console.png[PWA Builder dashboard]
 
 Wait for PWA Builder to finish processing your application and then select *Windows* in the menu on the left:
 
-image::windows-menu.png[Windows option in PWA Builder]
+image::option-in-menu.png[Windows option in PWA Builder]
 
 Select *Download* to download a Windows 10 testing application:
 
@@ -132,7 +132,7 @@ image::pwa-builder-console.png[PWA Builder dashboard]
 
 Wait for PWA Builder to finish processing your application and then select Windows in the menu on the left:
 
-image::windows-menu.png[Windows option in PWA Builder]
+image::option-in-menu.png[Windows option in PWA Builder]
 
 Select *Generate* to build an AppX PWA package:
 
