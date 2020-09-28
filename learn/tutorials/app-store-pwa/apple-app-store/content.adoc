@@ -1,0 +1,158 @@
+= Submitting a PWA to Apple App Store using PWA Builder
+
+:title: Submitting a PWA to Apple App Store using PWA Builder
+:authors: mikaelsu
+:type: text
+:tags:  Deploy, PWA
+:description: Learn how to configure your PWA and submit to the Apple App Store using the PWA Builder.
+:repo:
+:linkattrs:
+:imagesdir: ./images
+:og_image: pwa-builder--featured-image.png
+
+This tutorial shows how you build and submit your progressive web application (https://vaadin.com/pwa[PWA^]) to the Apple App Store. We use the PWA from our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Modern Web App] tutorial series and create an Xcode project from it using the PWA Builder. You can find more details about the PWA Builder in their https://github.com/pwa-builder[GitHub repository^].
+
+TIP: You can also use the PWA Builder to turn your existing web app into a PWA.
+
+== PREREQUISITES
+
+=== Software
+
+* An OSX development device with Xcode installed.
+
+TIP: You can renat a cloud Mac from services like https://www.macincloud.com/[Mac in Cloud^], if you don't have access to an Apple computer.
+
+=== Apple accounts
+
+* Sign up for, or log in to an https://account.microsoft.com/[iCloud account^].
+* Sign up for the https://developer.apple.com/[Apple Developer program^].
+
+NOTE: There is annual fee of $99 for the Apple Developer program.
+
+=== A PWA
+
+A PWA
+We’ll be using the PWA Builder to package a PWA for submission to the Apple App Store. The PWA Builder can be used to transform existing websites into PWAs and also to package them for app store submission.
+
+If you don't have a PWA, we recommend getting started with Vaadin. Our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[comprehensive tutorial series^], and https://vaadin.com/docs/index.html[technical documentation^] make it easy to build your first PWA!
+
+Alternatively, follow one of our https://vaadin.com/learn/tutorials/learn-pwa[framework-independent basic tutorials^] to turn your existing web app into a PWA.
+
+== Run PWA Builder
+
+=== Option 1: Use the PWA Builder online
+
+. Go to https://www.pwabuilder.com/ and enter the URL of your PWA:
++
+image::pwa-builder-console-2.png[PWA builder website]
++
+. Wait for PWA Builder to finish processing your application and then select *MacOS* in the menu on the left to download the package:
++
+image::pwa-builder-macos.png[Mac Os download button in PWA builder]
+
+=== Option 2: Use The PWA Builder CLI
+
+. Run the `npm install -g pwabuilder` command in your terminal to install the PWA Builder CLI.
+
+. Run the `pwabuilder YOUR_PWA_URL -p ios` command by replacing ‘YOUR_PWA_URL’ with the URL of your PWA.
+
+== Configure your app
+
+=== Sign-in with Xcode
+
+. Open the project in Xcode.
+. Go to Preferences by pressing *⌘,*
+. Select the *Accounts* tab.
+. Select *+ > Apple Id > Continue*.
+. Sign in with the Apple ID that you used to enroll in the Apple Developer program.
++
+image::xcode-accounts.png[Xcode accounts view]
+
+=== Enable automatic code signing
+
+. Go to *Signing & Cabalilites* in the project view.
+. Toggle on *Automaticall manage signing*.
++
+image::xcode-signing-automatic.png[Xcode automatic signing toggle box location]
+
+=== Create App Store Connect record
+
+. Go to the App Store Connect dashboard and sign in with the same Apple ID that you used previously in Xcode.
+. Go to *My apps > + > New app*.
+. Fill in the deails with the information form the generated `info.plist` file in your Xcode project:
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>3</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.education</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2018 Microsoft. All rights reserved.</string>
+	<key>NSMainStoryboardFile</key>
+	<string>Main</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+----
+
+== Upload your app
+
+=== Create archive
+
+. Open your project in Xcode.
+. Clean the build folder by pressing *⇧⌘K*.
+. From the top menu, select *Product > Archive*
+
+=== Upload archive
+
+. From the top menu, select *Window > Organizer*.
+. Select your product archive from the recent arhchives.
+. Select *Upload to App Store...*
+. Select your credentials and press *Choose*.
+Select *Done* once the archive has finished uploading.
+
+== Submit your app
+
+. Login to the App Store Connect dashboard.
+. Go to the *App Store tab* and select the app that you uploaded in the previous step.
+. Configure the details for your app and select *Save*.
++
+TIP: You can find a full list of requirements, recommendations and guidelines in the App Store Help documentation.
++
+. Select *Submit for Review* once you’re done.
++
+NOTE: The review process usually takes between 1 to 3 days.
+ 
+== Next Steps
+
+Congratulations on submitting your application! If you are looking for more information on PWAs, check out our https://vaadin.com/pwa[PWA Handbook].
+If you are new to progressive web app development, I’d recommend our comprehensive https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[tutorial series] that takes you through every step from start to deployment of a complete PWA with Vaadin.
+
+
+
+
+
