@@ -130,10 +130,17 @@ image::xcode-signing-automatic.png[Xcode automatic signing toggle box location]
 === Upload archive
 
 . From the top menu, select *Window > Organizer*.
-. Select your product archive from the recent arhchives.
-. Select *Upload to App Store...*
-. Select your credentials and press *Choose*.
-Select *Done* once the archive has finished uploading.
+. Select your product archive from the recent archives.
+. Select *Distriute App*.
++
+image::xcode-archive-view.png[Xcode organizer view]
++
+. Select *App Store Connect* and click *Next*.
+. Select *Upload* and click *Next*.
++
+image::xcode-distribution-panel-view.png[xcode distribution panel]
++
+. Select *Done* once the archive has finished uploading.
 
 == Submit your app
 
