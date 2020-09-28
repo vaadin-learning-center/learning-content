@@ -8,7 +8,7 @@
 :repo:
 :linkattrs:
 :imagesdir: ./images
-:og_image: pwa-builder--featured-image.png
+:og_image: app-store--featured-image.png
 
 This tutorial shows how you build and submit your progressive web application (https://vaadin.com/pwa[PWA^]) to the Apple App Store. We use the PWA from our https://vaadin.com/learn/tutorials/modern-web-apps-with-spring-boot-and-vaadin[Modern Web App] tutorial series and create an Xcode project from it using the PWA Builder. You can find more details about the PWA Builder in their https://github.com/pwa-builder[GitHub repository^].
 
@@ -125,7 +125,7 @@ image::xcode-signing-automatic.png[Xcode automatic signing toggle box location]
 
 . Open your project in Xcode.
 . Clean the build folder by pressing *⇧⌘K*.
-. From the top menu, select *Product > Archive*
+. From the top menu, select *Product > Archive*.
 
 === Upload archive
 
