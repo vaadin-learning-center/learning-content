@@ -77,7 +77,10 @@ image::xcode-signing-automatic.png[Xcode automatic signing toggle box location]
 
 === Create App Store Connect record
 
-. Go to the App Store Connect dashboard and sign in with the same Apple ID that you used previously in Xcode.
+. Go to the https://appstoreconnect.apple.com/login[App Store Connect dashboard^] and sign in with the same Apple ID that you used previously in Xcode.
++
+image::app-store-connect-dashboard.png[App Store Connect dashboard view]
++
 . Go to *My apps > + > New app*.
 . Fill in the deails with the information form the generated `info.plist` file in your Xcode project:
 
@@ -144,7 +147,7 @@ image::xcode-distribution-panel-view.png[xcode distribution panel]
 
 == Submit your app
 
-. Login to the App Store Connect dashboard.
+. Login to the https://appstoreconnect.apple.com/login[App Store Connect dashboard^].
 . Go to the *App Store tab* and select the app that you uploaded in the previous step.
 . Configure the details for your app and select *Save*.
 +
