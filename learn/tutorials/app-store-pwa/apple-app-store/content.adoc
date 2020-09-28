@@ -23,7 +23,7 @@ NOTE: Every PWA submitted to the Apple App Store must pass their review process 
 
 * An OSX development device with Xcode installed.
 
-TIP: You can renat a cloud Mac from services like https://www.macincloud.com/[macincloud.com^], if you don't have access to an Apple computer.
+TIP: You can rent a cloud Mac from services like https://www.macincloud.com/[macincloud.com^], if you don't have access to an Apple computer.
 
 === Apple accounts
 
@@ -85,7 +85,7 @@ image::xcode-signing-automatic2.png[Xcode automatic signing toggle box location]
 image::app-store-connect-dashboard2.png[App Store Connect dashboard view]
 +
 . Go to *My apps > + > New app*.
-. Fill in the deails with the information from the generated `info.plist` file in your Xcode project:
+. Fill in the details with the information from the generated `info.plist` file in your Xcode project:
 
 [source, xml]
 ----
@@ -137,7 +137,7 @@ image::app-store-connect-dashboard2.png[App Store Connect dashboard view]
 
 . From the top menu, select *Window > Organizer*.
 . Select your product archive from the recent archives.
-. Select *Distrbiute App*.
+. Select *Distribute App*.
 +
 image::xcode-archive-view2.png[Xcode organizer view]
 +
@@ -154,7 +154,7 @@ image::xcode-distribution-panel-view2.png[xcode distribution panel]
 . Go to the *App Store tab* and select the app that you uploaded in the previous step.
 . Configure the details for your app and select *Save*.
 +
-TIP: You can find a full list of requirements, recommendations and guidelines in the App Store Help documentation.
+TIP: You can find a full list of requirements, recommendations and guidelines in the https://developer.apple.com/app-store/review/guidelines/[App Store^] documentation.
 +
 . Select *Submit for Review* once you’re done.
 +
