@@ -14,20 +14,23 @@ This tutorial shows how you build and submit your progressive web application (h
 
 TIP: You can also use the PWA Builder to turn your existing web app into a PWA.
 
+NOTE: Every PWA submitted to the Apple App Store must pass their review process before it is published in the store
+
+
 == PREREQUISITES
 
 === Software
 
 * An OSX development device with Xcode installed.
 
-TIP: You can renat a cloud Mac from services like https://www.macincloud.com/[Mac in Cloud^], if you don't have access to an Apple computer.
+TIP: You can renat a cloud Mac from services like https://www.macincloud.com/[macincloud.com^], if you don't have access to an Apple computer.
 
 === Apple accounts
 
-* Sign up for, or log in to an https://account.microsoft.com/[iCloud account^].
+* Sign up for, or log in to, an https://www.icloud.com/[iCloud account^].
 * Sign up for the https://developer.apple.com/[Apple Developer program^].
 
-NOTE: There is annual fee of $99 for the Apple Developer program.
+NOTE: There is an annual fee of $99 for the Apple Developer program.
 
 === A PWA
 
@@ -61,17 +64,17 @@ image::pwa-builder-macos.png[Mac Os download button in PWA builder]
 === Sign-in with Xcode
 
 . Open the project in Xcode.
-. Go to Preferences by pressing *⌘,*
+. Go to Preferences by selecting *⌘,*.
 . Select the *Accounts* tab.
 . Select *+ > Apple Id > Continue*.
-. Sign in with the Apple ID that you used to enroll in the Apple Developer program.
+. Sign in with the Apple ID that you used to sign up for the Apple Developer program.
 +
 image::xcode-accounts.png[Xcode accounts view]
 
 === Enable automatic code signing
 
-. Go to *Signing & Cabalilites* in the project view.
-. Toggle on *Automaticall manage signing*.
+. In the project view, go to *Signing & Cabalilites*.
+. Select *Automatically manage signing*.
 +
 image::xcode-signing-automatic.png[Xcode automatic signing toggle box location]
 
@@ -82,7 +85,7 @@ image::xcode-signing-automatic.png[Xcode automatic signing toggle box location]
 image::app-store-connect-dashboard.png[App Store Connect dashboard view]
 +
 . Go to *My apps > + > New app*.
-. Fill in the deails with the information form the generated `info.plist` file in your Xcode project:
+. Fill in the deails with the information from the generated `info.plist` file in your Xcode project:
 
 [source, xml]
 ----
@@ -134,16 +137,16 @@ image::app-store-connect-dashboard.png[App Store Connect dashboard view]
 
 . From the top menu, select *Window > Organizer*.
 . Select your product archive from the recent archives.
-. Select *Distriute App*.
+. Select *Distrbiute App*.
 +
 image::xcode-archive-view.png[Xcode organizer view]
 +
-. Select *App Store Connect* and click *Next*.
-. Select *Upload* and click *Next*.
+. Select *App Store Connect* and then select *Next*.
+. Select *Upload* and then select *Next*.
 +
 image::xcode-distribution-panel-view.png[xcode distribution panel]
 +
-. Select *Done* once the archive has finished uploading.
+. Select *Done* once the upload is complete.
 
 == Submit your app
 
