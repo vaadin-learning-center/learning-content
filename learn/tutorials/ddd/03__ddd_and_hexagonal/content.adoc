@@ -298,7 +298,7 @@ The disadvantages are:
 * You get a new set of DTO classes to maintain.
 * You have to move data back and forth between DTOs and aggregates. This can be especially tedious if the DTOs and entities are almost similar in structure. If you work in a team you need to have a good explanation ready for why the separation of DTOs and aggregates is warranted. 
 
-Personally, this is the approach I start with in most cases. Sometimes I end up transferring my DTOs to DPOs, which is the next alternative we are going to look at.
+Personally, this is the approach I start with in most cases. Sometimes I end up converting my DTOs into DPOs, which is the next alternative we are going to look at.
 
 ==== Domain Payload Objects
 
@@ -573,7 +573,7 @@ public class CreateCustomerCommandHandler implements CommandHandler<CreateCustom
 <1> The `Command` interface is just a marker interface that also indicates the result (output) of the command. If the command has no output, the result can be `Void`.
 <2> The `CommandHandler` interface is implemented by a class that knows how to handle (perform) a particular command and return the result.
 <3> Clients interact with a `CommandGateway` to avoid having to lookup individual command handlers. The gateway knows about all available command handlers and how to find the correct one based on any given command. The code for looking up handlers is not included in the example since it depends on the underlying mechanism for registering handlers.
-<4> Every command implements the `Command` interface and includes all the necessary information to perform the command. I like to make my commands immutable with built-in validation, but you can also make them mutable and use JSR-303 validation. You can even leave your commands as interfaces and let the clients implement them themselves or use some kind of factory or builder pattern, depending on your needs.
+<4> Every command implements the `Command` interface and includes all the necessary information to perform the command. I like to make my commands immutable with built-in validation, but you can also make them mutable and use JSR-303 validation. You can even leave your commands as interfaces and let the clients implement them themselves for maximum flexibility.
 <5> Every command has its own handler that performs the command and returns the result.
 
 == Ports and Adapters
@@ -582,11 +582,11 @@ So far we have discussed the domain model and the application services that surr
 
 === What is a Port?
 
-A port is an interface between the system and the outside world that has been specially designed for a particular purpose or protocol. Ports are not only used to allow outside clients access to the system but also to allow the system to access external systems.
+A port is an interface between the system and the outside world that has been designed for a particular purpose or protocol. Ports are not only used to allow outside clients to access the system but also to allow the system to access external systems.
 
-Now, it is easy to start thinking of the ports as network ports and the protocols as network protocols such as HTTP. I made this mistake myself and in fact Vernon does that too in at least one example in his book. However, if you look closer at the https://alistair.cockburn.us/hexagonal-architecture/:[original article] where Alistair Cockburn describes the hexagonal architecture, you will find out that this is not the case. It is, in fact, far more interesting than that.
+Now, it is easy to start thinking of the ports as network ports and the protocols as network protocols such as HTTP. I made this mistake myself and in fact Vernon does that too in at least one example in his book. However, if you look closer at the https://alistair.cockburn.us/hexagonal-architecture/:[article] by *Alistair Cockburn*, that Vernon refers to, you will find that this is not the case. It is, in fact, far more interesting than that.
 
-In practice, a port is a technology agnostic application programming interface (API) that has been designed for a particular type of interaction with the application (hence the word "protocol"). How you define this protocol is completely up to you and that is what makes this approach exciting. Here are a few examples of different ports you may have:
+A port is a technology agnostic application programming interface (API) that has been designed for a particular type of interaction with the application (hence the word "protocol"). How you define this protocol is completely up to you and that is what makes this approach exciting. Here are a few examples of different ports you may have:
 
 * A port used by your application to access a database
 * A port used by your application to send out messages such as e-mails or text messages
@@ -629,13 +629,13 @@ Ports will in most cases materialize themselves as interfaces in your code. For 
 
 image:client_adapter.png[An adapter using a port interface]
 
-The implementation of your interface resides inside your application service layer and the adapters use the service through its interface only. This is very much in line with the classical layered architecture where the adapter is just another client that uses your service layer. The main difference is that the concept of ports helps you to design better application interfaces since you actually have to think about what the clients of your interfaces will be and acknowledge that different clients may need different interfaces instead of going for a one-size-fits-all approach.
+The implementation of your interface resides inside your application service layer and the adapters use the service through its interface only. This is very much in line with the classical layered architecture where the adapter is just another client that uses your application layer. The main difference is that the concept of ports helps you to design better application interfaces since you actually have to think about what the clients of your interfaces will be and acknowledge that different clients may need different interfaces instead of going for a one-size-fits-all approach.
 
 Things get more interesting when we look at a port that allows your application to access an external system through some adapter:
 
 image:implementation_adapter.png[An adapter implementing a port interface]
 
-In this case, it is the adapter that implements some interface. The application service then interacts with the adapter through this interface. The interface itself either lives in your application service layer (such as a factory interface) or in your domain model (such as a repository interface). This approach would not have been permitted in the traditional layered architecture as the interface would be declared in an upper layer (the "application layer" or the "domain layer"), but implemented in a lower layer (the "infrastructure layer").
+In this case, it is the adapter that implements the interface. The application service then interacts with the adapter through this interface. The interface itself either lives in your application service layer (such as a factory interface) or in your domain model (such as a repository interface). This approach would not have been permitted in the traditional layered architecture as the interface would be declared in an upper layer (the "application layer" or the "domain layer"), but implemented in a lower layer (the "infrastructure layer").
 
 Please note that in both these approaches, the dependency arrows point toward the interface. The application always remains decoupled from the adapter, and the adapter always remains decoupled from the implementation of the application.
 
@@ -666,23 +666,23 @@ The port is some application service that is suitable to be exposed through a we
 
 === Example 3: Communicating with a Relational Database
 
-In the third example, we are going to turn things around and look at a port and adapter that allows our system to call out to an external system, more specifically a relational database:
+In the third example, we are going to turn things around and look at an adapter that allows our system to call out to an external system, more specifically a relational database:
 
 image:jdbc_adapter.png[A repository adapter and JDBC port]
 
-This time, because we are using Spring Data, the port is a repository interface from the domain model (if we didn't use Spring Data, the port would probably some kind of database gateway interface that provides access to repository implementations, transaction management and so on).
+This time, because we are using Spring Data, the port is a repository interface from the domain model (if we didn't use Spring Data, the port would probably be some kind of database gateway interface that provides access to repository implementations, transaction management and so on).
 
 The adapter is Spring Data JPA so we don't actually need to write it ourselves, only set it up correctly. It will automatically implement the interface using proxies when the application starts. The Spring container will take care of injecting the proxy into the application service that uses it.
 
 === Example 4: Communicating with an External System over REST
 
-In the fourth and last example, we are going to look at a port and adapter that allows our system to call out to an external system over REST:
+In the fourth and last example, we are going to look at an adapter that allows our system to call out to an external system over REST:
 
 image:rest_client_adapter.png[A REST client adapter and HTTP port]
 
-Since the application service has a need to reach out to the external system, it has declared an interface it wants to use for this. You can think of this as the first part of an anti-corruption layer (go back and read the article about strategic DDD if you need a refresher on what that is).
+Since the application service has a need to reach out to the external system, it has declared an interface that it wants to use for this. You can think of this as the first part of an anti-corruption layer (go back and read the article about strategic DDD if you need a refresher on what that is).
 
-The adapter then implements this, forming the second part of the anti-corruption layer. Like in the previous example, the adapter is injected into the application service using some kind of dependency injection such as Spring. It then uses some internal HTTP client to make calls to the external system and translates the received responses into domain objects as dictated by the integration interface.
+The adapter then implements this interface, forming the second part of the anti-corruption layer. Like in the previous example, the adapter is injected into the application service using some kind of dependency injection such as Spring. It then uses some internal HTTP client to make calls to the external system and translates the received responses into domain objects as dictated by the integration interface.
 
 == Multiple Bounded Contexts
 
