@@ -23,9 +23,9 @@ The name _hexagonal architecture_ comes from the way this architecture is usuall
 
 image:hexagonal.png[The hexagonal architecture]
 
-Using hexagons leaves plenty of space for _ports and adapters_, which is another name for this architecture that better explains what the central idea is. The architecture is also sometimes called the _onion architecture_ because of how it is layered.
+We are going to return to why hexagons are used later in this article. This arhictecture also goes under the names _ports and adapters_ (which better explains the central idea behind it) and _onion architecture_ (because of how it is layered).
 
-In the following, we are going to have a closer look at the "onion". We are going to start with the core - the domain model - and then work ourselves out, one layer at the time, until we reach the adapters and the systems and clients interacting with them.
+In the following, we are going to have a closer look at the "onion". We are going to start with the core - the domain model - and then work ourselves out, one layer at the time, until we reach the adapters and the systems and clients that interact with them.
 
 .Hexagonal vs. Traditional Layers
 ****
