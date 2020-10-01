@@ -15,6 +15,8 @@ The previous two articles were pretty generic even though the code examples were
 
 Again, the content is based on the books *Domain-Driven Design: Tackling Complexity in the Heart of Software* by Eric Evans and *Implementing Domain-Driven Design* by *Vaughn Vernon* and I highly recommend you to read both of them. However, even though I presented my own thoughts, ideas and experiences in the previous articles as well, this one is even more strongly colored by what I think and believe. That said, it was the books of Evans and Vernon that got me started with DDD in the first place and I'd like to think that what I'm writing here is not too far from what you will find in the books.
 
+This is the second version of this article. In the first one, I had gotten the concept of ports wrong. This was pointed out in a comment by a reader, which I am very grateful for. I have now corrected this error and updated the examples and diagrams accordingly. Comments about my interpretations of this architetural style and DDD are always welcome. 
+
 == Why Is It Called Hexagonal?
 
 The name _hexagonal architecture_ comes from the way this architecture is usually depicted:
@@ -23,7 +25,7 @@ image:hexagonal.png[The hexagonal architecture]
 
 Using hexagons leaves plenty of space for _ports and adapters_, which is another name for this architecture that better explains what the central idea is. The architecture is also sometimes called the _onion architecture_ because of how it is layered.
 
-In the following, we are going to have a closer look at the "onion". We are going to start with the core - the domain model - and then work ourselves out, one layer at the time, until we reach the ports and the systems and clients interacting with them.
+In the following, we are going to have a closer look at the "onion". We are going to start with the core - the domain model - and then work ourselves out, one layer at the time, until we reach the adapters and the systems and clients interacting with them.
 
 .Hexagonal vs. Traditional Layers
 ****
@@ -241,9 +243,9 @@ class CustomerRegistrationService {
 
 In the previous article about tactical domain-driven design, we talked about domain events and domain event listeners. We did not, however, talk about where the domain event listeners fit into the overall system architecture. We recall from the previous article that a domain event listener should not be able to affect the outcome of the method that published the event in the first place. In practice, this means that a domain event listener should run inside its own transaction.
 
-Because of this, I consider domain event listeners to be a special kind of application service that is invoked not by a client but by a domain event. This also means that a domain event listener is an orchestrator that should not contain any business logic. Depending on what needs to happen when a certain domain event is published, you may have to create a separate domain service that decides what to do with it if there is more than one path forward.
+Because of this, I consider domain event listeners to be a special kind of application service that is invoked not by a client but by a domain event. In other words: domain event listeners belong in the application service layer and not inside the domain model. This also means that a domain event listener is an orchestrator that should not contain any business logic. Depending on what needs to happen when a certain domain event is published, you may have to create a separate domain service that decides what to do with it if there is more than one path forward.
 
-This being said, in the section about aggregates in the previous article, I mentioned that it may sometimes be justified to alter multiple aggregates within the same transaction even though this goes against the aggregate design guidelines. I also mentioned that this should preferably be made through domain events. In cases like this, the domain event listeners would have to participate in the current transaction and could thereby affect the outcome of the method that published the event, breaking the design guidelines for both domain events and application services. This is not the end of the world as long as you do it intentionally and are aware of the consequences you might face in the future. Sometimes you just have to be pragmatic.
+This being said, in the section about aggregates in the previous article, I mentioned that it may sometimes be justified to alter multiple aggregates within the same transaction even though this goes against the aggregate design guidelines. I also mentioned that this should preferably be made through domain events. In cases like this, the domain event listeners would have to participate in the current transaction and could thereby affect the outcome of the method that published the event, breaking the design guidelines for both domain events and application services. This is not the end of the world as long as you do it intentionally and are aware of the consequences you might face in the future -- which may be dire. Sometimes you just have to be pragmatic.
 
 === Input and Output
 
@@ -275,9 +277,11 @@ The disadvantages are:
 * You have to design your aggregates in such a way that the client cannot put the aggregate into an inconsistent state or perform an operation that is not allowed.
 * You may run into problems with lazy-loading of entities inside an aggregate (JPA).
 
+Personally, I try to avoid this approach as much as I can.
+
 ==== Data Transfer Objects
 
-In the second alternative, the application services consume and return data transfer objects. The DTOs can correspond to entities in the domain model, but more often they are designed for a specific application service or even a specific application service method. The application service is then responsible for moving data back and forth between the DTOs and the domain objects. 
+In the second alternative, the application services consume and return data transfer objects. The DTOs can correspond to entities in the domain model, but more often they are designed for a specific application service or even a specific application service method (such as request and response objects). The application service is then responsible for moving data back and forth between the DTOs and the domain objects. 
 
 This alternative works best when the domain model is very rich in business logic, the aggregates are complex or when the domain model is expected to change a lot while keeping the client API as stable as possible.
 
@@ -287,17 +291,20 @@ The advantages of this alternative are:
 * Only the data that is actually needed is being passed between the clients and the application services, improving performance (especially if the client and the application service are communicating over a network in a distributed environment).
 * It becomes easier to control access to the domain model, especially if only certain users are allowed to invoke certain aggregate methods or view certain aggregate attribute values.
 * Only application services will interact with the aggregates inside active transactions. This means you can utilize lazy loading of entities inside an aggregate (JPA).
+* If the DTOs are interfaces and not classes, you get even more flexibility.
 
 The disadvantages are:
 
 * You get a new set of DTO classes to maintain.
 * You have to move data back and forth between DTOs and aggregates. This can be especially tedious if the DTOs and entities are almost similar in structure. If you work in a team you need to have a good explanation ready for why the separation of DTOs and aggregates is warranted. 
 
+Personally, this is the approach I start with in most cases. Sometimes I end up transferring my DTOs to DPOs, which is the next alternative we are going to look at.
+
 ==== Domain Payload Objects
 
 In the third alternative, application services consume and return domain payload objects. A domain payload object is a data transfer object that is aware of the domain model and can contain domain objects. This is essentially a combination of the first two alternatives.
 
-This alternative works best in cases where the domain model is anemic, the aggregates are small and stable and you want to implement an operation that involves multiple different aggregates. Personally, I would say I use DPOs more often as output objects than as input objects.
+This alternative works best in cases where the domain model is anemic, the aggregates are small and stable and you want to implement an operation that involves multiple different aggregates. Personally, I would say I use DPOs more often as output objects than as input objects. However, I try to limit the use of domain objects in DPOs to value objects if only possible.
 
 The advantages of this alternative are:
 
@@ -382,7 +389,7 @@ public class CustomerInvoiceSummaryService {
 
 As we have mentioned previously, an aggregate must always be in a consistent state. This means among other things that we need to properly validate all the input that is used to alter the state of an aggregate. How and where do we do that?
 
-From a user experience perspective, the user interface should include validation so that the user is not even able to perform an operation if the data is invalid. However, relying simply on user interface validation is _not good enough_ in a hexagonal system. The reason for this is that the user interface is but one of potentially many ports into the system. It does not help that the user interface is validating data properly if a REST endpoint lets any garbage through to the domain model.
+From a user experience perspective, the user interface should include validation so that the user is not even able to perform an operation if the data is invalid. However, relying simply on user interface validation is _not good enough_ in a hexagonal system. The reason for this is that the user interface is but one of potentially many entry points into the system. It does not help that the user interface is validating data properly if a REST endpoint lets any garbage through to the domain model.
 
 When thinking about input validation there are actually two distinct kinds of validation: format validation and content validation. When we are validating the format, we check that certain values of certain types conform to certain rules. E.g. a social security number is expected to be in a specific pattern. When we are validating the content, we already have a well-formed piece of data and are interested in checking that that data makes sense. E.g. we may want to check that a well-formed social security number actually corresponds to a real person. You can implement these validations in different ways so let's have a closer look.
 
@@ -504,13 +511,13 @@ public class Customer implements Entity {
 
 === Does the Size Matter?
 
-Before we leave the subject of application services, there is one more thing I want to briefly mention. As with all facades, there is an ever-present risk of the application services growing into huge god classes that know too much and do too much. These types of classes are often hard to read and maintain simply because they are so large.
+Before we go on to ports and adapters, there is one more thing I want to briefly mention. As with all facades, there is an ever-present risk of the application services growing into huge god classes that know too much and do too much. These types of classes are often hard to read and maintain simply because they are so large.
 
 So how do you keep the application services small? The first step is of course to split a service that is growing too big into smaller services. However, there is a risk in this as well. I have seen situations were two services where so similar that developers did not know what the difference was between them, nor which method should go into which service. The result was that service methods were scattered over two separate service classes, and sometimes even implemented twice - once in each service - but by different developers.
 
 When I design application services, I try to make them as coherent as possible. In CRUD applications, this could mean one application service per aggregate. In more domain-driven applications, this could mean one application service per business process or even separate services for specific use cases or user interface views.
 
-Naming is a very good guideline when designing application services. Try to name your application services according to what they do as opposed to which aggregates they concern. E.g. `EmployeeCrudService`  or `EmploymentContractTerminationService` are far better names than `EmployeeService` which could mean anything.
+Naming is a very good guideline when designing application services. Try to name your application services according to what they do as opposed to which aggregates they concern. E.g. `EmployeeCrudService`  or `EmploymentContractTerminationUsecase` are far better names than `EmployeeService` which could mean anything. Also spend some time thinking about your naming conventions: do you really need to end all your services with the `Service` suffix? Would it make more sense in some cases to use suffixes such as `Usecase` or `Orchestrator` or even leave the suffix out completely?
 
 Finally, I just want to mention command based application services. In this case, you model each application service model as a command object with a corresponding command handler. This means that every application service contains exactly one method that handles exactly one command. You can use polymorphism to create specialized commands or command handlers. This approach results in a large number of small classes and is useful especially in applications whose user interfaces are inherently command-driven or where clients interact with application services through some kind of messaging mechanism such as a message queue (MQ) or enterprise service bus (ESB).
 
@@ -566,37 +573,88 @@ public class CreateCustomerCommandHandler implements CommandHandler<CreateCustom
 <1> The `Command` interface is just a marker interface that also indicates the result (output) of the command. If the command has no output, the result can be `Void`.
 <2> The `CommandHandler` interface is implemented by a class that knows how to handle (perform) a particular command and return the result.
 <3> Clients interact with a `CommandGateway` to avoid having to lookup individual command handlers. The gateway knows about all available command handlers and how to find the correct one based on any given command. The code for looking up handlers is not included in the example since it depends on the underlying mechanism for registering handlers.
-<4> Every command implements the `Command` interface and includes all the necessary information to perform the command. I like to make my commands immutable with built-in validation, but you can also make them mutable and use JSR-303 validation.
+<4> Every command implements the `Command` interface and includes all the necessary information to perform the command. I like to make my commands immutable with built-in validation, but you can also make them mutable and use JSR-303 validation. You can even leave your commands as interfaces and let the clients implement them themselves or use some kind of factory or builder pattern, depending on your needs.
 <5> Every command has its own handler that performs the command and returns the result.
 
 == Ports and Adapters
 
 So far we have discussed the domain model and the application services that surround and interact with it. However, these application services are completely useless if there is no way for clients to invoke them and that is where ports and adapters enter the picture.
 
-A port is an interface between the system and the outside world that has been specially designed for a particular type of protocol. Ports are not only used to allow outside clients access to the system but also to allow the system to access external systems.
+=== What is a Port?
 
-Because ports can be designed for many different protocols, you have to pair them with adapters that know how to translate between the protocol and the application services and domain model.
+A port is an interface between the system and the outside world that has been specially designed for a particular purpose or protocol. Ports are not only used to allow outside clients access to the system but also to allow the system to access external systems.
 
-You typically have a one-to-one mapping between ports and adapters but nothing prevents you from using the same adapter with different ports. You could, for instance, make your REST API available both using an HTTP port and a RabbitMQ port.
+Now, it is easy to start thinking of the ports as network ports and the protocols as network protocols such as HTTP. I made this mistake myself and in fact Vernon does that too in at least one example in his book. However, if you look closer at the https://alistair.cockburn.us/hexagonal-architecture/:[original article] where Alistair Cockburn describes the hexagonal architecture, you will find out that this is not the case. It is, in fact, far more interesting than that.
 
-You can add as many ports and adapters as you like to a system and also remove obsolete ports and adapters that are no longer in use. This is one of the core strengths of the hexagonal architecture - it is extendable and flexible.
+In practice, a port is a technology agnostic application programming interface (API) that has been designed for a particular type of interaction with the application (hence the word "protocol"). How you define this protocol is completely up to you and that is what makes this approach exciting. Here are a few examples of different ports you may have:
 
-This may all sound like a good idea but what are ports and adapters in practice? Let's have a look!
+* A port used by your application to access a database
+* A port used by your application to send out messages such as e-mails or text messages
+* A port used by human users to access your application
+* A port used by other systems to access your application
+* A port used by a particular user group to access your application
+* A port exposing a particular use case
+* A port designed for polling clients
+* A port designed for subscribing clients
+* A port designed for synchronous communication
+* A port designed for asynchronous communication
+* A port designed for a particular type of device
 
-=== Example 1: A REST API
+This list is by no means exhaustive and I'm sure you can come up with many more examples yourself. You can also combine these types. For example, you could have a port that allows administrators to manage users using a client that uses asynchronous communication. You can add as many ports to the system as you want or need, without affecting the other ports or the domain model.
+
+Let's have a look at the hexagonal architecture diagram again:
+
+image:hexagonal.png[The hexagonal architecture]
+
+Each _side_ of the inner hexagonal represents a port. This is the reason for why this architecture is often depicted like this: you get six sides out-of-the-box that you can use for different ports and plenty of room to draw in as many adapters as you need. But what is an adapter?
+
+=== What is an Adapter?
+
+I already mentioned that ports are technology agnostic. Still, you interact with the system through some technology - a web browser, a mobile device, a dedicated hardware device, a desktop client, and so on. This is where adapters come in.
+
+An adapter allows interaction through a particular port, using a particular technology. For example:
+
+* A REST adapter allows REST clients to interact with the system through some port
+* A RabbitMQ adpter allows RabbitMQ clients to interact with the system through some port
+* An SQL adapter allows the system to interact with a database through some port
+* A Vaadin adapter allows human users to interact with the system through some port
+
+You can have multiple adapters for a single port or even a single adapter for multiple ports. You can add as many adapters to the system as you want or need, without affecting the other adapters, the ports or the domain model. 
+
+=== Ports and Adapters in Code
+
+By now, you should have some idea of what a port and what an adapter is on a conceptual level. But how do you transform these concepts into code? Let's have a look!
+
+Ports will in most cases materialize themselves as interfaces in your code. For ports that allow outside system to access your application, these interfaces are your application service interfaces:
+
+image:client_adapter.png[An adapter using a port interface]
+
+The implementation of your interface resides inside your application service layer and the adapters use the service through its interface only. This is very much in line with the classical layered architecture where the adapter is just another client that uses your service layer. The main difference is that the concept of ports helps you to design better application interfaces since you actually have to think about what the clients of your interfaces will be and acknowledge that different clients may need different interfaces instead of going for a one-size-fits-all approach.
+
+Things get more interesting when we look at a port that allows your application to access an external system through some adapter:
+
+image:implementation_adapter.png[An adapter implementing a port interface]
+
+In this case, it is the adapter that implements some interface. The application service then interacts with the adapter through this interface. The interface itself either lives in your application service layer (such as a factory interface) or in your domain model (such as a repository interface). This approach would not have been permitted in the traditional layered architecture as the interface would be declared in an upper layer (the "application layer" or the "domain layer"), but implemented in a lower layer (the "infrastructure layer").
+
+Please note that in both these approaches, the dependency arrows point toward the interface. The application always remains decoupled from the adapter, and the adapter always remains decoupled from the implementation of the application.
+
+To make this even more concrete, let's look at some code examples.
+
+==== Example 1: A REST API
 
 In the first example we are going to create a REST API for our Java application:
 
-image:rest_adapter.png[A REST adapter and HTTP port]
+image:rest_adapter.png[A REST adapter]
 
-The port is HTTP so we need a servlet to implement the port. The REST controller acts as the adapter. Naturally we are using a framework such as Spring or JAX-RS that provides both the servlet and mapping between POJOs (Plain Old Java Objects) and XML/JSON out-of-the-box. We only have to implement the REST controller which will:
+The port is some application service that is suitable to be exposed through REST. The REST controller acts as the adapter. Naturally we are using a framework such as Spring or JAX-RS that provides both the servlet and mapping between POJOs (Plain Old Java Objects) and XML/JSON out-of-the-box. We only have to implement the REST controller which will:
 
 1. Take either raw XML/JSON or deserialized POJOs as input,
 2. Invoke the application services, 
 3. Construct a response as either raw XML/JSON or as a POJO that will be serialized by the framework, and
 4. Return the response to the client.
 
-The clients, regardless of whether they are client-side web applications running in a browser or other systems running on their own servers, are not a part of this particular hexagonal system. The system also does not have to care about who the clients are as long as they conform to the protocol that the port and adapter supports.
+The clients, regardless of whether they are client-side web applications running in a browser or other systems running on their own servers, are not a part of this particular hexagonal system. The system also does not have to care about who the clients are as long as they conform to the protocol and technology that the port and adapter supports.
 
 === Example 2: A Server-Side Vaadin UI
 
@@ -604,7 +662,7 @@ In the second example, we are going to look at a different type of adapter, name
 
 image:vaadin_adapter.png[A Vaadin adapter and HTTP port]
 
-Again, the port is HTTP so we need a servlet to implement the port. In this case, the servlet is the `VaadinServlet`, so we don't need to implement it ourselves (this is the case regardless of whether you are using Vaadin 8 or Flow). Now we just need an adapter for translating incoming user actions into application service method calls and the output into HTML that can be rendered in the browser. This adapter is the Vaadin UI. Thinking of the user interface as just another port/adapter into the system is an excellent way of keeping business logic outside of the user interface.
+The port is some application service that is suitable to be exposed through a web UI. The adapter is the Vaadin UI that translates incoming user actions into application service method calls and the output into HTML that can be rendered in the browser. Thinking of the user interface as just another adapter is an excellent way of keeping business logic outside of the user interface.
 
 === Example 3: Communicating with a Relational Database
 
@@ -612,11 +670,9 @@ In the third example, we are going to turn things around and look at a port and 
 
 image:jdbc_adapter.png[A repository adapter and JDBC port]
 
-This time, the port is JDBC and it is implemented by a JDBC driver (such as for H2, MySQL or PostgreSQL). The adapter is a set of implementations of the repository interfaces declared in the domain model. The adapter would also have to plug into the application service layer's transaction management API. You could interact with the JDBC drivers directly, but most Java applications would probably use a framework such as JPA or JOOQ. This framework would also be considered a part of the adapter.
+This time, because we are using Spring Data, the port is a repository interface from the domain model (if we didn't use Spring Data, the port would probably some kind of database gateway interface that provides access to repository implementations, transaction management and so on).
 
-In this case, the adapter is not invoking the application service. Instead, the application service is invoking the adapter, but through interfaces defined by the application service or domain model. For this to work properly, you need to use some kind of dependency injection so that the correct instances of the adapter classes are injected into the application services.
-
-This is a use case that is perfectly OK in a hexagonal architecture but would not have been permitted in a traditional layered architecture. The reason for this is that we would have a lower layer (the "infrastructure layer") depending on a higher layer (the "domain layer" and the "application layer").
+The adapter is Spring Data JPA so we don't actually need to write it ourselves, only set it up correctly. It will automatically implement the interface using proxies when the application starts. The Spring container will take care of injecting the proxy into the application service that uses it.
 
 === Example 4: Communicating with an External System over REST
 
@@ -624,25 +680,25 @@ In the fourth and last example, we are going to look at a port and adapter that 
 
 image:rest_client_adapter.png[A REST client adapter and HTTP port]
 
-The port is again HTTP, but it is sending out requests and receiving responses instead of the other way around (as was the case in the first example). It is implemented by some suitable HTTP client, such as Apache HttpComponents.
+Since the application service has a need to reach out to the external system, it has declared an interface it wants to use for this. You can think of this as the first part of an anti-corruption layer (go back and read the article about strategic DDD if you need a refresher on what that is).
 
-The adapter implements a domain service interface. Like in the previous example, the adapter is injected into the application services using some kind of dependency injection. It then invokes the HTTP client to make calls to the external system and translates the received responses into domain objects.
+The adapter then implements this, forming the second part of the anti-corruption layer. Like in the previous example, the adapter is injected into the application service using some kind of dependency injection such as Spring. It then uses some internal HTTP client to make calls to the external system and translates the received responses into domain objects as dictated by the integration interface.
 
 == Multiple Bounded Contexts
 
-So far we have only look at what the hexagonal architecture looks like when applied to a single bounded context. But what happens when you have multiple bounded contexts that need to communicate with each other?
+So far we have only looked at what the hexagonal architecture looks like when applied to a single bounded context. But what happens when you have multiple bounded contexts that need to communicate with each other?
 
-If the contexts are running on separate systems and communicating over a network, you can do something like this: Create a REST API for the upstream system and a REST client adapter for the downstream system:
+If the contexts are running on separate systems and communicating over a network, you can do something like this: Create a REST server adapter for the upstream system and a REST client adapter for the downstream system:
 
 image:distributed.png[Two bounded contexts running on separate nodes]
 
 The mapping between the different contexts would take place in the downstream system's adapter.
 
-If the contexts are running as modules inside a single monolithic system, you can still use a similar architecture except you can leave the port out:
+If the contexts are running as modules inside a single monolithic system, you can still use a similar architecture but you only need a single adapter:
 
 image:monolith.png[Two bounded contexts inside the same monolith]
 
-Since both contexts are running inside the same virtual machine, we only need one adapter that interacts with both contexts directly. The adapter implements an interface of the downstream context and invokes application services of the upstream context. Any context mapping takes place inside the adapter.
+Since both contexts are running inside the same virtual machine, we only need one adapter that interacts with both contexts directly. The adapter implements the port interface of the downstream context and invokes the port of the upstream context. Any context mapping takes place inside the adapter.
 
 == Next: Domain-Driven Design and Spring Boot
 
