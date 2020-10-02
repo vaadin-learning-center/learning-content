@@ -33,7 +33,7 @@ Next, you need to build a Vaadin application with the production profile. This c
 
 In the console, run: 
 
-`mvn install -Production`
+`mvn install -Pproduction`
 
 You can try the application locally by running: 
 
