@@ -33,7 +33,7 @@ Next, you need to build a Vaadin application with the production profile. This c
 
 In the console, run: 
 
-`mvn install -Production`
+`mvn install -Pproduction`
 
 You can try the application locally by running: 
 
@@ -72,6 +72,6 @@ You now have a Docker image containing your Vaadin app, tagged as vaadin-docker.
 
 This starts the container and runs the application inside of it. The container's port 8080 is available at port 8090. You can now access your application on localhost:8090.
 
-= Summary and next steps
+== Summary and next steps
 
 Your Vaadin application is now Dockerized and ready to be deployed to any service that runs Docker containers. Read more about deploying Vaadin applications to cloud providers in our link:https://vaadin.com/learn/tutorials/cloud-deployment[cloud deployment tutorial series].

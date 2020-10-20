@@ -30,7 +30,7 @@ In sum we end up with:
 *Basic knowledge of Vaadin 14+, Spring Security, and Spring Boot is required for this tutorial*. We will _not_ discuss styling, production builds or other topics unrelated to security.
 
 == Get the base Vaadin + Spring starter
-We are using https://vaadin.com/start/latest/project-base-spring as our starting point. When we started writing the tutorial the starter was using Vaadin 12.0.4 with Spring Boot 2.1.0.RELEASE but nowadays it is Vaadin 14.0.0 with Spring Boot 2.1.6.RELEASE.
+We are using https://vaadin.com/start/latest/project-base-spring as our starting point. When we started writing the tutorial the starter was using Vaadin 12.0.4 with Spring Boot 2.1.0.RELEASE but nowadays it is Vaadin 14.3.8 with Spring Boot 2.3.3.RELEASE.
 
 ```
 .
