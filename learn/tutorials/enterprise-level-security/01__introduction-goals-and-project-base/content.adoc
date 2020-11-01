@@ -1,0 +1,37 @@
+= Introduction
+:title: Introduction to enterprise level security
+:author: Paul Römer
+:type: text
+:tags: SSO, CAS, Keycloak, Spring Boot, Security
+:description: Learn how to secure your enterprise applications. This first part of the tutorial discusses goals, 
+:repo: https://github.com/vaadin-learning-center/enterprise-level-security
+:linkattrs:
+:imagesdir: ./images
+
+*Let's push security to the next level!* Based on what we have learned in https://vaadin.com/learn/tutorials/securing-your-app-with-spring-security we will show how to setup a centralized authentication mechanism for your enterprise and how to integrate Vaadin applications into it. That means this time we will discuss managing enterprise-wide authentication instead of just concentrating on one single application.
+
+== Central Authentication?!
+Yes! The idea is to not let your application manage the authentication of users but connect to a central service that takes this burden from you. Your application will only get the authenticated user (called principal) with a set of additional attributes and your app will only have to take care of authorizing the user.
+
+Authentication vs Authorization
+Please, don't mix them up. Authentication is about identifying users - I know who you are. But, that does not mean I will let you in my house. I will not authorize you.
+
+But before we can start with the whole setup and implementation, we have to decide which central authentication solution (commonly called Single-Sign-On provider) to use. The bad thing about SSO providers is that there are plenty of them. Auth0, FusionAuth, Okta, CAS, Keycloak or FreeIPA to name only some. It is up to you to decide which one matches your requirements as long as Spring Security supports the protocol of the provider. 
+
+For vaadin.com we have defined three requirements:
+1. The service is installable on-site
+We always prefer being able to host services on our own instead of making ourselves dependent on some SaaS solution. Data is in our control (and in times of GDPR it is even more important), we can run arbitary test instances and work offline if needed.
+
+2. It is Open Source and has an active community
+I expect this one is self-explaining. Being able to debug code, getting help, helping others and providing code on your own is what you get and what we want.
+
+3. Java
+If the last requirement wasn't self-explaining already, this one is for sure! :)
+
+We ended up with a decision between Keycloak and CAS and finally decided for the latter as CAS is Spring Boot and Spring Flow based and was in use for internal tooling already. But (there is always a "but") a lot of our customers have decided for Keycloak and that is why we decided to provide some basic tutorials for Keycloak integration, too. Also, it will help me to better compare both SSO providers.
+
+== CAS or Central Authentication Service
+The development of the Central Authentication Service started in the year 2000 at the Yale university. It's kind of the dinosaur compared to the other SSO providers and comes with a somewhat surprising deployment philosophy making it hard to understand for newbies (ok, at least for me it wasn't easy to understand). For example, before CAS I've never heard about Maven overlays and how they can be used. Also the migration to SpringBoot is not fully done, yet, and sometimes you stumble over quite unexpected behavior. Especially, when it comes to the runtime configuration. Then, the internal state machine is based on the Spring Flow framework and it is wise to have or get at least some knowledge about it. Otherwise you will have a hard time understanding the CAS internals. And I absolutly recommend understanding them.
+But what you get is a highly modularized SSO provider with plenty of addons and an active and helpful community.
+
+Let's start with setting up CAS in general in the next tutorial of this series.
