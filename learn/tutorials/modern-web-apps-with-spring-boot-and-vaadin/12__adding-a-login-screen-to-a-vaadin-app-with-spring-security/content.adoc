@@ -138,7 +138,7 @@ TIP: Paste the class code into the package and IntelliJ will automatically creat
 ----
 package com.vaadin.tutorial.crm.security;
 
-import com.vaadin.flow.server.ServletHelper;
+import com.vaadin.flow.server.HandlerHelper.RequestType;
 import com.vaadin.flow.shared.ApplicationConstants;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -156,7 +156,7 @@ public final class SecurityUtils {
     static boolean isFrameworkInternalRequest(HttpServletRequest request) { <1>
         final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
         return parameterValue != null
-            && Stream.of(ServletHelper.RequestType.values())
+            && Stream.of(RequestType.values())
             .anyMatch(r -> r.getIdentifier().equals(parameterValue));
     }
 
