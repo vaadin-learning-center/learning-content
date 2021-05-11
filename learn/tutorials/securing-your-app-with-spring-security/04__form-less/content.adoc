@@ -1,7 +1,7 @@
 :title: Spring Security authentication without page reloads for better UX
 :author: Paul Römer
 :type: text
-:tags: Spring, Spring Boot
+:tags: Spring, Spring Boot, Security, V14
 :description: Set up a Spring Security configuration that allows handling  authentication in a Vaadin app without submitting form data.
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/form-less
 :linkattrs:

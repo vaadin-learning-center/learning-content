@@ -2,7 +2,7 @@
 :author: Paul Römer
 :title: Adding form-based login views to a Vaadin application using Spring Security
 :type: text
-:tags: Spring, Spring Boot
+:tags: Spring, Spring Boot, Security, V14
 :description: This tutorial covers adding a form-based login view to Vaadin applications, using Java or Polymer templates.
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/branches
 :linkattrs:

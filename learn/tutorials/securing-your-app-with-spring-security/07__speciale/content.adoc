@@ -1,7 +1,7 @@
 :title: Spring Security Specials
 :author: Paul Römer
 :type: text
-:tags: Spring, Spring Boot, Security
+:tags: Spring, Spring Boot, Security, V14
 :description: Learn how to use Push, Upload and other Vaadin specials
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay
 :linkattrs:
