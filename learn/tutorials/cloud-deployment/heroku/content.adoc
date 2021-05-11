@@ -143,6 +143,13 @@ You can deploy an application directly from a GitHub repository instead of uploa
 * Substitute your project name and details for the JAR name. In our case it is `starter_app-2.0-SNAPSHOT.jar`.
 * This file must reside in the same folder as your `pom.xml`.
 
+. Optional: If your application is configured to run with Java 11 (`<java.version>11</java.version>` in your `pom.xml`), create a new file `system.properties` in the root directory of your application and add the following content.
++
+.`*system.properties*`
+[source]
+----
+java.runtime.version=11
+----
 . Push the code to your Github repository.
 
 === Deploying from GitHub

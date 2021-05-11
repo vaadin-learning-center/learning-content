@@ -3,7 +3,7 @@
 :title: Domain-Driven Design and the Hexagonal Architecture
 :type: text
 :author: Petter Holmström
-:tags: Domain-Driven Design, Java, Backend, Architecture, Vaadin 8, Flow
+:tags: Domain-Driven Design, Java, Backend, Architecture, V08, Flow
 :description: Learn how to use the hexagonal architecture to turn your domain model into a complete application
 :repo:
 :linkattrs:
