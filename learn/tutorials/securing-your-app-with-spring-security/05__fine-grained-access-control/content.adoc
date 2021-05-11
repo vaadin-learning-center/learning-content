@@ -1,7 +1,7 @@
 :title: Setting up fine-grained access control 
 :author: Paul Römer
 :type: text
-:tags: Spring, Spring Boot, Security
+:tags: Spring, Spring Boot, Security, V14
 :description: Extend the navigation listener to allow a view based access control by checking user authorities
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-fine-access-control
 :linkattrs:

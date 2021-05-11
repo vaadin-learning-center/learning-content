@@ -1,7 +1,7 @@
 :title: Use ILAY for fine grained access control in Vaadin applications
 :author: Paul Römer
 :type: text
-:tags: Spring, Spring Boot, Security
+:tags: Spring, Spring Boot, Security, V14
 :description: Learn how to use the Vaadin ILAY add-on to simplify fine-grained access control
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin/tree/login-overlay-form-ilay
 :linkattrs:

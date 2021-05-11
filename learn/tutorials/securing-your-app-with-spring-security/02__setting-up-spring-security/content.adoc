@@ -2,7 +2,7 @@
 :title: Setting up Spring Security for Vaadin applications
 :author: Paul Römer
 :type: text
-:tags: Spring, Spring Boot
+:tags: Spring, Spring Boot, Security, V14
 :description: How to add the Spring Security dependency and redirect unauthenticated users to a login page. 
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin
 :linkattrs:

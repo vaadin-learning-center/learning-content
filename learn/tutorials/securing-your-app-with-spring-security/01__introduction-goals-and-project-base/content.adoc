@@ -2,7 +2,7 @@
 :title: Introduction to using Spring Security in Vaadin applications
 :author: Paul Römer
 :type: text
-:tags: Spring, Spring Boot, Security
+:tags: Spring, Spring Boot, Security, V14
 :description: Learn how to secure a Vaadin application with Spring Security. This first part of the tutorial covers project setup and the goals of the tutorial series.
 :repo: https://github.com/vaadin-learning-center/spring-secured-vaadin
 :linkattrs:
