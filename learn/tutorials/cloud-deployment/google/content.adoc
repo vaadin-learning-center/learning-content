@@ -15,15 +15,15 @@ This tutorial shows you how to deploy a Java web application to Google Cloud. Go
 
 NOTE: You need a credit card to confirm your identity when signing up on Google Cloud. 
 
-We use the latest Vaadin link:https://vaadin.com/start/latest[Spring Boot starter app] in our example. You can see the example app running on Google Cloud link:https://vaadin-demo-test.ew.r.appspot.com/[here].
+WARNING: Keep track of your trial credits to avoid any unwanted billing.
+
+We use the the Vaadin link:https://vaadin.com/start/latest[Spring Boot starter app] in our example. Please note that Vaadin Flow applications are stateful and require Session Affinity, or "sticky sessions". While App Engine supports Session Affinity, it's not recommended to use it for anything else than demo deployments due to preiodical server restarts. *Option 2* shows how to deploy the app in a Docker container running in a Kubernetes cluster with session affinity enabled. You can read more about deploying stateful applications in the link:https://cloud.google.com/kubernetes-engine/docs/how-to/stateful-apps[Google Cloud documentation].
 
 The tutorial includes two options to deploy the application: 
 
-. As a JAR file directly from your command line. 
+. As a JAR file directly from your command line (for demo apps). 
 
-. As a Docker container from a GitHub repository using Google’s Kubernetes Engine.
-
-NOTE: We recommend deploying Vaadin in Docker containers running on VM instances on the GCP. While GCP offers the Cloud Run and App Engine standard services for quick deployments, these are not suitable for V14 applications.
+. As a Docker container from a GitHub repository using Google’s Kubernetes Engine (for production deployments).
 
 == Prerequisites:
 
@@ -230,6 +230,7 @@ image::create-service-to-expose.png[Create service to expose the IP address.]
 +
 image::service-settings-2.png[Service settings.]
 +
+. Enable sessionAffinity in the *YAML* tab by changing it from `sessionAffinity: None` to `sessionAffinity: ClientIP`.
 . Click the exposed IP address of your service to view your deployed application.
 +
 NOTE: It takes a few minutes for the URL to show your app. If you get an Error 403, it’s probably still being prepared. 
