@@ -3,7 +3,7 @@
 :title: Deploy a Java web app to Google Cloud
 :authors: mikaelsu
 :type: text
-:tags: Backend, Cloud, Deploy, Flow, Java
+:tags: Backend, Cloud, Deploy, Flow, Java, V14
 :description: Follow our step-by-step tutorial on how to deploy your Java web app to the Google Cloud platform.
 :repo: https://github.com/Mikaelsu/google-demo
 :linkattrs:
@@ -11,7 +11,7 @@
 :related_tutorials: /docker-container
 :og_image: cloud_deployment_featured_image.png
 
-This tutorial shows you how to deploy a Java web application to Google Cloud. Google Cloud offers a 12-month free trial that includes $300 of credits to spend and an unlimited ‘Always Free’ tier. You can find details of their free and commercial services on their link:https://cloud.google.com/free/docs/gcp-free-tier[documentation page].
+This tutorial shows you how to deploy a Java web application to Google Cloud. Google Cloud offers a 90-day free trial that includes $300 of credits to spend and an unlimited ‘Always Free’ tier. You can find details of their free and commercial services on their link:https://cloud.google.com/free/docs/gcp-free-tier[documentation page].
 
 NOTE: You need a credit card to confirm your identity when signing up on Google Cloud. 
 
@@ -22,6 +22,8 @@ The tutorial includes two options to deploy the application:
 . As a JAR file directly from your command line. 
 
 . As a Docker container from a GitHub repository using Google’s Kubernetes Engine.
+
+NOTE: We recommend deploying Vaadin in Docker containers running on VM instances on the GCP. While GCP offers the Cloud Run and App Engine standard services for quick deployments, these are not suitable for V14 applications.
 
 == Prerequisites:
 
@@ -198,6 +200,8 @@ image::kubernetes-menu.png[Kubernetes Engine in menu.]
 +
 image::create-cluster.png[New container image.]
 +
+NOTE: Selecting *Deploy container* also creates a cluster for you.
++
 . Select *New container image*.
 . Select GitHub as the repository provider.
 . Leave the Dockerfile path empty. 
@@ -208,33 +212,25 @@ image::create-cluster.png[New container image.]
 image::cluster-settings.png[Cluster settings.]
 +
 . Select *DEPLOY*.
-
-=== Create a Cloud Run service
-
-. Go to *COMPUTE > Cloud Run* in the navigation menu on the left and then select *START USING CLOUD RUN*.
-. Select *CREATE SERVICE* in the top bar.
-+
-image::create-service.png[Create service.]
-+
-. Configure your service:
-.. Select *Cloud Run (fully managed)* as the deployment platform and select your region. 
-.. Provide a service name.
-.. Select *Allow unauthenticated invocations*.
-.. Select *NEXT*.
-+
-image::service-settings.png[Service settings.]
 +
 TIP: You can learn more about choosing a region in the link:https://cloud.google.com/compute/docs/regions-zones#choosing_a_region_and_zone[Google Cloud documentation].
-+
-. Select the container image URL that you just created and then select *CREATE*.
 
-. Click the name of your service to open it.
+=== Create a Kubernetes service
+
+. Go to *COMPUTE > Kubernetes Engine > Services & Ingress* in the navigation menu on the left.
+. Select *EXPOSE* in the top bar.
 +
-image::service-list.png[Services in list.]
+image::create-service-2.png[Create service.]
 +
-. Select the link in the *URL* field to view your deployed application:
+. Configure your service:
+.. Select the default port.
+.. Service type: *Load Balancer*.
+.. Provide a service name.
+.. Select *EXPOSE*.
 +
-image::service-url.png[Service URL location.]
+image::service-settings-2.png[Service settings.]
++
+. Click the exposed IP address of your service to view your deployed application.
 +
 NOTE: It takes a few minutes for the URL to show your app. If you get an Error 403, it’s probably still being prepared. 
 +
