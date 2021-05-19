@@ -220,7 +220,7 @@ TIP: You can learn more about choosing a region in the link:https://cloud.google
 . Go to *COMPUTE > Kubernetes Engine > Services & Ingress* in the navigation menu on the left.
 . Select *EXPOSE* in the top bar.
 +
-image::create-service-2.png[Create service.]
+image::create-service-to-expose.png[Create service to expose the IP address.]
 +
 . Configure your service:
 .. Select the default port.
