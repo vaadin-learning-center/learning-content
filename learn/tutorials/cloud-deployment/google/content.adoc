@@ -38,7 +38,7 @@ The tutorial includes two options to deploy the application:
 
 . Sign into your Google Cloud account: https://console.cloud.google.com/.
 
-. Install Google SDK. You can find detailed instructions on how to install on different platforms on the lnk:https://cloud.google.com/sdk/docs[SDK documentation page].
+. Install Google SDK. You can find detailed instructions on how to install on different platforms on the link:https://cloud.google.com/sdk/docs[SDK documentation page].
 
 . Create a new project at https://console.cloud.google.com/ and provide a name for it:
 +
