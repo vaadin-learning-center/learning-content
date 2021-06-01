@@ -19,7 +19,7 @@ This installs the most essential extensions for Java support. In many cases, itâ
 image::vscode-java-extension-pack.png[VS Code open to the extensions tab, showing a search for "java". The "Java Extension Pack" plugin is selected]
 
 == Open your project
-Download a starter project from https://vaadin.com/start/latest[vaadin.com/start] (or use an existing project), extract it into a folder, and then use Open Folder in VS Code to open the project. VS Code automatically recognizes that it is a Maven-based Java project and opens the Java Overview.
+Download a starter project from https://start.vaadin.com/?preset=latest[start.vaadin.com] (or use an existing project), extract it into a folder, and then use Open Folder in VS Code to open the project. VS Code automatically recognizes that it is a Maven-based Java project and opens the Java Overview.
 
 image::vscode-open-folder.png[A folder containing a Maven project opened in VS Code]
 
