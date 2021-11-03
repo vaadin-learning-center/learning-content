@@ -34,8 +34,8 @@ Vaadin Designer is a plug-in for your integrated development environment (IDE). 
 
 Follow the instructions below to install the plug-in in your IDE: 
 
-* https://vaadin.com/docs/v14/designer/getting-started/designer-installing-idea.html[Installing Vaadin Designer in IntelliJ IDEA].
-* https://vaadin.com/docs/v14/designer/getting-started/designer-installing-eclipse.html[Installing Vaadin Designer in Eclipse].
+* https://vaadin.com/docs/v14/tools/designer/getting-started/designer-setting-up-your-environment/intellij[Installing Vaadin Designer in IntelliJ IDEA].
+* https://vaadin.com/docs/v14/tools/designer/getting-started/designer-setting-up-your-environment/eclipse[Installing Vaadin Designer in Eclipse].
 
 TIP: If you followed the tutorial mentioned in the previous section to set up your environment, you will have installed IntelliJ IDEA as your IDE.
 
