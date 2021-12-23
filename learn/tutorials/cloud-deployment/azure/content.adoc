@@ -10,16 +10,9 @@
 :imagesdir: ./images
 :og_image: cloud-deployment-featured-image-azure.png
 
-This tutorial shows you how to deploy a Java web application to Microsoft’s Azure cloud. Azure offers a 30-day free trial that includes 12 months of free commercial services. You can find details of their free and commercial services on the link:https://azure.microsoft.com/[Azure website].
+This tutorial shows you how to deploy a Java web application to Microsoft's Azure cloud. Azure offers a 30-day free trial that includes 12 months of free commercial services. You can find details of their free and commercial services on the Azure link:https://azure.microsoft.com/[Azure website].
 
 NOTE: You need a credit card to confirm your identity when signing up on Microsoft Azure. 
-
-We use the latest link:https://vaadin.com/start/latest[Vaadin Spring Boot starter app] in our example. You can see the example app running on the Azure cloud link:https://azuretest-1590393278273.azurewebsites.net/[here].
-
-The tutorial includes two options to deploy the application:
-
-. Directly from your command line. 
-. From a GitHub repository in a CI pipeline.
 
 *Prerequisites:*
 
@@ -28,214 +21,49 @@ The tutorial includes two options to deploy the application:
 . Verify that you have Git installed by running the `git --version` command in your terminal. If not, link:https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[download] and install the latest version on your computer.
 . Verify that you have Maven (at least version 3.0) installed by running the `mvn -v` command in your terminal. If not, link:https://maven.apache.org/[download] and install the latest version on your computer.
 
-== Option 1: Direct upload from your command line
+== Step 1: Install the Azure CLI
 
-This method describes how to upload a built JAR file (`.jar`) directly on Microsoft Azure. Skip to *Option 2* below, if you prefer to deploy from a GitHub repository for continuous iteration.
+You can find installation instructions for different platforms in the link:https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest[Azure CLI documentation].
 
-=== Create an Azure application
+== Step 2: Download a Starter App
 
-. Go to the Azure portal https://portal.azure.com/#home and log in.
-. Select *Create a resource* under *Azure Services*.
-+
-image::azure-services-home.png[Azure Services view]
-+
-. Go to *Web > Web App*
-. In the *Basics* tab, fill in the details:
-.. *Subscription: Free Trial*.
-.. *Resource Group:* Select *Create new*, enter a group name and select *OK*.
-.. *Name:*  The name of your application.
-.. *Publish: Code*.
-.. *Runtime stack: Tomcat 9.0.*
-.. *Operating System: Linux*.
-.. *Region:* your region.
-.. *Linux Plan: Create New* and enter a name.
-.. *Sku and size: Free F1* for 1 GB size.
-+
-image::create-web-app-azure.png[wep app example details]
-+
-. Select *Review + create*.
-. Review the details and select *Create*.
+link:https://start.vaadin.com/dl[Click here to download a minimal Vaadin project]. Unpack the downloaded zip into a folder on your computer.
 
-TIP: You can also add monitoring options and tags before creating your app, if you like.
+== Step 3: Add Azure Plugin
 
-=== Prepare the application
-
-. Install the Azure CLI.
-+
-NOTE: You can find installation instructions for different platforms in the link:https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest[Azure CLI documentation].
-+
-. Log in to your Azure dashboard by running the `az login` command in your terminal.
-. Download and open a starter project from http://vaadin.com/start/latest. Select *Spring Boot* as the technology stack and fill the *Maven Group ID* and *Project Name* as you see fit (or leave them at the defaults).
-+
-image::vaadin-starter-download.png[Vaadin starter download page]
-+
-. Change the server port in your Spring project `application.properties` file in src/main/resources to: `server.port=${port:8080}`. You can find more details about this in the link:https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-change-the-location-of-external-properties[Spring documentation].
-. Open your `pom.xml` file and add the following section in the `<plugins>` tag in the `<build>` section:
+Open your `pom.xml` file and add the following section in the `<plugins>` tag in the `<build>` section:
 +
 .`*pom.xml*`
 [source,xml]
 ----
 <plugin>
- <groupId>com.microsoft.azure</groupId>
- <artifactId>azure-webapp-maven-plugin</artifactId>
- <version>1.9.1</version>
+  <groupId>com.microsoft.azure</groupId>
+  <artifactId>azure-webapp-maven-plugin</artifactId>
+  <version>2.2.3</version>
 </plugin>
 ----
 +
-. Configure the application using the `mvn azure-webapp:config` command.  Select the corresponding number to insert your OS: `Linux` and Java version: `Java 11` and then enter *Y* on your keyboard to confirm.
-. Run the `mvn azure-webapp:config` command again and press *1* on your keyboard to enter the details of your Azure Web app:
-+
-.`*pom.xml*`
-[source,xml]
-----
-    <resourceGroup>YOUR_RESOURCE_GROUP</resourceGroup>
-       <appName>YOUR_APP_NAME</appName>
-       <region>YOUR_REGION</region>
-       <pricingTier>F1</pricingTier>
-----
-+
-. Add this `<appSettings>` section to the `<configuration>` section in your `pom.xml`:
-+
-.`*pom.xml*`
-[source,xml]
-----
- <configuration> 
-          <schemaVersion>V2</schemaVersion>  
-          <resourceGroup>YOUR_RESOURCE_GROUP</resourceGroup>
-       <appName>YOUR_APP_NAME</appName>
-       <pricingTier>F1</pricingTier>
-       <region>YOUR_REGION</region>
-          <runtime> 
-            <os>linux</os>  
-            <javaVersion>java11</javaVersion>  
-            <webContainer>java11</webContainer> 
-          </runtime>
-          <appSettings>
-            <property>
-              <name>JAVA_OPTS</name>
-              <value>-Dserver.port=80</value>
-            </property>
-          </appSettings>
-          <deployment> 
-----
 
-=== Deploy your application
+== Step 4: Create a Production Build
 
-. Generate a JAR file (`.jar`) of your application using the `mvn package -Pproduction` command.
-. Deploy to Azure using the `mvn azure-webapp:deploy` command.
-. In the Azure portal go to *Home > App Services* and select your application in the list to configure it.
-+
-image::azure-services-home.png[Azure Services view]
-+
-. Open the application URL in your browser.
-+
-image::url-location.png[open URL]
-+
-image::example-app.png[example application]
-+
-NOTE: It might take a few minutes for the page to display.
+Open the project directory from a terminal window, and enter `mvn package -Pproduction` command to generate a JAR file of your application.
 
-Source code on link:https://github.com/Mikaelsu/vaadin-demo-app-azure[GitHub].
+== Step 5: Configure your Application
 
-== Option 2: Setting up a GitHub CI pipeline
+From the terminal window, enter `mvn azure-webapp:config` command. This command will first authenticate you with Azure via the browser (assuming you are not already logged in with Azure CLI). After that you will be asked to make a number of selections. You can select:
 
-== Create an Azure application
+. *<create>* when asked to choose a Java SE Web App.
+. *Linux* when asked to choose an OS.
+. *Java* 11 for the Java version
+. *F1* for the pricingTier
+. Enter *'Y'* on your keyboard to confirm
++
+image::azure-choices.png[Azure CLI choices]
++
 
-. Go to the Azure portal https://portal.azure.com/#home and log in.
-. Select *Create a resource* under *Azure Services*.
-+
-image::azure-services-home.png[Azure Services view]
-+
-. Search the marketplace for 'API App' and select *Create*.
-+
-image::api-app.png[create API app]
-+
-. Fill in the details:
-.. *App name:* The name of your application.
-.. *Subscription: S1*
-+
-NOTE: The *S1* subscription tier is commercial and included in the free 30 day trial.
-+
-.. *Resource Group:* Name and create new.
-.. *App Service plan/Location:* Your location
-.. *Application insights:* Name and create new.
-. Select *Create*.
-. In the Azure portal go to *Home > App Services* and select your application in the list to configure it.
-+
-image::azure-services-home.png[Azure Services view]
-+
-. Go to *Settings > Configuration > General settings* and use the following:
-.. *Stack:* Java
-.. *Java version:* Java 11
-.. *Java minor version:* 11 (Auto update)
-.. *Java container:* Tomcat
-.. *Java container version:* 9 (Auto update)
-.. *Platform:* 64-bit
-.. *Managed pipeline version:* Integrated
-.. *FTP state:* All Alowed
-.. *HTTP version:* 1.1
-.. *Web sockets:* OFF
-.. *Awlays on:* ON
-+
-image::general-settings-tab-azure.png[general settings view]
-+
-. Go to *Development Tools > App Service Editor (preview) > Go→* and delete all pre-configuration files in the `WWWROOT` folder (`.html` file pictured below):
-+
-image::before-delete.png[files in wwwroot folder]
-+
-Making the folder empty for now.
-+
-image::after-delete.png[empty wwwroot folder]
+== Step 6: Deploy your Application
 
-=== Prepare the application
-
-. Download and open a starter project from http://vaadin.com/start/latest. Select *Spring Boot* as the technology stack and fill the *Maven Group ID* and *Project Name* as you see fit (or leave them at the defaults).
+From the terminal window, enter `mvn azure-webapp:deploy` command. You might be required to authenticate again in the browser. Once authenticated, your application will be deployed to Azure and you should see your application URL in the logs as in the following screenshot.
 +
-image::vaadin-starter-download.png[Vaadin starter download page]
+image::azure-deploy-success.png[Azure CLI log]
 +
-. Change the server port in your Spring project `application.properties` file in src/main/resources to: `server.port=${port:8080}`. You can find more details about this in the link:https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto-change-the-location-of-external-properties[Spring documentation].
-. Generate a JAR file (`.jar`) of your application using the `mvn package -Pproduction` command.
-. Create a `web.config` file with the following content. Replace “YOUR_APP_NAME” with the name of your application:
-+
-.`*web.config*`
-[source,config]
-----
-
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-   <system.webServer>
-       <handlers>
-           <add name="httpPlatformHandler" path="*" verb="*" modules="httpPlatformHandler" resourceType="Unspecified"/>
-       </handlers>
-       <httpPlatform processPath="%JAVA_HOME%\bin\java.exe"
-                     arguments="-Djava.net.preferIPv4Stack=true -Dserver.port=%HTTP_PLATFORM_PORT% -jar%HOME%\site\wwwroot\YOUR_APP_NAME.jar>
-       </httpPlatform>
-   </system.webServer>
-</configuration>
-----
-+
-. Push the `.jar` and `web.config` file to a GitHub repository.
-+
-TIP: You can create a separate 'deployment' branch containing only the deployment files if your application is already hosted on a GitHub repository.
-
-
-=== Configure GitHub and deploy your application
-
-. Go to the Azure portal at https://portal.azure.com/#home.
-. Select the application you just created in *Recent resources*.
-. In the left navigation, select *Deployment > Deployment Center*.
-. In Continuous Deployment (CI / CD) select GitHub. and then Continue.
-+
-image::ci.png[CI pipeline setup]
-+
-WARNING: You need to authorize GitHub if you haven’t already done so.
-+
-. Select *Continue*.
-. Select *App Service* as the build service.
-. Select your organization, repository, branch and then continue. This will automatically configure your app for deployment.
-. Go to *Home > App Services* and select your application in the list. 
-. Open the application URL in your browser.
-+
-image::example-app.png[example app from GitHub]
-
-Source code on link:https://github.com/Mikaelsu/vaadin-demo-app[GitHub].
