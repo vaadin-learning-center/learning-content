@@ -32,8 +32,6 @@ link:https://start.vaadin.com/dl[Click here to download a minimal Vaadin project
 
 Open your `pom.xml` file and add the following section in the `<plugins>` tag in the `<build>` section:
 
-+
-.`*pom.xml*`
 [source,xml]
 ----
 <plugin>
@@ -42,7 +40,6 @@ Open your `pom.xml` file and add the following section in the `<plugins>` tag in
   <version>2.2.3</version>
 </plugin>
 ----
-+
 
 == Step 4: Create a Production Build
 
