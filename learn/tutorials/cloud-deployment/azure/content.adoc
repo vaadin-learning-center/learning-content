@@ -4,8 +4,7 @@
 :authors: mikaelsu
 :type: text
 :tags: Backend, Cloud, Deploy, Java
-:description: A tutorial on how to deploy a Java web app to Microsoft’s Azure cloud service.
-:repo: https://github.com/Mikaelsu/vaadin-demo-app
+:description: A tutorial on how to deploy a Java web app to Microsoft's Azure cloud service.
 :linkattrs:
 :imagesdir: ./images
 :og_image: cloud-deployment-featured-image-azure.png
@@ -32,6 +31,7 @@ link:https://start.vaadin.com/dl[Click here to download a minimal Vaadin project
 == Step 3: Add Azure Plugin
 
 Open your `pom.xml` file and add the following section in the `<plugins>` tag in the `<build>` section:
+
 +
 .`*pom.xml*`
 [source,xml]
@@ -57,13 +57,12 @@ From the terminal window, enter `mvn azure-webapp:config` command. This command 
 . *Java* 11 for the Java version
 . *F1* for the pricingTier
 . Enter *'Y'* on your keyboard to confirm
-+
+
 image::azure-choices.png[Azure CLI choices]
-+
+
 
 == Step 6: Deploy your Application
 
 From the terminal window, enter `mvn azure-webapp:deploy` command. You might be required to authenticate again in the browser. Once authenticated, your application will be deployed to Azure and you should see your application URL in the logs as in the following screenshot.
-+
+
 image::azure-deploy-success.png[Azure CLI log]
-+
