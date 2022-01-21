@@ -18,7 +18,7 @@ Copy or download the following three Java classes from GitHub and add them to yo
 
 * https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/org/vaadin/example/CustomerStatus.java[CustomerStatus.java^]: This is a simple enum type.
 
-* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/org/vaadin/example/Customer.java[Customer.java^]: This this is the main domain object, a basic Java bean that encapsulates data about a customer.
+* https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/org/vaadin/example/Customer.java[Customer.java^]: This is the main domain object, a basic Java bean that encapsulates data about a customer.
 
 * https://raw.githubusercontent.com/vaadin/tutorial/vaadin10%2B/src/main/java/org/vaadin/example/CustomerService.java[CustomerService.java^]: This is a simple service class that you can use to get and save `Customer` instances. Think of this class as the entry point to a dummy database.
 
